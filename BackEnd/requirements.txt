@@ -3,3 +3,5 @@ Flask-SQLAlchemy==3.1.1
 Flask-JWT-Extended==4.5.3
 Flask-Migrate==4.0.7
 Flask-Cors==4.0.0
+pytest==8.1.1
+flask-testing==0.8.1
