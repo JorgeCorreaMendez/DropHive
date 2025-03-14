@@ -1,10 +1,14 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap');
+
+
 body {
     display: flex;
     justify-content: center;
     align-items: center;
     height: 100vh;
-    background-color: #d53f3f;
+    background-color: #fdfdfd;
     margin: 0;
+    font-family: 'Inter', sans-serif;
 }
 .container {
     background-color: #d3d3d3;
@@ -16,12 +20,13 @@ body {
 .logo {
     font-size: 48px;
     font-weight: bold;
+    height: auto;
     display: flex;
     justify-content: center;
     align-items: center;
 }
 .logo img {
-    width: 50px;
+    width: 300px;
     margin-left: 10px;
 }
 .login-box {
@@ -32,7 +37,7 @@ body {
     margin-top: 20px;
 }
 input {
-    width: 100%;
+    width: 75%;
     padding: 10px;
     margin: 10px 0;
     border: 1px solid #ccc;
@@ -51,8 +56,18 @@ button {
 }
 .sign-in {
     background: #ccc;
+    border: 1px solid #ccc;
+
 }
+
 .enter {
-    background: blue;
+    background: #6060ff;
     color: white;
+    border: 1px solid #000000;
+}
+
+label {
+    font-family: 'Inter', sans-serif;
+    font-size: 18px;
+    font-weight: 600;
 }
