@@ -1,6 +1,7 @@
 body {
     background-color: #d3d3d3;
     display: flex;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
     height: 100vh;
@@ -14,7 +15,6 @@ body {
     display: block;
     margin-bottom: 30px;
     flex-direction: column;
-    align-items: center;
     width: 100%;
     max-width: 600px;
 }
@@ -36,7 +36,7 @@ h2 {
     font-size: 30px;
 }
 
-input {
+input{
     display: block;
     width: 100%;
     padding: 18px;
@@ -45,6 +45,12 @@ input {
     border: 2px solid #ccc;
     border-radius: 10px;
 }
+
+#descripcion{
+    height: 120px;
+
+}
+
 
 button {
     width: 110%;
