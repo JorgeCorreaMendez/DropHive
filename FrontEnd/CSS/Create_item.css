@@ -13,39 +13,74 @@ body {
     height: 100vh;
 }
 
+/* Asegurar que el contenedor ocupe toda la pantalla */
 .container {
-    background-color: white;
-    border-radius: 10px;
-    padding: 20px;
-    width: 80%;
-    max-width: 900px;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    display: flex;
+    justify-content: center; /* Centra el contenido horizontalmente */
+    align-items: center; /* Centra el contenido verticalmente */
+    width: 100%; /* Ocupar todo el ancho */
+    height: 100%; /* Ocupar toda la altura */
+    background-color: #e0e0e0; /* Color de fondo similar al de la imagen */
 }
 
+/* Asegurar que la tarjeta no pierda su diseño */
 .card {
     display: flex;
-    gap: 20px;
+    background: white;
+    border-radius: 10px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+    width: 100%;
+    height: 100%;
 }
 
+/* Asegurar que la sección izquierda esté bien centrada */
 .left-section {
     display: flex;
     flex-direction: column;
     align-items: center;
-    width: 30%;
+    justify-content: center;
+    flex: 1;
+    padding-right: 20px;
 }
 
+.right-section {
+    display: block;
+    align-items: center;
+    justify-content: center;
+    flex: 1;
+    padding-right: 20vw;
+    padding-top: 15vw;
+}
+
+
+/* Ajustar la imagen */
 .image-placeholder {
-    width: 100px;
-    height: 100px;
-    background-color: #f0f0f0;
+    width: 150px;
+    height: 150px;
+    background: #f0f0f0;
     border-radius: 10px;
     display: flex;
-    justify-content: center;
     align-items: center;
+    justify-content: center;
     color: #888;
     font-size: 12px;
     text-align: center;
-    margin-bottom: 10px;
+}
+
+/* Hacer que el contenido dentro de la tarjeta quede centrado */
+.left-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    flex: 1;
+}
+
+.right-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    flex: 2;
 }
 
 h2 {
@@ -69,9 +104,6 @@ h2 {
     font-weight: bold;
 }
 
-.right-section {
-    width: 70%;
-}
 
 .input-group {
     display: flex;
