@@ -3,8 +3,8 @@ body {
     justify-content: center;
     align-items: center;
     height: 100vh;
-    background-color: #d53f3f;
     margin: 0;
+    font-family: Arial, serif;
 }
 .container {
     background-color: #d3d3d3;
@@ -13,15 +13,10 @@ body {
     text-align: center;
     box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
 }
-.logo {
-    font-size: 48px;
-    font-weight: bold;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
+
 .logo img {
-    width: 50px;
+    width: 300px;
+    height: 200px;
     margin-left: 10px;
 }
 .login-box {
@@ -38,6 +33,32 @@ input {
     border: 1px solid #ccc;
     border-radius: 5px;
 }
+
+.input-group {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 10px;
+    background: white;
+    padding: 5px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+}
+
+.input-group label {
+    flex: 1;  /* Permite que el texto se mantenga en su lugar */
+    padding-right: 10px;
+    text-align: right;
+    font-size: 16px;
+}
+
+.input-group input {
+    flex: 2;  /* Hace que el campo de texto ocupe más espacio */
+    padding: 8px;
+    border: none;
+    outline: none;
+}
+
 .buttons {
     display: flex;
     justify-content: space-between;
