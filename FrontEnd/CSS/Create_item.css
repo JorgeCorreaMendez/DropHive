@@ -1,0 +1,173 @@
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+}
+
+body {
+    background-color: #e0e0e0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+/* Asegurar que el contenedor ocupe toda la pantalla */
+.container {
+    display: flex;
+    justify-content: center; /* Centra el contenido horizontalmente */
+    align-items: center; /* Centra el contenido verticalmente */
+    width: 100%; /* Ocupar todo el ancho */
+    height: 100%; /* Ocupar toda la altura */
+    background-color: #e0e0e0; /* Color de fondo similar al de la imagen */
+}
+
+/* Asegurar que la tarjeta no pierda su diseño */
+.card {
+    display: flex;
+    background: white;
+    border-radius: 10px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+    width: 100%;
+    height: 100%;
+}
+
+/* Asegurar que la sección izquierda esté bien centrada */
+.left-section {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    flex: 1;
+    padding-right: 20px;
+}
+
+.right-section {
+    display: block;
+    align-items: center;
+    justify-content: center;
+    flex: 1;
+    padding-right: 20vw;
+    padding-top: 15vw;
+}
+
+
+/* Ajustar la imagen */
+.image-placeholder {
+    width: 150px;
+    height: 150px;
+    background: #f0f0f0;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #888;
+    font-size: 12px;
+    text-align: center;
+}
+
+/* Hacer que el contenido dentro de la tarjeta quede centrado */
+.left-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    flex: 1;
+}
+
+.right-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    flex: 2;
+}
+
+h2 {
+    font-size: 20px;
+    font-weight: bold;
+}
+
+.brand-name {
+    font-size: 14px;
+    color: gray;
+    margin-bottom: 10px;
+}
+
+.category-btn {
+    background-color: #f4a900;
+    color: white;
+    border: none;
+    padding: 8px 12px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+
+.input-group {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 15px;
+}
+
+.input-group textarea {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    resize: none;
+    height: 60px;
+}
+
+.inline-group {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.inline-group input {
+    width: 50px;
+    padding: 5px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    text-align: center;
+    margin-right: 5px;
+}
+
+.currency, .size-icon, .discount-icon {
+    font-weight: bold;
+    color: blue;
+    margin-right: 10px;
+}
+
+.add-btn {
+    background-color: white;
+    color: blue;
+    border: 1px solid blue;
+    padding: 5px 10px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+.save-btn {
+    background-color: green;
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: bold;
+    margin-top: 15px;
+}
+.inline-group {
+    display: flex;
+    align-items: center;
+    background-color: #e0e0e0;  /* Color de fondo gris claro */
+    border-radius: 10px;        /* Bordes redondeados */
+    padding: 10px;
+    border: 1px solid #ccc;     /* Borde gris */
+    width: fit-content;         /* Se ajusta al contenido */
+    margin-bottom: 10px;
+}
