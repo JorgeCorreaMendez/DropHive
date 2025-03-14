@@ -13,17 +13,6 @@ body {
     height: 100vh;
 }
 
-/* Asegurar que el contenedor ocupe toda la pantalla */
-.container {
-    display: flex;
-    justify-content: center; /* Centra el contenido horizontalmente */
-    align-items: center; /* Centra el contenido verticalmente */
-    width: 100%; /* Ocupar todo el ancho */
-    height: 100%; /* Ocupar toda la altura */
-    background-color: #e0e0e0; /* Color de fondo similar al de la imagen */
-}
-
-/* Asegurar que la tarjeta no pierda su diseño */
 .card {
     display: flex;
     background: white;
