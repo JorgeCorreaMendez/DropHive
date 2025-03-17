@@ -9,10 +9,8 @@ TEST_DB_PATH = os.path.join(os.path.dirname(__file__), "test_DropHive.db")
 @pytest.fixture
 def setup_database():
     """ Configura la base de datos de prueba antes de cada test """
-    global DB_PATH
-    DB_PATH = TEST_DB_PATH  # Redirigir a la base de datos de prueba
-    createDB()
-    addValues()
+    createDB(TEST_DB_PATH)
+    addValues(TEST_DB_PATH)
     yield
     os.remove(TEST_DB_PATH)  # Elimina la base de datos después del test
 

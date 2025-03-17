@@ -3,8 +3,8 @@ import os
 
 DB_PATH = os.path.abspath(os.path.dirname(__file__)) + '/DropHive.db'
 
-def createDB():
-    conn = sql.connect(DB_PATH)
+def createDB(path):
+    conn = sql.connect(path)
     cursor = conn.cursor()
 
     cursor.execute('''DROP TABLE IF EXISTS productos''')
@@ -47,8 +47,8 @@ def createDB():
     conn.commit()
     conn.close()
 
-def addValues():
-    conn = sql.connect(DB_PATH)
+def addValues(path):
+    conn = sql.connect(path)
     cursor = conn.cursor()
 
     productos = [
@@ -83,5 +83,5 @@ def addValues():
     conn.close()
 
 if __name__ == "__main__":
-    createDB()
-    addValues()
+    createDB(DB_PATH)
+    addValues(DB_PATH)
