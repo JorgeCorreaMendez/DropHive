@@ -9,12 +9,12 @@ def createDB(path):
     conn = sql.connect(path)
     cursor = conn.cursor()
 
-    cursor.execute('''DROP TABLE IF EXISTS product''')
+    cursor.execute('''DROP TABLE IF EXISTS products''')
     cursor.execute('''DROP TABLE IF EXISTS categories''')
     cursor.execute('''DROP TABLE IF EXISTS privileges''')
     cursor.execute('''DROP TABLE IF EXISTS accounts''')
 
-    cursor.execute('''CREATE TABLE IF NOT EXISTS product
+    cursor.execute('''CREATE TABLE IF NOT EXISTS products
                      (id INTEGER PRIMARY KEY AUTOINCREMENT, 
                       name TEXT NOT NULL, 
                       description TEXT,
@@ -82,14 +82,14 @@ def addValuesSample(path):
 
     # Insertar valores
     cursor.executemany(
-        """INSERT INTO productos (name, description, precio, category_id, descuento, size, quantity) VALUES (?, ?, ?, ?, ?, ?, ?)""",
+        """INSERT INTO products (name, description, price, category_id, discount, size, quantity) VALUES (?, ?, ?, ?, ?, ?, ?)""",
         products)
-    cursor.executemany("""INSERT INTO categorias (name, descripcion) VALUES (?, ?)""",
+    cursor.executemany("""INSERT INTO categories (name, description) VALUES (?, ?)""",
                        categories)
     cursor.executemany(
-        """INSERT INTO cuentas (nombre, correo, contraseña_hash, tlf, descripcion, direccion, privilegio_id) VALUES (?, ?, ?, ?, ?, ?, ?)""",
+        """INSERT INTO account (nombre, mail, password, phone, description, address, privilege_id) VALUES (?, ?, ?, ?, ?, ?, ?)""",
         accounts)
-    cursor.executemany("""INSERT INTO privilegios (nombre, permisos) VALUES (?, ?)""",
+    cursor.executemany("""INSERT INTO privilege (nombre, permissions) VALUES (?, ?)""",
         privileges)
 
     conn.commit()
