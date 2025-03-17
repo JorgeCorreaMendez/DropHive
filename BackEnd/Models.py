@@ -53,4 +53,14 @@ class Productos(db.Model):
     def __str__(self):
         return "{}, {}, {}".format(self.id, self.name, self.description)
 
-
+    def serialize(self):
+        return {
+            "id": self.id,
+            "name": self.name,
+            "description": self.description,
+            "precio": self.precio,
+            "category_id": self.category_id,
+            "descuento": self.descuento,
+            "size": self.size,
+            "quantity": self.quantity
+        }
