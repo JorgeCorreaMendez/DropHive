@@ -37,7 +37,7 @@ def createDB():
                       descripcion TEXT,
                       direccion TEXT,
                       privilegio_id INTEGER,
-                      FOREIGN KEY (privilegio_od) REFERENCES privilegios(id));''')
+                      FOREIGN KEY (privilegio_id) REFERENCES privilegios(id));''')
     
     cursor.execute('''CREATE TABLE IF NOT EXISTS privilegios
                      (id INTEGER PRIMARY KEY AUTOINCREMENT, 
@@ -76,7 +76,7 @@ def addValues():
     # Insertar valores
     cursor.executemany("""INSERT INTO productos (name, description, precio, category_id, descuento, size, quantity) VALUES (?, ?, ?, ?, ?, ?, ?)""", productos)
     cursor.executemany("""INSERT INTO categorias (name, descripcion) VALUES (?, ?)""", categorias)
-    cursor.executemany("""INSERT INTO cuentas (nombre, correo, contraseña_hash, tlf, descripcion, direccion, privilegio) VALUES (?, ?, ?, ?, ?, ?, ?)""", cuentas)
+    cursor.executemany("""INSERT INTO cuentas (nombre, correo, contraseña_hash, tlf, descripcion, direccion, privilegio_id) VALUES (?, ?, ?, ?, ?, ?, ?)""", cuentas)
     cursor.executemany("""INSERT INTO privilegios (nombre, permisos) VALUES (?, ?)""", privilegios)
 
     conn.commit()
