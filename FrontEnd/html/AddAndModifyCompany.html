@@ -8,23 +8,33 @@
 </head>
 <body>
 
-    <div class="logo">
-        <img src="/FrontEnd/Images/Logo_Drop_Hive.jpg" alt="DropHive Logo">
-    </div>
-        <input type="text" class="search" placeholder="Search">
-        <div class="user-menu">
-            <span>Your Store</span>
-            <a href="#">Log out</a>
+    <header class="header">
+        <div class="left-section">
+        <div class="logo">
+            <img src="/FrontEnd/Images/Logo_Drop_Hive.jpg" alt="DropHive Logo">
         </div>
+        </div>
+        <div class="search-container">
+            <input type="text" class="search" placeholder="Search">
+        </div>
+            <div class="user-menu">
+                <span>Your Store</span> | <a href="#">Log out</a>
+                <div class="user-image">
+                    <img src="/FrontEnd/Images/user.png" alt="User Image">
+                </div>
+            </div>
+
+
     </header>
+
     <main>
         <div class="company-form">
             <div class="company-header">
                 <div class="company-image">Add Company's image</div>
                 <div class="company-info">
-                    <input type="text" placeholder="Add Company’s name">
-                    <label><input type="checkbox"> Add Nationality</label>
-                    <label><input type="checkbox"> Add Flag</label>
+                    <input type="text" placeholder="Add Company's Name">
+                    <input type="text" placeholder="Add Nationality">
+                    <input type="file" accept="image/*" class="company-image-input">
                 </div>
                 <button class="save-button">Save Changes</button>
             </div>
@@ -34,10 +44,12 @@
             </div>
             <div class="company-info-section">
                 <label>Information:</label>
-                <textarea placeholder="Add Informations..."></textarea>
+                <textarea placeholder="Add Information..."></textarea>
             </div>
         </div>
     </main>
-</div>
+
 </body>
 </html>
+
+

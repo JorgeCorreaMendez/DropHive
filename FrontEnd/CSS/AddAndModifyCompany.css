@@ -5,64 +5,79 @@ body {
     padding: 0;
 }
 
-.container {
-    width: 100%;
-    max-width: 900px;
-    margin: 20px auto;
-    background: white;
-    padding: 20px;
-    border-radius: 10px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+.header {
+    display: flex;
+    justify-content: space-between; /* Spinge gli elementi ai lati */
+    align-items: center;
+    padding: 10px 20px;
+    background-color: white;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 }
 
-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 10px;
-}
 .logo {
-    font-size: 48px;
-    font-weight: bold;
-    height: auto;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin-left: 10px;
+    position: relative;
+    left: 10px;
 }
 
 .logo img {
-    height: 50px;
+    height: 50px; /* Ridotto per evitare problemi di dimensione */
     width: auto;
 }
-.login-box {
-    background: white;
-    padding: 20px;
-    border-radius: 10px;
-    box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.2);
-    margin-top: 20px;
+
+.account-section {
+    display: flex;
+    gap: 10px;
+    font-size: 14px;
+    font-weight: bold;
 }
 
-.search {
-    flex-grow: 1;
-    margin: 0 20px;
-    padding: 5px;
+.account-section a {
+    text-decoration: none;
+    color: #0073e6;
+    font-weight: bold;
+    right: 10px;
+}
+
+.user-name {
+    top: 10px;
+    font-size: 14px;
 }
 
 .user-menu {
     display: flex;
-    align-items: center;
+    gap: 10px;
+    right: 10px;
+    align-items: flex-end;
 }
 
 .user-menu a {
-    margin-left: 10px;
     text-decoration: none;
+    color: #0073e6;
+    font-weight: bold;
+}
+
+
+.search-container {
+    flex-grow: 1;
+    display: flex;
+    justify-content: center;
+}
+
+.search {
+    width: 30%;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    text-align: center;
 }
 
 .company-form {
-    background: #eee;
-    padding: 20px;
+    background-color: white;
+    padding: 25px;
+    margin: 30px auto;
+    width: 70%;
     border-radius: 10px;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
 }
 
 .company-header {
@@ -73,32 +88,49 @@ header {
 }
 
 .company-image {
-    width: 80px;
-    height: 80px;
-    background: #ddd;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    text-align: center;
+    background: #e0e0e0;
+    padding: 15px;
     border-radius: 5px;
+    text-align: center;
 }
 
 .company-info {
-    flex-grow: 1;
-    margin: 0 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
 }
 
-.save-button {
-    background: green;
-    color: white;
-    padding: 10px 15px;
-    border: none;
+.company-info input[type="text"],
+.company-info input[type="file"] {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #ccc;
     border-radius: 5px;
-    cursor: pointer;
+}
+
+.company-description,
+.company-info-section {
+    margin-bottom: 15px;
 }
 
 textarea {
     width: 100%;
-    height: 80px;
-    margin-top: 5px;
+    height: 100px;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    resize: none;
+}
+
+.save-button {
+    background-color: green;
+    color: white;
+    padding: 10px 15px;
+    border: none;
+    cursor: pointer;
+    border-radius: 5px;
+}
+
+.save-button:hover {
+    background-color: darkgreen;
 }
