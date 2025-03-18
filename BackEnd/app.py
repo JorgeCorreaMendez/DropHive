@@ -1,21 +1,27 @@
+import os
 from logging import exception
 
 from flask import Flask, jsonify
 
-from Models import db, Productos
+from BackEnd.models import db
+from BackEnd.models.Category import Category
+from BackEnd.models.Account import Account
+from BackEnd.models.Privilege import Privilege
+from BackEnd.models.Product import Product
 
 app = Flask(__name__)
-app.json.ensure_ascii = False
-app.config["SQLALCHEMY_DATABASE_URI"] = ("sqlite://///Users/jorgecorrea/Documents/ULPGC/3º Año/1º "
-                                         "Semestre/AP/Practicas/Examen Python/Mochila 0/DropHive/BaseDatos/DropHive.db")
+# DB_PATH = os.path.abspath(os.path.dirname(__file__)) + '/DropHive.db'
+# app.config["SQLALCHEMY_DATABASE_URI"] = f"sqlite:///{DB_PATH}"
+app.config["SQLALCHEMY_DATABASE_URI"] = f"sqlite:////Users/jorgecorrea/Documents/ULPGC/3º Año/1º Semestre/AP/Practicas/Examen Python/Mochila 0/DropHive/DB/DropHive.db"
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
+app.json.ensure_ascii = False
 db.init_app(app)
 
 
-@app.route("/products")
+@app.route("/productos")
 def getProducts():
     try:
-        productos = Productos.query.all()
+        productos = Product.query.all()
         toReturn = [producto.serialize() for producto in productos]
         return jsonify(toReturn), 200, {'Content-Type': 'application/json; charset=utf-8'}
     except Exception:
@@ -23,18 +29,37 @@ def getProducts():
         return jsonify({"a ocurrido un error"}), 500
 
 
-# @app.route("/product", method=['GET'])
-# def addProduct():
-# name = request.args
-# id = db.Column(Integer, primary_key=True, autoincrement=True)
-# name = db.Column(String, nullable=False)
-# description = db.Column(Text)
-# precio = db.Column(Float, default=0.0)
-# category_id = db.Column(Integer, ForeignKey('categorias.id'))
-# descuento = db.Column(Float, default=0.0)
-# size = db.Column(String)
-# quantity = db.Column(Integer)
-# categoria = relationship("Categoria", back_populates="productos")
+@app.route("/privilegios")
+def getPrivilegios():
+    try:
+        privilegios = Privilege.query.all()
+        toReturn = [privilegio.serialize() for privilegio in privilegios]
+        return jsonify(toReturn), 200, {'Content-Type': 'application/json; charset=utf-8'}
+    except Exception:
+        exception("Server error ->")
+        return jsonify({"error": "Ha ocurrido un error"}), 500
+
+
+@app.route("/cuentas")
+def getCuentas():
+    try:
+        cuentas = Account.query.all()
+        toReturn = [cuenta.serialize() for cuenta in cuentas]
+        return jsonify(toReturn), 200, {'Content-Type': 'application/json; charset=utf-8'}
+    except Exception:
+        exception("Server error ->")
+        return jsonify({"error": "Ha ocurrido un error"}), 500
+
+
+@app.route("/categorias")
+def getCategorias():
+    try:
+        categorias = Category.query.all()
+        toReturn = [categoria.serialize() for categoria in categorias]
+        return jsonify(toReturn), 200, {'Content-Type': 'application/json; charset=utf-8'}
+    except Exception:
+        exception("Server error ->")
+        return jsonify({"error": "Ha ocurrido un error"}), 500
 
 
 if __name__ == "__main__":

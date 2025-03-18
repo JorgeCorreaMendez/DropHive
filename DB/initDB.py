@@ -32,18 +32,18 @@ def createDB(path):
 
     cursor.execute('''CREATE TABLE IF NOT EXISTS accounts
                      (id INTEGER PRIMARY KEY AUTOINCREMENT,
-                      nombre TEXT NOT NULL,
+                      name TEXT NOT NULL,
                       mail TEXT NOT NULL unique,
                       password TEXT NOT NULL,
                       phone TEXT,
                       description TEXT,
                       address TEXT,
                       privilege_id INTEGER,
-                      FOREIGN KEY (privilege_id) REFERENCES privilege(id));''')
+                      FOREIGN KEY (privilege_id) REFERENCES privileges(id));''')
 
     cursor.execute('''CREATE TABLE IF NOT EXISTS privileges
                      (id INTEGER PRIMARY KEY AUTOINCREMENT, 
-                      nombre TEXT NOT NULL UNIQUE,
+                      name TEXT NOT NULL UNIQUE,
                       permissions TEXT);''')
 
     conn.commit()
@@ -87,9 +87,9 @@ def addValuesSample(path):
     cursor.executemany("""INSERT INTO categories (name, description) VALUES (?, ?)""",
                        categories)
     cursor.executemany(
-        """INSERT INTO accounts (nombre, mail, password, phone, description, address, privilege_id) VALUES (?, ?, ?, ?, ?, ?, ?)""",
+        """INSERT INTO accounts (name, mail, password, phone, description, address, privilege_id) VALUES (?, ?, ?, ?, ?, ?, ?)""",
         accounts)
-    cursor.executemany("""INSERT INTO privileges (nombre, permissions) VALUES (?, ?)""",
+    cursor.executemany("""INSERT INTO privileges (name, permissions) VALUES (?, ?)""",
         privileges)
 
     conn.commit()

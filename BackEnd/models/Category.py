@@ -19,5 +19,5 @@ class Category(db.Model):
             "id": self.id,
             "name": self.name,
             "description": self.description,
-            "products": self.products,
+            "products": [product.serialize() for product in self.products]
         }

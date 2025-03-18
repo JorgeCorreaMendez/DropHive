@@ -2,8 +2,6 @@ from sqlalchemy import Integer, String, Text, ForeignKey
 from sqlalchemy.orm import relationship
 
 from BackEnd.models import db
-from BackEnd.models.Privilege import Privilege
-
 
 class Account(db.Model):
     __tablename__ = 'accounts'
@@ -15,13 +13,13 @@ class Account(db.Model):
     phone = db.Column(Text)
     description = db.Column(Text)
     address = db.Column(Text)
-    privilege = db.Column(Integer, ForeignKey('privileges.id'))
-    privilege_id = relationship("Privilege", back_populates="account")
+    privileges = relationship("Privilege", back_populates="account")
+    privilege_id = db.Column(Integer, ForeignKey('privileges.id'))
 
     def __str__(self):
         return "{}, {}, {}, {}, {}, {}, {}, {}, {}".format(
             self.id, self.name, self.mail, self.password,
-            self.phone, self.description, self.address, self.privilege,
+            self.phone, self.description, self.address, self.privileges,
             self.privilege_id
         )
 
@@ -33,6 +31,6 @@ class Account(db.Model):
             "phone": self.phone,
             "description": self.description,
             "address": self.address,
-            "privilege": self.privilege,
+            "privilege": self.privileges.serialize() if self.privileges else None,
             "privilege_id": self.privilege_id
         }

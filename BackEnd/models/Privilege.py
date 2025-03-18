@@ -9,7 +9,7 @@ class Privilege(db.Model):
     id = db.Column(Integer, primary_key=True, autoincrement=True)
     name = db.Column(String, nullable=False)
     permissions = db.Column(Text)
-    account = relationship("Account", back_populates="privilege_id")
+    account = relationship("Account", back_populates="privileges")
 
     def __str__(self):
         return "{}, {}, {}, {}".format(self.id, self.name, self.permissions, self.account)
@@ -19,5 +19,4 @@ class Privilege(db.Model):
             "id": self.id,
             "name": self.name,
             "permissions": self.permissions,
-            "account": self.account
         }
