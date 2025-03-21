@@ -4,9 +4,9 @@ body {
     background-color: #ddd;
     display: flex;
     justify-content: center;
-    align-items: flex-start;
+    align-items: unset;
     height: 100vh;
-    padding-top: 20px;
+    padding-top: 0;
 }
 
 .container {
@@ -16,13 +16,14 @@ body {
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     width: 80%;
     max-width: 900px;
-    margin-top: 20px;
+    margin-top: 0;
+    flex-grow: 1;
 }
 
 table {
     width: 100%;
     border-collapse: collapse;
-    margin-top: 10px;
+    margin-top: 0;
 }
 
 th, td {
