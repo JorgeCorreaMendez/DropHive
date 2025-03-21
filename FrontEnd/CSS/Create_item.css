@@ -12,6 +12,20 @@ body {
     align-items: center;
     height: 100vh;
 }
+#header-container {
+    width: 100%;
+    background-color: white; /* Asegura que tenga un fondo visible */
+    position: fixed; /* Fijar el header en la parte superior */
+    top: 0;
+    left: 0;
+    z-index: 1000; /* Asegurar que esté por encima del contenido */
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1); /* Sombra para resaltar */
+}
+
+* {
+    overflow: visible !important;
+}
+
 
 .card {
     display: flex;
@@ -19,7 +33,8 @@ body {
     border-radius: 10px;
     box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
     width: 100%;
-    height: 100%;
+    height: calc(100% - 80px);
+
 }
 
 /* Asegurar que la sección izquierda esté bien centrada */

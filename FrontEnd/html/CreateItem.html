@@ -5,57 +5,63 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Crear Nuevo Objeto</title>
     <link rel="stylesheet" href="/DropHive/FrontEnd/CSS/Create_item.css">
+    <script src="../JavaScript/header.js" defer></script>
 </head>
 <body>
 
-    <div class="card">  
-        <div class="left-section">
-            <div class="image-placeholder">Add Item’s image</div>
-            <h2>Add Item’s name</h2>
-            <p class="brand-name">Add Brand’s name</p>
-            <button class="category-btn">Add Category</button>
+<!-- Contenedor donde se insertará el header -->
+<header id="header-container"></header>
+
+<main class="card">
+    <section class="left-section">
+        <div class="image-placeholder" role="img" aria-label="Espacio para la imagen del artículo">
+            Añadir imagen del artículo
+        </div>
+        <h2>Añadir nombre del artículo</h2>
+        <p class="brand-name">Añadir nombre de la marca</p>
+        <button class="category-btn">Añadir categoría</button>
+    </section>
+
+    <section class="right-section">
+        <div class="input-group">
+            <label for="description">Descripción:</label>
+            <textarea id="description" placeholder="Añadir descripción..."></textarea>
+        </div>
+        <div class="input-group">
+            <label for="information">Información:</label>
+            <textarea id="information" placeholder="Añadir información..."></textarea>
         </div>
 
-        <div class="right-section">
-            <div class="input-group">
-                <label>Description:</label>
-                <textarea placeholder="Add Description..."></textarea>
-            </div>
-            <div class="input-group">
-                <label>Information:</label>
-                <textarea placeholder="Add Informations..."></textarea>
-            </div>
-
-            <div class="inline-group">
-                <label>Add ID:</label>
-                <input type="text" placeholder="____">
-                <button class="add-btn">Add</button>
-            </div>
-
-            <div class="inline-group">
-                <label>Add Price:</label>
-                <input type="text" placeholder="____">
-                <span class="currency">€</span>
-                <button class="add-btn">Add</button>
-            </div>
-
-            <div class="inline-group">
-                <label>Add Size:</label>
-                <input type="text" placeholder="____">
-                <span class="size-icon">E</span>
-                <button class="add-btn">Add</button>
-            </div>
-
-            <div class="inline-group">
-                <label>Add Discount:</label>
-                <input type="text" placeholder="____">
-                <span class="discount-icon">%</span>
-                <button class="add-btn">Add</button>
-            </div>
-
-            <button class="save-btn">Save Changes</button>
+        <div class="inline-group">
+            <label for="product-id">ID:</label>
+            <input type="text" id="product-id" placeholder="Ej: 1234">
+            <button class="add-btn">Añadir</button>
         </div>
-    </div>
+
+        <div class="inline-group">
+            <label for="price">Precio:</label>
+            <input type="number" id="price" placeholder="0.00" step="0.01" min="0">
+            <span class="currency">€</span>
+            <button class="add-btn">Añadir</button>
+        </div>
+
+        <div class="inline-group">
+            <label for="size">Tamaño:</label>
+            <input type="text" id="size" placeholder="Ej: M, L, XL">
+            <span class="size-icon">E</span>
+            <button class="add-btn">Añadir</button>
+        </div>
+
+        <div class="inline-group">
+            <label for="discount">Descuento:</label>
+            <input type="number" id="discount" placeholder="0" min="0" max="100">
+            <span class="discount-icon">%</span>
+            <button class="add-btn">Añadir</button>
+        </div>
+
+        <button class="save-btn">Guardar cambios</button>
+    </section>
+</main>
 
 </body>
 </html>
