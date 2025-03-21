@@ -16,6 +16,24 @@ app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 app.json.ensure_ascii = False
 db.init_app(app)
 
+@app.route("/")
+def index():
+    return """
+    <html>
+        <head>
+            <title>API DropHive</title>
+        </head>
+        <body>
+            <h1>Bienvenido a la API de DropHive</h1>
+            <ul>                
+                <li><a href="/products">Obtener todos los productos (/products)</a></li>
+                <li><a href="/privileges">Obtener todos los privilegios (/privileges)</a></li>
+                <li><a href="/accounts">Obtener todas las cuentas (/accounts)</a></li>
+                <li><a href="/category">Obtener todas las categorías (/category)</a></li>
+            </ul>
+        </body>
+    </html>
+    """
 
 @app.route("/products")
 def get_products():
