@@ -46,14 +46,14 @@ input {
 }
 
 .input-group label {
-    flex: 1;  /* Permite que el texto se mantenga en su lugar */
+    flex: 1;
     padding-right: 10px;
     text-align: right;
     font-size: 16px;
 }
 
 .input-group input {
-    flex: 2;  /* Hace que el campo de texto ocupe más espacio */
+    flex: 2;
     padding: 8px;
     border: none;
     outline: none;
@@ -76,4 +76,30 @@ button {
 .enter {
     background: blue;
     color: white;
+}
+
+@media (min-width: 600px) {
+    .buttons {
+        flex-direction: row;
+        justify-content: space-between;
+    }
+
+    button {
+        width: auto;
+    }
+
+    .input-group {
+        flex-direction: row;
+        align-items: center;
+    }
+
+    .input-group label {
+        flex: 1;
+        text-align: right;
+        margin-bottom: 0;
+    }
+
+    .input-group input {
+        flex: 2;
+    }
 }
