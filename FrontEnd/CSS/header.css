@@ -2,71 +2,94 @@ body {
     margin: 0;
     font-family: Arial, sans-serif;
 }
+
 header {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 15px 30px;
+    padding: 15px 40px;
     background-color: white;
     border-bottom: 2px solid #ddd;
 }
+
+/* Estilo del logo */
+.logo-header {
+    display: flex;
+    align-items: center;
+}
+
 .logo-header img {
     width: 120px;
     height: auto;
 }
+
+/* Estilo de la barra de búsqueda */
 .search-bar {
     display: flex;
     align-items: center;
     border: 1px solid #ccc;
     border-radius: 20px;
-    padding: 5px 10px;
-    background-color: #f9f9f9;
+    padding: 5px 15px;
+    background-color: #e0e0e0;
+    width: 250px;
 }
+
 .search-bar input {
     border: none;
     outline: none;
     background: transparent;
     padding: 5px;
-    width: 200px;
+    width: 100%;
 }
+
 .search-bar button {
     background: none;
     border: none;
     cursor: pointer;
     font-size: 16px;
+    color: gray;
 }
+
+/* Estilo del menú de usuario */
 .user-menu {
     display: flex;
     align-items: center;
-    gap: 10px;
+    gap: 15px;
 }
+
 .user-info {
     display: flex;
     flex-direction: column;
-    align-items: flex-start;
-}
-.user-info span {
+    align-items: flex-end;
     font-size: 14px;
+}
+
+.user-info span {
     font-weight: bold;
 }
+
 .user-info hr {
     width: 100%;
     margin: 2px 0;
     border: none;
     border-top: 1px solid black;
 }
+
 .user-info a {
     text-decoration: none;
     color: black;
     font-size: 14px;
 }
+
+/* Estilo del ícono de usuario */
 .user-icon {
-    width: 35px;
-    height: 35px;
+    width: 45px;
+    height: 45px;
     border-radius: 50%;
     border: 2px solid #000;
     display: flex;
     align-items: center;
     justify-content: center;
     font-size: 18px;
+    font-weight: bold;
 }
