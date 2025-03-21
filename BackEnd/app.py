@@ -1,20 +1,21 @@
 import os
-from logging import exception
 
-from flask import Flask, jsonify
+from flask import Flask, jsonify, request
 
 from BackEnd.models import db
-from BackEnd.models.Category import Category
 from BackEnd.models.Account import Account
+from BackEnd.models.Category import Category
 from BackEnd.models.Privilege import Privilege
 from BackEnd.models.Product import Product
 
 app = Flask(__name__)
-DB_PATH = os.path.join(os.path.dirname(os.path.abspath(__file__)), "../DB/DropHive.db")
+DB_NAME = "DropHive" + ".db"
+DB_PATH = os.path.join(os.path.dirname(os.path.abspath(__file__)), "../DB", DB_NAME)
 app.config["SQLALCHEMY_DATABASE_URI"] = f"sqlite:///{DB_PATH}"
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 app.json.ensure_ascii = False
 db.init_app(app)
+
 
 @app.route("/")
 def index():
@@ -34,6 +35,7 @@ def index():
         </body>
     </html>
     """
+
 
 @app.route("/products")
 def get_products():
@@ -73,6 +75,19 @@ def get_category():
 
 def get_all_values_from(model):
     return [item.serialize() for item in model.query.all()]
+
+
+@app.route("/login", methods=["POST"])
+def login():
+    data = request.get_json()
+    username = data.get("username")
+    password = data.get("password")
+    account = Account.query.filter_by(name=username, password=password).first()
+
+    if account:
+        return jsonify({"message": f"Bienvenido, {account.name}"}), 200
+    else:
+        return jsonify({"error": "Credenciales incorrectas"}), 401
 
 
 if __name__ == "__main__":
