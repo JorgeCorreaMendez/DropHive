@@ -10,7 +10,7 @@ from models.Privilege import Privilege
 from models.Product import Product
 
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
-from DB.initDB import createDB, addValuesSample
+from DB.initDB import createDB, AddAccount
 
 app = Flask(__name__)
 DB_NAME = "DropHive" + ".db"
@@ -96,15 +96,42 @@ def login():
 @app.route("/register", methods=["POST"])
 def register():
     data = request.get_json()
-    company_name = data.get("company_name")
+    name, mail, password, phone, description, address, privilege_id = obtenerDatosRegistro(data)
+    global ruta_archivo_datos
     ruta_base_datos = os.path.join(os.path.dirname(os.path.abspath(__file__)), "../DB")
-    ruta_archivo_datos = os.path.join(ruta_base_datos, company_name + ".db")
+    ruta_archivo_datos = os.path.join(ruta_base_datos, name + ".db")
     print(ruta_archivo_datos)
     if os.path.exists(ruta_archivo_datos):
-        return jsonify({"error": f"La empresa {company_name} ya existe."}), 401
+        return jsonify({"error": f"La empresa {name} ya existe."}), 401
     else:
         createDB(ruta_archivo_datos)
+        AddAccount(ruta_archivo_datos, name, mail, password, phone, description, address, privilege_id)
         return jsonify({"message": f"La empresa no existe."}), 200
+
+def obtenerDatosRegistro(data):
+    name = data['name']
+    mail = data['mail']
+    password = data['password']
+    phone = data.get('phone', None)
+    description = data.get('description', None)
+    address = data.get('address', None)
+    privilege_id = data.get('privilege_id', None)
+    return name, mail, password, phone, description, address, privilege_id
+
+@app.route("/add_element", methods=["POST"])
+def add_element():
+    try:
+        datos = request.get_json()
+        if not datos:
+            return jsonify({"error": "No se ha enviado ningún dato"}), 400
+        respuesta = {}
+        for clave, valor in datos.items():
+            respuesta[clave] = valor
+        
+        return jsonify(respuesta), 200
+    
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
 
 
 if __name__ == "__main__":

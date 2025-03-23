@@ -95,10 +95,13 @@ def addValuesSample(path):
     conn.commit()
     conn.close()
 
-def addNewProduct(path, product):
+def AddAccount(path, name, mail, password, phone=None, description=None, address=None, privilege_id=None):
     conn = sql.connect(path)
     cursor = conn.cursor()
-    cursor.execute("")
+
+    cursor.execute('''INSERT INTO accounts (name, mail, password, phone, description, address, privilege_id) VALUES (?,?,?,?,?,?,?)''', (name, mail, password, phone, description, address, privilege_id))
+    conn.commit()
+    conn.close()
 
 
 if __name__ == "__main__":
