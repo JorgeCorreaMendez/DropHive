@@ -1,12 +1,16 @@
+import sys
 import os
 
 from flask import Flask, jsonify, request
 
-from BackEnd.models import db
-from BackEnd.models.Account import Account
-from BackEnd.models.Category import Category
-from BackEnd.models.Privilege import Privilege
-from BackEnd.models.Product import Product
+from models import db
+from models.Account import Account
+from models.Category import Category
+from models.Privilege import Privilege
+from models.Product import Product
+
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
+from DB.initDB import createDB, addValuesSample
 
 app = Flask(__name__)
 DB_NAME = "DropHive" + ".db"
@@ -88,6 +92,19 @@ def login():
         return jsonify({"message": f"Bienvenido, {account.name}"}), 200
     else:
         return jsonify({"error": "Credenciales incorrectas"}), 401
+
+@app.route("/register", methods=["POST"])
+def register():
+    data = request.get_json()
+    company_name = data.get("company_name")
+    ruta_base_datos = os.path.join(os.path.dirname(os.path.abspath(__file__)), "../DB")
+    ruta_archivo_datos = os.path.join(ruta_base_datos, company_name + ".db")
+    print(ruta_archivo_datos)
+    if os.path.exists(ruta_archivo_datos):
+        createDB(ruta_archivo_datos)
+        return jsonify({"error": f"La empresa {company_name} ya existe."}), 401
+    else:
+        return jsonify({"message": f"La empresa no existe."}), 200
 
 
 if __name__ == "__main__":

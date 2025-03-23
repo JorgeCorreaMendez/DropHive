@@ -1,8 +1,8 @@
 from sqlalchemy import Integer, String, Text, Float, ForeignKey
 from sqlalchemy.orm import relationship
 
-from BackEnd.models import db
-from BackEnd.models.Category import Category
+from models import db
+from models.Category import Category
 
 
 class Product(db.Model):
