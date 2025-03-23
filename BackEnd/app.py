@@ -101,9 +101,9 @@ def register():
     ruta_archivo_datos = os.path.join(ruta_base_datos, company_name + ".db")
     print(ruta_archivo_datos)
     if os.path.exists(ruta_archivo_datos):
-        createDB(ruta_archivo_datos)
         return jsonify({"error": f"La empresa {company_name} ya existe."}), 401
     else:
+        createDB(ruta_archivo_datos)
         return jsonify({"message": f"La empresa no existe."}), 200
 
 

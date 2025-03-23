@@ -1,7 +1,7 @@
 import sqlite3 as sql
 import os
 
-DB_PATH = os.path.abspath(os.path.dirname(__file__)) + '/DropHive.db'
+#DB_PATH = os.path.abspath(os.path.dirname(__file__)) + '/DropHive.db'
 
 
 # TODO: APPI PUEDA CREAR BASE DE DATOS
@@ -94,6 +94,11 @@ def addValuesSample(path):
 
     conn.commit()
     conn.close()
+
+def addNewProduct(path, product):
+    conn = sql.connect(path)
+    cursor = conn.cursor()
+    cursor.execute("")
 
 
 if __name__ == "__main__":
