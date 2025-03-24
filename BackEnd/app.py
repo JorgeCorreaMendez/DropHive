@@ -124,17 +124,27 @@ def register():
 @app.route("/add_element", methods=["POST"])
 def add_element():
     try:
-        print(ruta_archivo_datos)
         data = request.get_json()
         #name, price, description, category_id, discount, size, quantity = obtenerDatosProducto(data)
         product_data = schemas.ProductSchema(**data)
-        valor_salida = AddProduct(ruta_archivo_datos, product_data.name, product_data.price, product_data.description, product_data.category_id, product_data.discount, product_data.size, product_data.quantity) # 0 en caso de que haya salido bien y 1 en caso contrario
+        global ruta_archivo_datos
+        valor_salida = AddProduct(ruta_archivo_datos, product_data.name, product_data.category_id, product_data.description, product_data.price, product_data.discount, product_data.size, product_data.quantity) # 0 en caso de que haya salido bien y 1 en caso contrario
         if valor_salida == 1:
             return jsonify({"error": "Error al añadir el producto."}), 400
-        return 200
+        return jsonify({"message": "Producto añadido correctamente"}), 200
     except Exception as e:
         return jsonify({"error": str(e)}), 500
 
+
+@app.route('/search_product')
+def get_product():
+    try:
+        name = request.args.get('name')
+        global ruta_archivo_datos
+        products = buscarProducto(ruta_archivo_datos, name)
+        return jsonify(products), 200
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
 
 if __name__ == "__main__":
     app.run(debug=True, port=4000)
