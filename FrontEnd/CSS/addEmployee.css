@@ -1,12 +1,15 @@
 body {
-    display: flex;
+    display: block;
     justify-content: center;
     align-items: center;
     height: 100vh;
     background-color: #ccc;
     margin: 0;
+
 }
 .container {
+    margin: auto;
+    margin-top: 20%;
     background: #e6e6e6;
     padding: 20px;
     border-radius: 10px;
