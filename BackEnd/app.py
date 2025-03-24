@@ -10,7 +10,15 @@ from models.Privilege import Privilege
 from models.Product import Product
 
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
-from DB.initDB import createDB, AddAccount
+from DB.initDB import createDB
+from DB.funcionesProductos import *
+
+#from sacarDatos import *
+import schemas
+
+global ruta_archivo_datos
+ruta_base_datos = os.path.join(os.path.dirname(os.path.abspath(__file__)), "../DB")
+ruta_archivo_datos = os.path.join(ruta_base_datos, "DropHive" + ".db")
 
 app = Flask(__name__)
 DB_NAME = "DropHive" + ".db"
@@ -95,41 +103,35 @@ def login():
 
 @app.route("/register", methods=["POST"])
 def register():
-    data = request.get_json()
-    name, mail, password, phone, description, address, privilege_id = obtenerDatosRegistro(data)
-    global ruta_archivo_datos
-    ruta_base_datos = os.path.join(os.path.dirname(os.path.abspath(__file__)), "../DB")
-    ruta_archivo_datos = os.path.join(ruta_base_datos, name + ".db")
-    print(ruta_archivo_datos)
-    if os.path.exists(ruta_archivo_datos):
-        return jsonify({"error": f"La empresa {name} ya existe."}), 401
-    else:
-        createDB(ruta_archivo_datos)
-        AddAccount(ruta_archivo_datos, name, mail, password, phone, description, address, privilege_id)
-        return jsonify({"message": f"La empresa no existe."}), 200
+    try:
+        data = request.get_json()
+        #name, mail, password, phone, description, address, privilege_id = obtenerDatosRegistro(data)
+        user_data = schemas.UserRegisterSchema(**data)
+        global ruta_archivo_datos
+        ruta_base_datos = os.path.join(os.path.dirname(os.path.abspath(__file__)), "../DB")
+        ruta_archivo_datos = os.path.join(ruta_base_datos, user_data.name + ".db")
+        print(ruta_archivo_datos)
+        if os.path.exists(ruta_archivo_datos):
+            return jsonify({"error": f"La empresa {user_data.name} ya existe."}), 401
+        else:
+            createDB(ruta_archivo_datos)
+            AddAccount(ruta_archivo_datos, user_data.name, user_data.mail, user_data.password, user_data.phone, user_data.description, user_data.address, user_data.privilege_id)
+            return jsonify({"message": f"La empresa no existe."}), 200
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
 
-def obtenerDatosRegistro(data):
-    name = data['name']
-    mail = data['mail']
-    password = data['password']
-    phone = data.get('phone', None)
-    description = data.get('description', None)
-    address = data.get('address', None)
-    privilege_id = data.get('privilege_id', None)
-    return name, mail, password, phone, description, address, privilege_id
 
 @app.route("/add_element", methods=["POST"])
 def add_element():
     try:
-        datos = request.get_json()
-        if not datos:
-            return jsonify({"error": "No se ha enviado ningún dato"}), 400
-        respuesta = {}
-        for clave, valor in datos.items():
-            respuesta[clave] = valor
-        
-        return jsonify(respuesta), 200
-    
+        print(ruta_archivo_datos)
+        data = request.get_json()
+        #name, price, description, category_id, discount, size, quantity = obtenerDatosProducto(data)
+        product_data = schemas.ProductSchema(**data)
+        valor_salida = AddProduct(ruta_archivo_datos, product_data.name, product_data.price, product_data.description, product_data.category_id, product_data.discount, product_data.size, product_data.quantity) # 0 en caso de que haya salido bien y 1 en caso contrario
+        if valor_salida == 1:
+            return jsonify({"error": "Error al añadir el producto."}), 400
+        return 200
     except Exception as e:
         return jsonify({"error": str(e)}), 500
 
