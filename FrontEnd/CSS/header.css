@@ -1,95 +1,90 @@
-body {
+* {
     margin: 0;
+    padding: 0;
+    box-sizing: border-box;
     font-family: Arial, sans-serif;
 }
 
-header {
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f8f8f8;
+    margin: 0;
+    padding: 0;
+}
+
+.header {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 15px 40px;
+    padding: 10px 20px;
     background-color: white;
-    border-bottom: 2px solid #ddd;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 }
 
-/* Estilo del logo */
-.logo-header {
+.logo-section {
     display: flex;
     align-items: center;
 }
 
-.logo-header img {
-    width: 120px;
+
+.logo-img {
     height: auto;
+    width: 100px;
+    margin-right: 10px;
 }
 
-/* Estilo de la barra de búsqueda */
-.search-bar {
+.logo-section h1 {
+    font-size: 1.8em;
+    margin: 0;
+}
+
+.search-section {
     display: flex;
     align-items: center;
-    border: 1px solid #ccc;
-    border-radius: 20px;
-    padding: 5px 15px;
-    background-color: #e0e0e0;
-    width: 250px;
+    gap: 5px;
+    background-color: #eee;
+    border-radius: 30px;
+    padding: 10px 10px;
 }
 
-.search-bar input {
+.search-section input {
     border: none;
-    outline: none;
     background: transparent;
-    padding: 5px;
-    width: 100%;
+    outline: none;
+    width: 300px;
 }
 
-.search-bar button {
-    background: none;
-    border: none;
-    cursor: pointer;
-    font-size: 16px;
-    color: gray;
+.search-icon {
+    font-size: 1.2em;
 }
 
-/* Estilo del menú de usuario */
-.user-menu {
+.user-section {
     display: flex;
     align-items: center;
-    gap: 15px;
+    gap: 20px;
 }
 
-.user-info {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-end;
-    font-size: 14px;
-}
-
-.user-info span {
-    font-weight: bold;
-}
-
-.user-info hr {
-    width: 100%;
-    margin: 2px 0;
-    border: none;
-    border-top: 1px solid black;
-}
-
-.user-info a {
+.user-section a {
     text-decoration: none;
-    color: black;
-    font-size: 14px;
+    color: #000000;
 }
 
-/* Estilo del ícono de usuario */
-.user-icon {
-    width: 45px;
-    height: 45px;
+.user-icon img {
+    width: 40px;
+    height: 40px;
     border-radius: 50%;
-    border: 2px solid #000;
+}
+
+.account-section {
     display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 18px;
+    gap: 10px;
+    font-size: 14px;
     font-weight: bold;
+}
+
+.account-section a {
+    text-decoration: none;
+    color: #0073e6;
+    font-weight: bold;
+    right: 10px;
 }
