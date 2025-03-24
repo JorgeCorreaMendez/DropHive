@@ -128,7 +128,7 @@ def add_element():
         #name, price, description, category_id, discount, size, quantity = obtenerDatosProducto(data)
         product_data = schemas.ProductSchema(**data)
         global ruta_archivo_datos
-        valor_salida = AddProduct(ruta_archivo_datos, product_data.name, product_data.category_id, product_data.description, product_data.price, product_data.discount, product_data.size, product_data.quantity) # 0 en caso de que haya salido bien y 1 en caso contrario
+        valor_salida = AddProduct(ruta_archivo_datos, product_data.product_id, product_data.name, product_data.category_id, product_data.description, product_data.price, product_data.discount, product_data.size, product_data.quantity) # 0 en caso de que haya salido bien y 1 en caso contrario
         if valor_salida == 1:
             return jsonify({"error": "Error al añadir el producto."}), 400
         return jsonify({"message": "Producto añadido correctamente"}), 200

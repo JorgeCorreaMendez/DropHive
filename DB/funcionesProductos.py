@@ -10,14 +10,14 @@ def AddAccount(path, name, mail, password, phone=None, description=None, address
     conn.commit()
     conn.close()
 
-def AddProduct(path, name, category_id, description=None, price=None, discount=None, size=None, quantity=None):
+def AddProduct(path, product_id, name, category_id, description=None, price=None, discount=None, size=None, quantity=None):
     conn = sql.connect(path)
     cursor = conn.cursor()
 
     try:
         rows = buscarProducto(path, name)
         if not rows:
-            cursor.execute('''INSERT INTO products (name, category_id, description, price, discount, size, quantity) VALUES (?,?,?,?,?,?,?)''', (name, category_id, description, price, discount, size, quantity))
+            cursor.execute('''INSERT INTO products (product_id, name, category_id, description, price, discount, size, quantity) VALUES (?,?,?,?,?,?,?,?)''', (name, category_id, description, price, discount, size, quantity))
             conn.commit()
             return 0
         else:

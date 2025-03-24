@@ -15,7 +15,7 @@ def createDB(path):
     cursor.execute('''DROP TABLE IF EXISTS accounts''')
 
     cursor.execute('''CREATE TABLE IF NOT EXISTS products
-                     (id INTEGER PRIMARY KEY AUTOINCREMENT, 
+                     (id TEXT PRIMARY KEY, 
                       name TEXT NOT NULL, 
                       description TEXT,
                       price FLOAT,
