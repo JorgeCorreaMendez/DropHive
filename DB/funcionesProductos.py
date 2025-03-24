@@ -11,13 +11,12 @@ def AddAccount(path, name, mail, password, phone=None, description=None, address
     conn.close()
 
 def AddProduct(path, product_id, name, category_id, description=None, price=None, discount=None, size=None, quantity=None):
-    conn = sql.connect(path)
-    cursor = conn.cursor()
-
     try:
-        rows = buscarProducto(path, name)
+        rows = buscarProducto(path, product_id)
+        conn = sql.connect(path)
+        cursor = conn.cursor()
         if not rows:
-            cursor.execute('''INSERT INTO products (product_id, name, category_id, description, price, discount, size, quantity) VALUES (?,?,?,?,?,?,?,?)''', (name, category_id, description, price, discount, size, quantity))
+            cursor.execute('''INSERT INTO products (product_id, name, category_id, description, price, discount, size, quantity) VALUES (?,?,?,?,?,?,?,?)''', (product_id, name, category_id, description, price, discount, size, quantity))
             conn.commit()
             return 0
         else:
@@ -28,10 +27,19 @@ def AddProduct(path, product_id, name, category_id, description=None, price=None
     finally:
         conn.close()
 
-def buscarProducto(path, nombre):
+def buscarProducto(path, product_id=None, name=None, category_id=None):
     conn = sql.connect(path)
     cursor = conn.cursor()
-    cursor.execute('''SELECT * FROM products WHERE name = ?''', (nombre,))
+    print(name)
+    if product_id:
+        cursor.execute('''SELECT * FROM products WHERE product_id = ?''', (str(product_id),))
+    elif name:
+        cursor.execute('''SELECT * FROM products WHERE name = ?''', (str(name),))
+    elif category_id:
+        cursor.execute('''SELECT * FROM products WHERE category_id =?''', (int(category_id),))
+    else:
+        return None
     rows = cursor.fetchall()
+    print(rows)
     conn.close()
-    return rows
+    return rows if rows else []

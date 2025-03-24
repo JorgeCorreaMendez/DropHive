@@ -121,8 +121,8 @@ def register():
         return jsonify({"error": str(e)}), 500
 
 
-@app.route("/add_element", methods=["POST"])
-def add_element():
+@app.route("/add_product", methods=["POST"])
+def add_product():
     try:
         data = request.get_json()
         #name, price, description, category_id, discount, size, quantity = obtenerDatosProducto(data)
@@ -132,16 +132,24 @@ def add_element():
         if valor_salida == 1:
             return jsonify({"error": "Error al añadir el producto."}), 400
         return jsonify({"message": "Producto añadido correctamente"}), 200
+    
     except Exception as e:
         return jsonify({"error": str(e)}), 500
 
 
 @app.route('/search_product')
-def get_product():
+def search_product():
     try:
+        id_product = request.args.get('id')
         name = request.args.get('name')
+        category_id = request.args.get('category_id')
         global ruta_archivo_datos
-        products = buscarProducto(ruta_archivo_datos, name)
+        if id_product:
+            products = buscarProducto(ruta_archivo_datos, id_product=id_product)
+        elif name:
+            products = buscarProducto(ruta_archivo_datos, name=name)
+        elif category_id:
+            products = buscarProducto(ruta_archivo_datos, category_id=category_id)
         return jsonify(products), 200
     except Exception as e:
         return jsonify({"error": str(e)}), 500
