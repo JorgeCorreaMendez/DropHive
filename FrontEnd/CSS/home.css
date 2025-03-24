@@ -1,33 +1,28 @@
 body {
-    font-family: Arial, sans-serif;
-    margin: 0;
-    padding: 0;
-    background-color: #f5f5f5;
-    display: grid;
-    grid-template-areas:
-        "sidebar main actions";
-    grid-template-columns: 1fr 3fr 1fr;
-    gap: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
     height: 100vh;
+    background-color: #f4f4f4;
 }
 
 .home-sidebar {
-    background-color: white;
+    width: 200px;
     padding: 20px;
-    border-radius: 5px;
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
+    background-color: #fff;
+    box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.1);
+    position: fixed;
+    top: 0;
+    bottom: 0;
 }
 
 .left-sidebar {
-    grid-area: sidebar;
-    align-items: flex-start;
+    left: 0;
 }
 
 .right-sidebar {
-    grid-area: actions;
-    align-items: flex-end;
+    right: 0;
+    width: 250px;
 }
 
 .supplier-btn {
@@ -41,31 +36,88 @@ body {
 }
 
 .product-table {
-    grid-area: main;
-    background-color: white;
+    flex-grow: 1;
+    max-width: 800px;
+    margin: auto;
+    background: white;
     padding: 20px;
-    border-radius: 5px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
-.table-header {
-    display: grid;
-    grid-template-columns: repeat(6, 1fr);
-    font-weight: bold;
-    border-bottom: 2px solid black;
-    padding-bottom: 10px;
-    margin-bottom: 10px;
+.filter {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
 }
 
-.product {
+.table-header, .product {
     display: grid;
     grid-template-columns: repeat(6, 1fr);
     padding: 10px;
-    border-bottom: 1px solid #ccc;
+    border-bottom: 1px solid #ddd;
 }
 
-.out-of-stock { border: 2px solid red; }
-.discount { border: 2px solid blue; }
-.multi-item { border: 2px solid orange; }
+.right-sidebar button {
+    display: block;
+    width: 100%;
+    margin-bottom: 10px;
+    padding: 10px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    cursor: pointer;
+}
+
+.right-sidebar button:hover {
+    background-color: #45a049;
+}
+
+.notification-btn {
+    background-color: #ff9800;
+    color: white;
+    padding: 10px;
+    border: none;
+    width: 100%;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    font-size: 16px;
+}
+
+.notification-btn i {
+    font-size: 18px;
+}
+
+.notification-btn:hover {
+    background-color: #e68900;
+}
+
+.legend {
+    margin-top: 20px;
+    padding: 10px;
+    background: white;
+    border-radius: 5px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.legend h4 {
+    text-align: center;
+    margin-bottom: 10px;
+}
+
+.color-box {
+    display: inline-block;
+    width: 15px;
+    height: 15px;
+    border-radius: 3px;
+    margin-right: 5px;
+}
+
+.red { background-color: red; }
+.blue { background-color: blue; }
+.orange { background-color: orange; }
 
 .actions {
     display: flex;
@@ -108,7 +160,6 @@ footer {
 .red { background-color: red; }
 .blue { background-color: blue; }
 .orange { background-color: orange; }
-
 .actions button {
     padding: 10px;
     border: none;
@@ -132,14 +183,59 @@ footer {
     gap: 20px;
 }
 
-.color-box {
-    display: inline-block;
-    width: 15px;
-    height: 15px;
-    border-radius: 3px;
-    margin-right: 5px;
+@media (max-width: 1024px) {
+    .right-sidebar, .left-sidebar {
+        width: 180px; /* Se reduce un poco en pantallas medianas */
+    }
+    .product-table {
+        max-width: 90%;
+    }
 }
 
-.red { background-color: red; }
-.blue { background-color: blue; }
-.orange { background-color: orange; }
+@media (max-width: 768px) {
+    body {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .left-sidebar, .right-sidebar {
+        width: 100%;
+        position: relative;
+        box-shadow: none;
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        padding: 10px;
+    }
+
+    .left-sidebar .filter, .right-sidebar .legend {
+        flex-direction: row;
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+
+    .product-table {
+        width: 100%;
+        overflow-x: auto;
+    }
+
+    .table-header, .product {
+        grid-template-columns: repeat(3, 1fr); /* Se reduce a 3 columnas en móviles */
+    }
+}
+
+@media (max-width: 480px) {
+    .table-header, .product {
+        grid-template-columns: repeat(2, 1fr); /* Solo 2 columnas en pantallas muy pequeñas */
+    }
+
+    .supplier-btn, .notification-btn {
+        font-size: 14px; /* Botones más compactos */
+        padding: 8px;
+    }
+
+    .right-sidebar, .left-sidebar {
+        flex-direction: column;
+        align-items: center;
+    }
+}
