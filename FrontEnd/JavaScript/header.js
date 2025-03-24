@@ -1,29 +1,25 @@
-// Función para cargar el header
-async function loadHeader() {
+async function loadTemplate(templateName, targetElementId) {
     try {
-        const response = await fetch('/DropHive/FrontEnd/html/header.html'); // Ruta absoluta
+        const response = await fetch(`../html/${templateName}.html`); // Cambié la ruta
         if (!response.ok) {
-            throw new Error(`Error al cargar el header: ${response.status}`);
+            throw new Error(`HTTP error! Status: ${response.status}`);
         }
         const html = await response.text();
-        document.getElementById('header-container').innerHTML = html;
-
-        // 🔹 Cargar el CSS dinámicamente después de cargar el header
-        loadCSS('/DropHive/FrontEnd/css/header.css');
-
+        document.getElementById(targetElementId).innerHTML = html;
     } catch (error) {
-        console.error('Error cargando el header:', error);
+        console.error(`Error loading template ${templateName}:`, error);
     }
 }
 
-// Función para cargar el CSS dinámicamente
-function loadCSS(cssPath) {
-    const link = document.createElement('link');
-    link.rel = 'stylesheet';
-    link.href = cssPath + '?v=' + new Date().getTime(); // 🔥 Evita el caché del navegador
-    document.head.appendChild(link);
-    console.log(`✅ CSS cargado: ${cssPath}`);
+
+function loadDefaultTemplates() {
+    loadTemplate("header", 'header-container');
+
+}
+function initializePage() {
+    loadDefaultTemplates(); // Siempre cargamos el header y footer}
 }
 
-// Ejecutar cuando el DOM esté cargado
-document.addEventListener("DOMContentLoaded", loadHeader);
+window.onload = function() {
+    initializePage(); // Cargar header, footer y body específico según la página
+};

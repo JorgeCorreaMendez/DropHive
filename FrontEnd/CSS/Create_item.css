@@ -8,36 +8,27 @@
 body {
     background-color: #e0e0e0;
     display: flex;
-    justify-content: center;
+    flex-direction: column; /* Asegura que el contenido fluya debajo del header */
     align-items: center;
-    height: 100vh;
-}
-#header-container {
-    width: 100%;
-    background-color: white; /* Asegura que tenga un fondo visible */
-    position: fixed; /* Fijar el header en la parte superior */
-    top: 0;
-    left: 0;
-    z-index: 1000; /* Asegurar que esté por encima del contenido */
-    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1); /* Sombra para resaltar */
+    min-height: 100vh;
 }
 
-* {
-    overflow: visible !important;
-}
+
 
 
 .card {
     display: flex;
     background: white;
     border-radius: 10px;
-    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
-    width: 100%;
-    height: calc(100% - 80px);
-
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    width: 80%;
+    max-width: 1000px; /* Limita el ancho para evitar que se expanda demasiado */
+    height: auto;
+    margin-top: 100px; /* Ajuste para evitar que el header lo cubra */
+    padding: 20px;
 }
 
-/* Asegurar que la sección izquierda esté bien centrada */
+/* Sección izquierda: imagen y nombre */
 .left-section {
     display: flex;
     flex-direction: column;
@@ -48,14 +39,12 @@ body {
 }
 
 .right-section {
-    display: block;
-    align-items: center;
+    display: flex;
+    flex-direction: column;
     justify-content: center;
-    flex: 1;
-    padding-right: 20vw;
-    padding-top: 15vw;
+    flex: 2;
+    padding: 20px;
 }
-
 
 /* Ajustar la imagen */
 .image-placeholder {
@@ -71,33 +60,7 @@ body {
     text-align: center;
 }
 
-/* Hacer que el contenido dentro de la tarjeta quede centrado */
-.left-container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    flex: 1;
-}
-
-.right-container {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    flex: 2;
-}
-
-h2 {
-    font-size: 20px;
-    font-weight: bold;
-}
-
-.brand-name {
-    font-size: 14px;
-    color: gray;
-    margin-bottom: 10px;
-}
-
+/* Botones y etiquetas */
 .category-btn {
     background-color: #f4a900;
     color: white;
@@ -108,7 +71,7 @@ h2 {
     font-weight: bold;
 }
 
-
+/* Inputs y botones */
 .input-group {
     display: flex;
     flex-direction: column;
@@ -127,6 +90,11 @@ h2 {
 .inline-group {
     display: flex;
     align-items: center;
+    background-color: #e0e0e0;
+    border-radius: 10px;
+    padding: 10px;
+    border: 1px solid #ccc;
+    width: fit-content;
     margin-bottom: 10px;
 }
 
@@ -164,14 +132,4 @@ h2 {
     cursor: pointer;
     font-weight: bold;
     margin-top: 15px;
-}
-.inline-group {
-    display: flex;
-    align-items: center;
-    background-color: #e0e0e0;  /* Color de fondo gris claro */
-    border-radius: 10px;        /* Bordes redondeados */
-    padding: 10px;
-    border: 1px solid #ccc;     /* Borde gris */
-    width: fit-content;         /* Se ajusta al contenido */
-    margin-bottom: 10px;
 }
