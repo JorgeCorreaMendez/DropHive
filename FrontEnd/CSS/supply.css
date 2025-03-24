@@ -37,9 +37,9 @@ th {
     background-color: #f4f4f4;
 }
 
-th:nth-child(1) { width: 15%; }
-th:nth-child(2) { width: 20%; }
-th:nth-child(3) { width: 20%; }
+th:nth-child(1) { width: 17%; }
+th:nth-child(2) { width: 21%; }
+th:nth-child(3) { width: 22%; }
 th:nth-child(4) { width: 20%; }
 th:nth-child(5) { width: 20%; }
 
@@ -79,16 +79,41 @@ th:nth-child(5) { width: 20%; }
     width: 100%;
 }
 
-@media (max-width: 768px) {
+@media (max-width: 1024px) {
+    .supply-container {
+        width: 90%;
+    }
     .supply-sidebar {
-        position: static;
+        width: 180px;
+    }
+}
+
+@media (max-width: 768px) {
+    body {
+        flex-direction: column;
+        align-items: center;
+        padding: 10px;
+    }
+
+    .supply-sidebar {
+        position: relative;
         width: 100%;
-        margin-top: 10px;
+        top: auto;
+        right: auto;
+        box-shadow: none;
+        text-align: center;
+        padding: 10px;
+    }
+
+    .notifications,
+    .delete_button {
+        justify-content: center;
     }
 
     .supply-container {
         width: 100%;
-        margin: 0 10px;
+        max-width: 100%;
+        padding: 10px;
     }
 
     table {
@@ -98,19 +123,19 @@ th:nth-child(5) { width: 20%; }
     }
 
     th, td {
-        padding: 10px;
+        font-size: 14px;
+        padding: 8px;
     }
 }
 
 @media (max-width: 480px) {
-    th:nth-child(1) { width: 25%; }
-    th:nth-child(2) { width: 25%; }
-    th:nth-child(3) { width: 25%; }
-    th:nth-child(4) { width: 25%; }
-    th:nth-child(5) { width: 25%; }
+    th, td {
+        font-size: 12px;
+        padding: 6px;
+    }
 
-    .filters {
-        flex-direction: column;
-        gap: 5px;
+    .notifications button,
+    .delete_button button {
+        font-size: 16px;
     }
 }
