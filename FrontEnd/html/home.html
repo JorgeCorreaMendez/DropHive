@@ -5,77 +5,59 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Drop Hive</title>
   <link rel="stylesheet" href="../CSS/style.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/js/all.min.js" crossorigin="anonymous"></script>
 </head>
 <body>
-<div class="container">
-  <aside class="left-sidebar">
-    <button class="supplier-btn">Supplier Management</button>
-    <div class="filter">
-      <p>Filter</p>
-      <select><option>Name</option></select>
-      <select><option>Category</option></select>
-      <select><option>Supplier</option></select>
-      <select><option>Price</option></select>
-      <select><option>Quantity available</option></select>
-    </div>
-  </aside>
-  <main>
-    <section class="product-table">
-      <div class="table-header">
-        <span>Company Name</span>
-        <span>Item Name</span>
-        <span>Category</span>
-        <span>Retail Price</span>
-        <span>Supply Cost</span>
-        <span>ID</span>
-      </div>
-      <div class="product out-of-stock">
-        <span class="company">Nike</span>
-        <span class="item">Dunk Low</span>
-        <span class="category">Streetwear</span>
-        <span class="price">0001</span>
-        <span class="cost">0001</span>
-        <span class="id">0001</span>
-      </div>
-      <div class="product">
-        <span class="company">Adidas</span>
-        <span class="item">Samba OG</span>
-        <span class="category">Streetwear</span>
-        <span class="price">0001</span>
-        <span class="cost">0001</span>
-        <span class="id">0002</span>
-      </div>
-      <div class="product discount">
-        <span class="company">New Balance</span>
-        <span class="item">New Balance 550</span>
-        <span class="category">Sport</span>
-        <span class="price">60,95</span>
-        <span class="cost">30,99</span>
-        <span class="id">0003</span>
-      </div>
-      <div class="product multi-item">
-        <span class="company">Carhartt</span>
-        <span class="item">Detroit Jacket</span>
-        <span class="category">Lifestyle</span>
-        <span class="price">0001</span>
-        <span class="cost">0001</span>
-        <span class="id">0004</span>
-      </div>
-    </section>
-  </main>
-  <aside class="actions">
-    <button>Add Item</button>
-    <button>Add Company</button>
-    <button>Show all Category</button>
-    <button>History</button>
-  </aside>
-  <footer>
-    <div class="legend">
-      <p><span class="color-box red"></span> Out of stock</p>
-      <p><span class="color-box blue"></span> Discount</p>
-      <p><span class="color-box orange"></span> Multiple items</p>
-    </div>
-  </footer>
+
+<div class="sidebar left-sidebar">
+  <button class="supplier-btn">Supplier Management</button>
+  <div class="filter">
+    <label>Filter</label>
+    <select><option>Name</option></select>
+    <select><option>Category</option></select>
+    <select><option>Supplier</option></select>
+    <select><option>Price</option></select>
+    <select><option>Quantity available</option></select>
+  </div>
 </div>
+
+<div class="product-table">
+  <div class="table-header">
+    <span>Company Name</span>
+    <span>Item Name</span>
+    <span>Category</span>
+    <span>Retail Price</span>
+    <span>Supply Cost</span>
+    <span>ID</span>
+  </div>
+  <div class="product">
+    <span>Nike</span>
+    <span>Dunk Low</span>
+    <span>Streetwear</span>
+    <span>0001</span>
+    <span>0001</span>
+    <span>0001</span>
+  </div>
+</div>
+
+<div class="sidebar right-sidebar">
+  <button class="notification-btn">
+    <i class="fas fa-bell"></i> Notifications
+  </button>
+  <button>Add Item</button>
+  <button>Add Company</button>
+  <button>Show all Category</button>
+  <button>History</button>
+
+  <div class="legend">
+    <h4>Legend</h4>
+    <div><span class="color-box red"></span> Out of Stock</div>
+    <div><span class="color-box blue"></span> Discount</div>
+    <div><span class="color-box orange"></span> Multi-item</div>
+  </div>
+</div>
+
 </body>
 </html>
+
+
