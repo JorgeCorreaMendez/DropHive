@@ -13,8 +13,8 @@ from BackEnd.models.Category import Category
 from BackEnd.models.Privilege import Privilege
 from BackEnd.models.Product import Product
 from BackEnd.routes.auth import auth_bp
+from BackEnd.routes.register import registro_bp
 from DB.funcionesProductos import *
-from DB.initDB import createDB
 
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
 ruta_base_datos = os.path.join(os.path.dirname(os.path.abspath(__file__)), "../DB")
@@ -23,10 +23,8 @@ ruta_archivo_datos = os.path.join(ruta_base_datos, "DropHive" + ".db")
 app = Flask(__name__)
 app.secret_key = "tu_clave_secreta"
 app.register_blueprint(auth_bp)
-app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///...db"
-app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
+app.register_blueprint(registro_bp)
 app.json.ensure_ascii = False
-db.init_app(app)
 
 
 def login_required(f):
@@ -105,27 +103,6 @@ def get_all_values_from(model, dbname):
     Session = sessionmaker(bind=engine)
     with Session() as db_session:
         return [item.serialize() for item in db_session.query(model).all()]
-
-
-@app.route("/register", methods=["POST"])
-def register():
-    try:
-        data = request.get_json()
-        #name, mail, password, phone, description, address, privilege_id = obtenerDatosRegistro(data)
-        user_data = schemas.UserRegisterSchema(**data)
-        global ruta_archivo_datos
-        ruta_base_datos = os.path.join(os.path.dirname(os.path.abspath(__file__)), "../DB")
-        ruta_archivo_datos = os.path.join(ruta_base_datos, user_data.name + ".db")
-        print(ruta_archivo_datos)
-        if os.path.exists(ruta_archivo_datos):
-            return jsonify({"error": f"La empresa {user_data.name} ya existe."}), 401
-        else:
-            createDB(ruta_archivo_datos)
-            AddAccount(ruta_archivo_datos, user_data.name, user_data.mail, user_data.password, user_data.phone,
-                       user_data.description, user_data.address, user_data.privilege_id)
-            return jsonify({"message": f"La empresa no existe."}), 200
-    except Exception as e:
-        return jsonify({"error": str(e)}), 500
 
 
 @app.route("/add_product", methods=["POST"])
