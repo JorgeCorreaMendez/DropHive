@@ -4,24 +4,25 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>DropHive Login</title>
-    <link rel="stylesheet" href="/FrontEnd/CSS/LogIn.css">
+    <link rel="stylesheet" href="../CSS/LogIn.css">
+    <script src="/Scripts/redirect.js"></script>
 </head>
 <body>
-<div class="container">
+<div class="login-container">
     <div class="logo">
         <img src="/FrontEnd/Images/Logo_Drop_Hive.png" alt="Box Logo">
     </div>
     <div class="login-box">
-        <div class="input-group">
+        <div class="login-input-group">
         <label for="username">Username:</label>
         <input type="text" id="username">
         </div>
-        <div class="input-group">
+        <div class="login-input-group">
         <label for="password">Password:</label>
         <input type="password" id="password">
         </div>
-        <div class="buttons">
-            <button class="sign-in">Sign up</button>
+        <div class="login-buttons">
+            <button id="register-btn">Sign up</button>
             <button class="help">Need help?</button>
             <button class="enter">Enter</button>
         </div>

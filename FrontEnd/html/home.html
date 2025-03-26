@@ -4,13 +4,19 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Drop Hive</title>
-  <link rel="stylesheet" href="../CSS/style.css">
+  <link rel="stylesheet" href="../CSS/Style.css">
   <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/js/all.min.js" crossorigin="anonymous"></script>
+  <script src="/Scripts/header.js"></script>
+  <script src="/Scripts/redirect.js"></script>
 </head>
 <body>
 
-<div class="sidebar left-sidebar">
-  <button class="supplier-btn">Supplier Management</button>
+<header>
+  <div id="header-container"></div>
+</header>
+
+<div class="log-sidebar left-sidebar">
+  <button id="supplier-btn">Supplier Management</button>
   <div class="filter">
     <label>Filter</label>
     <select><option>Name</option></select>
@@ -30,6 +36,7 @@
     <span>Supply Cost</span>
     <span>ID</span>
   </div>
+
   <div class="product">
     <span>Nike</span>
     <span>Dunk Low</span>
@@ -40,14 +47,12 @@
   </div>
 </div>
 
-<div class="sidebar right-sidebar">
-  <button class="notification-btn">
-    <i class="fas fa-bell"></i> Notifications
-  </button>
-  <button>Add Item</button>
-  <button>Add Company</button>
-  <button>Show all Category</button>
-  <button>History</button>
+<div class="log-sidebar right-sidebar">
+  <button id="notification-btn"><i class="fas fa-bell"></i> Notifications</button>
+  <button id="add-item-btn">Add Item</button>
+  <button id="add-company-btn">Add Company</button>
+  <button id="show-category-btn">Show all Category</button>
+  <button id="history-btn">History</button>
 
   <div class="legend">
     <h4>Legend</h4>
@@ -56,7 +61,6 @@
     <div><span class="color-box orange"></span> Multi-item</div>
   </div>
 </div>
-
 </body>
 </html>
 
