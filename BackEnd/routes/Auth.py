@@ -1,21 +1,19 @@
 import os
 from functools import wraps
 
-from flask import Blueprint, session, jsonify
+from flask import Blueprint
 from flask import request, jsonify, session
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 
+from BackEnd.DB_utils import DB_PATH
 from BackEnd.models.Account import Account
 
 auth_bp = Blueprint("auth", __name__)
 
 
-def get_db_path(username):
-    return os.path.join(os.path.abspath(os.path.dirname(__file__)), "../../DB", f"{username}.db")
-
-
-def get_user_session(db_path):
+def get_session(db_name):
+    db_path = os.path.join(DB_PATH, f"{db_name}.db")
     engine = create_engine(f"sqlite:///{db_path}")
     Session = sessionmaker(bind=engine)
     return Session()
@@ -24,14 +22,13 @@ def get_user_session(db_path):
 @auth_bp.route("/login", methods=["POST"])
 def login():
     data = request.get_json()
-    username = data.get("username")
+    mail = data.get("mail")
     password = data.get("password")
-
-    DB_PATH = get_db_path(username)
-    db_session = get_user_session(DB_PATH)
+    db_name = str(mail).split("@")[1]
+    db_session = get_session(db_name)
 
     try:
-        account = db_session.query(Account).filter_by(name=username, password=password).first()
+        account = db_session.query(Account).filter_by(mail=mail, password=password).first()
         if account:
             session["user"] = account.name
             return jsonify({"message": f"Bienvenido, {account.name}"}), 200

@@ -11,7 +11,7 @@ from BackEnd.routes.Product import products_bp
 from BackEnd.routes.Register import registro_bp
 
 app = Flask(__name__)
-app.secret_key = "tu_clave_secreta"
+app.secret_key = os.getenv("test", "1234")
 app.register_blueprint(auth_bp)
 app.register_blueprint(registro_bp)
 app.register_blueprint(products_bp)

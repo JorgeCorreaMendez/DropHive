@@ -7,13 +7,15 @@ from sqlalchemy.orm import sessionmaker
 from BackEnd import schemas
 from BackEnd.models import Base
 from BackEnd.models.Account import Account
+from BackEnd.DB_utils import DB_PATH
 
 registro_bp = Blueprint("registro", __name__)
 
 
+# TODO: split en el html
 def register_company(user_data):
-    db_path = os.path.join(os.path.join(os.path.dirname(os.path.abspath(__file__)), "../../DB"),
-                           user_data.name + ".db")
+    db_name = str(user_data.mail).split("@")[1]
+    db_path = os.path.join(DB_PATH, f"{db_name}.db")
     if os.path.exists(db_path):
         return False, f"La empresa {user_data.name} ya existe."
 
