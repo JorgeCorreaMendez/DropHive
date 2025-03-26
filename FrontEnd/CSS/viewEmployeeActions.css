@@ -1,0 +1,143 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, sans-serif;
+}
+
+/* Barra superior */
+.top-bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background-color: #fff;
+    padding: 10px 20px;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+}
+
+.logo-section {
+    display: flex;
+    align-items: center;
+}
+
+.logo-img {
+    width: 100px;
+    height: auto;
+    margin-right: 10px;
+}
+
+.logo-section h1 {
+    font-size: 1.8em;
+    margin: 0;
+}
+
+.search-bar input {
+    padding: 0.5rem;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+.user-actions a {
+    margin-left: 1rem;
+    text-decoration: none;
+    color: #333;
+    font-weight: 500;
+}
+
+.user-actions a:hover {
+    text-decoration: underline;
+}
+
+/* Contenedor principal */
+main {
+    display: flex;
+    justify-content: center;
+    padding: 2rem;
+    background-color: #fafafa;
+}
+
+/* Sección de Employee Actions */
+.employee-actions {
+    background-color: #fff;
+    padding: 2rem;
+    width: 600px;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+}
+
+/* Título */
+.employee-actions h2 {
+    margin-bottom: 1rem;
+    font-size: 1.25rem;
+}
+
+/* Búsqueda de ID */
+.search-id {
+    margin-bottom: 1.5rem;
+}
+
+.search-id label {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-weight: 600;
+}
+
+.search-id input {
+    width: 100%;
+    padding: 0.5rem;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+/* Datos del empleado */
+.employee-data {
+    display: flex;
+    gap: 1rem;
+    margin-bottom: 2rem;
+}
+
+.employee-data .field {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.employee-data label {
+    font-weight: 600;
+    margin-bottom: 0.3rem;
+}
+
+.employee-data input {
+    padding: 5px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+/* Acciones realizadas */
+.actions-performed h3 {
+    margin-bottom: 1rem;
+    font-size: 1.1rem;
+}
+
+.actions-performed table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.actions-performed thead {
+    background-color: #f0f0f0;
+}
+
+.actions-performed th,
+.actions-performed td {
+    text-align: left;
+    padding: 0.75rem;
+    border: 1px solid #ddd;
+}
+
+.actions-performed input {
+    width: 95%;
+    padding: 0.3rem;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
