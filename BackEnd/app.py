@@ -7,7 +7,6 @@ from sqlalchemy.orm import sessionmaker
 
 # from sacarDatos import *
 import schemas
-from BackEnd.models import db
 from BackEnd.models.Account import Account
 from BackEnd.models.Category import Category
 from BackEnd.models.Privilege import Privilege
@@ -105,21 +104,29 @@ def get_all_values_from(model, dbname):
         return [item.serialize() for item in db_session.query(model).all()]
 
 
-@app.route("/add_product", methods=["POST"])
-def add_product():
+@app.route("/<string:dbname>/add_product", methods=["POST"])
+@login_required
+def add_product(dbname):
     try:
         data = request.get_json()
-        #name, price, description, category_id, discount, size, quantity = obtenerDatosProducto(data)
         product_data = schemas.ProductSchema(**data)
-        global ruta_archivo_datos
-        valor_salida = AddProduct(ruta_archivo_datos, product_data.product_id, product_data.name,
-                                  product_data.category_id, product_data.description, product_data.price,
-                                  product_data.discount, product_data.size,
-                                  product_data.quantity)  # 0 en caso de que haya salido bien y 1 en caso contrario
-        if valor_salida == 1:
-            return jsonify({"error": "Error al añadir el producto."}), 400
+        db_path = os.path.join(ruta_base_datos, f"{dbname}.db")
+        engine = create_engine(f"sqlite:///{db_path}")
+        Session = sessionmaker(bind=engine)
+        with Session() as db_session:
+            new_product = Product(
+                product_id=product_data.product_id,
+                name=product_data.name,
+                category_id=product_data.category_id,
+                description=product_data.description,
+                price=product_data.price,
+                discount=product_data.discount,
+                size=product_data.size,
+                quantity=product_data.quantity
+            )
+            db_session.add(new_product)
+            db_session.commit()
         return jsonify({"message": "Producto añadido correctamente"}), 200
-
     except Exception as e:
         return jsonify({"error": str(e)}), 500
 

@@ -7,7 +7,7 @@ from BackEnd.models import Base
 class Product(Base):
     __tablename__ = 'products'
 
-    priduct_id = Column(Integer, primary_key=True, autoincrement=True)
+    product_id = Column(String, primary_key=True)
     name = Column(String, nullable=False)
     description = Column(Text)
     price = Column(Float, default=0.0)
@@ -18,11 +18,11 @@ class Product(Base):
     category = relationship("Category", back_populates="products")
 
     def __str__(self):
-        return "{}, {}, {}".format(self.priduct_id, self.name, self.description)
+        return "{}, {}, {}".format(self.product_id, self.name, self.description)
 
     def serialize(self):
         return {
-            "id": self.priduct_id,
+            "id": self.product_id,
             "name": self.name,
             "description": self.description,
             "price": self.price,
