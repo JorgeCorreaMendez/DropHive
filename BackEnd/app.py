@@ -1,39 +1,24 @@
-import sys
-from functools import wraps
+import os
 
-from flask import Flask, jsonify, request, session
+from flask import Flask, jsonify, request
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 
-# from sacarDatos import *
 import schemas
 from BackEnd.models.Account import Account
 from BackEnd.models.Category import Category
 from BackEnd.models.Privilege import Privilege
 from BackEnd.models.Product import Product
-from BackEnd.routes.auth import auth_bp
+from BackEnd.routes.auth import auth_bp, login_required
 from BackEnd.routes.register import registro_bp
-from DB.funcionesProductos import *
 
-sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
-ruta_base_datos = os.path.join(os.path.dirname(os.path.abspath(__file__)), "../DB")
-ruta_archivo_datos = os.path.join(ruta_base_datos, "DropHive" + ".db")
+DB_PATH = os.path.join(os.path.dirname(os.path.abspath(__file__)), "../DB")
 
 app = Flask(__name__)
 app.secret_key = "tu_clave_secreta"
 app.register_blueprint(auth_bp)
 app.register_blueprint(registro_bp)
 app.json.ensure_ascii = False
-
-
-def login_required(f):
-    @wraps(f)
-    def decorated_function(*args, **kwargs):
-        if "user" not in session:
-            return jsonify({"error": "No has iniciado sesión"}), 401
-        return f(*args, **kwargs)
-
-    return decorated_function
 
 
 @app.route("/")
@@ -97,7 +82,7 @@ def get_category(dbname):
 
 
 def get_all_values_from(model, dbname):
-    db_path = os.path.join(ruta_base_datos, dbname + ".db")
+    db_path = os.path.join(DB_PATH, dbname + ".db")
     engine = create_engine(f"sqlite:///{db_path}")
     Session = sessionmaker(bind=engine)
     with Session() as db_session:
@@ -110,7 +95,7 @@ def add_product(dbname):
     try:
         data = request.get_json()
         product_data = schemas.ProductSchema(**data)
-        db_path = os.path.join(ruta_base_datos, f"{dbname}.db")
+        db_path = os.path.join(DB_PATH, f"{dbname}.db")
         engine = create_engine(f"sqlite:///{db_path}")
         Session = sessionmaker(bind=engine)
         with Session() as db_session:
@@ -131,20 +116,27 @@ def add_product(dbname):
         return jsonify({"error": str(e)}), 500
 
 
-@app.route('/search_product')
-def search_product():
+@app.route('/<string:dbname>/search_product')
+@login_required
+def search_product(dbname):
     try:
         id_product = request.args.get('id')
         name = request.args.get('name')
         category_id = request.args.get('category_id')
-        global ruta_archivo_datos
-        if id_product:
-            products = buscarProducto(ruta_archivo_datos, id_product=id_product)
-        elif name:
-            products = buscarProducto(ruta_archivo_datos, name=name)
-        elif category_id:
-            products = buscarProducto(ruta_archivo_datos, category_id=category_id)
-        return jsonify(products), 200
+
+        db_path = os.path.join(DB_PATH, f"{dbname}.db")
+        engine = create_engine(f"sqlite:///{db_path}")
+        Session = sessionmaker(bind=engine)
+        with Session() as db_session:
+            query = db_session.query(Product)
+            if id_product:
+                query = query.filter(id_product == Product.product_id)
+            if name:
+                query = query.filter(Product.name.ilike(f"%{name}%"))
+            if category_id:
+                query = query.filter(int(category_id) == Product.category_id)
+
+            return jsonify([product.serialize() for product in query.all()]), 200
     except Exception as e:
         return jsonify({"error": str(e)}), 500
 
