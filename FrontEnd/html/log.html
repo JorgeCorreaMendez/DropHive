@@ -4,13 +4,16 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Historial de Cambios</title>
-    <link rel="stylesheet" href="../CSS/style.css">
+    <link rel="stylesheet" href="../CSS/Style.css">
+    <script src="../JavaScript/header.js"></script>
+    <script src="/FrontEnd/JavaScript/redirect.js"></script>
 </head>
 <body>
-<div class="sidebar">
-    <div class="notifications">
-        <button>🔔 Notificaciones</button>
-    </div>
+<header>
+    <div id="header-container"></div>
+</header>
+<div class="log-sidebar">
+    <button id="notification-btn"> 🔔 Notifications</button>
     <div class="filters">
         <label>Nombre: <select><option>Todos</option></select></label>
         <label>Categoría: <select><option>Todos</option></select></label>
@@ -18,7 +21,7 @@
     </div>
 </div>
 
-<div class="container">
+<div class="log-container">
     <table>
         <thead>
         <tr>

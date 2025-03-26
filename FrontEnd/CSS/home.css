@@ -1,5 +1,5 @@
 body {
-    display: flex;
+    display: block;
     justify-content: center;
     align-items: center;
     height: 100vh;
@@ -17,12 +17,14 @@ body {
 }
 
 .left-sidebar {
+    margin-top: 140px;
     left: 0;
 }
 
 .right-sidebar {
     right: 0;
     width: 250px;
+    margin-top: 140px;
 }
 
 .supplier-btn {
@@ -42,6 +44,7 @@ body {
     background: white;
     padding: 20px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    margin-top: 100px;
 }
 
 .filter {
