@@ -8,7 +8,8 @@ document.addEventListener("DOMContentLoaded", function () {
         "add-company-btn": "../html/AddAndModifyCompany.html",
         "show-category-btn": "../html/addAndModifyCategory.html",
         "history-btn": "../html/log.html",
-        "register-btn": "../html/register.html"
+        "register-btn": "../html/register.html",
+        "read-btn": "../html/Read_Article.html"
     };
 
     Object.keys(pageMap).forEach(id => {
