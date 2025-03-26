@@ -1,32 +1,40 @@
 import sys
-import os
+from functools import wraps
 
-from flask import Flask, jsonify, request
+from flask import Flask, jsonify, request, session, g
 
-from models import db
-from models.Account import Account
-from models.Category import Category
-from models.Privilege import Privilege
-from models.Product import Product
+# from sacarDatos import *
+import schemas
+from BackEnd.models import db
+from BackEnd.models.Account import Account
+from BackEnd.models.Category import Category
+from BackEnd.models.Privilege import Privilege
+from BackEnd.models.Product import Product
+from BackEnd.routes.auth import auth_bp
+from DB.funcionesProductos import *
+from DB.initDB import createDB
 
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
-from DB.initDB import createDB
-from DB.funcionesProductos import *
-
-#from sacarDatos import *
-import schemas
-
-global ruta_archivo_datos
 ruta_base_datos = os.path.join(os.path.dirname(os.path.abspath(__file__)), "../DB")
 ruta_archivo_datos = os.path.join(ruta_base_datos, "DropHive" + ".db")
 
 app = Flask(__name__)
-DB_NAME = "DropHive" + ".db"
-DB_PATH = os.path.join(os.path.dirname(os.path.abspath(__file__)), "../DB", DB_NAME)
-app.config["SQLALCHEMY_DATABASE_URI"] = f"sqlite:///{DB_PATH}"
+app.secret_key = "tu_clave_secreta"
+app.register_blueprint(auth_bp)
+app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///...db"
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 app.json.ensure_ascii = False
 db.init_app(app)
+
+
+def login_required(f):
+    @wraps(f)
+    def decorated_function(*args, **kwargs):
+        if "user" not in session:
+            return jsonify({"error": "No has iniciado sesión"}), 401
+        return f(*args, **kwargs)
+
+    return decorated_function
 
 
 @app.route("/")
@@ -50,6 +58,7 @@ def index():
 
 
 @app.route("/products")
+@login_required
 def get_products():
     try:
         return jsonify(get_all_values_from(Product)), 200, {'Content-Type': 'application/json; charset=utf-8'}
@@ -59,6 +68,7 @@ def get_products():
 
 
 @app.route("/privileges")
+@login_required
 def get_privileges():
     try:
         return jsonify(get_all_values_from(Privilege)), 200, {'Content-Type': 'application/json; charset=utf-8'}
@@ -68,6 +78,7 @@ def get_privileges():
 
 
 @app.route("/accounts")
+@login_required
 def get_accounts():
     try:
         return jsonify(get_all_values_from(Account)), 200, {'Content-Type': 'application/json; charset=utf-8'}
@@ -77,6 +88,7 @@ def get_accounts():
 
 
 @app.route("/category")
+@login_required
 def get_category():
     try:
         return jsonify(get_all_values_from(Category)), 200, {'Content-Type': 'application/json; charset=utf-8'}
@@ -86,20 +98,8 @@ def get_category():
 
 
 def get_all_values_from(model):
-    return [item.serialize() for item in model.query.all()]
+    return [item.serialize() for item in g.db_session.query(model).all()]
 
-
-@app.route("/login", methods=["POST"])
-def login():
-    data = request.get_json()
-    username = data.get("username")
-    password = data.get("password")
-    account = Account.query.filter_by(name=username, password=password).first()
-
-    if account:
-        return jsonify({"message": f"Bienvenido, {account.name}"}), 200
-    else:
-        return jsonify({"error": "Credenciales incorrectas"}), 401
 
 @app.route("/register", methods=["POST"])
 def register():
@@ -115,7 +115,8 @@ def register():
             return jsonify({"error": f"La empresa {user_data.name} ya existe."}), 401
         else:
             createDB(ruta_archivo_datos)
-            AddAccount(ruta_archivo_datos, user_data.name, user_data.mail, user_data.password, user_data.phone, user_data.description, user_data.address, user_data.privilege_id)
+            AddAccount(ruta_archivo_datos, user_data.name, user_data.mail, user_data.password, user_data.phone,
+                       user_data.description, user_data.address, user_data.privilege_id)
             return jsonify({"message": f"La empresa no existe."}), 200
     except Exception as e:
         return jsonify({"error": str(e)}), 500
@@ -128,11 +129,14 @@ def add_product():
         #name, price, description, category_id, discount, size, quantity = obtenerDatosProducto(data)
         product_data = schemas.ProductSchema(**data)
         global ruta_archivo_datos
-        valor_salida = AddProduct(ruta_archivo_datos, product_data.product_id, product_data.name, product_data.category_id, product_data.description, product_data.price, product_data.discount, product_data.size, product_data.quantity) # 0 en caso de que haya salido bien y 1 en caso contrario
+        valor_salida = AddProduct(ruta_archivo_datos, product_data.product_id, product_data.name,
+                                  product_data.category_id, product_data.description, product_data.price,
+                                  product_data.discount, product_data.size,
+                                  product_data.quantity)  # 0 en caso de que haya salido bien y 1 en caso contrario
         if valor_salida == 1:
             return jsonify({"error": "Error al añadir el producto."}), 400
         return jsonify({"message": "Producto añadido correctamente"}), 200
-    
+
     except Exception as e:
         return jsonify({"error": str(e)}), 500
 
@@ -153,6 +157,7 @@ def search_product():
         return jsonify(products), 200
     except Exception as e:
         return jsonify({"error": str(e)}), 500
+
 
 if __name__ == "__main__":
     app.run(debug=True, port=4000)
