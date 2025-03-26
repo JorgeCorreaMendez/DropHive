@@ -1,7 +1,9 @@
 import sys
 from functools import wraps
 
-from flask import Flask, jsonify, request, session, g
+from flask import Flask, jsonify, request, session
+from sqlalchemy import create_engine
+from sqlalchemy.orm import sessionmaker
 
 # from sacarDatos import *
 import schemas
@@ -57,48 +59,52 @@ def index():
     """
 
 
-@app.route("/products")
+@app.route("/<string:dbname>/products")
 @login_required
-def get_products():
+def get_products(dbname):
     try:
-        return jsonify(get_all_values_from(Product)), 200, {'Content-Type': 'application/json; charset=utf-8'}
+        return jsonify(get_all_values_from(Product, dbname)), 200, {'Content-Type': 'application/json; charset=utf-8'}
     except Exception as e:
         print(f"Error en /products: {e}")
         return jsonify({"error": "Error al obtener la lista de productos."}), 500
 
 
-@app.route("/privileges")
+@app.route("/<string:dbname>/privileges")
 @login_required
-def get_privileges():
+def get_privileges(dbname):
     try:
-        return jsonify(get_all_values_from(Privilege)), 200, {'Content-Type': 'application/json; charset=utf-8'}
+        return jsonify(get_all_values_from(Privilege, dbname)), 200, {'Content-Type': 'application/json; charset=utf-8'}
     except Exception as e:
         print(f"Error en /privileges: {e}")
         return jsonify({"error": "Error al obtener la lista de privilegios."}), 500
 
 
-@app.route("/accounts")
+@app.route("/<string:dbname>/accounts")
 @login_required
-def get_accounts():
+def get_accounts(dbname):
     try:
-        return jsonify(get_all_values_from(Account)), 200, {'Content-Type': 'application/json; charset=utf-8'}
+        return jsonify(get_all_values_from(Account, dbname)), 200, {'Content-Type': 'application/json; charset=utf-8'}
     except Exception as e:
         print(f"Error en /accounts: {e}")
         return jsonify({"error": "Error al obtener las cuentas."}), 500
 
 
-@app.route("/category")
+@app.route("/<string:dbname>/category")
 @login_required
-def get_category():
+def get_category(dbname):
     try:
-        return jsonify(get_all_values_from(Category)), 200, {'Content-Type': 'application/json; charset=utf-8'}
+        return jsonify(get_all_values_from(Category, dbname)), 200, {'Content-Type': 'application/json; charset=utf-8'}
     except Exception as e:
         print(f"Error en /category: {e}")
         return jsonify({"error": "Error al obtener las categorías."}), 500
 
 
-def get_all_values_from(model):
-    return [item.serialize() for item in g.db_session.query(model).all()]
+def get_all_values_from(model, dbname):
+    db_path = os.path.join(ruta_base_datos, dbname + ".db")
+    engine = create_engine(f"sqlite:///{db_path}")
+    Session = sessionmaker(bind=engine)
+    with Session() as db_session:
+        return [item.serialize() for item in db_session.query(model).all()]
 
 
 @app.route("/register", methods=["POST"])
