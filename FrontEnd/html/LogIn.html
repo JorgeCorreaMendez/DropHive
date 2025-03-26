@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>DropHive Login</title>
     <link rel="stylesheet" href="/FrontEnd/CSS/LogIn.css">
+    <script src="/FrontEnd/JavaScript/envioJsonLogIn.js"></script>
 </head>
 <body>
 <div class="container">
@@ -12,20 +13,24 @@
         <img src="/FrontEnd/Images/Logo_Drop_Hive.png" alt="Box Logo">
     </div>
     <div class="login-box">
+        <form id="LoginForm" action="">
         <div class="input-group">
-        <label for="username">Username:</label>
-        <input type="text" id="username">
+        <label for="username">Mail:</label>
+        <input type="text" id="mail" required>
         </div>
         <div class="input-group">
         <label for="password">Password:</label>
-        <input type="password" id="password">
+        <input type="password" id="password" required>
         </div>
         <div class="buttons">
-            <button class="sign-in">Sign up</button>
+            <button class="sign-in" type="submit">Sign up</button>
             <button class="help">Need help?</button>
             <button class="enter">Enter</button>
         </div>
+        </form>
     </div>
+
+    <div id="message"></div>
 </div>
 </body>
 </html>
