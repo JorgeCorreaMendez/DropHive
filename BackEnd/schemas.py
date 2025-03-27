@@ -1,6 +1,7 @@
 from pydantic import BaseModel, EmailStr, Field
 from typing import Optional
 
+# TODO. tiene sentido validar datos en el backend y no en el frontend?
 # Esquema para el registro de usuario
 class UserRegisterSchema(BaseModel):
     name: str = Field(..., min_length=2, max_length=50)
@@ -11,10 +12,12 @@ class UserRegisterSchema(BaseModel):
     address: Optional[str] = None
     privilege_id: Optional[int] = 1
 
+
 # Esquema para el inicio de sesión
 class UserLoginSchema(BaseModel):
     mail: EmailStr
     password: str = Field(..., min_length=6)
+
 
 # Esquema para agregar un producto
 class ProductSchema(BaseModel):

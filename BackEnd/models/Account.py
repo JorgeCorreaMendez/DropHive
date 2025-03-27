@@ -1,20 +1,21 @@
-from sqlalchemy import Integer, String, Text, ForeignKey
+from sqlalchemy import Integer, String, Text, ForeignKey, Column
 from sqlalchemy.orm import relationship
 
-from models import db
+from BackEnd.models import Base
 
-class Account(db.Model):
+
+class Account(Base):
     __tablename__ = 'accounts'
 
-    id = db.Column(Integer, primary_key=True, autoincrement=True)
-    name = db.Column(String, nullable=False)
-    mail = db.Column(String, unique=True, nullable=False)
-    password = db.Column(String, nullable=False)
-    phone = db.Column(Text)
-    description = db.Column(Text)
-    address = db.Column(Text)
+    id = Column(Integer, primary_key=True, autoincrement=True)
+    name = Column(String, nullable=False)
+    mail = Column(String, unique=True, nullable=False)
+    password = Column(String, nullable=False)
+    phone = Column(Text)
+    description = Column(Text)
+    address = Column(Text)
     privileges = relationship("Privilege", back_populates="account")
-    privilege_id = db.Column(Integer, ForeignKey('privileges.id'))
+    privilege_id = Column(Integer, ForeignKey('privileges.id'))
 
     def __str__(self):
         return "{}, {}, {}, {}, {}, {}, {}, {}, {}".format(

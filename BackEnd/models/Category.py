@@ -1,14 +1,14 @@
-from sqlalchemy import Integer, String, Text
+from sqlalchemy import Integer, String, Text, Column
 from sqlalchemy.orm import relationship
-from models import db
+from BackEnd.models import Base
 
 
-class Category(db.Model):
+class Category(Base):
     __tablename__ = 'categories'
 
-    id = db.Column(Integer, primary_key=True, autoincrement=True)
-    name = db.Column(String, nullable=False)
-    description = db.Column(Text)
+    id = Column(Integer, primary_key=True, autoincrement=True)
+    name = Column(String, nullable=False)
+    description = Column(Text)
     products = relationship("Product", back_populates="category")
 
     def __str__(self):

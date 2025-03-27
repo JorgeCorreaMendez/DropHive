@@ -1,14 +1,14 @@
-from sqlalchemy import Integer, String, Text
+from sqlalchemy import Integer, String, Text, Column
 from sqlalchemy.orm import relationship
-from models import db
+from BackEnd.models import Base
 
 
-class Privilege(db.Model):
+class Privilege(Base):
     __tablename__ = 'privileges'
 
-    id = db.Column(Integer, primary_key=True, autoincrement=True)
-    name = db.Column(String, nullable=False)
-    permissions = db.Column(Text)
+    id = Column(Integer, primary_key=True, autoincrement=True)
+    name = Column(String, nullable=False)
+    permissions = Column(Text)
     account = relationship("Account", back_populates="privileges")
 
     def __str__(self):
