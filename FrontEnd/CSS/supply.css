@@ -93,7 +93,6 @@ th:nth-child(5) { width: 20%; }
 @media (max-width: 768px) {
     body {
         flex-direction: column;
-        align-items: center;
         padding: 10px;
     }
 
@@ -116,6 +115,8 @@ th:nth-child(5) { width: 20%; }
         width: 100%;
         max-width: 100%;
         padding: 10px;
+        justify-content: center;
+        margin-left: 0;
     }
 
     table {

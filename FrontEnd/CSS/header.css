@@ -88,3 +88,37 @@ body {
     font-weight: bold;
     right: 10px;
 }
+
+@media (max-width: 768px) {
+    .header {
+        padding: 5px 10px;
+        gap: 5px; /* Reduce el espacio entre elementos */
+    }
+
+    .logo-img {
+        width: 60px; /* Hace el logo más pequeño */
+    }
+
+    .logo-section h1 {
+        font-size: 1.2em; /* Reduce el tamaño del texto */
+    }
+
+    .search-section {
+        width: 200px; /* Reduce la barra de búsqueda */
+        padding: 5px 8px;
+    }
+
+    .user-section {
+        gap: 10px; /* Reduce el espacio entre iconos */
+    }
+
+    .user-icon img {
+        width: 30px;
+        height: 30px;
+    }
+
+    .account-section {
+        gap: 5px;
+        font-size: 12px;
+    }
+}
