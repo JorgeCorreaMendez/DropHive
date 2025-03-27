@@ -30,10 +30,10 @@ def login():
     db_session = get_session(db_name)
 
     if not mail or not password:
-        return jsonify({"error": "Correo y contraseña son requeridos."}), 400
+        return jsonify({"message": "Correo y contraseña son requeridos."}), 400
 
     if db_session is None:
-        return jsonify({f"error": f"No se encontró la base de datos para {db_name}"}), 400
+        return jsonify({f"message": f"No se encontró la base de datos para {db_name}"}), 401
 
     try:
         account = db_session.query(Account).filter_by(mail=mail, password=password).first()
@@ -41,7 +41,7 @@ def login():
             session["user"] = account.name
             return jsonify({"message": f"Bienvenido, {account.name}"}), 200
         else:
-            return jsonify({"error": "Credenciales incorrectas"}), 401
+            return jsonify({"message": "Credenciales incorrectas"}), 402
     finally:
         db_session.close()
 
