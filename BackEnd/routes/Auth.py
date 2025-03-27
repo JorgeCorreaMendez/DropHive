@@ -39,7 +39,7 @@ def login():
         account = db_session.query(Account).filter_by(mail=mail, password=password).first()
         if account:
             session["user"] = account.name
-            return jsonify({"message": f"Bienvenido, {account.name}"}), 200
+            return jsonify({"message": f"Bienvenido, {account.name}", "db_name": f"{db_name}"}), 200
         else:
             return jsonify({"message": "Credenciales incorrectas"}), 402
     finally:

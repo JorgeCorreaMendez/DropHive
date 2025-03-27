@@ -22,6 +22,10 @@ app.json.ensure_ascii = False
 def index():
     return render_template("LogIn.html")
 
+@app.route("/<string:db_name>/home")
+def home(db_name):
+    return render_template("home.html")
+
 
 @app.route("/<string:dbname>/privileges")
 @login_required

@@ -24,6 +24,10 @@ document.addEventListener("DOMContentLoaded", function() {
             if (response.ok) {
                 const data = await response.json();
                 document.getElementById('message').innerHTML = data.message;
+                if(response.status === 200) {
+                    const db_name = data.db_name;
+                    window.location.href = `http://127.0.0.1:4000/${db_name}/home`
+                }
             } else {
                 const error = await response.json();
                 document.getElementById('message').innerHTML = error.message || "Ocurrió un error desconocido.";
