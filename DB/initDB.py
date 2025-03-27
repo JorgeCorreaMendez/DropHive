@@ -1,7 +1,7 @@
 import sqlite3 as sql
 import os
 
-#DB_PATH = os.path.abspath(os.path.dirname(__file__)) + '/DropHive.db'
+DB_PATH = os.path.abspath(os.path.dirname(__file__)) + '/DropHive.db'
 
 
 # TODO: APPI PUEDA CREAR BASE DE DATOS
@@ -66,10 +66,10 @@ def addValuesSample(path):
     ]
 
     accounts = [
-        ("Administrador", "admin@example.com",
+        ("Administrador", "admin@DropHive.com",
          "pbkdf2:sha256:150000$j3i32R78$528663f42787f02477271a493d7f53d1546925197b22882b6458944a8f117667",
          "+573161234567", "Administrador", "Calle 123, 456", 1),
-        ("Usuario", "user@example.com",
+        ("Usuario", "user@DropHive.com",
          "pbkdf2:sha256:150000$j3i32R78$528663f42787f02477271a493d7f53d1546925197b22882b6458944a8f11", "+573161234567",
          "Administrador", "Calle 123, 456", 1)
     ]
