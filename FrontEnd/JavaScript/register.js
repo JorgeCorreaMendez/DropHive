@@ -1,20 +1,18 @@
 document.addEventListener("DOMContentLoaded", function () {
-    console.log("Script cargado correctamente");
-
     // Si decides manejar la redirección manualmente, puedes escuchar el evento submit del formulario:
     const form = document.getElementById("registrationForm");
-    form.addEventListener("submit", function(event) {
-        event.preventDefault()
+    form.addEventListener("submit", function(e) {
+        e.preventDefault()
         // La validación ya se invoca con el onsubmit, pero aquí puedes redirigir si la validación fue exitosa.
         if (validateRegistrationForm()) {
             console.log("Validación exitosa, redirigiendo a: " + pageMap["submit"]);
             // Si no deseas que el formulario se envíe de forma tradicional, puedes prevenir el submit y redirigir manualmente:
-            event.preventDefault();
+            e.preventDefault();
             window.location.href = pageMap["submit"];
         } else {
             // La función de validación mostrará los errores y se previene el envío.
             console.log("Validación fallida, no se redirige");
-            event.preventDefault();
+            e.preventDefault();
         }
     });
 });
