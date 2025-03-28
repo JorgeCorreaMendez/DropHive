@@ -11,8 +11,6 @@ document.addEventListener("DOMContentLoaded", function () {
         "register-btn": "../html/register.html",
         "read-btn": "../html/Read_Article.html",
         "save-button": "../html/AddAndModifyCompany.html",
-
-
     };
 
     Object.keys(pageMap).forEach(id => {

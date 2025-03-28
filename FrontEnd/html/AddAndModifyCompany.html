@@ -3,19 +3,17 @@
 <head>
     <meta charset="UTF-8">
     <title>DropHive - Add Company</title>
-    <link rel="stylesheet" href="/FrontEnd/CSS/AddAndModifyCompany.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='CSS/AddAndModifyCompany.css') }}">
 </head>
 <body>
 
     <header class="header">
         <div class="logo-section">
-
             <img src="../Images/DropHive.png" alt="DropHive Logo" class="logo-img"/>
         </div>
 
         <div class="search-section">
             <input  aria-label="" type="text" placeholder="Search" />
-
             <span class="search-icon">🔍</span>
         </div>
 
@@ -26,7 +24,6 @@
                 <img src="../Images/avatar.jpg" alt="User Icon" />
             </div>
         </div>
-
     </header>
 
     <main>
