@@ -1,6 +1,10 @@
 import sqlite3 as sql
 import os
 
+from keras.src.preprocessing.text import hashing_trick
+
+from BackEnd.routes.hashing import creacion_hash
+
 DB_PATH = os.path.abspath(os.path.dirname(__file__)) + '/DropHive.db'
 
 
