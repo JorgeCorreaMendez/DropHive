@@ -4,9 +4,8 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>DropHive - Register</title>
-  <link rel="stylesheet" href="{{ url_for('static', filename='CSS/register.css') }}">
-  <script src="{{ url_for('static', filename='JavaScript/register.js') }}"></script>
-
+  <link rel="stylesheet" href="/FrontEnd/CSS/register.css">
+  <script src="/FrontEnd/JavaScript/register.js"></script>
 </head>
 <body>
   <div>
@@ -14,18 +13,18 @@
       <img src="/FrontEnd/Images/DropHive.png" alt="Logo">
     </div>
     <form id="registrationForm" onsubmit="return validateRegistrationForm();">
-    <div class="container">
-      <h2>Register</h2>
-      <input aria-label="" type="text" placeholder="Company*" name="Company" id="Company" required>
-      <input aria-label="" id="Email" type="email" name="Email"  placeholder="Email*" required>
-      <input aria-label="" type="password" name="password" id="password" placeholder="Password*" required>
-      <input aria-label="" type="password" name="confirm-password" id="confirm-password" placeholder="Confirm Password*" required>
-      <input aria-label="" type="tel" name="phone" id="phone" placeholder="Phone*" required>
-      <input aria-label="" type="text" name="direccion" id="direccion" placeholder="Dirección(opcional)">
-      <input aria-label="" type="text" name="descripcion" id="descripcion" placeholder="Descripción(opcional)">
-      <button id="submit" type="submit">Register</button>
-    </div>
-    </form>>
+      <div class="container">
+        <h2>Register</h2>
+        <input aria-label="" type="text" placeholder="Company*" name="Company" id="Company" required>
+        <input aria-label="" id="Email" type="email" name="Email"  placeholder="Email*" required>
+        <input aria-label="" type="password" name="password" id="password" placeholder="Password*" required>
+        <input aria-label="" type="password" name="confirm-password" id="confirm-password" placeholder="Confirm Password*" required>
+        <input aria-label="" type="tel" name="phone" id="phone" placeholder="Phone*" required>
+        <input aria-label="" type="text" name="direccion" id="direccion" placeholder="Dirección(opcional)">
+        <textarea aria-label="" name="descripcion" id="descripcion" placeholder="Descripción(opcional)"></textarea>
+        <button id="submit" type="submit">Register</button>
+      </div>
+    </form>
   </div>
 </body>
 </html>
