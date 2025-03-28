@@ -58,7 +58,7 @@ input{
 
 button {
     width: 80%;
-    margin: 2em;
+    margin: 2em 2em 0 2em;
     padding: 20px;
     font-size: 22px;
     background-color: #28a745;
@@ -72,4 +72,11 @@ button {
 
 button:hover {
     background-color: #218838;
+}
+
+#VolverLogIn {
+    background: none;
+    border-style: none;
+    color: black;
+    font-size: 15px;
 }

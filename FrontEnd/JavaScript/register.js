@@ -4,6 +4,7 @@ document.addEventListener("DOMContentLoaded", function () {
     // Si decides manejar la redirección manualmente, puedes escuchar el evento submit del formulario:
     const form = document.getElementById("registrationForm");
     form.addEventListener("submit", function(event) {
+        event.preventDefault()
         // La validación ya se invoca con el onsubmit, pero aquí puedes redirigir si la validación fue exitosa.
         if (validateRegistrationForm()) {
             console.log("Validación exitosa, redirigiendo a: " + pageMap["submit"]);
@@ -17,6 +18,13 @@ document.addEventListener("DOMContentLoaded", function () {
         }
     });
 });
+
+document.addEventListener('DOMContentLoaded', function () {
+    document.getElementById('VolverLogIn').addEventListener('click', function (e) {
+        e.preventDefault()
+        window.location.href = 'http://127.0.0.1:4000/login'
+    })
+})
 
 // Función para validar email
 function validateEmail(email) {
