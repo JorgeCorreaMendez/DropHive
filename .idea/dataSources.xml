@@ -8,5 +8,12 @@
       <jdbc-url>jdbc:sqlite:C:\Users\Usuario\PycharmProjects\DropHive\DB\DropHive.db</jdbc-url>
       <working-dir>$ProjectFileDir$</working-dir>
     </data-source>
+    <data-source source="LOCAL" name="DropHive [2]" uuid="06f7aaa0-d4c8-4dc8-b478-f70d56b29f22">
+      <driver-ref>sqlite.xerial</driver-ref>
+      <synchronize>true</synchronize>
+      <jdbc-driver>org.sqlite.JDBC</jdbc-driver>
+      <jdbc-url>jdbc:sqlite:C:\Users\David\WebstormProjects\DropHive\DB\DropHive.db</jdbc-url>
+      <working-dir>$ProjectFileDir$</working-dir>
+    </data-source>
   </component>
 </project>
