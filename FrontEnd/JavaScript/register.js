@@ -1,96 +1,105 @@
-document.addEventListener("DOMContentLoaded", function () {
-    // Si decides manejar la redirección manualmente, puedes escuchar el evento submit del formulario:
-    const form = document.getElementById("registrationForm");
-    form.addEventListener("submit", function(e) {
-        e.preventDefault()
-        // La validación ya se invoca con el onsubmit, pero aquí puedes redirigir si la validación fue exitosa.
-        if (validateRegistrationForm()) {
-            console.log("Validación exitosa, redirigiendo a: " + pageMap["submit"]);
-            // Si no deseas que el formulario se envíe de forma tradicional, puedes prevenir el submit y redirigir manualmente:
-            e.preventDefault();
-            window.location.href = pageMap["submit"];
-        } else {
-            // La función de validación mostrará los errores y se previene el envío.
-            console.log("Validación fallida, no se redirige");
-            e.preventDefault();
-        }
-    });
-});
+// Función para recuperar los datos del formulario
+function recuperarDatos() {
+    // Obtener valores de los campos del formulario
+    const name = document.getElementById('company').value.trim();
+    const email = document.getElementById('email').value.trim();
+    const password = document.getElementById('password').value;
+    const phone = document.getElementById('phone').value.trim();
+    const description = document.getElementById('descripcion').value.trim();
+    const address = document.getElementById('direccion').value.trim();
 
-document.addEventListener('DOMContentLoaded', function () {
-    document.getElementById('VolverLogIn').addEventListener('click', function (e) {
-        e.preventDefault()
-        window.location.href = 'http://127.0.0.1:4000/login'
-    })
-})
-
-// Función para validar email
-function validateEmail(email) {
-    const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    return re.test(email);
+    // Crear objeto con los datos
+    return {
+        name: name,
+        mail: email,
+        password: password,
+        phone: phone || null,
+        description: description || null,
+        address: address || null
+    }; // Devuelve el objeto directamente (no stringify)
 }
 
-// Función para validar teléfono
-function validatePhone(phone) {
-    const re = /^\+?\d{7,15}$/;
-    return re.test(phone);
-}
-
-// Función de validación del formulario
+// Función para validar el formulario
 function validateRegistrationForm() {
-    // Se usan los ID actualizados para acceder a los elementos
-    const nameField = document.getElementById("Company");
-    const email = document.getElementById("Email");
-    const password = document.getElementById("password");
-    const repeatPassword = document.getElementById("confirm-password");
-    const phone = document.getElementById("phone");
-    let isValid = true;
-    let errors = [];
+    const errors = [];
+    const data = recuperarDatos();
+    const email = document.getElementById('email').value.trim();
+    let db_name = "";
+    if (email.includes("@") && email.includes(".")) {
+        db_name = email.split('@')[1].split('.')[0].toLowerCase();
+    }
+
+    // Validar campo nombre
+    if (!data.name) {
+        errors.push("El nombre debe tener al menos 2 caracteres");
+    }
 
     // Validar email
-    if (!email || email.value.trim() === "") {
-        isValid = false;
-        errors.push("El email es obligatorio.");
-    } else if (!validateEmail(email.value.trim())) {
-        isValid = false;
-        errors.push("El formato del email no es válido.");
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(data.mail)) {
+        errors.push("Por favor ingrese un email válido");
     }
 
     // Validar contraseña
-    if (!password || password.value.trim() === "") {
-        isValid = false;
-        errors.push("La contraseña es obligatoria.");
-    } else if (password.value.trim().length < 8) {
-        isValid = false;
-        errors.push("La contraseña debe tener al menos 8 caracteres.");
+    if (!data.password) {
+        errors.push("La contraseña debe tener al menos 8 caracteres");
     }
 
-    // Validar que la confirmación de la contraseña coincida
-    if (!repeatPassword || repeatPassword.value.trim() === "") {
-        isValid = false;
-        errors.push("Debes repetir la contraseña.");
-    } else if (password.value.trim() !== repeatPassword.value.trim()) {
-        isValid = false;
-        errors.push("Las contraseñas no coinciden.");
+    // Validar coincidencia nombre empresa con dominio email
+    if (data.name.toLowerCase() !== db_name) {
+        errors.push("El nombre debe coincidir con el dominio del email (antes de @)");
     }
 
-    // Validar nombre (Company)
-    if (!nameField || nameField.value.trim() === "") {
-        isValid = false;
-        errors.push("El nombre es obligatorio.");
+    // Mostrar errores si existen
+    if (errors.length > 0) {
+        document.getElementById('message').innerHTML = errors.join("<br>");
+        document.getElementById('message').style.color = "red";
+        return false;
     }
 
-    // Validar teléfono (si es obligatorio, de lo contrario, omite esta validación)
-    if (!phone || phone.value.trim() === "") {
-        isValid = false;
-        errors.push("El número de teléfono es obligatorio.");
-    } else if (!validatePhone(phone.value.trim())) {
-        isValid = false;
-        errors.push("El número de teléfono no es válido.");
-    }
-
-    if (!isValid) {
-        alert(errors.join("\n"));
-    }
-    return isValid;
+    return true;
 }
+
+// Función principal para manejar el registro
+document.addEventListener("DOMContentLoaded", function() {
+    document.getElementById('registrationForm').addEventListener('submit', async function(event) {
+        event.preventDefault();
+
+        if (!validateRegistrationForm()) {
+            return;
+        }
+
+        const registerData = recuperarDatos();
+
+        try {
+            const response = await fetch('http://127.0.0.1:4000/register', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(registerData) // Aquí se convierte a JSON
+            });
+
+            const result = await response.json();
+            
+            if (response.ok) {
+                console.log("Entra aqui");
+                
+                if (response.status === 200) {
+                    window.location.href = `http://127.0.0.1:4000/login`;
+                }
+            } else {
+                document.getElementById('message').innerHTML = result.message || "Error en el registro";
+                document.getElementById('message').style.color = "red";
+            }
+        } catch (error) {
+            console.error("Error:", error);
+        }
+    });
+
+    // Botón para volver al login
+    document.getElementById('VolverLogIn').addEventListener('click', function(e) {
+        e.preventDefault();
+        window.location.href = 'http://127.0.0.1:4000/login';
+    });
+});
