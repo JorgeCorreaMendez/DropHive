@@ -1,6 +1,6 @@
 import os
 
-from flask import Flask, jsonify, render_template
+from flask import Flask, jsonify, render_template, session, redirect, url_for
 
 from BackEnd.DB_utils import get_all_values_from
 from BackEnd.models.Account import Account
@@ -20,12 +20,18 @@ app.json.ensure_ascii = False
 
 @app.route("/")
 def index():
-    return render_template("LogIn.html")
+    if "user_id" in session:
+        return redirect(url_for("home"))
+    else:
+        return redirect(url_for("login"))
 
 @app.route("/<string:db_name>/home")
 def home(db_name):
     return render_template("home.html")
 
+@app.route("/login")
+def login():
+    return render_template("LogIn.html")
 
 @app.route("/<string:dbname>/privileges")
 @login_required
