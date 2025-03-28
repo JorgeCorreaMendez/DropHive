@@ -8,16 +8,17 @@ from BackEnd import schemas
 from BackEnd.models import Base
 from BackEnd.models.Account import Account
 from BackEnd.DB_utils import DB_PATH
+from BackEnd.routes.hashing import creacion_hash
 
 registro_bp = Blueprint("registro", __name__)
 
 
 # TODO: split en el html
 def register_company(user_data):
-    db_name = str(user_data.mail).split("@")[1]
+    db_name = str(user_data.mail).split("@")[1].split(".")[0]
     db_path = os.path.join(DB_PATH, f"{db_name}.db")
     if os.path.exists(db_path):
-        return False, f"La empresa {user_data.name} ya existe."
+        return False, f"La empresa {db_name} ya existe."
 
     engine = create_engine(f"sqlite:///{db_path}")
     Base.metadata.create_all(engine)
@@ -26,7 +27,7 @@ def register_company(user_data):
         new_account = Account(
             name=user_data.name,
             mail=user_data.mail,
-            password=user_data.password,
+            password=creacion_hash(user_data.password),
             phone=user_data.phone,
             description=user_data.description,
             address=user_data.address,
@@ -35,7 +36,7 @@ def register_company(user_data):
         db_session.add(new_account)
         db_session.commit()
 
-    return True, f"Company {user_data.name} registered successfully."
+    return True, f"Company {db_name} registered successfully."
 
 
 @registro_bp.route("/register", methods=["POST"])
