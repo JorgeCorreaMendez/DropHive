@@ -3,3 +3,4 @@ Flask-SQLAlchemy==3.0.3
 pydantic==2.10.6
 pydantic[email]
 pytest-mock
+bcrypt

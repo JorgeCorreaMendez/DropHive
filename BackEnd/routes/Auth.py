@@ -8,6 +8,7 @@ from sqlalchemy.orm import sessionmaker
 
 from BackEnd.DB_utils import DB_PATH
 from BackEnd.models.Account import Account
+import hashing
 
 auth_bp = Blueprint("auth", __name__)
 
@@ -33,13 +34,17 @@ def login():
         return jsonify({"message": "Correo y contraseña son requeridos."}), 400
 
     if db_session is None:
-        return jsonify({f"message": f"No se encontró la base de datos para {db_name}"}), 401
+        return jsonify({"message": f"No se encontró la base de datos para {db_name}"}), 401
 
     try:
-        account = db_session.query(Account).filter_by(mail=mail, password=password).first()
+        account = db_session.query(Account).filter_by(mail=mail).first()
         if account:
-            session["user"] = account.name
-            return jsonify({"message": f"Bienvenido, {account.name}", "db_name": f"{db_name}"}), 200
+            # Verificar la contraseña con el hash almacenado
+            if hashing.verificar_hash(password, account.password.encode('utf-8')):
+                session["user"] = account.name
+                return jsonify({"message": f"Bienvenido, {account.name}", "db_name": f"{db_name}"}), 200
+            else:
+                return jsonify({"message": "Credenciales incorrectas"}), 402
         else:
             return jsonify({"message": "Credenciales incorrectas"}), 402
     finally:
