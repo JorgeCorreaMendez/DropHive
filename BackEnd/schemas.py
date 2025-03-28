@@ -6,7 +6,7 @@ from typing import Optional
 class UserRegisterSchema(BaseModel):
     name: str = Field(..., min_length=2, max_length=50)
     mail: EmailStr
-    password: str = Field(..., min_length=6)
+    password: str = Field(..., min_length=2)
     phone: Optional[str] = None
     description: Optional[str] = None
     address: Optional[str] = None

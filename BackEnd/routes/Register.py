@@ -15,7 +15,7 @@ registro_bp = Blueprint("registro", __name__)
 
 # TODO: split en el html
 def register_company(user_data):
-    db_name = str(user_data.mail).split("@")[1].split(".")[0]
+    db_name = user_data.name
     db_path = os.path.join(DB_PATH, f"{db_name}.db")
     if os.path.exists(db_path):
         return False, f"La empresa {db_name} ya existe."
@@ -44,10 +44,11 @@ def register():
     try:
         data = request.get_json()
         user_data = schemas.UserRegisterSchema(**data)
+        print(user_data)
         success, message = register_company(user_data)
         if not success:
             return jsonify({"error": message}), 409
-        return jsonify({"message": message}), 201
+        return jsonify({"message": message}), 200
     except Exception as e:
         return jsonify({"error": str(e)}), 500
 
