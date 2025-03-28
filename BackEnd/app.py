@@ -1,7 +1,6 @@
 import os
 
 from flask import Flask, render_template, session, redirect, url_for, send_file
-from werkzeug.utils import send_from_directory
 
 from BackEnd.routes.Accounts import accounts_bp
 from BackEnd.routes.Auth import auth_bp
@@ -9,7 +8,6 @@ from BackEnd.routes.Category import categories_bp
 from BackEnd.routes.Privilege import privileges_bp
 from BackEnd.routes.Product import products_bp
 from BackEnd.routes.Register import registro_bp
-
 from pathlib import Path
 
 app = Flask(__name__, template_folder="../FrontEnd/html", static_folder="../FrontEnd")
@@ -20,6 +18,7 @@ app.register_blueprint(products_bp)
 app.register_blueprint(privileges_bp)
 app.register_blueprint(accounts_bp)
 app.register_blueprint(categories_bp)
+app.config['APPLICATION_ROOT'] = '/'
 app.json.ensure_ascii = False
 
 
