@@ -20,7 +20,7 @@ main {
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
 
-.save-button {
+#save-btn2 {
     background-color: #4caf50;
     color: white;
     border: none;

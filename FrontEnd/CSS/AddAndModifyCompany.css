@@ -174,7 +174,7 @@ textarea {
     resize: none;
 }
 
-.save-button {
+#save-btn1 {
     background-color: green;
     color: white;
     padding: 10px 15px;

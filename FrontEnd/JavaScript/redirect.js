@@ -10,7 +10,14 @@ document.addEventListener("DOMContentLoaded", function () {
         "history-btn": "../html/log.html",
         "register-btn": "../html/register.html",
         "read-btn": "../html/Read_Article.html",
-        "save-button": "../html/AddAndModifyCompany.html",
+        "save-btn1": "../html/readCompany.html",
+        "save-btn2": "../html/categoryPage.html",
+        "add-btn": "../html/AddAndModifyCategory.html",
+        "modify-btn": "../html/AddAndModifyCategory.html",
+        "save-btn3": "../html/profile.html",
+        "default-btn": "../html/modifyAccount.html",
+
+
     };
 
     Object.keys(pageMap).forEach(id => {

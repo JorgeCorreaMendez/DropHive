@@ -50,11 +50,21 @@ main {
     border-radius: 5px;
 }
 
-#add-button {
-    background-color: #bcbcbc;
+#add-btn {
+    margin-top: 10px;
+    background-color: #d9d9d9;
+    color: black;
     border: none;
     cursor: pointer;
     padding: 10px 15px;
     border-radius: 5px;
-
 }
+#modify-btn {
+    margin-top: 10px;
+     background-color: #d9d9d9;
+     color: black;
+     border: none;
+     cursor: pointer;
+     padding: 10px 15px;
+     border-radius: 5px;
+ }

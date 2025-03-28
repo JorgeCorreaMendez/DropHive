@@ -1,6 +1,6 @@
 import os
 
-from flask import Blueprint, request, jsonify
+from flask import Blueprint, request, jsonify, render_template
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 
@@ -49,3 +49,8 @@ def register():
         return jsonify({"message": message}), 201
     except Exception as e:
         return jsonify({"error": str(e)}), 500
+
+
+@registro_bp.route("/register")
+def mostrar_register():
+    return render_template('register.html')

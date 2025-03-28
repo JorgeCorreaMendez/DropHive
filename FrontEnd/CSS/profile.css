@@ -49,7 +49,7 @@ button {
 }
 
 /* Ejemplo de estilos para botones */
-.btn-default {
+#default-btn {
     background-color: #e2e2e2;
     color: #000;
 }
