@@ -9,7 +9,10 @@ document.addEventListener("DOMContentLoaded", function () {
         "show-category-btn": "../html/addAndModifyCategory.html",
         "history-btn": "../html/log.html",
         "register-btn": "../html/register.html",
-        "read-btn": "../html/Read_Article.html"
+        "read-btn": "../html/Read_Article.html",
+        "save-button": "../html/AddAndModifyCompany.html",
+
+
     };
 
     Object.keys(pageMap).forEach(id => {
