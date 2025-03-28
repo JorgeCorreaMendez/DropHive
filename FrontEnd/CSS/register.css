@@ -4,11 +4,9 @@ body {
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    height: 100vh;
     font-family: Arial, sans-serif;
     margin: 0;
 }
-
 
 
 .image-container img {
@@ -21,12 +19,12 @@ body {
 
 .container {
     background: white;
-    padding: 60px;
+    margin: auto;
     border-radius: 30px;
     box-shadow: 10px 10px 20px rgba(0, 0, 0, 0.2);
     text-align: center;
     width: 100%;
-    max-width: 600px;
+    min-width: 25em;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -38,22 +36,29 @@ h2 {
 
 input{
     display: block;
-    width: 100%;
+    width: 70%;
+    margin: 1em;
     padding: 18px;
-    font-size: 20px;
-    margin: 15px 0;
+    font-size: 15px;
     border: 2px solid #ccc;
     border-radius: 10px;
 }
 
 #descripcion{
+    display: block;
+    width: 70%;
+    margin: 1em;
+    padding: 18px;
+    font-size: 15px;
+    border: 2px solid #ccc;
+    border-radius: 10px;
     height: 120px;
 
 }
 
-
 button {
-    width: 110%;
+    width: 80%;
+    margin: 2em;
     padding: 20px;
     font-size: 22px;
     background-color: #28a745;
@@ -61,7 +66,6 @@ button {
     border: none;
     border-radius: 10px;
     cursor: pointer;
-    margin-top: 20px;
     font-weight: bold;
     display: block;
 }
