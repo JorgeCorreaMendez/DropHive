@@ -3,15 +3,15 @@
 <head>
     <meta charset="UTF-8">
     <title>DropHive</title>
-    <link rel="stylesheet" href="/FrontEnd/CSS/profile.css">
-    <script src="/FrontEnd/JavaScript/redirect.js"></script>
+    <link rel="stylesheet" href="{{ url_for('static', filename='CSS/profile.css') }}">
+    <script src="{{ url_for('static', filename='JavaScript/redirect.js') }}"></script>
 </head>
 <body>
 <!-- Encabezado superior con el logo y botones de modificar/eliminar -->
 <header class="top-bar">
     <div class="logo-container">
         <!-- Reemplaza la ruta con tu logo real -->
-        <img src="../Images/DropHive.png" alt="DropHive Logo" class="logo-img">
+        <img src="{{ url_for('static', filename='Images/DropHive.png') }}" alt="DropHive Logo" class="logo-img">
     </div>
 
     <div class="store-buttons">

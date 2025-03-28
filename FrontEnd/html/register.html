@@ -4,13 +4,13 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>DropHive - Register</title>
-  <link rel="stylesheet" href="/FrontEnd/CSS/register.css">
-  <script src="/FrontEnd/JavaScript/register.js"></script>
+  <link rel="stylesheet" href="{{ url_for('static', filename='CSS/register.css') }}">
+  <script src="{{ url_for('static', filename='JavaScript/register.js') }}"></script>
 </head>
 <body>
   <div>
     <div class="image-container">
-      <img src="/FrontEnd/Images/DropHive.png" alt="Logo">
+      <img src="{{ url_for('static', filename='Images/DropHive.png') }}" alt="Logo">
     </div>
     <form id="registrationForm" onsubmit="return validateRegistrationForm();">
       <div class="container">
