@@ -8,7 +8,7 @@ from sqlalchemy.orm import sessionmaker
 
 from BackEnd.DB_utils import DB_PATH
 from BackEnd.models.Account import Account
-import hashing
+from BackEnd.routes import hashing
 
 auth_bp = Blueprint("auth", __name__)
 
@@ -40,7 +40,7 @@ def login():
         account = db_session.query(Account).filter_by(mail=mail).first()
         if account:
             # Verificar la contraseña con el hash almacenado
-            if hashing.verificar_hash(password, account.password.encode('utf-8')):
+            if hashing.verificar_hash(password, account.password):
                 session["user"] = account.name
                 return jsonify({"message": f"Bienvenido, {account.name}", "db_name": f"{db_name}"}), 200
             else:

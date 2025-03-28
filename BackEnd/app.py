@@ -1,12 +1,11 @@
 import os
 
-from flask import Flask, jsonify, render_template, session, redirect, url_for
+from flask import Flask, render_template, session, redirect, url_for
 
-from BackEnd.DB_utils import get_all_values_from
-from BackEnd.models.Account import Account
-from BackEnd.models.Category import Category
-from BackEnd.models.Privilege import Privilege
-from BackEnd.routes.Auth import auth_bp, login_required
+from BackEnd.routes.Accounts import accounts_bp
+from BackEnd.routes.Auth import auth_bp
+from BackEnd.routes.Category import categories_bp
+from BackEnd.routes.Privilege import privileges_bp
 from BackEnd.routes.Product import products_bp
 from BackEnd.routes.Register import registro_bp
 
@@ -15,6 +14,9 @@ app.secret_key = os.getenv("test", "1234")
 app.register_blueprint(auth_bp)
 app.register_blueprint(registro_bp)
 app.register_blueprint(products_bp)
+app.register_blueprint(privileges_bp)
+app.register_blueprint(accounts_bp)
+app.register_blueprint(categories_bp)
 app.json.ensure_ascii = False
 
 
@@ -25,42 +27,15 @@ def index():
     else:
         return redirect(url_for("login"))
 
+
 @app.route("/<string:db_name>/home")
 def home(db_name):
     return render_template("home.html")
 
+
 @app.route("/login")
 def login():
     return render_template("LogIn.html")
-
-@app.route("/<string:dbname>/privileges")
-@login_required
-def get_privileges(dbname):
-    try:
-        return jsonify(get_all_values_from(Privilege, dbname)), 200, {'Content-Type': 'application/json; charset=utf-8'}
-    except Exception as e:
-        print(f"Error en /privileges: {e}")
-        return jsonify({"error": "Error al obtener la lista de privilegios."}), 500
-
-
-@app.route("/<string:dbname>/accounts")
-@login_required
-def get_accounts(dbname):
-    try:
-        return jsonify(get_all_values_from(Account, dbname)), 200, {'Content-Type': 'application/json; charset=utf-8'}
-    except Exception as e:
-        print(f"Error en /accounts: {e}")
-        return jsonify({"error": "Error al obtener las cuentas."}), 500
-
-
-@app.route("/<string:dbname>/category")
-@login_required
-def get_category(dbname):
-    try:
-        return jsonify(get_all_values_from(Category, dbname)), 200, {'Content-Type': 'application/json; charset=utf-8'}
-    except Exception as e:
-        print(f"Error en /category: {e}")
-        return jsonify({"error": "Error al obtener las categorías."}), 500
 
 
 if __name__ == "__main__":
