@@ -1,7 +1,7 @@
 import os
 from functools import wraps
 
-from flask import Blueprint
+from flask import Blueprint, redirect, url_for
 from flask import request, jsonify, session
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
@@ -61,7 +61,7 @@ def login_required(f):
     @wraps(f)
     def decorated_function(*args, **kwargs):
         if "user" not in session:
-            return jsonify({"error": "No has iniciado sesión"}), 401
+            return redirect(url_for("login"))
         return f(*args, **kwargs)
 
     return decorated_function

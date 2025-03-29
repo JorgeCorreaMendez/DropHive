@@ -3,7 +3,7 @@ import os
 from flask import Flask, render_template, session, redirect, url_for, send_file
 
 from BackEnd.routes.Accounts import accounts_bp
-from BackEnd.routes.Auth import auth_bp
+from BackEnd.routes.Auth import auth_bp, login_required
 from BackEnd.routes.Category import categories_bp
 from BackEnd.routes.Privilege import privileges_bp
 from BackEnd.routes.Product import products_bp
@@ -24,13 +24,15 @@ app.json.ensure_ascii = False
 
 @app.route("/")
 def index():
-    if "user_id" in session:
+    print(session.values())
+    if "adidas" in session:
         return redirect(url_for("home"))
     else:
         return redirect(url_for("login"))
 
 
 @app.route("/<string:db_name>/home")
+@login_required
 def home(db_name):
     return render_template("home.html")
 
