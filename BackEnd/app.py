@@ -55,6 +55,41 @@ def servir_header_parcial(template_name):
 def login():
     return render_template("LogIn.html")
 
+@app.route("/<string:db_name>/addAndModifyCategory")
+def add_and_modify_category(db_name):
+    return render_template("addAndModifyCategory.html")
+
+@app.route("/<string:db_name>/addAndModifyCompany")
+def add_and_modify_company(db_name):
+    return render_template("AddAndModifyCompany.html")
+
+@app.route("/<string:db_name>/addEmployee")
+def add_employee(db_name):
+    return render_template("addEmployee.html")
+
+@app.route("/<string:db_name>/categoryPage")
+def category_page(db_name):
+    return render_template("categoryPage.html")
+
+@app.route("/<string:db_name>/createItem")
+def create_item(db_name):
+    return render_template("CreateItem.html")
+
+@app.route("/<string:db_name>/log")
+def log(db_name):
+    return render_template("log.html")
+
+@app.route("/<string:db_name>/modifyAccount")
+def modify_account(db_name):
+    return render_template("modifyAccount.html")
+
+@app.route("/<string:db_name>/notifications")
+def notifications(db_name):
+    return render_template("notifications.html")
+
+@app.route("/<string:db_name>/profile")
+def profile(db_name):
+    return render_template("profile.html")
 
 if __name__ == "__main__":
     app.run(debug=True, port=4000)
