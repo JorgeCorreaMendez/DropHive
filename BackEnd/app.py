@@ -91,5 +91,21 @@ def notifications(db_name):
 def profile(db_name):
     return render_template("profile.html")
 
+@app.route("/<string:db_name>/readArticle")
+def read_article(db_name):
+    return render_template("Read_Article.html")
+
+@app.route("/<string:db_name>/readCompany")
+def read_company(db_name):
+    return render_template("readCompany.html")
+
+@app.route("/<string:db_name>/supply")
+def supply(db_name):
+    return render_template("supply.html")
+
+@app.route("/<string:db_name>/viewEmployeeAction")
+def view_employee_action(db_name):
+    return render_template("ViewEmployeeAction.html")
+
 if __name__ == "__main__":
     app.run(debug=True, port=4000)
