@@ -8,27 +8,8 @@
     <script src="{{ url_for('static', filename='JavaScript/redirect.js') }}"></script>
 </head>
 <body>
-
-    <header class="header">
-        <div class="logo-section">
-
-            <img src="../Images/DropHive.png" alt="DropHive Logo" class="logo-img"/>
-        </div>
-
-        <div class="search-section">
-            <input  aria-label="" type="text" placeholder="Search" />
-
-            <span class="search-icon">🔍</span>
-        </div>
-
-        <div class="user-section">
-            <span>Your Store</span>
-            <a href="#">Log out</a>
-            <div class="user-icon">
-                <img src="../Images/avatar.jpg" alt="User Icon" />
-            </div>
-        </div>
-
+    <header>
+        {% include 'header.html' %}
     </header>
 
     <main>

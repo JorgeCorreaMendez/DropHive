@@ -36,21 +36,6 @@ def index():
 def home(db_name):
     return render_template("home.html")
 
-
-@app.route('/templates/<template_name>')
-def servir_header_parcial(template_name):
-    template = os.path.join(app.template_folder, template_name)
-    template2 = Path(template)
-
-    try:
-        # Verificación de seguridad básica
-        if not template_name.endswith('.html'):
-            template_name += '.html'
-
-        return send_file(template2)
-    except Exception as e:
-        return f"Error al cargar el template: {str(e)}", 404
-
 @app.route("/login")
 def login():
     return render_template("LogIn.html")

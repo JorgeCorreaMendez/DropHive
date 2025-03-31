@@ -9,18 +9,8 @@
 
 <!-- Barra superior con logo y usuario -->
 
-<header class="top-bar">
-
-  <div class="logo-section">
-    <img src="{{ url_for('static', filename='Images/DropHive.png') }}" alt="DropHive Logo" class="logo-img">
-  </div>
-
-  <div class="user-section">
-    <div class="user-icon">
-
-      <img src="/FrontEnd/Images/avatar.jpg" alt="User icon">
-    </div>
-  </div>
+<header>
+  {% include 'header.html' %}
 </header>
 
 <!-- Contenedor principal que simula la “pantalla” gris -->
