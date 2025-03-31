@@ -1,6 +1,8 @@
 import os
+import random
 
-from flask import Flask, render_template, session, redirect, url_for
+from flask import Flask, render_template, session, redirect, url_for, jsonify
+from flask_mail import Mail, Message
 
 from BackEnd.routes.Accounts import accounts_bp
 from BackEnd.routes.Auth import auth_bp, login_required
@@ -10,7 +12,7 @@ from BackEnd.routes.Product import products_bp
 from BackEnd.routes.Register import registro_bp
 
 app = Flask(__name__, template_folder="../FrontEnd/html", static_folder="../FrontEnd")
-app.secret_key = os.getenv("test", "1234")
+app.secret_key = os.getenv("secret_key")
 app.register_blueprint(auth_bp)
 app.register_blueprint(registro_bp)
 app.register_blueprint(products_bp)
@@ -19,6 +21,31 @@ app.register_blueprint(accounts_bp)
 app.register_blueprint(categories_bp)
 app.config['APPLICATION_ROOT'] = '/'
 app.json.ensure_ascii = False
+
+app.config['MAIL_SERVER'] = 'smtp.gmail.com'
+app.config['MAIL_PORT'] = 587
+app.config['MAIL_USE_TLS'] = True
+app.config['MAIL_USE_SSL'] = False
+app.config['MAIL_USERNAME'] = os.getenv("MAIL_USERNAME")
+app.config['MAIL_PASSWORD'] = os.getenv("MAIL_PASSWORD")
+
+mail = Mail(app)
+
+
+@app.route("/send_verification_code/<string:email>", methods=["GET"])
+def send_verification_code(email):
+    try:
+        verification_code = ''.join([str(random.randint(0, 9)) for _ in range(6)])
+
+        msg = Message(subject="Código de Verificación - DropHive",
+                      sender="jorgecorreame@gmail.com",
+                      recipients=[email])
+        msg.body = f"Tu código de verificación es: {verification_code}"
+        mail.send(msg)
+
+        return jsonify({"message": "Código de verificación enviado correctamente."}), 200
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
 
 
 @app.route("/")
