@@ -1,10 +1,11 @@
 from flask import Blueprint, jsonify
 
-from BackEnd.DB_utils import get_all_values_from
+from BackEnd.utils.DB_utils import get_all_values_from
 from BackEnd.models.Category import Category
 from BackEnd.routes.Auth import login_required
 
 categories_bp = Blueprint("categories_bp", __name__)
+
 
 @categories_bp.route("/<string:dbname>/categories")
 @login_required

@@ -7,8 +7,8 @@ from sqlalchemy.orm import sessionmaker
 from BackEnd import schemas
 from BackEnd.models import Base
 from BackEnd.models.Account import Account
-from BackEnd.DB_utils import DB_PATH
-from BackEnd.routes.hashing import creacion_hash
+from BackEnd.utils.DB_utils import DB_PATH
+from BackEnd.utils.hashing import create_hash
 
 registro_bp = Blueprint("registro", __name__)
 
@@ -27,7 +27,7 @@ def register_company(user_data):
         new_account = Account(
             name=user_data.name,
             mail=user_data.mail,
-            password=creacion_hash(user_data.password),
+            password=create_hash(user_data.password),
             phone=user_data.phone,
             description=user_data.description,
             address=user_data.address,

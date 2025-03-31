@@ -1,6 +1,6 @@
 from flask import Blueprint, jsonify
 
-from BackEnd.DB_utils import get_all_values_from
+from BackEnd.utils.DB_utils import get_all_values_from
 from BackEnd.models.Privilege import Privilege
 from BackEnd.routes.Auth import login_required
 

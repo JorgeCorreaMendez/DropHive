@@ -1,11 +1,10 @@
 import sqlite3 as sql
 import os
-from BackEnd.routes.hashing import creacion_hash
+from BackEnd.utils.hashing import create_hash
 
 DB_PATH = os.path.abspath(os.path.dirname(__file__)) + '/DropHive.db'
 
 
-# TODO: APPI PUEDA CREAR BASE DE DATOS
 def createDB(path):
     conn = sql.connect(path)
     cursor = conn.cursor()
@@ -68,10 +67,10 @@ def addValuesSample(path):
 
     accounts = [
         ("Administrador", "admin@DropHive.com",
-         creacion_hash("1234"),
+         create_hash("1234"),
          "+573161234567", "Administrador", "Calle 123, 456", 1),
         ("Usuario", "user@DropHive.com",
-         creacion_hash("user"), "+573161234567",
+         create_hash("user"), "+573161234567",
          "Administrador", "Calle 123, 456", 1)
     ]
 
@@ -91,7 +90,7 @@ def addValuesSample(path):
         """INSERT INTO accounts (name, mail, password, phone, description, address, privilege_id) VALUES (?, ?, ?, ?, ?, ?, ?)""",
         accounts)
     cursor.executemany("""INSERT INTO privileges (name, permissions) VALUES (?, ?)""",
-        privileges)
+                       privileges)
 
     conn.commit()
     conn.close()
