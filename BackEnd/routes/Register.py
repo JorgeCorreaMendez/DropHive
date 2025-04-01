@@ -10,6 +10,8 @@ from BackEnd.models.Account import Account
 from BackEnd.utils.DB_utils import DB_PATH
 from BackEnd.utils.hashing import create_hash
 
+from DB.CreacionBaseDatosCuentas import add_cuenta_nueva
+
 registro_bp = Blueprint("registro", __name__)
 
 
@@ -19,6 +21,7 @@ def register_company(user_data):
     db_path = os.path.join(DB_PATH, f"{db_name}.db")
     if os.path.exists(db_path):
         return False, f"La empresa {db_name} ya existe."
+
 
     engine = create_engine(f"sqlite:///{db_path}")
     Base.metadata.create_all(engine)
@@ -35,6 +38,8 @@ def register_company(user_data):
         )
         db_session.add(new_account)
         db_session.commit()
+
+    add_cuenta_nueva(user_data.mail, db_name)
 
     return True, f"Company {db_name} registered successfully."
 

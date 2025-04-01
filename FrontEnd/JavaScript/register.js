@@ -45,11 +45,6 @@ function validateRegistrationForm() {
         errors.push("La contraseña debe tener al menos 8 caracteres");
     }
 
-    // Validar coincidencia nombre empresa con dominio email
-    if (data.name.toLowerCase() !== db_name) {
-        errors.push("El nombre debe coincidir con el dominio del email (antes de @)");
-    }
-
     // Mostrar errores si existen
     if (errors.length > 0) {
         document.getElementById('message').innerHTML = errors.join("<br>");

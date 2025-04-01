@@ -10,7 +10,7 @@ from BackEnd.utils.DB_utils import DB_PATH
 from BackEnd.models.Account import Account
 from BackEnd.utils.hashing import verify_hash
 
-from DB.CreacionBaseDatosCuentas import DB_PATH_USUARIOS, search_cuenta, add_cuenta_nueva
+from DB.CreacionBaseDatosCuentas import search_cuenta
 
 auth_bp = Blueprint("auth", __name__)
 
