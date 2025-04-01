@@ -18,7 +18,6 @@ def create_db_cuentas():
     conn.commit()
     conn.close()
 
-
 def search_cuenta(correo):
     global DB_PATH_USUARIOS
 
@@ -48,4 +47,53 @@ def add_cuenta_nueva(correo, db_name):
 
     return estado
 
+def eliminar_cuenta(mail):
+    global DB_PATH_USUARIOS
 
+    conn = sql.connect(DB_PATH_USUARIOS)
+    cursor = conn.cursor()
+    estado = True
+
+    try:
+        cursor.execute('''DELETE FROM Usuarios WHERE correo = (?)''', (mail,))
+        conn.commit()
+    except sql.Error as e:
+        print('Error %s' % e)
+        estado = False
+    finally:
+        conn.close()
+
+    return estado
+
+def eliminar_cuentas_db(db_name):
+    global DB_PATH_USUARIOS
+
+    conn = sql.connect(DB_PATH_USUARIOS)
+    cursor = conn.cursor()
+    estado = True
+
+    try:
+        cursor.execute('''DELETE FROM Usuarios WHERE db_name = (?)''', (db_name,))
+        conn.commit()
+    except sql.Error as e:
+        print('Error %s' % e)
+        estado = False
+    finally:
+        conn.close()
+
+    return estado
+
+def eliminar_db(db_name):
+    global DB_PATH_USUARIOS
+    DB_PATH = os.path.join(os.path.dirname(DB_PATH_USUARIOS), db_name + '.db')
+    if os.path.exists(DB_PATH):
+        os.remove(DB_PATH)
+        print("Se han eliminado correctamente")
+        eliminar_cuentas_db('DropHive')
+        return True
+    else:
+        print("No se ha podido eliminar la base de datos")
+        return False
+
+if __name__ == '__main__':
+    eliminar_db('DropHive')
