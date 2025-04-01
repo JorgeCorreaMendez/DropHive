@@ -79,7 +79,6 @@ document.addEventListener("DOMContentLoaded", function() {
                 },
                 body: JSON.stringify(registerData) // Aquí se convierte a JSON
             });
-
             const result = await response.json();
             
             if (response.ok) {
