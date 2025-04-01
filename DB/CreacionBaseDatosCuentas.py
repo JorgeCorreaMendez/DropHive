@@ -48,8 +48,4 @@ def add_cuenta_nueva(correo, db_name):
 
     return estado
 
-if __name__ == '__main__':
-    create_db_cuentas()
-    add_cuenta_nueva('admin@DropHive.com', 'DropHive')
-    add_cuenta_nueva('user@DropHive.com', 'DropHive')
 
