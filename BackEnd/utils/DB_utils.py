@@ -3,7 +3,7 @@ import os
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 
-DB_PATH = os.path.join(os.path.dirname(os.path.abspath(__file__)), "../DB")
+DB_PATH = os.path.join(os.path.dirname(os.path.abspath(__file__)), "../../DB")
 
 
 def get_all_values_from(model, dbname):

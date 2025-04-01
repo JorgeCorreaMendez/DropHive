@@ -10,11 +10,14 @@ from BackEnd.utils.DB_utils import DB_PATH
 from BackEnd.models.Account import Account
 from BackEnd.utils.hashing import verify_hash
 
+from DB.CreacionBaseDatosCuentas import DB_PATH_USUARIOS, search_cuenta, add_cuenta_nueva
+
 auth_bp = Blueprint("auth", __name__)
 
 
 def get_session(db_name):
     db_path = os.path.join(DB_PATH, f"{db_name}.db")
+    print(db_path)
     if not os.path.exists(db_path):
         return None
     engine = create_engine(f"sqlite:///{db_path}")
@@ -27,7 +30,10 @@ def login():
     data = request.get_json()
     mail = data.get("mail")
     password = data.get("password")
-    db_name = str(mail).split("@")[1].split(".")[0]
+    db_name = search_cuenta(mail)
+    if not db_name:
+        return jsonify({"message": "No se encontrado"})
+    print("La base de datos es:", db_name)
     db_session = get_session(db_name)
 
     if not mail or not password:
@@ -43,9 +49,9 @@ def login():
                 session["user"] = account.name
                 return jsonify({"message": f"Bienvenido, {account.name}", "db_name": f"{db_name}"}), 200
             else:
-                return jsonify({"message": "Credenciales incorrectas"}), 402
+                return jsonify({"message": "Credenciales incorrectas"}), 401
         else:
-            return jsonify({"message": "Credenciales incorrectas"}), 402
+            return jsonify({"message": "Credenciales incorrectas"}), 401
     finally:
         db_session.close()
 

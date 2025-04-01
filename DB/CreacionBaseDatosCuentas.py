@@ -2,12 +2,12 @@ import sqlite3 as sql
 import os
 
 
-global DB_PATH
-DB_PATH= os.path.abspath(os.path.dirname(__file__)) + '/Redireccion.db'
+global DB_PATH_USUARIOS
+DB_PATH_USUARIOS= os.path.abspath(os.path.dirname(__file__)) + '/Redireccion.db'
 
 def create_db_cuentas():
-    global DB_PATH
-    conn = sql.connect(DB_PATH)
+    global DB_PATH_USUARIOS
+    conn = sql.connect(DB_PATH_USUARIOS)
     cursor = conn.cursor()
 
     cursor.execute('''CREATE TABLE IF NOT EXISTS Usuarios
@@ -18,10 +18,11 @@ def create_db_cuentas():
     conn.commit()
     conn.close()
 
-def search_cuenta_nueva(correo):
-    global DB_PATH
 
-    conn = sql.connect(DB_PATH)
+def search_cuenta(correo):
+    global DB_PATH_USUARIOS
+
+    conn = sql.connect(DB_PATH_USUARIOS)
     cursor = conn.cursor()
 
     cursor.execute('''SELECT db_name FROM Usuarios WHERE correo = ?''', (str(correo),))
@@ -32,8 +33,8 @@ def search_cuenta_nueva(correo):
     return db[0] if db else None
 
 def add_cuenta_nueva(correo, db_name):
-    global DB_PATH
-    conn = sql.connect(DB_PATH)
+    global DB_PATH_USUARIOS
+    conn = sql.connect(DB_PATH_USUARIOS)
     cursor = conn.cursor()
     estado = True
     try:
@@ -46,4 +47,9 @@ def add_cuenta_nueva(correo, db_name):
         conn.close()
 
     return estado
+
+if __name__ == '__main__':
+    create_db_cuentas()
+    add_cuenta_nueva('admin@DropHive.com', 'DropHive')
+    add_cuenta_nueva('user@DropHive.com', 'DropHive')
 
