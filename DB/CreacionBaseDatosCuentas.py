@@ -89,11 +89,11 @@ def eliminar_db(db_name):
     if os.path.exists(DB_PATH):
         os.remove(DB_PATH)
         print("Se han eliminado correctamente")
-        eliminar_cuentas_db('DropHive')
+        eliminar_cuentas_db(db_name)
         return True
     else:
         print("No se ha podido eliminar la base de datos")
         return False
 
 if __name__ == '__main__':
-    eliminar_db('adidas')
+    eliminar_db('Company')
