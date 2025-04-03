@@ -24,6 +24,7 @@ function validateRegistrationForm() {
     const errors = [];
     const data = recuperarDatos();
     const email = document.getElementById('email').value.trim();
+    const confirm_password = document.getElementById('confirm-password').value;
     let db_name = "";
     if (email.includes("@") && email.includes(".")) {
         db_name = email.split('@')[1].split('.')[0].toLowerCase();
@@ -41,14 +42,18 @@ function validateRegistrationForm() {
     }
 
     // Validar contraseña
-    if (!data.password) {
+    if (!data.password || (data.password.length < 8)) {
         errors.push("La contraseña debe tener al menos 8 caracteres");
+    }
+
+    if (data.password !== confirm_password) {
+        errors.push("Ambas contraseñas deben coincidir.")
     }
 
     // Mostrar errores si existen
     if (errors.length > 0) {
-        document.getElementById('message').innerHTML = errors.join("<br>");
-        document.getElementById('message').style.color = "red";
+        const mensaje = errors.join("<br>");
+        alert(mensaje);
         return false;
     }
 

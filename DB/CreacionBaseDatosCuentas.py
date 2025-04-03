@@ -96,4 +96,4 @@ def eliminar_db(db_name):
         return False
 
 if __name__ == '__main__':
-    eliminar_db('DropHive')
+    eliminar_db('adidas')

@@ -80,10 +80,11 @@ button {
     cursor: pointer;
     background: blue;
     color: white;
+    transition: 0.2s;
 }
 
 button:hover {
-    background-color: #218838;
+    transform: scale(1.05);
 }
 
 #VolverLogIn {

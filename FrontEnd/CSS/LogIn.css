@@ -72,6 +72,11 @@ button {
     border-radius: 5px;
     cursor: pointer;
 }
+
+button:hover {
+    transform: scale(1.05);
+}
+
 .sign-in {
     background: #ccc;
 }
