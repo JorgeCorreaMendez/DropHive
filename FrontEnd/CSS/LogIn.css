@@ -6,6 +6,7 @@ body {
     margin: 0;
     font-family: Arial, serif;
 }
+
 .login-container {
     background-color: #d3d3d3;
     padding: 40px;
@@ -19,6 +20,7 @@ body {
     height: 200px;
     margin-left: 10px;
 }
+
 .login-box {
     background: white;
     padding: 20px;
