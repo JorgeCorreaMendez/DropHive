@@ -13,53 +13,49 @@
   {% include 'header.html' %}
 </header>
 
-<div class="log-sidebar left-sidebar">
-  <button id="supplier-btn">Supplier Management</button>
-  <div class="filter">
-    <label>Filter</label>
-    <select><option>Name</option></select>
-    <select><option>Category</option></select>
-    <select><option>Supplier</option></select>
-    <select><option>Price</option></select>
-    <select><option>Quantity available</option></select>
-  </div>
-</div>
+<main>
 
-<div class="product-table">
-  <div class="table-header">
-    <span>Company Name</span>
-    <span>Item Name</span>
-    <span>Category</span>
-    <span>Retail Price</span>
-    <span>Supply Cost</span>
-    <span>ID</span>
+  <div class="log-sidebar left-sidebar">
+    <button id="supplier-btn">Supplier Management</button>
+    <div class="filter">
+      <label>Filter</label>
+      <select><option>Name</option></select>
+      <select><option>Category</option></select>
+      <select><option>Supplier</option></select>
+      <select><option>Price</option></select>
+      <select><option>Quantity available</option></select>
+    </div>
   </div>
 
-  <div class="product">
-    <span>Nike</span>
-    <span>Dunk Low</span>
-    <span>Streetwear</span>
-    <span>0001</span>
-    <span>0001</span>
-    <span>0001</span>
-  </div>
-</div>
+  <div class="product-table">
+    <div class="table-header">
+      <span>Company Name</span>
+      <span>Item Name</span>
+      <span>Category</span>
+      <span>Retail Price</span>
+      <span>Supply Cost</span>
+      <span>ID</span>
+    </div>
 
-<div class="log-sidebar right-sidebar">
-  <button id="notification-btn"> 🔔 Notifications</button>
-  <button id="add-item-btn">Add Item</button>
-  <button id="add-company-btn">Add Company</button>
-  <button id="show-category-btn">Show all Category</button>
-  <button id="history-btn">History</button>
-  <button id="read-btn">Show Article</button>
-
-  <div class="legend">
-    <h4>Legend</h4>
-    <div><span class="color-box red"></span> Out of Stock</div>
-    <div><span class="color-box blue"></span> Discount</div>
-    <div><span class="color-box orange"></span> Multi-item</div>
+    <div class="product"></div>
   </div>
-</div>
+
+  <div class="log-sidebar right-sidebar">
+    <button id="notification-btn"> 🔔 Notifications</button>
+    <button id="add-item-btn">Add Item</button>
+    <button id="add-company-btn">Add Company</button>
+    <button id="show-category-btn">Show all Category</button>
+    <button id="history-btn">History</button>
+    <button id="read-btn">Show Article</button>
+
+    <div class="legend">
+      <h4>Legend</h4>
+      <div><span class="color-box red"></span> Out of Stock</div>
+      <div><span class="color-box blue"></span> Discount</div>
+      <div><span class="color-box orange"></span> Multi-item</div>
+    </div>
+  </div>
+</main>
 </body>
 </html>
 
