@@ -57,6 +57,7 @@ def change_password():
     if "verification_code" not in session:
         return jsonify({"error": "Código de verificación no encontrado o expirado."}), 400
     if session["verification_code"] == data.get("code"):
+        email = data.get("mail")
         new_password = data.get("password")
         try:
             with get_db_session("DropHive") as db:
