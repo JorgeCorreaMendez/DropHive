@@ -3,60 +3,98 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Drop Hive</title>
-  <link rel="stylesheet" href="{{ url_for('static', filename='CSS/Style.css') }}">
-  <script src="{{ url_for('static', filename='JavaScript/header.js') }}"></script>
+  <title>DropHive</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="icon" href="{{ url_for('static', filename='Images/LogoSoloCaja.ico') }}" type="image/x-icon">
 </head>
-<body>
+<body class="bg-white">
+    <!-- Header -->
+    {% include 'header.html' %}
 
-<header>
-  {% include 'header.html' %}
-</header>
+    <!-- Contenedor principal -->
+    <div class="flex bg-[#D9D9D9] max-h-screen flex-1 gap-[20px] items-start m-[20px] rounded-[50px]">
+        <!-- Aside izquierdo (Filtros) -->
+        <aside class="w-1/4 bg-[#EDEDED] p-4 m-[25px] rounded-[20px]">
+            <h2 class="text-lg font-semibold">Filtros</h2>
+            <label class="block mt-2">Mostrar:
+                <select class="mt-1 p-2 w-full border rounded">
+                    <option>5</option>
+                    <option>10</option>
+                    <option>20</option>
+                </select>
+            </label>
+        </aside>
 
-<main>
+        <!-- Contenido principal (Tabla) -->
+        <main class="w-1/2 p-4 bg-[#EDEDED] m-[25px] rounded-[20px]">
+            <table class="w-full rounded border-separate border-spacing-y-[10px] border-spacing-x-[5px]">
+                <thead class="no-background thead-line">
+                    <tr>
+                        <th class="p-2 rounded-[5px]">ID</th>
+                        <th class="p-2 rounded-[5px]">Nombre</th>
+                        <th class="p-2 rounded-[5px]">Categoría</th>
+                        <th class="p-2 rounded-[5px]">Cantidad</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr class="bg-[#D9D9D9] gap-[5px]">
+                        <td class="p-2 rounded-[5px]">1</td>
+                        <td class="p-2 rounded-[5px]">Ejemplo 1</td>
+                        <td class="p-2 rounded-[5px]">A</td>
+                        <td class="p-2 rounded-[5px]">10</td>
+                    </tr>
+                    <tr class="bg-[#D9D9D9] gap-[5px]">
+                        <td class="p-2 rounded-[5px]">2</td>
+                        <td class="p-2 rounded-[5px]">Ejemplo 2</td>
+                        <td class="p-2 rounded-[5px]">B</td>
+                        <td class="p-2 rounded-[5px]">5</td>
+                    </tr>
+                    <tr class="bg-[#D9D9D9] gap-[5px]">
+                        <td class="p-2 rounded-[5px]">3</td>
+                        <td class="p-2 rounded-[5px]">Ejemplo 3</td>
+                        <td class="p-2 rounded-[5px]">A</td>
+                        <td class="p-2 rounded-[5px]">8</td>
+                    </tr>
+                    <tr class="bg-[#D9D9D9] gap-[5px]">
+                        <td class="p-2 rounded-[5px]">4</td>
+                        <td class="p-2 rounded-[5px]">Ejemplo 4</td>
+                        <td class="p-2 rounded-[5px]">C</td>
+                        <td class="p-2 rounded-[5px]">3</td>
+                    </tr>
+                    <tr class="bg-[#D9D9D9] gap-[5px]">
+                        <td class="p-2 rounded-[5px]">5</td>
+                        <td class="p-2 rounded-[5px]">Ejemplo 5</td>
+                        <td class="p-2 rounded-[5px]">B</td>
+                        <td class="p-2 rounded-[5px]">12</td>
+                    </tr>
+                </tbody>
+            </table>
+        </main>
 
-  <div class="log-sidebar left-sidebar">
-    <button id="supplier-btn">Supplier Management</button>
-    <div class="filter">
-      <label>Filter</label>
-      <select><option>Name</option></select>
-      <select><option>Category</option></select>
-      <select><option>Supplier</option></select>
-      <select><option>Price</option></select>
-      <select><option>Quantity available</option></select>
+        <!-- Aside derecho (Navegación) -->
+        <aside class="w-1/4 p-4 m-[25px] flex flex-col gap-[50px]">
+          <div class="bg-[#EDEDED] flex justify-center items-center bg-gray-100 rounded-[20px] p-5">
+            <button class="mt-2 w-full bg-[#D9D9D9] text-black p-2 rounded flex justify-center items-center gap-[10px]">
+              Notifications
+              <img class="h-[20px] fill-white" src="{{ url_for('static', filename='Images/Campana.svg') }}" alt="Imagen de reinicio"/>
+            </button>
+          </div>
+          <div class="bg-[#EDEDED] flex flex-col justify-center items-center bg-gray-100 rounded-[20px] p-5">
+            <h2 class="text-lg font-semibold">Navegación</h2>
+            <button class="mt-2 w-full bg-[#8DC96A] text-black p-2 rounded">Add Item</button>
+            <button class="mt-2 w-full bg-[#8DC96A] text-black p-2 rounded">Add Company</button>
+            <button class="mt-2 w-full bg-[#D9D9D9] text-black p-2 rounded">Show All Category</button>
+            <button class="mt-2 w-full bg-[#D9D9D9] text-black p-2 rounded flex justify-center items-center gap-[10px]">History
+              <img class="h-[20px] fill-white" src="{{ url_for('static', filename='Images/Lupa.svg') }}" alt="Imagen de reinicio"/>
+            </button>
+          </div>
+        </aside>
     </div>
-  </div>
-
-  <div class="product-table">
-    <div class="table-header">
-      <span>Company Name</span>
-      <span>Item Name</span>
-      <span>Category</span>
-      <span>Retail Price</span>
-      <span>Supply Cost</span>
-      <span>ID</span>
-    </div>
-
-    <div class="product"></div>
-  </div>
-
-  <div class="log-sidebar right-sidebar">
-    <button id="notification-btn"> 🔔 Notifications</button>
-    <button id="add-item-btn">Add Item</button>
-    <button id="add-company-btn">Add Company</button>
-    <button id="show-category-btn">Show all Category</button>
-    <button id="history-btn">History</button>
-    <button id="read-btn">Show Article</button>
-
-    <div class="legend">
-      <h4>Legend</h4>
-      <div><span class="color-box red"></span> Out of Stock</div>
-      <div><span class="color-box blue"></span> Discount</div>
-      <div><span class="color-box orange"></span> Multi-item</div>
-    </div>
-  </div>
-</main>
 </body>
 </html>
 
-
+<style>
+  .thead-line {
+    box-shadow: 0 1px 0 0 black;
+  }
+</style>
