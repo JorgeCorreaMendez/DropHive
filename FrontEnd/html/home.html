@@ -14,7 +14,7 @@
     <!-- Contenedor principal -->
     <div class="flex bg-[#D9D9D9] max-h-screen flex-1 gap-[20px] items-start m-[20px] rounded-[50px]">
         <!-- Aside izquierdo (Filtros) -->
-        <aside class="w-1/4 bg-[#EDEDED] p-4 m-[25px] rounded-[20px]">
+        <aside class="w-1/6 bg-[#EDEDED] p-4 m-[25px] rounded-[20px]">
             <h2 class="text-lg font-semibold">Filtros</h2>
             <label class="block mt-2">Mostrar:
                 <select class="mt-1 p-2 w-full border rounded">
@@ -26,45 +26,51 @@
         </aside>
 
         <!-- Contenido principal (Tabla) -->
-        <main class="w-1/2 p-4 bg-[#EDEDED] m-[25px] rounded-[20px]">
+        <main class="w-2/3 p-4 bg-[#EDEDED] m-[25px] rounded-[20px]">
             <table class="w-full rounded border-separate border-spacing-y-[10px] border-spacing-x-[5px]">
                 <thead class="no-background thead-line">
                     <tr>
                         <th class="p-2 rounded-[5px]">ID</th>
                         <th class="p-2 rounded-[5px]">Nombre</th>
                         <th class="p-2 rounded-[5px]">Categoría</th>
+                        <th class="p-2 rounded-[5px]">Precio Venta</th>
                         <th class="p-2 rounded-[5px]">Cantidad</th>
                     </tr>
                 </thead>
                 <tbody>
-                    <tr class="bg-[#D9D9D9] gap-[5px]">
+                    <tr class="bg-[#D9D9D9] gap-[5px] text-center">
                         <td class="p-2 rounded-[5px]">1</td>
                         <td class="p-2 rounded-[5px]">Ejemplo 1</td>
                         <td class="p-2 rounded-[5px]">A</td>
                         <td class="p-2 rounded-[5px]">10</td>
+                        <td class="p-2 rounded-[5px]">10</td>
                     </tr>
-                    <tr class="bg-[#D9D9D9] gap-[5px]">
+                    <tr class="bg-[#D9D9D9] gap-[5px] text-center">
                         <td class="p-2 rounded-[5px]">2</td>
                         <td class="p-2 rounded-[5px]">Ejemplo 2</td>
                         <td class="p-2 rounded-[5px]">B</td>
                         <td class="p-2 rounded-[5px]">5</td>
+                        <td class="p-2 rounded-[5px]">5</td>
                     </tr>
-                    <tr class="bg-[#D9D9D9] gap-[5px]">
+                    <tr class="bg-[#D9D9D9] gap-[5px] text-center">
                         <td class="p-2 rounded-[5px]">3</td>
                         <td class="p-2 rounded-[5px]">Ejemplo 3</td>
                         <td class="p-2 rounded-[5px]">A</td>
                         <td class="p-2 rounded-[5px]">8</td>
+                        <td class="p-2 rounded-[5px]">8</td>
                     </tr>
-                    <tr class="bg-[#D9D9D9] gap-[5px]">
+                    <tr class="bg-[#D9D9D9] gap-[5px] text-center">
                         <td class="p-2 rounded-[5px]">4</td>
                         <td class="p-2 rounded-[5px]">Ejemplo 4</td>
                         <td class="p-2 rounded-[5px]">C</td>
                         <td class="p-2 rounded-[5px]">3</td>
+                        <td class="p-2 rounded-[5px]">3</td>
                     </tr>
-                    <tr class="bg-[#D9D9D9] gap-[5px]">
+                    <tr class="bg-[#D9D9D9] gap-[5px] text-center">
                         <td class="p-2 rounded-[5px]">5</td>
                         <td class="p-2 rounded-[5px]">Ejemplo 5</td>
                         <td class="p-2 rounded-[5px]">B</td>
+                        <td class="p-2 rounded-[5px]">12</td>
                         <td class="p-2 rounded-[5px]">12</td>
                     </tr>
                 </tbody>
@@ -72,7 +78,7 @@
         </main>
 
         <!-- Aside derecho (Navegación) -->
-        <aside class="w-1/4 p-4 m-[25px] flex flex-col gap-[50px]">
+        <aside class="w-1/6 p-4 m-[25px] flex flex-col gap-[50px]">
           <div class="bg-[#EDEDED] flex justify-center items-center bg-gray-100 rounded-[20px] p-5">
             <button class="mt-2 w-full bg-[#D9D9D9] text-black p-2 rounded flex justify-center items-center gap-[10px]">
               Notifications
