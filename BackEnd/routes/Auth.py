@@ -1,8 +1,7 @@
 import os
 from functools import wraps
 
-from flask import Blueprint, redirect, url_for
-from flask import request, jsonify, session
+from flask import request, jsonify, session, Blueprint, redirect, url_for
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 

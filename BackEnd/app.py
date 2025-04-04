@@ -1,18 +1,21 @@
 import os
 import random
 
-from flask import Flask, render_template, session, redirect, url_for, jsonify
+from flask import Flask, render_template, session, redirect, url_for, jsonify, request
 from flask_mail import Mail, Message
 
+from BackEnd.models.Account import Account
 from BackEnd.routes.Accounts import accounts_bp
 from BackEnd.routes.Auth import auth_bp, login_required
 from BackEnd.routes.Category import categories_bp
 from BackEnd.routes.Privilege import privileges_bp
 from BackEnd.routes.Product import products_bp
 from BackEnd.routes.Register import registro_bp
+from BackEnd.utils.DB_utils import get_db_session
+from BackEnd.utils.hashing import create_hash
 
 app = Flask(__name__, template_folder="../FrontEnd/html", static_folder="../FrontEnd")
-app.secret_key = os.getenv("secret_key")
+app.secret_key = os.getenv("secret_key", "12")
 app.register_blueprint(auth_bp)
 app.register_blueprint(registro_bp)
 app.register_blueprint(products_bp)
@@ -42,10 +45,33 @@ def send_verification_code(email):
                       recipients=[email])
         msg.body = f"Tu código de verificación es: {verification_code}"
         mail.send(msg)
-
+        session["verification_code"] = verification_code
         return jsonify({"message": "Código de verificación enviado correctamente."}), 200
     except Exception as e:
         return jsonify({"error": str(e)}), 500
+
+
+@app.route("/change_password", methods=["POST"])
+def change_password():
+    data = request.get_json()
+    if "verification_code" not in session:
+        return jsonify({"error": "Código de verificación no encontrado o expirado."}), 400
+    if session["verification_code"] == data.get("code"):
+        new_password = data.get("password")
+        try:
+            with get_db_session("DropHive") as db:
+                account = db.query(Account).filter_by(mail=email).first()
+                if account:
+                    account.password = create_hash(new_password)
+                    db.commit()
+                    session.pop("verification_code")
+                    return jsonify({"message": "Contraseña actualizada correctamente."}), 200
+                else:
+                    return jsonify({"error": "Correo electrónico no encontrado."}), 404
+        except Exception as e:
+            return jsonify({"error": str(e)}), 500
+    else:
+        return jsonify({"error": "El código de validación no es correcto"}), 400
 
 
 @app.route("/")
