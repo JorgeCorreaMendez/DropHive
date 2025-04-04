@@ -5,6 +5,7 @@ body {
     height: 100vh;
     margin: 0;
     font-family: Arial, serif;
+    transition: background-color 0.3s ease;
 }
 .login-container {
     background-color: #d3d3d3;
@@ -70,12 +71,22 @@ button {
     border-radius: 5px;
     cursor: pointer;
 }
-.sign-in {
-    background: #ccc;
+
+#sign-in:hover{
+    background-color: #999 !important;
 }
+
+.help:hover{
+        background-color: #999;
+}
+
 .enter {
     background: blue;
     color: white;
+}
+
+.enter:hover {
+    background-color: #000080;
 }
 
 @media (min-width: 600px) {
