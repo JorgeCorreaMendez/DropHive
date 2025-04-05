@@ -1,60 +1,66 @@
 // Función asincrónica que se ejecuta cuando el DOM está listo
-async function initPagination(paginasTotales) {
-  let currentPage = 1;
-  const totalPages = paginasTotales; // Esto debería ser dinámico según la respuesta de la API
-  const pageNumberElement = document.getElementById('page-number');
-  const prevButton = document.getElementById('prev-button');
-  const nextButton = document.getElementById('next-button');
 
-  // Simula la llamada a la API para obtener los datos
-  await fetchInventoryData();
+/*TODO:
+  Hay que revisar que los productos se actualicen bien cuando hay un gran número de elementos.
+  Hay que actualizar el recuperarProductos para que muestre el número de productos según se dice en el selector.
+ */
+async function initPagination(total_productos) {
+    // Número total de artículos (esto debería ser el resultado de tu llamada a la API)
+    const totalItems = total_productos; // Ejemplo: 100 artículos
 
-  // Función para hacer la llamada a la API
-  async function fetchInventoryData() {
-    try {
-      const response = await fetch('https://api.example.com/inventory'); // Cambia esta URL por la real
-      const data = await response.json();
+    // Obtener el valor seleccionado en el select
+    const itemsPerPageSelect = document.getElementById('items-per-page');
+    let itemsPerPage = parseInt(itemsPerPageSelect.value, 10); // Obtener el valor seleccionado
 
-      // Aquí procesas los datos obtenidos de la API
-      console.log(data); // Solo para ver la respuesta en consola
+    // Calcular el número de páginas
+    let totalPages = Math.ceil(totalItems / itemsPerPage);
 
-      // Suponiendo que la respuesta tenga un campo `totalItems` que te indica el total de artículos
-      const totalItems = data.totalItems || 100; // Cambia según la estructura de tu API
-      totalPages = Math.ceil(totalItems / 10); // Suponiendo que tienes 10 artículos por página
+    // Mostrar el número total de páginas (puedes hacer algo con esto más tarde)
+    console.log(`Total de páginas: ${totalPages}`);
 
-      console.log(`Total de páginas: ${totalPages}`);
-    } catch (error) {
-      console.error('Error al obtener los datos:', error);
+    // Inicializar la paginación con las páginas correctas
+    let currentPage = 1; // Página actual
+
+    // Elementos de la paginación
+    const pageNumberElement = document.getElementById('page-number');
+    const prevButton = document.getElementById('prev-button');
+    const nextButton = document.getElementById('next-button');
+
+    // Mostrar la página inicial
+    updatePage();
+
+    // Función para actualizar la página mostrada
+    function updatePage() {
+        pageNumberElement.textContent = currentPage;
+
+        // Deshabilitar botones si estamos en la primera o última página
+        prevButton.disabled = currentPage === 1;
+        nextButton.disabled = currentPage === totalPages;
     }
-  }
 
-  // Función para actualizar la página mostrada
-  function updatePage() {
-    pageNumberElement.textContent = currentPage;
+    // Botón de la página anterior
+    prevButton.addEventListener('click', () => {
+        if (currentPage > 1) {
+            currentPage--;
+            updatePage();
+        }
+    });
 
-    // Deshabilitar botones si estamos en la primera o última página
-    prevButton.disabled = currentPage === 1;
-    nextButton.disabled = currentPage === totalPages;
-  }
+    // Botón de la página siguiente
+    nextButton.addEventListener('click', () => {
+        if (currentPage < totalPages) {
+            currentPage++;
+            updatePage();
+        }
+    });
 
-  // Botón de la página anterior
-  prevButton.addEventListener('click', () => {
-    if (currentPage > 1) {
-      currentPage--;
-      updatePage();
-    }
-  });
-
-  // Botón de la página siguiente
-  nextButton.addEventListener('click', () => {
-    if (currentPage < totalPages) {
-      currentPage++;
-      updatePage();
-    }
-  });
-
-  // Inicializar la página
-  updatePage();
+    // Cuando cambie el valor del select, recalcular y actualizar la paginación
+    itemsPerPageSelect.addEventListener('change', () => {
+        itemsPerPage = parseInt(itemsPerPageSelect.value, 10);
+        totalPages = Math.ceil(totalItems / itemsPerPage); // Recálculo de páginas
+        currentPage = 1; // Resetear a la primera página
+        updatePage();
+    });
 }
 
 async function recuperarProductos() {
@@ -120,6 +126,8 @@ async function recuperarProductos() {
           tableBody.appendChild(row);
         })
 
+        return data.length
+
     } catch (error) {
         console.error('Hubo un error al hacer la solicitud:', error);
     }
@@ -127,6 +135,6 @@ async function recuperarProductos() {
 
 // Llamamos a la función cuando el DOM está cargado
 document.addEventListener('DOMContentLoaded', async () => {
-  recuperarProductos().then();
-  await initPagination(5); // Ejecuta la paginación después de obtener los datos de la API
+  let total_productos = recuperarProductos().then();
+  await initPagination(total_productos); // Ejecuta la paginación después de obtener los datos de la API
 });
