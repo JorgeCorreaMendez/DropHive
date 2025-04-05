@@ -12,27 +12,73 @@
     {% include 'header.html' %}
 
     <!-- Contenedor principal -->
-    <div class="flex bg-[#D9D9D9] max-h-screen flex-1 gap-[20px] items-start m-[20px] rounded-[50px]">
+    <div class="flex bg-[#D9D9D9] flex-1 gap-[10px] items-start m-[20px] rounded-[50px]">
         <!-- Aside izquierdo (Filtros) -->
-        <aside class="w-1/6 bg-[#EDEDED] p-4 m-[25px] rounded-[20px]">
-            <h2 class="text-lg font-semibold">Filtros</h2>
-            <label class="block mt-2">Mostrar:
-                <select class="mt-1 p-2 w-full border rounded">
-                    <option>5</option>
-                    <option>10</option>
-                    <option>20</option>
-                </select>
-            </label>
+        <aside class="w-1/6 p-4 m-[10px] mt-[25px] flex flex-col gap-[50px]">
+            <div class="bg-[#EDEDED] flex justify-center items-center bg-gray-100 rounded-[20px] p-5">
+                <button class="mt-2 w-full bg-[#D9D9D9] text-black p-2 rounded flex justify-center items-center gap-[5px]">
+                  Gestion de Proveedores
+                </button>
+            </div>
+
+            <div class="bg-[#EDEDED] flex flex-col justify-center items-center rounded-[20px] p-5">
+                <h2 class="text-lg font-semibold">Filtros</h2>
+                <label class="block mt-2">Mostrar:
+                    <select class="mt-1 p-2 w-full bg-transparent border-0 border-b-2 border-gray-400 focus:outline-none focus:border-black rounded-none">
+                        <option>5</option>
+                        <option>10</option>
+                        <option>20</option>
+                    </select>
+                </label>
+                <label class="block mt-5">Categoría:
+                    <select class="mt-1 p-2 w-full bg-transparent border-0 border-b-2 border-gray-400 focus:outline-none focus:border-black rounded-none text-xs">
+                        <option>Adidas</option>
+                        <option>Nike</option>
+                        <option>New Balance</option>
+                    </select>
+                </label>
+                <label class="block mt-5">Proveedor:
+                    <select class="mt-1 p-2 w-full bg-transparent border-0 border-b-2 border-gray-400 focus:outline-none focus:border-black rounded-none text-xs">
+                        <option>Proveedor 1</option>
+                        <option>Proveedor 2</option>
+                        <option>Proveedor 3</option>
+                    </select>
+                </label>
+
+
+                <label class="block mt-5">Precio Mínimo</label>
+                <input
+                  type="text"
+                  placeholder="Escribe aquí"
+                  class="mt-1 p-2 w-full bg-transparent border-0 border-b-2 border-gray-400 focus:outline-none focus:border-black rounded-none"
+                />
+                <label class="block mt-5">Precio Máximo</label>
+                <input
+                  type="text"
+                  placeholder="Escribe aquí"
+                  class="mt-1 p-2 w-full bg-transparent border-0 border-b-2 border-gray-400 focus:outline-none focus:border-black rounded-none"
+                />
+
+
+                <label class="block mt-5">Max Quantity Available:
+                    <select class="mt-1 p-2 w-full bg-transparent border-0 border-b-2 border-gray-400 focus:outline-none focus:border-black rounded-none">
+                        <option>5</option>
+                        <option>10</option>
+                        <option>20</option>
+                    </select>
+                </label>
+            </div>
         </aside>
 
         <!-- Contenido principal (Tabla) -->
-        <main class="w-2/3 p-4 bg-[#EDEDED] m-[25px] rounded-[20px]">
+        <main class="w-2/3 p-4 bg-[#EDEDED] m-[10px] mt-[25px] rounded-[20px]">
             <table class="w-full rounded border-separate border-spacing-y-[10px] border-spacing-x-[5px]">
                 <thead class="no-background thead-line">
                     <tr>
                         <th class="p-2 rounded-[5px]">ID</th>
                         <th class="p-2 rounded-[5px]">Nombre</th>
                         <th class="p-2 rounded-[5px]">Categoría</th>
+                        <th class="p-2 rounded-[5px]">Precio Compra</th>
                         <th class="p-2 rounded-[5px]">Precio Venta</th>
                         <th class="p-2 rounded-[5px]">Cantidad</th>
                     </tr>
@@ -44,11 +90,13 @@
                         <td class="p-2 rounded-[5px]">A</td>
                         <td class="p-2 rounded-[5px]">10</td>
                         <td class="p-2 rounded-[5px]">10</td>
+                        <td class="p-2 rounded-[5px]">10</td>
                     </tr>
                     <tr class="bg-[#D9D9D9] gap-[5px] text-center">
                         <td class="p-2 rounded-[5px]">2</td>
                         <td class="p-2 rounded-[5px]">Ejemplo 2</td>
                         <td class="p-2 rounded-[5px]">B</td>
+                        <td class="p-2 rounded-[5px]">5</td>
                         <td class="p-2 rounded-[5px]">5</td>
                         <td class="p-2 rounded-[5px]">5</td>
                     </tr>
@@ -58,11 +106,13 @@
                         <td class="p-2 rounded-[5px]">A</td>
                         <td class="p-2 rounded-[5px]">8</td>
                         <td class="p-2 rounded-[5px]">8</td>
+                        <td class="p-2 rounded-[5px]">8</td>
                     </tr>
                     <tr class="bg-[#D9D9D9] gap-[5px] text-center">
                         <td class="p-2 rounded-[5px]">4</td>
                         <td class="p-2 rounded-[5px]">Ejemplo 4</td>
                         <td class="p-2 rounded-[5px]">C</td>
+                        <td class="p-2 rounded-[5px]">3</td>
                         <td class="p-2 rounded-[5px]">3</td>
                         <td class="p-2 rounded-[5px]">3</td>
                     </tr>
@@ -72,17 +122,18 @@
                         <td class="p-2 rounded-[5px]">B</td>
                         <td class="p-2 rounded-[5px]">12</td>
                         <td class="p-2 rounded-[5px]">12</td>
+                        <td class="p-2 rounded-[5px]">12</td>
                     </tr>
                 </tbody>
             </table>
         </main>
 
         <!-- Aside derecho (Navegación) -->
-        <aside class="w-1/6 p-4 m-[25px] flex flex-col gap-[50px]">
+        <aside class="w-1/6 p-4 m-[10px] mt-[25px] flex flex-col gap-[50px]">
           <div class="bg-[#EDEDED] flex justify-center items-center bg-gray-100 rounded-[20px] p-5">
-            <button class="mt-2 w-full bg-[#D9D9D9] text-black p-2 rounded flex justify-center items-center gap-[10px]">
-              Notifications
-              <img class="h-[20px] fill-white" src="{{ url_for('static', filename='Images/Campana.svg') }}" alt="Imagen de reinicio"/>
+            <button class="mt-2 w-full bg-[#D9D9D9] text-black p-2 rounded flex justify-center items-center gap-[5px]">
+              Notificaciones
+              <img class="h-[15px] fill-white" src="{{ url_for('static', filename='Images/Campana.svg') }}" alt="Imagen de reinicio"/>
             </button>
           </div>
           <div class="bg-[#EDEDED] flex flex-col justify-center items-center bg-gray-100 rounded-[20px] p-5">
