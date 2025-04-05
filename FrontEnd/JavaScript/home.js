@@ -77,6 +77,49 @@ async function recuperarProductos() {
         // Aquí puedes trabajar con los datos obtenidos de la API
         console.log(data);
 
+        const tableBody = document.getElementById("table-body");
+
+        data.forEach(item => {
+          const row = document.createElement('tr');
+          row.classList.add('bg-[#D9D9D9]', 'gap-[5px]', 'text-center');
+
+          // A partir de aquí se muestran los elementos de las columnas
+          const idCell = document.createElement('td');
+          idCell.classList.add('p-2', 'rounded-[5px]');
+          idCell.textContent = item.product_id;
+
+          const nameCell = document.createElement('td');
+          nameCell.classList.add('p-2', 'rounded-[5px]');
+          nameCell.textContent = item.name;
+
+          const categoryCell = document.createElement('td');
+          categoryCell.classList.add('p-2', 'rounded-[5px]');
+          categoryCell.textContent = item.category_id;
+
+          const purchaseCell = document.createElement('td');
+          purchaseCell.classList.add('p-2', 'rounded-[5px]');
+          purchaseCell.textContent = item.price;
+
+          const sellCell = document.createElement('td');
+          sellCell.classList.add('p-2', 'rounded-[5px]');
+          sellCell.textContent = item.price;
+
+          const quantityCell = document.createElement('td');
+          quantityCell.classList.add('p-2', 'rounded-[5px]');
+          quantityCell.textContent = item.quantity;
+
+          //Agregamos las celdas a la fila
+          row.appendChild(idCell);
+          row.appendChild(nameCell);
+          row.appendChild(categoryCell);
+          row.appendChild(purchaseCell);
+          row.appendChild(sellCell);
+          row.appendChild(quantityCell);
+
+          //Agregamos al tablebody
+          tableBody.appendChild(row);
+        })
+
     } catch (error) {
         console.error('Hubo un error al hacer la solicitud:', error);
     }
