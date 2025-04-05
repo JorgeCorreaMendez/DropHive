@@ -1,3 +1,4 @@
+
 * {
     box-sizing: border-box;
     margin: 0;
@@ -6,53 +7,62 @@
 }
 
 body {
-    font-family: Arial, sans-serif;
     background-color: #f0f0f0;
-    display: block;
-    justify-content: center;
-    padding: 20px;
     overflow-x: hidden;
+    padding: 20px;
 }
 
+/* Estilo para el label y el input del nombre del producto */
+.product-name-label {
+    font-weight: bold;
+    margin-top: 10px;
+    display: block;
+}
 
+#product-name {
+    width: 100%;
+    padding: 8px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
 
-
-.card {
+.create-product-container {
     display: flex;
-    background: white;
+    flex-direction: column;
+    background-color: white;
     border-radius: 10px;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
     width: 80%;
-    max-width: 1000px; /* Limita el ancho para evitar que se expanda demasiado */
-    height: auto;
-    margin-top: 8%; /* Ajuste para evitar que el header lo cubra */
-    margin-left: 20%;
+    max-width: 1200px;
+    margin: 80px auto; /* Centra y da margen superior */
     padding: 20px;
 }
 
-/* Sección izquierda: imagen y nombre */
-.left-section {
+
+.top-section {
     display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    flex: 1;
-    padding-right: 20px;
+    justify-content: space-between;
+    align-items: flex-start; /* Alinea la parte de arriba */
+    margin-bottom: 20px;
 }
 
-.right-section {
+.top-left {
     display: flex;
     flex-direction: column;
-    justify-content: center;
-    flex: 2;
-    padding: 20px;
+    gap: 10px;
 }
 
-/* Ajustar la imagen */
+.top-right {
+    display: flex;
+    align-items: flex-start;
+}
+
+/* Imagen y texto */
 .image-placeholder {
-    width: 150px;
-    height: 150px;
-    background: #f0f0f0;
+    width: 120px;
+    height: 120px;
+    background: #eaeaea;
     border-radius: 10px;
     display: flex;
     align-items: center;
@@ -60,9 +70,19 @@ body {
     color: #888;
     font-size: 12px;
     text-align: center;
+    margin-bottom: 10px;
 }
 
-/* Botones y etiquetas */
+.top-left h2 {
+    font-size: 1.2rem;
+    font-weight: bold;
+}
+
+.brand-name {
+    font-style: italic;
+    color: #666;
+}
+
 .category-btn {
     background-color: #f4a900;
     color: white;
@@ -71,48 +91,87 @@ body {
     border-radius: 5px;
     cursor: pointer;
     font-weight: bold;
+    width: fit-content;
 }
 
-/* Inputs y botones */
-.input-group {
+/* Botón de guardar en la esquina superior derecha */
+.save-btn {
+    background-color: #28a745;
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+
+.bottom-section {
+    display: flex;
+    gap: 20px;
+}
+
+/* Columna izquierda: Descripción e Información */
+.bottom-left {
+    flex: 1;
     display: flex;
     flex-direction: column;
-    margin-bottom: 15px;
+    gap: 15px;
+}
+
+.input-group label {
+    font-weight: bold;
+    margin-bottom: 5px;
+    display: block;
 }
 
 .input-group textarea {
     width: 100%;
+    min-height: 80px;
     padding: 8px;
     border: 1px solid #ccc;
     border-radius: 5px;
     resize: none;
-    height: 60px;
 }
 
-.inline-group {
+/* Columna derecha: ID, Price, Size, Discount */
+.bottom-right {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+/* Filas para ID, Price, etc. */
+.row-field {
     display: flex;
     align-items: center;
-    background-color: #e0e0e0;
-    border-radius: 10px;
+    background-color: #f7f7f7;
+    border-radius: 8px;
     padding: 10px;
     border: 1px solid #ccc;
-    width: fit-content;
-    margin-bottom: 10px;
+    gap: 10px;
 }
 
-.inline-group input {
-    width: 50px;
+.row-field label {
+    font-weight: bold;
+    margin-right: auto;
+    width: 100px;
+}
+
+.row-field input {
+    width: 80px;
     padding: 5px;
     border: 1px solid #ccc;
     border-radius: 5px;
     text-align: center;
-    margin-right: 5px;
 }
 
-.currency, .size-icon, .discount-icon {
+.currency,
+.discount-icon {
     font-weight: bold;
     color: blue;
-    margin-right: 10px;
+    margin-left: -8px;
 }
 
 .add-btn {
@@ -125,13 +184,9 @@ body {
     font-weight: bold;
 }
 
-.save-btn {
-    background-color: green;
-    color: white;
-    border: none;
-    padding: 10px 15px;
-    border-radius: 5px;
-    cursor: pointer;
+
+#message {
+    margin-top: 20px;
     font-weight: bold;
-    margin-top: 15px;
+    color: red;
 }

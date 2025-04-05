@@ -4,67 +4,82 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Crear Nuevo Objeto</title>
+    <!-- Ajusta la ruta al CSS según tu estructura -->
     <link rel="stylesheet" href="{{ url_for('static', filename='CSS/CreateItem.css') }}">
     <script src="{{ url_for('static', filename='JavaScript/header.js') }}"></script>
+    <script src="{{ url_for('static', filename='JavaScript/createItem.js') }}"></script>
 
 </head>
 <body>
-
 <!-- Contenedor donde se insertará el header -->
-<header >
+<header>
     {% include 'header.html' %}
 </header>
 
-<div class="card">
-    <div class="left-section">
-        <div class="image-placeholder" role="img" aria-label="Espacio para la imagen del artículo">
-            Añadir imagen del artículo
+<!-- Formulario para crear un producto -->
+<form id="createProductForm" class="create-product-container">
+    <!-- Encabezado (nombre del ítem, marca, categoría, botón de guardar) -->
+    <div class="top-section">
+        <div class="top-left">
+            <div class="image-placeholder" role="img" aria-label="Espacio para la imagen del artículo">
+                Add Item's image
+            </div>
+            <!-- Agrega un input para el nombre del producto -->
+            <label for="product-name" class="product-name-label">Nombre del Producto:</label>
+            <input type="text" id="product-name" placeholder="Escribe el nombre aquí" required>
+
+            <button type="button" class="category-btn">Add Category</button>
         </div>
-        <h2>Añadir nombre del artículo</h2>
-        <p class="brand-name">Añadir nombre de la marca</p>
-        <button class="category-btn">Añadir categoría</button>
+
+        <div class="top-right">
+            <button class="save-btn" type="submit">Save Changes</button>
+        </div>
     </div>
 
-    <div class="right-section">
-        <div class="input-group">
-            <label for="description">Descripción:</label>
-            <textarea id="description" placeholder="Añadir descripción..."></textarea>
-        </div>
-        <div class="input-group">
-            <label for="information">Información:</label>
-            <textarea id="information" placeholder="Añadir información..."></textarea>
-        </div>
-
-        <div class="inline-group">
-            <label for="product-id">ID:</label>
-            <input type="text" id="product-id" placeholder="Ej: 1234">
-            <button class="add-btn">Añadir</button>
+    <!-- Cuerpo principal (Descripción/Información a la izquierda, inputs de ID/Price/Size/Discount a la derecha) -->
+    <div class="bottom-section">
+        <div class="bottom-left">
+            <div class="input-group">
+                <label for="description">Description:</label>
+                <textarea id="description" placeholder="Add Description..."></textarea>
+            </div>
+            <div class="input-group">
+                <label for="information">Information:</label>
+                <textarea id="information" placeholder="Add Informations..."></textarea>
+            </div>
         </div>
 
-        <div class="inline-group">
-            <label for="price">Precio:</label>
-            <input type="number" id="price" placeholder="0.00" step="0.01" min="0">
-            <span class="currency">€</span>
-            <button class="add-btn">Añadir</button>
-        </div>
+        <div class="bottom-right">
+            <div class="row-field">
+                <label for="product-id">Add ID:</label>
+                <input type="text" id="product-id" placeholder="Ej: 1234" required>
+                <button type="button" class="add-btn">Add</button>
+            </div>
 
-        <div class="inline-group">
-            <label for="size">Tamaño:</label>
-            <input type="text" id="size" placeholder="Ej: M, L, XL">
-            <span class="size-icon">E</span>
-            <button class="add-btn">Añadir</button>
-        </div>
+            <div class="row-field">
+                <label for="price">Add Price:</label>
+                <input type="number" id="price" placeholder="0.00" step="0.01" min="0" required>
+                <span class="currency">€</span>
+                <button type="button" class="add-btn">Add</button>
+            </div>
 
-        <div class="inline-group">
-            <label for="discount">Descuento:</label>
-            <input type="number" id="discount" placeholder="0" min="0" max="100">
-            <span class="discount-icon">%</span>
-            <button class="add-btn">Añadir</button>
-        </div>
+            <div class="row-field">
+                <label for="size">Add Size:</label>
+                <input type="text" id="size" placeholder="Ej: M, L, XL">
+                <button type="button" class="add-btn">Add</button>
+            </div>
 
-        <button class="save-btn">Guardar cambios</button>
+            <div class="row-field">
+                <label for="discount">Add Discount:</label>
+                <input type="number" id="discount" placeholder="0" min="0" max="100">
+                <span class="discount-icon">%</span>
+                <button type="button" class="add-btn">Add</button>
+            </div>
+        </div>
     </div>
-</div>
 
+    <!-- Contenedor para mostrar mensajes -->
+    <div id="message"></div>
+</form>
 </body>
 </html>
