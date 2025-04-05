@@ -1,11 +1,12 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>DropHive</title>
-  <script src="https://cdn.tailwindcss.com"></script>
-  <link rel="icon" href="{{ url_for('static', filename='Images/LogoSoloCaja.ico') }}" type="image/x-icon">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DropHive</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="icon" href="{{ url_for('static', filename='Images/LogoSoloCaja.ico') }}" type="image/x-icon">
+    <script src="{{ url_for('static', filename='JavaScript/home.js') }}"></script>
 </head>
 <body class="bg-white">
     <!-- Header -->
@@ -46,18 +47,21 @@
                 </label>
 
 
-                <label class="block mt-5">Precio Mínimo</label>
+                <label class="block mt-5">Precio Mínimo
                 <input
                   type="text"
                   placeholder="Escribe aquí"
                   class="mt-1 p-2 w-full bg-transparent border-0 border-b-2 border-gray-400 focus:outline-none focus:border-black rounded-none"
                 />
-                <label class="block mt-5">Precio Máximo</label>
+                </label>
+
+                <label class="block mt-5">Precio Máximo
                 <input
                   type="text"
                   placeholder="Escribe aquí"
                   class="mt-1 p-2 w-full bg-transparent border-0 border-b-2 border-gray-400 focus:outline-none focus:border-black rounded-none"
                 />
+                </label>
 
 
                 <label class="block mt-5">Max Quantity Available:
@@ -126,13 +130,29 @@
                     </tr>
                 </tbody>
             </table>
+
+            <div id="pagination" class="flex justify-center items-center space-x-2 mt-4">
+              <!-- Botón anterior -->
+              <button id="prev-button" class="px-3 py-1 rounded bg-gray-300 hover:bg-gray-400" disabled>
+                ←
+              </button>
+
+              <!-- Número de página -->
+              <span id="page-number" class="text-lg font-semibold">1</span>
+
+              <!-- Botón siguiente -->
+              <button id="next-button" class="px-3 py-1 rounded bg-gray-300 hover:bg-gray-400">
+                →
+              </button>
+            </div>
+
         </main>
 
         <!-- Aside derecho (Navegación) -->
         <aside class="w-1/6 p-4 m-[10px] mt-[25px] flex flex-col gap-[50px]">
           <div class="bg-[#EDEDED] flex justify-center items-center bg-gray-100 rounded-[20px] p-5">
             <button class="mt-2 w-full bg-[#D9D9D9] text-black p-2 rounded flex justify-center items-center gap-[5px]">
-              Notificaciones
+              Notifications
               <img class="h-[15px] fill-white" src="{{ url_for('static', filename='Images/Campana.svg') }}" alt="Imagen de reinicio"/>
             </button>
           </div>
