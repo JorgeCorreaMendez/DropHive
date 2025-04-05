@@ -57,7 +57,33 @@ async function initPagination(paginasTotales) {
   updatePage();
 }
 
+async function recuperarProductos() {
+  const pathname = window.location.pathname;
+  const segments = pathname.split('/');
+  const db_name = segments[1];
+  console.log(db_name);
+
+  try {
+        const response = await fetch(`http://127.0.0.1:4000/${db_name}/products`);
+
+        // Verifica que la respuesta sea exitosa
+        if (!response.ok) {
+            throw new Error(`Error en la solicitud: ${response.statusText}`);
+        }
+
+        // Espera la respuesta JSON
+        const data = await response.json();
+
+        // Aquí puedes trabajar con los datos obtenidos de la API
+        console.log(data);
+
+    } catch (error) {
+        console.error('Hubo un error al hacer la solicitud:', error);
+    }
+}
+
 // Llamamos a la función cuando el DOM está cargado
 document.addEventListener('DOMContentLoaded', async () => {
+  recuperarProductos().then();
   await initPagination(5); // Ejecuta la paginación después de obtener los datos de la API
 });
