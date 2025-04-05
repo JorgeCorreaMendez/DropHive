@@ -38,11 +38,11 @@ th {
     background-color: #f4f4f4;
 }
 
-th:nth-child(1) { width: 17%; }
-th:nth-child(2) { width: 21%; }
-th:nth-child(3) { width: 22%; }
+th:nth-child(1) { width: 20%; }
+th:nth-child(2) { width: 23%; }
+th:nth-child(3) { width: 24%; }
 th:nth-child(4) { width: 20%; }
-th:nth-child(5) { width: 20%; }
+th:nth-child(5) { width: 23%; }
 
 .supply-sidebar {
     position: fixed;
@@ -65,9 +65,23 @@ th:nth-child(5) { width: 20%; }
     justify-content: flex-end;
 }
 
+#notification-btn:hover{
+    background-color: #999 !important;
+}
+
 .delete_button {
     display: flex;
     justify-content: flex-end;
+}
+
+.delete_button button {
+    background: blue;
+    color: white;
+}
+
+.delete_button button:hover {
+    background: #000080;
+    color: white;
 }
 
 .filters {

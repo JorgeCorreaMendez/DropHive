@@ -4,9 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Historial de Cambios</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='CSS/Style.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='CSS/log.css') }}">
     <script src="{{ url_for('static', filename='JavaScript/header.js') }}"></script>
     <script src="{{ url_for('static', filename='JavaScript/redirect.js') }}"></script>
+    <script src="{{ url_for('static', filename='JavaScript/log.js') }}"></script>
 </head>
 <body>
 <header>
@@ -22,42 +23,8 @@
 </div>
 
 <div class="log-container">
-    <table>
-        <thead>
-        <tr>
-            <th>Nombre de la compañía</th>
-            <th>Nombre del ítem</th>
-            <th>Acción realizada</th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr>
-            <td>Nike</td>
-            <td>Dunk Low</td>
-            <td>Añadir ítem</td>
-        </tr>
-        <tr>
-            <td>Adidas</td>
-            <td>Samba OG</td>
-            <td>Añadir ítem</td>
-        </tr>
-        <tr>
-            <td>New Balance</td>
-            <td>New Balance 550</td>
-            <td>Añadir ítem</td>
-        </tr>
-        <tr>
-            <td>Jordan</td>
-            <td>Air Jordan 1</td>
-            <td>Eliminar</td>
-        </tr>
-        <tr>
-            <td>Carhartt</td>
-            <td>Chore Coat</td>
-            <td>Modificar ítem</td>
-        </tr>
-        </tbody>
-    </table>
+    <tbody id="log-table-body">
+    </tbody>
 </div>
 </body>
 
