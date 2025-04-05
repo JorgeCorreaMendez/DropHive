@@ -16,7 +16,8 @@ async function initPagination(total_productos) {
     let totalPages = Math.ceil(totalItems / itemsPerPage);
 
     // Mostrar el número total de páginas (puedes hacer algo con esto más tarde)
-    console.log(`Total de páginas: ${totalPages}`);
+    console.log("Total de items: ", totalPages)
+
 
     // Inicializar la paginación con las páginas correctas
     let currentPage = 1; // Página actual
@@ -85,7 +86,7 @@ async function recuperarProductos() {
 
         const tableBody = document.getElementById("table-body");
 
-        data.forEach(item => {
+        for (const item of data) {
           const row = document.createElement('tr');
           row.classList.add('bg-[#D9D9D9]', 'gap-[5px]', 'text-center');
 
@@ -98,17 +99,19 @@ async function recuperarProductos() {
           nameCell.classList.add('p-2', 'rounded-[5px]');
           nameCell.textContent = item.name;
 
+          let category_name = await localizarCategoria(db_name, item.category_id);
+
           const categoryCell = document.createElement('td');
           categoryCell.classList.add('p-2', 'rounded-[5px]');
-          categoryCell.textContent = item.category_id;
+          categoryCell.textContent = category_name;
 
           const purchaseCell = document.createElement('td');
           purchaseCell.classList.add('p-2', 'rounded-[5px]');
-          purchaseCell.textContent = item.price;
+          purchaseCell.textContent = item.price + " €";
 
           const sellCell = document.createElement('td');
           sellCell.classList.add('p-2', 'rounded-[5px]');
-          sellCell.textContent = item.price;
+          sellCell.textContent = item.price + " €";
 
           const quantityCell = document.createElement('td');
           quantityCell.classList.add('p-2', 'rounded-[5px]');
@@ -124,17 +127,32 @@ async function recuperarProductos() {
 
           //Agregamos al tablebody
           tableBody.appendChild(row);
-        })
+        }
 
-        return data.length
+      return Object.keys(data).length
 
     } catch (error) {
         console.error('Hubo un error al hacer la solicitud:', error);
     }
 }
 
+async function localizarCategoria(db_name, id) {
+    try {
+        const response = await fetch(`http://127.0.0.1:4000/${db_name}/get_category/${id}`)
+
+        if(!response.ok) {
+            throw new Error(`Error en la solicitud: ${response.statusText}`);
+        }
+        const data = await response.json();
+        console.log(data.name)
+        return data.name
+    } catch (e) {
+        console.log(e)
+    }
+}
+
 // Llamamos a la función cuando el DOM está cargado
 document.addEventListener('DOMContentLoaded', async () => {
-  let total_productos = recuperarProductos().then();
+  let total_productos = await recuperarProductos();
   await initPagination(total_productos); // Ejecuta la paginación después de obtener los datos de la API
 });
