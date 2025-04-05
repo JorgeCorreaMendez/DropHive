@@ -3,14 +3,14 @@ body {
     justify-content: center;
     align-items: center;
     height: 100vh;
-    background-color: #ccc;
+    background-color: #ddd !important;
     margin: 0;
 
 }
 .container {
-    margin: auto;
-    margin-top: 20%;
-    background: #e6e6e6;
+    margin-top: 100px;
+    margin-left: 540px;
+    background: white;
     padding: 20px;
     border-radius: 10px;
     width: 500px;
@@ -35,7 +35,7 @@ body {
     background-color: #ddd;
 }
 .save-btn {
-    background-color: #5cb85c;
+    background-color: blue;
     color: white;
     border: none;
     padding: 10px 15px;
@@ -43,5 +43,6 @@ body {
     cursor: pointer;
 }
 .save-btn:hover {
-    background-color: #4cae4c;
+    background-color: #000080;
+    transform: scale(1.05);
 }
