@@ -51,11 +51,11 @@
         </library>
       </libraries>
     </data-source>
-    <data-source source="LOCAL" name="Prueba" uuid="4fe1d5be-0331-4ffd-9658-653881a87eab">
+    <data-source source="LOCAL" name="nike" uuid="fae73bcb-7468-4211-9764-05e2ec6cf5eb">
       <driver-ref>sqlite.xerial</driver-ref>
       <synchronize>true</synchronize>
       <jdbc-driver>org.sqlite.JDBC</jdbc-driver>
-      <jdbc-url>jdbc:sqlite:C:\Users\David\WebstormProjects\DropHive\DB\Prueba.db</jdbc-url>
+      <jdbc-url>jdbc:sqlite:C:\Users\Usuario\PycharmProjects\DropHive\DB\nike.db</jdbc-url>
       <working-dir>$ProjectFileDir$</working-dir>
       <libraries>
         <library>
