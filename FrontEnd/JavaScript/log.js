@@ -1,6 +1,6 @@
 document.addEventListener("DOMContentLoaded", () => {
     const dbName = window.location.pathname.split("/")[1];
-    fetch(`/api/${dbName}/log`)
+    fetch(`/Json/log_data.json`)
     .then(res => res.json())
     .then(data => {
     const tbody = document.getElementById("log-table-body");
