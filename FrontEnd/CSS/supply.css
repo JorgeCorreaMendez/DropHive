@@ -1,158 +1,183 @@
-body {
-    margin: 0;
-    font-family: Arial, sans-serif;
-    background-color: #ddd;
-    display: block;
-    justify-content: center;
-    align-items: flex-start;
-    height: 100vh;
-    padding-top: 20px;
-}
-
-.supply-container {
-    background: white;
-    padding: 20px;
-    border-radius: 10px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    width: 80%;
-    max-width: 900px;
-    margin-top: 40px;
-    margin-left: 300px;
-}
-
-table {
-    width: 100%;
-    border-collapse: collapse;
-    margin-top: 5px;
-    table-layout: fixed;
-}
-
-th, td {
-    padding: 5px;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-}
-
-th {
-    background-color: #f4f4f4;
-}
-
-th:nth-child(1) { width: 20%; }
-th:nth-child(2) { width: 23%; }
-th:nth-child(3) { width: 24%; }
-th:nth-child(4) { width: 20%; }
-th:nth-child(5) { width: 23%; }
-
-.supply-sidebar {
-    position: fixed;
-    top: 20px;
-    right: 15px;
-    z-index: 1000;
-    background: white;
-    padding: 15px;
-    border-radius: 10px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    width: 200px;
-    display: flex;
-    flex-direction: column;
-    gap: 15px;
-    margin-top: 140px;
-}
-
-.notifications {
-    display: flex;
-    justify-content: flex-end;
-}
-
-#notification-btn:hover{
-    background-color: #999 !important;
-}
-
-.delete_button {
-    display: flex;
-    justify-content: flex-end;
-}
-
-.delete_button button {
-    background: blue;
-    color: white;
-}
-
-.delete_button button:hover {
-    background: #000080;
-    color: white;
-}
-
-.filters {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-}
-
-.filters select {
-    padding: 5px;
-    width: 100%;
-}
-
-@media (max-width: 1024px) {
-    .supply-container {
-        width: 90%;
-    }
-    .supply-sidebar {
-        width: 180px;
-    }
-}
-
-@media (max-width: 768px) {
-    body {
-        flex-direction: column;
-        padding: 10px;
-    }
-
-    .supply-sidebar {
-        position: relative;
-        width: 100%;
-        top: auto;
-        right: auto;
-        box-shadow: none;
-        text-align: center;
-        padding: 10px;
-    }
-
-    .notifications,
-    .delete_button {
+ body {
+        margin: 0;
+        font-family: Arial, sans-serif;
+        background-color: #ddd;
+        display: flex;
         justify-content: center;
+        align-items: flex-start;
+        height: 100vh;
+        padding-top: 20px;
     }
 
     .supply-container {
-        width: 100%;
-        max-width: 100%;
-        padding: 10px;
-        justify-content: center;
-        margin-left: 0;
+        background: white;
+        padding: 20px;
+        border-radius: 10px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        width: 80%;
+        max-width: 900px;
+        margin-top: 40px;
+        margin-left: 300px;
     }
 
     table {
-        display: block;
-        overflow-x: auto;
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 5px;
+        table-layout: fixed;
+    }
+
+    th, td {
+        padding: 5px;
         white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
     }
 
-    th, td {
-        font-size: 14px;
-        padding: 8px;
-    }
-}
-
-@media (max-width: 480px) {
-    th, td {
-        font-size: 12px;
-        padding: 6px;
+    th {
+        background-color: #f4f4f4;
     }
 
-    .notifications button,
+    th:nth-child(1) {
+        width: 20%;
+    }
+
+    th:nth-child(2) {
+        width: 23%;
+    }
+
+    th:nth-child(3) {
+        width: 24%;
+    }
+
+    th:nth-child(4) {
+        width: 20%;
+    }
+
+    th:nth-child(5) {
+        width: 23%;
+    }
+
+    .supply-sidebar {
+        position: fixed;
+        top: 20px;
+        right: 15px;
+        z-index: 1000;
+        background: white;
+        padding: 15px;
+        border-radius: 10px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        width: 200px;
+        display: flex;
+        flex-direction: column;
+        gap: 15px;
+        margin-top: 140px;
+    }
+
+    .notifications {
+        display: flex;
+        justify-content: flex-end;
+    }
+
+    #notification-btn:hover {
+        background-color: #999 !important;
+    }
+
+    .delete_button {
+        display: flex;
+        justify-content: flex-end;
+    }
+
     .delete_button button {
-        font-size: 16px;
+        background: blue;
+        color: white;
     }
-}
+
+    .delete_button button:hover {
+        background: #000080;
+        color: white;
+    }
+
+    button {
+        padding: 10px 20px;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+    }
+
+    .filters {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .filters select {
+        padding: 5px;
+        width: 100%;
+    }
+
+ @media (max-width: 1280px) {
+     body {
+         flex-direction: column;
+         align-items: center;
+         padding-top: 20px;
+         height: auto;
+     }
+
+     .delete_button, .notifications {
+         justify-content: center;
+     }
+
+     .supply-container {
+         width: 90%;
+         margin-left: 0;
+         margin-top: 20px;
+         order: 2;
+     }
+
+     .supply-sidebar {
+         position: relative;
+         width: 90%;
+         max-width: 500px;
+         margin: 0 auto 20px;
+         top: auto;
+         right: auto;
+         order: 1;
+     }
+
+     .filters {
+         flex-direction: row;
+         flex-wrap: wrap;
+         gap: 10px;
+     }
+
+     .filters select {
+         flex: 1;
+         min-width: 120px;
+     }
+ }
+
+ /* Media Query para Móvil (< 768px) - Ya lo tienes bien */
+ @media (max-width: 768px) {
+     .supply-sidebar {
+         width: 100%;
+         box-shadow: none;
+         padding: 10px;
+     }
+
+     .filters {
+         flex-direction: column;
+     }
+
+     .filters select {
+         width: 100%;
+     }
+
+     th, td {
+         font-size: 14px;
+     }
+
+     .delete_button, .notifications {
+         justify-content: center;
+     }
+ }
