@@ -2,9 +2,8 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Drop Hive - Modify Account</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='CSS/addAndModifyCategory.css') }}">
+    <title>DropHive - Add Company</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='CSS/AddAndModifyCategory.css') }}">
     <script src="{{ url_for('static', filename='JavaScript/header.js') }}"></script>
     <script src="{{ url_for('static', filename='JavaScript/redirect.js') }}"></script>
 </head>
@@ -12,24 +11,31 @@
 <header>
     {% include 'header.html' %}
 </header>
-
 <main>
+    <!-- Caja exterior gris (contenedor externo) -->
     <div class="main-container">
-        <div class="category-header">
-            <div class="description-container">
-                <label for="store-name">Add Store’s Name</label>
-                <input id="store-name" type="text">
+        <!-- Caja interna que sobresale del contenedor -->
+        <div class="category-form">
+            <div class="category-header">
+                <img class="image-container" src="/FrontEnd/Images/sinFoto.png" alt="Company Image">
+                <button id="save-btn1" class="btn-add">Save Changes</button>
+                <input type="file" accept="image/*" class="company-image-input">
+            </div>
 
-            <h2>Description:</h2>
-            <div class="description-text">
-                <p>Add Description</p>
-                <textarea id="description-text"></textarea>
-                <button id="save-btn2">Save Changes</button>
+
+
+            <div class="category-info">
+                <input type="text" placeholder="Add Category Name" class="input-field">
             </div>
+
+            <div class="category-description">
+                <label>Description:</label>
+                <textarea placeholder="Add Description..." class="textarea-field"></textarea>
             </div>
+
+
         </div>
     </div>
 </main>
-
 </body>
 </html>

@@ -8,33 +8,38 @@
     <script src="{{ url_for('static', filename='JavaScript/redirect.js') }}"></script>
 </head>
 <body>
-    <header>
-        {% include 'header.html' %}
-    </header>
-
-    <main>
+<header>
+    {% include 'header.html' %}
+</header>
+<main>
+    <!-- Caja exterior gris (contenedor externo) -->
+    <div class="main-container">
+        <!-- Caja interna que sobresale del contenedor -->
         <div class="company-form">
             <div class="company-header">
-                <div class="company-image">Add Company's image</div>
-                <div class="company-info">
-                    <input type="text" placeholder="Add Company's Name">
-                    <input type="text" placeholder="Add Nationality">
-                    <input type="file" accept="image/*" class="company-image-input">
-                </div>
-                <button id="save-btn1">Save Changes</button>
+                <img class="image-container" src="/FrontEnd/Images/sinFoto.png" alt="Company Image">
+                <button id="save-btn1" class="btn-add">Save Changes</button>
+                <input type="file" accept="image/*" class="company-image-input">
             </div>
+
+
+
+            <div class="company-info">
+                <input type="text" placeholder="Add Company's Name" class="input-field">
+                <input type="text" placeholder="Add Nationality" class="input-field">
+            </div>
+
             <div class="company-description">
                 <label>Description:</label>
-                <textarea placeholder="Add Description..."></textarea>
+                <textarea placeholder="Add Description..." class="textarea-field"></textarea>
             </div>
+
             <div class="company-info-section">
                 <label>Information:</label>
-                <textarea placeholder="Add Information..."></textarea>
+                <textarea placeholder="Add Information..." class="textarea-field"></textarea>
             </div>
         </div>
-    </main>
-
+    </div>
+</main>
 </body>
 </html>
-
-
