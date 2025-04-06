@@ -6,7 +6,7 @@
     <title>DropHive</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="icon" href="{{ url_for('static', filename='Images/LogoSoloCaja.ico') }}" type="image/x-icon">
-    <script src="{{ url_for('static', filename='JavaScript/home.js') }}"></script>
+    <script type="module" src="{{ url_for('static', filename='JavaScript/home.js') }}"></script>
 </head>
 <body class="bg-white">
     <!-- Header -->
@@ -32,17 +32,13 @@
                     </select>
                 </label>
                 <label class="block mt-5 w-full">Categoría:
-                    <select class="mt-1 p-2 w-full bg-transparent border-0 border-b-2 border-gray-400 focus:outline-none focus:border-black rounded-none text-xs">
-                        <option>Adidas</option>
-                        <option>Nike</option>
-                        <option>New Balance</option>
+                    <select id="select-categoria" class="mt-1 p-2 w-full bg-transparent border-0 border-b-2 border-gray-400 focus:outline-none focus:border-black rounded-none text-xs">
+                        <option value="all">All</option>
                     </select>
                 </label>
                 <label class="block mt-5 w-full">Proveedor:
-                    <select class="mt-1 p-2 w-full bg-transparent border-0 border-b-2 border-gray-400 focus:outline-none focus:border-black rounded-none text-xs">
-                        <option>Proveedor 1</option>
-                        <option>Proveedor 2</option>
-                        <option>Proveedor 3</option>
+                    <select id="select-proveedor" class="mt-1 p-2 w-full bg-transparent border-0 border-b-2 border-gray-400 focus:outline-none focus:border-black rounded-none text-xs">
+                        <option value="all">All</option>
                     </select>
                 </label>
 
@@ -64,12 +60,12 @@
                 </label>
 
 
-                <label class="block mt-5 w-full">Max Quantity Available:
-                    <select class="mt-1 p-2 w-full bg-transparent border-0 border-b-2 border-gray-400 focus:outline-none focus:border-black rounded-none">
-                        <option>5</option>
-                        <option>10</option>
-                        <option>20</option>
-                    </select>
+                <label class="block mt-5">Max Quantity Available
+                <input
+                  type="text"
+                  placeholder="Escribe aquí"
+                  class="mt-1 p-2 w-full bg-transparent border-0 border-b-2 border-gray-400 focus:outline-none focus:border-black rounded-none"
+                />
                 </label>
             </div>
         </aside>

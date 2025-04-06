@@ -4,6 +4,8 @@
   Hay que revisar que los productos se actualicen bien cuando hay un gran número de elementos.
   Hay que actualizar el recuperarProductos para que muestre el número de productos según se dice en el selector.
  */
+import {recuperarNombreBaseDatos} from "./recursos.js";
+
 async function initPagination(total_productos) {
     // Número total de artículos (esto debería ser el resultado de tu llamada a la API)
     const totalItems = total_productos; // Ejemplo: 100 artículos
@@ -65,9 +67,8 @@ async function initPagination(total_productos) {
 }
 
 async function recuperarProductos() {
-  const pathname = window.location.pathname;
-  const segments = pathname.split('/');
-  const db_name = segments[1];
+  const db_name = await recuperarNombreBaseDatos();
+
   console.log(db_name);
 
   try {
@@ -151,8 +152,37 @@ async function localizarCategoria(db_name, id) {
     }
 }
 
+async function actualizarOpcionesCategoria() {
+    const db_name = await recuperarNombreBaseDatos();
+
+    const select = document.getElementById('select-categoria');
+
+    select.innerHTML = '<option value="all">All</option>';
+
+    try {
+        const response = await fetch(`http://127.0.0.1:4000/${db_name}/categories`);
+
+        if(!response.ok) {
+            throw new Error(`Error en la solicitud: ${response.statusText}`);
+        }
+
+        const data = await response.json()
+
+        for (let i = 0; i < data.length; i++) {
+            const option = document.createElement('option');
+            option.value = data[i].name; // O cambia por otro campo si necesitas otro valor
+            option.textContent = data[i].name;
+            select.appendChild(option);
+        }
+
+    } catch (e) {
+        console.log(e);
+    }
+}
+
 // Llamamos a la función cuando el DOM está cargado
 document.addEventListener('DOMContentLoaded', async () => {
   let total_productos = await recuperarProductos();
+  await actualizarOpcionesCategoria();
   await initPagination(total_productos); // Ejecuta la paginación después de obtener los datos de la API
 });
