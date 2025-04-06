@@ -11,6 +11,28 @@ body {
     overflow-x: hidden;
     padding: 20px;
 }
+/* Contenedor gris externo */
+
+.outer-container {
+    background-color: #e0e0e0; /* Gris */
+    padding: 40px;            /* Separación interna */
+    border-radius: 50px;
+    width: 95%;               /* Más pequeña que la pantalla */
+    margin: 40px auto;        /* Centrada en la página */
+
+}
+/* Caja blanca interior (formulario) */
+.create-product-container {
+    display: flex;
+    flex-direction: column;
+    background-color: white;
+    border-radius: 50px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    width: 95%;
+    max-width: 1200px;
+    margin: 20px auto;
+    padding: 30px;
+}
 
 /* Estilo para el label y el input del nombre del producto */
 .product-name-label {
@@ -27,17 +49,7 @@ body {
     border-radius: 5px;
 }
 
-.create-product-container {
-    display: flex;
-    flex-direction: column;
-    background-color: white;
-    border-radius: 10px;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
-    width: 80%;
-    max-width: 1200px;
-    margin: 80px auto; /* Centra y da margen superior */
-    padding: 20px;
-}
+
 
 
 .top-section {
@@ -87,13 +99,17 @@ body {
     background-color: #f4a900;
     color: white;
     border: none;
-    padding: 8px 12px;
+    padding: 10px 15px;          /* Aumentar el padding para mayor área de clic */
     border-radius: 5px;
     cursor: pointer;
     font-weight: bold;
-    width: fit-content;
+    transition: background-color 0.3s ease, transform 0.2s ease; /* Transición suave */
 }
 
+.category-btn:hover {
+    background-color: #e0a800;
+    transform: scale(1.05);
+}
 /* Botón de guardar en la esquina superior derecha */
 .save-btn {
     background-color: #28a745;
@@ -103,12 +119,18 @@ body {
     border-radius: 5px;
     cursor: pointer;
     font-weight: bold;
+    transition: background-color 0.3s ease, transform 0.2s ease; /* Transición suave */
 }
 
+.save-btn:hover {
+    background-color: #218838; /* Tono más oscuro al pasar el mouse */
+    transform: scale(1.05); /* Efecto de agrandado al pasar el mouse */
+}
 
 .bottom-section {
     display: flex;
     gap: 20px;
+    align-items: stretch; /* Asegúrate de que ambas columnas tengan la misma altura */
 }
 
 /* Columna izquierda: Descripción e Información */
@@ -118,7 +140,6 @@ body {
     flex-direction: column;
     gap: 15px;
 }
-
 .input-group label {
     font-weight: bold;
     margin-bottom: 5px;
@@ -135,6 +156,7 @@ body {
 }
 
 /* Columna derecha: ID, Price, Size, Discount */
+/* Columna derecha: ID, Price, Size, Discount */
 .bottom-right {
     flex: 1;
     display: flex;
@@ -142,7 +164,7 @@ body {
     gap: 15px;
 }
 
-/* Filas para ID, Price, etc. */
+/* Estilo estándar para filas */
 .row-field {
     display: flex;
     align-items: center;
@@ -161,7 +183,7 @@ body {
 
 .row-field input {
     width: 80px;
-    padding: 5px;
+    padding: 8px; /* Aumentar el padding para mayor área de clic */
     border: 1px solid #ccc;
     border-radius: 5px;
     text-align: center;
@@ -178,15 +200,14 @@ body {
     background-color: white;
     color: blue;
     border: 1px solid blue;
-    padding: 5px 10px;
+    padding: 8px 12px; /* Aumentar el padding */
     border-radius: 5px;
     cursor: pointer;
     font-weight: bold;
+    transition: background-color 0.3s ease, transform 0.2s ease; /* Transición suave */
 }
 
-
-#message {
-    margin-top: 20px;
-    font-weight: bold;
-    color: red;
+.add-btn:hover {
+    background-color: #f0f8ff; /* Color de fondo al pasar el mouse */
+    transform: scale(1.05); /* Efecto de agrandado al pasar el mouse */
 }
