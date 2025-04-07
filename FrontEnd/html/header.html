@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>DropHive - Historial</title>
     <link rel="stylesheet" href="/FrontEnd/CSS/header.css">
+    <script src="https://cdn.tailwindcss.com"></script>
 </head>
 <body>
     <header class="header">
@@ -12,14 +13,17 @@
             <img src="/FrontEnd/Images/DropHive.png" alt="DropHive Logo" class="logo-img"/>
         </div>
         <div class="search-section">
-            <input  aria-label="" type="text" placeholder="Search" />
-            <span class="search-icon">🔍</span>
+            <input aria-label="" type="text" placeholder="Search" class="search-input" />
+            <img class="h-[20px] fill-white" src="{{ url_for('static', filename='Images/Lupa.svg') }}" alt="Imagen de reinicio"/>
         </div>
         <div class="user-section">
-            <button type="submit">Your Store</button>
-            <button id="log-out" type="submit">Log out</button>
+            <div class="flex flex-col justify-end">
+                <button type="submit" class="mb-0">Your Store</button>
+                <div class="border-t border-black my-0.5"></div>
+                <button type="submit" class="mb-0 text-sm" id="log-out">Log out</button>
+            </div>
             <div class="user-icon">
-                <img src="/FrontEnd/Images/avatar.jpg" alt="User Icon" />
+                <img class="h-[30px] fill-black" src="{{ url_for('static', filename='Images/avatar.svg') }}" alt="Avatar de perfil"/>
             </div>
         </div>
     </header>

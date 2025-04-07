@@ -55,8 +55,8 @@ def addValuesSample(path):
     cursor = conn.cursor()
 
     products = [
-        ("Camiseta", "Camiseta de manga larga", 19.99, 1, 0, "S,M,L,XL", 100),
-        ("Pantalón", "Pantalón de cuero", 29.99, 1, 0, "M,L", 50),
+        ("NAF1", "Camiseta", "Camiseta de manga larga", 19.99, 1, 0, "S,M,L,XL", 100),
+        ("NAF2", "Pantalón", "Pantalón de cuero", 29.99, 1, 0, "M,L", 50),
     ]
 
     categories = [
@@ -82,7 +82,7 @@ def addValuesSample(path):
 
     # Insertar valores
     cursor.executemany(
-        """INSERT INTO products (name, description, price, category_id, discount, size, quantity) VALUES (?, ?, ?, ?, ?, ?, ?)""",
+        """INSERT INTO products (product_id, name, description, price, category_id, discount, size, quantity) VALUES (?, ?, ?, ?, ?, ?, ?, ?)""",
         products)
     cursor.executemany("""INSERT INTO categories (name, description) VALUES (?, ?)""",
                        categories)

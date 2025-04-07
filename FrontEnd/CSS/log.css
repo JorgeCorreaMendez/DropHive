@@ -1,12 +1,27 @@
 body {
     margin: 0;
     font-family: Arial, sans-serif;
-    background-color: #ddd;
+    background-color: #ddd !important;
     display: block;
     justify-content: center;
     align-items: unset;
     height: 100vh;
     padding-top: 0;
+}
+
+header {
+    width: 100%;
+    max-width: 1600px;
+    color: white;
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+button {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
 }
 
 .log-container {
@@ -16,15 +31,17 @@ body {
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     width: 80%;
     max-width: 900px;
-    margin-top: 0;
+    margin-top: 20px;
     flex-grow: 1;
-    margin-left: 400px;
+    margin-left: 275px;
+
 }
 
 table {
     width: 100%;
     border-collapse: collapse;
     margin-top: 0;
+    margin-right: 60px;
 }
 
 th, td {
@@ -76,82 +93,89 @@ th {
     font-size: 18px;
 }
 
-@media (max-width: 1024px) {
-    .container {
-        width: 90%;
-    }
-    .sidebar {
-        width: 180px;
-    }
+#notification-btn:hover{
+    background-color: #999 !important;
 }
 
-@media (max-width: 768px) {
+
+/* Media Query para Tablet (768px - 1280px) */
+@media (max-width: 1280px) {
     body {
+        display: flex;
         flex-direction: column;
         align-items: center;
+        height: auto;
+        min-height: 100vh;
         padding: 10px;
+    }
+
+    .log-container {
+        width: 90%;
+        margin-left: 0;
+        order: 2;
     }
 
     .log-sidebar {
         position: relative;
-        width: 100%;
+        width: 90%;
+        max-width: 500px;
         top: auto;
         right: auto;
-        box-shadow: none;
-        text-align: center;
-        padding: 10px;
-    }
-
-    .notifications {
-        justify-content: center;
+        order: 1;
+        margin-top: 20px;
     }
 
     .filters {
         flex-direction: row;
         flex-wrap: wrap;
-        justify-content: center;
-        gap: 5px;
-    }
-
-    .filters label {
-        font-size: 14px;
+        gap: 10px;
     }
 
     .filters select {
-        font-size: 14px;
-        width: auto;
+        flex: 1;
+        min-width: 120px;
+    }
+
+    table {
+        margin-right: 0;
+    }
+}
+
+/* Media Query para Móvil (< 768px) */
+@media (max-width: 768px) {
+    .log-sidebar {
+        width: 100%;
+        box-shadow: none;
+        padding: 10px;
+        margin-top: 10px;
+    }
+
+    .filters {
+        flex-direction: column;
+    }
+
+    .filters select {
+        width: 100%;
     }
 
     .log-container {
         width: 100%;
-        max-width: 100%;
         padding: 10px;
-        margin-left: 0;
     }
 
     table {
         display: block;
         overflow-x: auto;
-        white-space: nowrap;
     }
 
     th, td {
         font-size: 14px;
-        padding: 8px;
     }
 }
 
 @media (max-width: 480px) {
-    .filters {
-        flex-direction: column;
-    }
-
     th, td {
         font-size: 12px;
         padding: 6px;
-    }
-
-    .notifications button {
-        font-size: 16px;
     }
 }
