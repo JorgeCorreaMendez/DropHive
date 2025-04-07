@@ -7,8 +7,8 @@ from sqlalchemy.orm import sessionmaker
 from BackEnd import schemas
 from BackEnd.models import Base
 from BackEnd.models.Account import Account
-from BackEnd.utils.DB_utils import DB_PATH
-from BackEnd.utils.hashing import create_hash
+from BackEnd.utils.sqlalchemy_methods import DB_PATH
+from BackEnd.utils.bcrypt_methods import create_hash
 
 registro_bp = Blueprint("registro", __name__)
 

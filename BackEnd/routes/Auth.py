@@ -5,9 +5,9 @@ from flask import request, jsonify, session, Blueprint, redirect, url_for
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 
-from BackEnd.utils.DB_utils import DB_PATH
+from BackEnd.utils.sqlalchemy_methods import DB_PATH
 from BackEnd.models.Account import Account
-from BackEnd.utils.hashing import verify_hash
+from BackEnd.utils.bcrypt_methods import verify_hash
 
 auth_bp = Blueprint("auth", __name__)
 

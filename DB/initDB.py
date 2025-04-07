@@ -1,6 +1,6 @@
 import sqlite3 as sql
 import os
-from BackEnd.utils.hashing import create_hash
+from BackEnd.utils.bcrypt_methods import create_hash
 
 DB_PATH = os.path.abspath(os.path.dirname(__file__)) + '/DropHive.db'
 
