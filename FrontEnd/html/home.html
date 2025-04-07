@@ -19,43 +19,43 @@
         <aside class="w-1/6 p-4 m-[10px] mt-[25px] flex flex-col gap-[50px]">
             <div class="bg-[#EDEDED] flex justify-center items-center bg-gray-100 rounded-[20px] p-5">
                 <button class="mt-2 w-full bg-[#D9D9D9] text-black p-2 rounded flex justify-center items-center gap-[5px]">
-                  Gestion de Proveedores
+                  Supplier
                 </button>
             </div>
 
             <div class="bg-[#EDEDED] flex flex-col justify-center items-center rounded-[20px] p-5">
-                <h2 class="text-lg font-semibold">Filtros</h2>
-                <label class="block mt-2 w-full" for="items-per-page">Mostrar:
+                <h2 class="text-lg font-semibold">Filter</h2>
+                <label class="block mt-2 w-full" for="items-per-page">Show:
                     <select id="items-per-page" class="mt-1 p-2 w-full bg-transparent border-0 border-b-2 border-gray-400 focus:outline-none focus:border-black rounded-none">
                         <option value="5">5</option>
                         <option value="10">10</option>
                         <option value="20">20</option>
                     </select>
                 </label>
-                <label class="block mt-5 w-full">Categoría:
+                <label class="block mt-5 w-full">Category:
                     <select id="select-categoria" class="mt-1 p-2 w-full bg-transparent border-0 border-b-2 border-gray-400 focus:outline-none focus:border-black rounded-none text-xs">
                         <option value="all">All</option>
                     </select>
                 </label>
-                <label class="block mt-5 w-full">Proveedor:
+                <label class="block mt-5 w-full">Supplier:
                     <select id="select-proveedor" class="mt-1 p-2 w-full bg-transparent border-0 border-b-2 border-gray-400 focus:outline-none focus:border-black rounded-none text-xs">
                         <option value="all">All</option>
                     </select>
                 </label>
 
 
-                <label class="block mt-5">Precio Mínimo
+                <label class="block mt-5">Minimum Price
                 <input
                   type="text"
-                  placeholder="Escribe aquí"
+                  placeholder="Write Here"
                   class="mt-1 p-2 w-full bg-transparent border-0 border-b-2 border-gray-400 focus:outline-none focus:border-black rounded-none"
                 />
                 </label>
 
-                <label class="block mt-5">Precio Máximo
+                <label class="block mt-5">Maximum Price
                 <input
                   type="text"
-                  placeholder="Escribe aquí"
+                  placeholder="Write Here"
                   class="mt-1 p-2 w-full bg-transparent border-0 border-b-2 border-gray-400 focus:outline-none focus:border-black rounded-none"
                 />
                 </label>
@@ -64,7 +64,7 @@
                 <label class="block mt-5">Max Quantity Available
                 <input
                   type="text"
-                  placeholder="Escribe aquí"
+                  placeholder="Write Here"
                   class="mt-1 p-2 w-full bg-transparent border-0 border-b-2 border-gray-400 focus:outline-none focus:border-black rounded-none"
                 />
                 </label>
@@ -77,11 +77,11 @@
                 <thead class="no-background thead-line">
                     <tr>
                         <th class="p-2 rounded-[5px]">ID</th>
-                        <th class="p-2 rounded-[5px]">Nombre</th>
-                        <th class="p-2 rounded-[5px]">Categoría</th>
-                        <th class="p-2 rounded-[5px]">Precio Compra</th>
-                        <th class="p-2 rounded-[5px]">Precio Venta</th>
-                        <th class="p-2 rounded-[5px]">Cantidad</th>
+                        <th class="p-2 rounded-[5px]">Name</th>
+                        <th class="p-2 rounded-[5px]">Category</th>
+                        <th class="p-2 rounded-[5px]">Buying Price</th>
+                        <th class="p-2 rounded-[5px]">Selling Price</th>
+                        <th class="p-2 rounded-[5px]">Amount</th>
                     </tr>
                 </thead>
                 <tbody id="table-body">
@@ -115,7 +115,7 @@
             </button>
           </div>
           <div class="bg-[#EDEDED] flex flex-col justify-center items-center bg-gray-100 rounded-[20px] p-5">
-            <h2 class="text-lg font-semibold">Navegación</h2>
+            <h2 class="text-lg font-semibold">Navigation</h2>
             <button class="mt-2 w-full bg-[#8DC96A] text-black p-2 rounded">Add Item</button>
             <button class="mt-2 w-full bg-[#8DC96A] text-black p-2 rounded">Add Company</button>
             <button class="mt-2 w-full bg-[#D9D9D9] text-black p-2 rounded">Show All Category</button>
