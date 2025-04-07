@@ -105,6 +105,10 @@ def supply(db_name):
 def view_employee_action(db_name):
     return render_template("ViewEmployeeAction.html")
 
+@app.route("/<string:db_name>/home2")
+def home_temporal(db_name):
+    return render_template("home-temporal.html")
+
 
 if __name__ == "__main__":
     app.run(debug=True, port=4000)

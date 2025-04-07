@@ -30,11 +30,9 @@ document.addEventListener("DOMContentLoaded", function() {
                 }
             } else {
                 const error = await response.json();
-                alert(error.message);
                 document.getElementById('message').innerHTML = error.message || "Ocurrió un error desconocido.";
             }
         } catch (error) {
-            alert(error.message);
             document.getElementById('message').innerHTML = error.message || "Ocurrió un error en la solicitud.";
         }
     });

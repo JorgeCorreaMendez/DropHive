@@ -1,66 +1,135 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Drop Hive</title>
-  <link rel="stylesheet" href="{{ url_for('static', filename='CSS/Style.css') }}">
-  <script src="{{ url_for('static', filename='JavaScript/header.js') }}"></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DropHive</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="icon" href="{{ url_for('static', filename='Images/LogoSoloCaja.ico') }}" type="image/x-icon">
+    <script type="module" src="{{ url_for('static', filename='JavaScript/home.js') }}"></script>
+    <script type="module" src="{{ url_for('static', filename='JavaScript/header.js') }}"></script>
 </head>
-<body>
+<body class="bg-white">
+    <!-- Header -->
+    {% include 'header.html' %}
 
-<header>
-  {% include 'header.html' %}
-</header>
+    <!-- Contenedor principal -->
+    <div class="flex bg-[#D9D9D9] flex-1 gap-[10px] items-start m-[20px] rounded-[50px]">
+        <!-- Aside izquierdo (Filtros) -->
+        <aside class="w-1/6 p-4 m-[10px] mt-[25px] flex flex-col gap-[50px]">
+            <div class="bg-[#EDEDED] flex justify-center items-center bg-gray-100 rounded-[20px] p-5">
+                <button class="mt-2 w-full bg-[#D9D9D9] text-black p-2 rounded flex justify-center items-center gap-[5px]">
+                  Supplier
+                </button>
+            </div>
 
-<div class="log-sidebar left-sidebar">
-  <button id="supplier-btn">Supplier Management</button>
-  <div class="filter">
-    <label>Filter</label>
-    <select><option>Name</option></select>
-    <select><option>Category</option></select>
-    <select><option>Supplier</option></select>
-    <select><option>Price</option></select>
-    <select><option>Quantity available</option></select>
-  </div>
-</div>
+            <div class="bg-[#EDEDED] flex flex-col justify-center items-center rounded-[20px] p-5">
+                <h2 class="text-lg font-semibold">Filter</h2>
+                <label class="block mt-2 w-full" for="items-per-page">Show:
+                    <select id="items-per-page" class="mt-1 p-2 w-full bg-transparent border-0 border-b-2 border-gray-400 focus:outline-none focus:border-black rounded-none">
+                        <option value="5">5</option>
+                        <option value="10">10</option>
+                        <option value="20">20</option>
+                    </select>
+                </label>
+                <label class="block mt-5 w-full">Category:
+                    <select id="select-categoria" class="mt-1 p-2 w-full bg-transparent border-0 border-b-2 border-gray-400 focus:outline-none focus:border-black rounded-none text-xs">
+                        <option value="all">All</option>
+                    </select>
+                </label>
+                <label class="block mt-5 w-full">Supplier:
+                    <select id="select-proveedor" class="mt-1 p-2 w-full bg-transparent border-0 border-b-2 border-gray-400 focus:outline-none focus:border-black rounded-none text-xs">
+                        <option value="all">All</option>
+                    </select>
+                </label>
 
-<div class="product-table">
-  <div class="table-header">
-    <span>Company Name</span>
-    <span>Item Name</span>
-    <span>Category</span>
-    <span>Retail Price</span>
-    <span>Supply Cost</span>
-    <span>ID</span>
-  </div>
 
-  <div class="product">
-    <span>Nike</span>
-    <span>Dunk Low</span>
-    <span>Streetwear</span>
-    <span>0001</span>
-    <span>0001</span>
-    <span>0001</span>
-  </div>
-</div>
+                <label class="block mt-5">Minimum Price
+                <input
+                  type="text"
+                  placeholder="Write Here"
+                  class="mt-1 p-2 w-full bg-transparent border-0 border-b-2 border-gray-400 focus:outline-none focus:border-black rounded-none"
+                />
+                </label>
 
-<div class="log-sidebar right-sidebar">
-  <button id="notification-btn"> 🔔 Notifications</button>
-  <button id="add-item-btn">Add Item</button>
-  <button id="add-company-btn">Add Company</button>
-  <button id="show-category-btn">Show all Category</button>
-  <button id="history-btn">History</button>
-  <button id="read-btn">Show Article</button>
+                <label class="block mt-5">Maximum Price
+                <input
+                  type="text"
+                  placeholder="Write Here"
+                  class="mt-1 p-2 w-full bg-transparent border-0 border-b-2 border-gray-400 focus:outline-none focus:border-black rounded-none"
+                />
+                </label>
 
-  <div class="legend">
-    <h4>Legend</h4>
-    <div><span class="color-box red"></span> Out of Stock</div>
-    <div><span class="color-box blue"></span> Discount</div>
-    <div><span class="color-box orange"></span> Multi-item</div>
-  </div>
-</div>
+
+                <label class="block mt-5">Max Quantity Available
+                <input
+                  type="text"
+                  placeholder="Write Here"
+                  class="mt-1 p-2 w-full bg-transparent border-0 border-b-2 border-gray-400 focus:outline-none focus:border-black rounded-none"
+                />
+                </label>
+            </div>
+        </aside>
+
+        <!-- Contenido principal (Tabla) -->
+        <main class="w-2/3 p-4 bg-[#EDEDED] m-[10px] mt-[25px] rounded-[20px]">
+            <table class="w-full rounded border-separate border-spacing-y-[10px] border-spacing-x-[5px]">
+                <thead class="no-background thead-line">
+                    <tr>
+                        <th class="p-2 rounded-[5px]">ID</th>
+                        <th class="p-2 rounded-[5px]">Name</th>
+                        <th class="p-2 rounded-[5px]">Category</th>
+                        <th class="p-2 rounded-[5px]">Buying Price</th>
+                        <th class="p-2 rounded-[5px]">Selling Price</th>
+                        <th class="p-2 rounded-[5px]">Amount</th>
+                    </tr>
+                </thead>
+                <tbody id="table-body">
+                    <!-- Aquí se añaden los productos -->
+                </tbody>
+            </table>
+
+            <div id="pagination" class="flex justify-center items-center space-x-2 mt-4">
+              <!-- Botón anterior -->
+              <button id="prev-button" class="px-3 py-1 rounded bg-gray-300 hover:bg-gray-400" disabled>
+                ←
+              </button>
+
+              <!-- Número de página -->
+              <span id="page-number" class="text-lg font-semibold">1</span>
+
+              <!-- Botón siguiente -->
+              <button id="next-button" class="px-3 py-1 rounded bg-gray-300 hover:bg-gray-400">
+                →
+              </button>
+            </div>
+
+        </main>
+
+        <!-- Aside derecho (Navegación) -->
+        <aside class="w-1/6 p-4 m-[10px] mt-[25px] flex flex-col gap-[50px]">
+          <div class="bg-[#EDEDED] flex justify-center items-center bg-gray-100 rounded-[20px] p-5">
+            <button class="mt-2 w-full bg-[#D9D9D9] text-black p-2 rounded flex justify-center items-center gap-[5px]">
+              Notifications
+              <img class="h-[15px] fill-white" src="{{ url_for('static', filename='Images/Campana.svg') }}" alt="Imagen de reinicio"/>
+            </button>
+          </div>
+          <div class="bg-[#EDEDED] flex flex-col justify-center items-center bg-gray-100 rounded-[20px] p-5">
+            <h2 class="text-lg font-semibold">Navigation</h2>
+            <button class="mt-2 w-full bg-[#8DC96A] text-black p-2 rounded">Add Item</button>
+            <button class="mt-2 w-full bg-[#8DC96A] text-black p-2 rounded">Add Company</button>
+            <button class="mt-2 w-full bg-[#D9D9D9] text-black p-2 rounded">Show All Category</button>
+            <button class="mt-2 w-full bg-[#D9D9D9] text-black p-2 rounded flex justify-center items-center gap-[10px]">History
+              <img class="h-[20px] fill-white" src="{{ url_for('static', filename='Images/Lupa.svg') }}" alt="Imagen de reinicio"/>
+            </button>
+          </div>
+        </aside>
+    </div>
 </body>
 </html>
 
-
+<style>
+  .thead-line {
+    box-shadow: 0 1px 0 0 black;
+  }
+</style>

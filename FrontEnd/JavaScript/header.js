@@ -1,6 +1,8 @@
 function initializeLogoutButton() {
     const logoutButton = document.getElementById("log-out");
+    console.log("Se entra aquí");
     if (logoutButton) {
+        console.log("2Se entra aquí2");
         logoutButton.addEventListener("click", () => {
             const confirmation = confirm("¿Estás seguro de que deseas cerrar sesión?");
             if (confirmation) {
