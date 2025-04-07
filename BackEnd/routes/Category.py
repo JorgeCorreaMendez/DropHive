@@ -5,7 +5,7 @@ from flask import Blueprint, jsonify, request
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 
-from BackEnd.utils.DB_utils import get_all_values_from, DB_PATH
+from BackEnd.utils.sqlalchemy_methods import get_all_values_from, DB_PATH
 from BackEnd.models.Category import Category
 from BackEnd.routes.Auth import login_required, get_session
 
