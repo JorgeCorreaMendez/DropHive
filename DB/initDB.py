@@ -1,7 +1,6 @@
 import sqlite3 as sql
 import os
-from BackEnd.utils.hashing import create_hash
-from CreacionBaseDatosCuentas import create_db_cuentas, add_cuenta_nueva
+from BackEnd.utils.bcrypt_methods import create_hash
 
 DB_PATH = os.path.abspath(os.path.dirname(__file__)) + '/DropHive.db'
 
@@ -100,6 +99,3 @@ def addValuesSample(path):
 if __name__ == "__main__":
     createDB(DB_PATH)
     addValuesSample(DB_PATH)
-    create_db_cuentas()
-    add_cuenta_nueva('admin@DropHive.com', 'DropHive')
-    add_cuenta_nueva('user@DropHive.com', 'DropHive')

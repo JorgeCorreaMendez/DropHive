@@ -1,6 +1,6 @@
 from flask import Blueprint, jsonify
 
-from BackEnd.utils.DB_utils import get_all_values_from
+from BackEnd.utils.sqlalchemy_methods import get_all_values_from
 from BackEnd.models.Category import Category
 from BackEnd.routes.Auth import login_required
 

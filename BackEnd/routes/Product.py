@@ -5,7 +5,7 @@ from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 
 from BackEnd import schemas
-from BackEnd.utils.DB_utils import get_all_values_from, DB_PATH
+from BackEnd.utils.sqlalchemy_methods import get_all_values_from, DB_PATH
 from BackEnd.models.Product import Product
 from BackEnd.routes.Auth import login_required
 

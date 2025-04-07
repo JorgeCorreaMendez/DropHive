@@ -5,25 +5,28 @@ from flask import Flask, render_template, session, redirect, url_for
 from BackEnd.routes.Accounts import accounts_bp
 from BackEnd.routes.Auth import auth_bp, login_required
 from BackEnd.routes.Category import categories_bp
+from BackEnd.routes.Mail import email_bp
 from BackEnd.routes.Privilege import privileges_bp
 from BackEnd.routes.Product import products_bp
 from BackEnd.routes.Register import registro_bp
+from BackEnd.utils.flask_mail_methods import init_mail
 
 app = Flask(__name__, template_folder="../FrontEnd/html", static_folder="../FrontEnd")
-app.secret_key = os.getenv("test", "1234")
+app.secret_key = os.getenv("secret_key", "12")
 app.register_blueprint(auth_bp)
 app.register_blueprint(registro_bp)
 app.register_blueprint(products_bp)
 app.register_blueprint(privileges_bp)
 app.register_blueprint(accounts_bp)
 app.register_blueprint(categories_bp)
+app.register_blueprint(email_bp)
 app.config['APPLICATION_ROOT'] = '/'
 app.json.ensure_ascii = False
 
+mail = init_mail(app)
 
 @app.route("/")
 def index():
-    print(session.values())
     if "adidas" in session:
         return redirect(url_for("home"))
     else:
