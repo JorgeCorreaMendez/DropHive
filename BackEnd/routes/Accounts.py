@@ -5,6 +5,8 @@ from BackEnd.routes.Auth import login_required
 from BackEnd.utils.bcrypt_methods import create_hash
 from BackEnd.utils.sqlalchemy_methods import get_all_values_from, get_db_session
 
+from DB.CreacionBaseDatosCuentas import search_cuenta
+
 accounts_bp = Blueprint("accounts", __name__)
 
 
@@ -25,9 +27,11 @@ def change_password():
         return jsonify({"error": "Código de verificación no encontrado o expirado."}), 400
     email = data.get("mail")
     new_password = data.get("password")
+    db_name = data.get("db_name")
+    print(data)
     try:
         # TODO se tiene que saber la empresa
-        with get_db_session("DropHive") as db:
+        with get_db_session(db_name) as db:
             account = db.query(Account).filter_by(mail=email).first()
             if account:
                 account.password = create_hash(new_password)
@@ -55,10 +59,12 @@ def comprobar_codigo_verificacion():
 
 @accounts_bp.route("/check_mail/<string:email>")
 def check_mail(email):
-    usuarios = get_all_values_from(Account, 'Redireccion')
 
-    if email in usuarios:
-        return jsonify({}), 200  # 200 OK, sin cuerpo en la respuesta
+    existe = search_cuenta(email)
+
+    if existe is not None:
+        print(existe)
+        return jsonify({"dbname": existe}), 200  # 200 OK, sin cuerpo en la respuesta
     else:
         return jsonify({"error": "Email already exists"}), 400  # 400 Bad Request
 

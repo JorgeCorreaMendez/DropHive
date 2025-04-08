@@ -10,7 +10,7 @@ def create_db_cuentas():
     conn = sql.connect(DB_PATH_USUARIOS)
     cursor = conn.cursor()
 
-    cursor.execute('''CREATE TABLE IF NOT EXISTS accounts
+    cursor.execute('''CREATE TABLE IF NOT EXISTS Usuarios
                     (correo TEXT PRIMARY KEY,
                      db_name TEXT NOT NULL);''')
 
@@ -37,7 +37,7 @@ def add_cuenta_nueva(correo, db_name):
     cursor = conn.cursor()
     estado = True
     try:
-        cursor.execute('''INSERT INTO accounts (correo, db_name) VALUES (?, ?)''', (correo, db_name))
+        cursor.execute('''INSERT INTO Usuarios (correo, db_name) VALUES (?, ?)''', (correo, db_name))
         conn.commit()
     except sql.Error as e:
         print('Error %s' % e)
@@ -55,7 +55,7 @@ def eliminar_cuenta(mail):
     estado = True
 
     try:
-        cursor.execute('''DELETE FROM accounts WHERE correo = (?)''', (mail,))
+        cursor.execute('''DELETE FROM Usuarios WHERE correo = (?)''', (mail,))
         conn.commit()
     except sql.Error as e:
         print('Error %s' % e)
@@ -73,7 +73,7 @@ def eliminar_cuentas_db(db_name):
     estado = True
 
     try:
-        cursor.execute('''DELETE FROM accounts WHERE db_name = (?)''', (db_name,))
+        cursor.execute('''DELETE FROM Usuarios WHERE db_name = (?)''', (db_name,))
         conn.commit()
     except sql.Error as e:
         print('Error %s' % e)
