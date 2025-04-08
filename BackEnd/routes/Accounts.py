@@ -23,21 +23,42 @@ def change_password():
     data = request.get_json()
     if "verification_code" not in session:
         return jsonify({"error": "Código de verificación no encontrado o expirado."}), 400
+    email = data.get("mail")
+    new_password = data.get("password")
+    try:
+        # TODO se tiene que saber la empresa
+        with get_db_session("DropHive") as db:
+            account = db.query(Account).filter_by(mail=email).first()
+            if account:
+                account.password = create_hash(new_password)
+                db.commit()
+                session.pop("verification_code")
+                return jsonify({"message": "Contraseña actualizada correctamente."}), 200
+            else:
+                return jsonify({"error": "Correo electrónico no encontrado."}), 404
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
+
+
+@accounts_bp.route("/check_verification_code", methods=["POST"])
+def comprobar_codigo_verificacion():
+    data = request.get_json()
+    print(data)
     if session["verification_code"] == data.get("code"):
-        email = data.get("mail")
-        new_password = data.get("password")
-        try:
-            # TODO se tiene que saber la empresa
-            with get_db_session("DropHive") as db:
-                account = db.query(Account).filter_by(mail=email).first()
-                if account:
-                    account.password = create_hash(new_password)
-                    db.commit()
-                    session.pop("verification_code")
-                    return jsonify({"message": "Contraseña actualizada correctamente."}), 200
-                else:
-                    return jsonify({"error": "Correo electrónico no encontrado."}), 404
-        except Exception as e:
-            return jsonify({"error": str(e)}), 500
+        # Si el código es correcto, devolver un 200 OK
+        print("Se ha enviado el codigo correcto")
+        return jsonify({}), 200  # Respuesta vacía con código de estado 200
     else:
-        return jsonify({"error": "El código de validación no es correcto"}), 400
+        # Si el código es incorrecto, devolver un 400 Bad Request
+        return jsonify({}), 400  # Respuesta vacía con código de estado 400
+
+
+@accounts_bp.route("/check_mail/<string:email>")
+def check_mail(email):
+    usuarios = get_all_values_from(Account, 'Redireccion')
+
+    if email in usuarios:
+        return jsonify({}), 200  # 200 OK, sin cuerpo en la respuesta
+    else:
+        return jsonify({"error": "Email already exists"}), 400  # 400 Bad Request
+
