@@ -1,18 +1,5 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Crear Nuevo Objeto</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='CSS/CreateItem.css') }}">
-    <script src="{{ url_for('static', filename='JavaScript/header.js') }}"></script>
-    <script src="{{ url_for('static', filename='JavaScript/createItem.js') }}"></script>
-</head>
-<body>
-<header>
-    {% include 'header.html' %}
-</header>
-
+<link rel="stylesheet" href="{{ url_for('static', filename='CSS/CreateItem.css') }}?v=1">
+<script src="{{ url_for('static', filename='JavaScript/createItem.js') }}"></script>
 <!-- Caja gris exterior -->
 <div class="outer-container">
     <!-- Caja blanca interior -->
@@ -72,5 +59,4 @@
     <!-- Contenedor para mostrar mensajes -->
     <div id="message"></div>
 </div> <!-- Fin .outer-container -->
-</body>
-</html>
+
