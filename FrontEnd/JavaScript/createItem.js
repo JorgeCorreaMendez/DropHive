@@ -1,57 +1,54 @@
+import { recuperarNombreBaseDatos } from "./recursos.js";
+
 document.addEventListener("DOMContentLoaded", () => {
-    // Listener para el botón de guardar cambios (crear producto)
-    const saveBtn = document.querySelector(".save-btn");
-    saveBtn.addEventListener("click", async (e) => {
-        e.preventDefault();
 
-        // Recoger datos de los campos del formulario
-        const productId = document.getElementById("product-id").value.trim();
-        const name = productId;
-        const description = document.getElementById("description").value.trim();
-        const information = document.getElementById("information").value.trim();
-        // Concatenamos descripción e información en un solo campo (opcional)
-        const fullDescription = description + "\n" + information;
-        const price = parseFloat(document.getElementById("price").value) || 0.0;
-        const discount = parseFloat(document.getElementById("discount").value) || 0.0;
-        const size = document.getElementById("size").value.trim();
+    const addItemBtn = document.getElementById("add-item-btn");
+
+    addItemBtn.addEventListener("click", async () => {
+        const product_id = document.getElementById("product-id").value;
+        const name = document.getElementById("product-name").value;
+        const description = document.getElementById("description").value;
+        const price = parseFloat(document.getElementById("price").value);
+        const size = document.getElementById("size").value;
+        const discount = parseFloat(document.getElementById("discount").value);
+        const category_id = 1; // Puedes ajustar esto dinámicamente si tienes múltiples categorías
         const quantity = 1;
-        const category_id = 1;
-
-        // Construir objeto con los datos del producto
-        const productData = {
-            product_id: productId,
-            name: name,
-            description: fullDescription,
-            price: price,
-            discount: discount,
-            size: size,
-            quantity: quantity,
-            category_id: category_id
-        };
 
         try {
-           //Conexion con la base de datos
-            const dbName = "{{ db_name }}";
-            const response = await fetch(`/${dbName}/add_product`, {
+            // Recuperar el nombre de la base de datos
+            const db_name = await recuperarNombreBaseDatos();
+            console.log("Nombre de la base de datos:", db_name); // Depuración
+
+            // Hacer la solicitud POST a la ruta dinámica
+            const response = await fetch(`/${db_name}/add_product`, {
                 method: "POST",
                 headers: {
-                    "Content-Type": "application/json"
+                    "Content-Type": "application/json",
                 },
-                body: JSON.stringify(productData)
+                body: JSON.stringify({
+                    product_id,
+                    name,
+                    description,
+                    price,
+                    discount,
+                    size,
+                    quantity,
+                    category_id,
+                }),
             });
 
+            // Verificar si la respuesta es correcta
             if (response.ok) {
-                const data = await response.json();
-                alert(data.message || "Producto creado correctamente");
-                // Redirigir al listado de productos o limpiar el formulario
-                window.location.href = `/${dbName}/products`;
+                console.log("Producto añadido correctamente");
+                window.location.href = `/${db_name}/home`;  // Asegurarse de que usamos db_name
             } else {
-                const error = await response.json();
-                alert("Error: " + (error.error || "Error al crear el producto"));
+                const errorMessage = await response.text(); // Obtener mensaje de error del servidor
+                console.error("Error en la respuesta del servidor:", errorMessage);
+                alert(`Error al añadir el producto: ${errorMessage}`);
             }
-        } catch (err) {
-            console.error("Error al crear producto:", err);
-            alert("Error al enviar la solicitud de creación.");
+        } catch (error) {
+            console.error("Error al enviar datos:", error);
+            alert("Ocurrió un error inesperado. Ver consola para detalles.");
         }
     });
 });

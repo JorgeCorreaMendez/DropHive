@@ -6,9 +6,11 @@
     <title>Crear Nuevo Objeto</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='CSS/CreateItem.css') }}">
     <script src="{{ url_for('static', filename='JavaScript/header.js') }}"></script>
-    <script src="{{ url_for('static', filename='JavaScript/createItem.js') }}"></script>
+    <script src="{{ url_for('static', filename='JavaScript/createItem.js') }}" type="module" defer></script>
+
 </head>
-<body>
+<!-- Se agrega data-dbname con el valor correspondiente -->
+
 <header>
     {% include 'header.html' %}
 </header>
@@ -17,7 +19,6 @@
 <div class="outer-container">
     <!-- Caja blanca interior -->
     <div id="createProductForm" class="create-product-container">
-        <!-- Encabezado -->
         <div class="top-section">
             <div class="top-left">
                 <div class="image-placeholder" role="img" aria-label="Espacio para la imagen del artículo">
@@ -28,7 +29,7 @@
                 <button type="button" class="category-btn">Add Category</button>
             </div>
             <div class="top-right">
-                <button class="save-btn" type="submit">Save Changes</button>
+                <button id="add-item-btn" class="save-btn" type="button">Save Changes</button>
             </div>
         </div>
         <!-- Cuerpo principal -->
@@ -69,8 +70,6 @@
             </div>
         </div>
     </div>
-    <!-- Contenedor para mostrar mensajes -->
-    <div id="message"></div>
-</div> <!-- Fin .outer-container -->
+</div>
 </body>
 </html>
