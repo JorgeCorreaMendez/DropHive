@@ -96,4 +96,8 @@ def eliminar_db(db_name):
         return False
 
 if __name__ == '__main__':
+    eliminar_db('Jesus')
+    eliminar_db('ak')
     eliminar_db('Company')
+    eliminar_db('Compa')
+    eliminar_db('DarioMatadragones23')

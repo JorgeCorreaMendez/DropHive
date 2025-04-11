@@ -1,4 +1,5 @@
 import { recuperarNombreBaseDatos } from "./recursos.js";
+import {agregarProducto} from "./createItem.js";
 
 document.addEventListener("DOMContentLoaded", () => {
   const modalContainer = document.getElementById("modal-container");
@@ -56,6 +57,7 @@ document.addEventListener("DOMContentLoaded", () => {
       const bodyContent = doc.body.innerHTML;
 
       openModal(bodyContent);
+      await document.getElementById("save-changes-btn").addEventListener("click", agregarProducto);
     } catch (err) {
       console.error("Error al cargar el modal:", err);
     }
