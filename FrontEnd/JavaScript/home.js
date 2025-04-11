@@ -89,7 +89,8 @@ async function recuperarProductos() {
 
         for (const item of data) {
           const row = document.createElement('tr');
-          row.classList.add('bg-[#D9D9D9]', 'gap-[5px]', 'text-center');
+          row.classList.add('bg-[#D9D9D9]', 'gap-[5px]', 'text-center', 'modal-trigger');
+          row.setAttribute('data-product-id', item.product_id);
 
           // A partir de aquí se muestran los elementos de las columnas
           const idCell = document.createElement('td');
@@ -182,7 +183,11 @@ async function actualizarOpcionesCategoria() {
 
 // Llamamos a la función cuando el DOM está cargado
 document.addEventListener('DOMContentLoaded', async () => {
-  let total_productos = await recuperarProductos();
-  await actualizarOpcionesCategoria();
-  await initPagination(total_productos); // Ejecuta la paginación después de obtener los datos de la API
+    let total_productos = await recuperarProductos();
+    await actualizarOpcionesCategoria();
+    await initPagination(total_productos); // Ejecuta la paginación después de obtener los datos de la API
+    document.getElementById("supplier-btn").addEventListener("click", async () => {
+        const db_name = await recuperarNombreBaseDatos();
+        window.location.href = `http://127.0.0.1:4000/${db_name}/supply`;
+    })
 });

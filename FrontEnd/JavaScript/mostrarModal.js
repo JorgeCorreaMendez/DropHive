@@ -60,4 +60,38 @@ document.addEventListener("DOMContentLoaded", () => {
       console.error("Error al cargar el modal:", err);
     }
   });
+
+  document.getElementById("add-company-btn").addEventListener("click", async () => {
+    try {
+      const db_name = await recuperarNombreBaseDatos();
+
+      const response = await fetch(`/${db_name}/addAndModifyCompany`);
+      const html = await response.text();
+
+      const parser = new DOMParser();
+      const doc = parser.parseFromString(html, "text/html");
+      const bodyContent = doc.body.innerHTML;
+
+      openModal(bodyContent);
+    } catch (err) {
+      console.error("Error al cargar el modal:", err);
+    }
+  });
+
+  document.getElementById("notification-btn").addEventListener("click", async () => {
+    try {
+      const db_name = await recuperarNombreBaseDatos();
+
+      const response = await fetch(`/${db_name}/notifications`);
+      const html = await response.text();
+
+      const parser = new DOMParser();
+      const doc = parser.parseFromString(html, "text/html");
+      const bodyContent = doc.body.innerHTML;
+
+      openModal(bodyContent);
+    } catch (err) {
+      console.error("Error al cargar el modal:", err);
+    }
+  });
 });
