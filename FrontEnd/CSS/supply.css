@@ -89,12 +89,12 @@
     }
 
     .delete_button button {
-        background: blue;
+        background: #ec5353;
         color: white;
     }
 
     .delete_button button:hover {
-        background: #000080;
+        background: red;
         color: white;
     }
 
@@ -157,7 +157,7 @@
      }
  }
 
- /* Media Query para Móvil (< 768px) - Ya lo tienes bien */
+ /* Media Query para Móvil (< 768px) */
  @media (max-width: 768px) {
      .supply-sidebar {
          width: 100%;
