@@ -44,6 +44,20 @@ def login():
     return render_template("LogIn.html")
 
 
+@app.route("/forgotted_password")
+def forgotted_password():
+    return render_template("send_mail_for_password.html")
+
+
+@app.route("/change_password")
+def change_password():
+    return render_template("change_password.html")
+
+
+@app.route("/verification_code")
+def verification_code():
+    return render_template("CodigoDeVerificacion.html")
+
 @app.route("/<string:db_name>/addAndModifyCategory")
 def add_and_modify_category(db_name):
     return render_template("addAndModifyCategory.html")
@@ -111,6 +125,10 @@ def view_employee_action(db_name):
 @app.route("/<string:db_name>/home2")
 def home_temporal(db_name):
     return render_template("home-temporal.html")
+
+
+
+
 
 
 if __name__ == "__main__":

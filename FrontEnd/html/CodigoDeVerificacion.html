@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>DropHive Login</title>
     <link rel="stylesheet" href="/FrontEnd/CSS/LogIn.css">
-    <script src=""></script>
+    <script src="https://cdn.tailwindcss.com"></script>
 </head>
 <body>
 <div class="login-container">
@@ -15,13 +15,19 @@
     <div class="login-box">
         <form id="LoginForm" action="">
             <div class="login-input-group">
-                <label for="codigo_verificacion">Código de verificación:</label>
+                <label for="codigo_verificacion">Código de verificación</label>
                 <input type="text" id="codigo_verificacion" required>
             </div>
-            <div class="login-buttons">
-                <button id="register-btn" type="button">Sign up</button>
-                <button class="help" type="button">Need help?</button>
-                <button class="enter" type="submit">Enter</button>
+            <div class="flex justify-center mt-4 space-x-4">
+              <button type="submit" class="bg-blue-600 text-white py-2 px-4 rounded hover:scale-105 transition-transform" onclick="checkVerificationCode()">
+                Enter
+              </button>
+              <button
+                type="button"
+                onclick="window.history.back()"
+                class="bg-gray-400 text-white py-2 px-4 rounded hover:scale-105 transition-transform">
+                Volver
+              </button>
             </div>
         </form>
     </div>
@@ -30,3 +36,29 @@
 </div>
 </body>
 </html>
+
+<script>
+    async function checkVerificationCode() {
+        const verification_code = document.getElementById("codigo_verificacion").value;
+        try {
+            const response = await fetch('http://127.0.0.1:4000/check_verification_code', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({code: verification_code}),
+            });
+
+            console.log(verification_code)
+
+            if (response.ok) {
+                console.log("Se ha entrado aquí");
+                window.location.href = 'http://127.0.0.1:4000/change_password'
+            } else {
+                alert("Wrong Verification Code")
+            }
+        } catch (e) {
+            console.log("Ha habido un error");
+        }
+    }
+</script>
