@@ -89,7 +89,8 @@ async function recuperarProductos() {
 
         for (const item of data) {
           const row = document.createElement('tr');
-          row.classList.add('bg-[#D9D9D9]', 'gap-[5px]', 'text-center');
+          row.classList.add('bg-[#D9D9D9]', 'gap-[5px]', 'text-center', 'modal-trigger');
+          row.setAttribute('data-product-id', item.product_id);
 
           // A partir de aquí se muestran los elementos de las columnas
           const idCell = document.createElement('td');
@@ -182,40 +183,11 @@ async function actualizarOpcionesCategoria() {
 
 // Llamamos a la función cuando el DOM está cargado
 document.addEventListener('DOMContentLoaded', async () => {
-    // ✅ Mostrar alerta si el producto fue añadido recientemente
-    const urlParams = new URLSearchParams(window.location.search);
-    if (urlParams.get("added") === "true") {
-        alert("Producto añadido correctamente");
-    }
-
     let total_productos = await recuperarProductos();
     await actualizarOpcionesCategoria();
-    await initPagination(total_productos);
-
-    const addItemButton = document.getElementById("add-item-btn");
-    addItemButton.addEventListener("click", async () => {
-        // Esperar a que se recupere el nombre de la base de datos
+    await initPagination(total_productos); // Ejecuta la paginación después de obtener los datos de la API
+    document.getElementById("supplier-btn").addEventListener("click", async () => {
         const db_name = await recuperarNombreBaseDatos();
-
-        // Redirigir a la página de creación del producto con el db_name correcto
-        window.location.href = `/${db_name}/createItem`;
-    });
-
-    const viewNotification = document.getElementById("view-notification");
-    viewNotification.addEventListener("click", async () => {
-        // Esperar a que se recupere el nombre de la base de datos
-        const db_name = await recuperarNombreBaseDatos();
-
-        // Redirigir a la página de creación del producto con el db_name correcto
-        window.location.href = `/${db_name}/notifications`;
-    });
-
-    const addCompany = document.getElementById("add-company-btn");
-    addCompany.addEventListener("click", async () => {
-        // Esperar a que se recupere el nombre de la base de datos
-        const db_name = await recuperarNombreBaseDatos();
-
-        // Redirigir a la página de creación del producto con el db_name correcto
-        window.location.href = `/${db_name}/addAndModifyCompany`;
-    });
+        window.location.href = `http://127.0.0.1:4000/${db_name}/supply`;
+    })
 });

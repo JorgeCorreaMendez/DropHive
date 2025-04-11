@@ -1,26 +1,3 @@
-
-* {
-    box-sizing: border-box;
-    margin: 0;
-    padding: 0;
-    font-family: Arial, sans-serif;
-}
-
-body {
-    background-color: #f0f0f0;
-    overflow-x: hidden;
-    padding: 20px;
-}
-/* Contenedor gris externo */
-
-.outer-container {
-    background-color: #e0e0e0; /* Gris */
-    padding: 40px;            /* Separación interna */
-    border-radius: 50px;
-    width: 95%;               /* Más pequeña que la pantalla */
-    margin: 40px auto;        /* Centrada en la página */
-
-}
 /* Caja blanca interior (formulario) */
 .create-product-container {
     display: flex;
