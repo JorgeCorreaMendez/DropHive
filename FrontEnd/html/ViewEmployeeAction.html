@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <title>DropHive</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='CSS/viewEmployeeActions.css') }}">
+</head>
+<body>
+
+<!-- Encabezado -->
+<header>
+  {% include 'header.html' %}
+</header>
+<!-- Contenedor principal -->
+<main>
+  <section class="employee-actions">
+    <h2>Employee actions</h2>
+
+    <!-- Barra de búsqueda de ID -->
+    <div class="search-id">
+      <label for="searchId">Search ID</label>
+      <input type="text" id="searchId" placeholder="Buscar ID...🔍" />
+    </div>
+
+    <!-- Datos del empleado -->
+    <div class="employee-data">
+      <div class="field">
+        <label>ID</label>
+        <input type="text" value="0001" readonly />
+      </div>
+
+      <div class="field">
+        <label>Email</label>
+        <input type="text" placeholder="email@ejemplo.com" readonly/>
+      </div>
+
+      <div class="field">
+        <label>Role</label>
+        <input type="text" placeholder="Admin/User" readonly/>
+      </div>
+    </div>
+
+    <!-- Acciones realizadas -->
+    <div class="actions-performed">
+      <h3>Actions performed:</h3>
+      <table>
+        <thead>
+        <tr>
+          <th>Action</th>
+          <th>On what?</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+          <td><input type="text" placeholder="Action 1" /></td>
+          <td><input type="text" placeholder="Target 1" /></td>
+        </tr>
+        <tr>
+          <td><input type="text" placeholder="Action 2" /></td>
+          <td><input type="text" placeholder="Target 2" /></td>
+        </tr>
+        <tr>
+          <td><input type="text" placeholder="Action 3" /></td>
+          <td><input type="text" placeholder="Target 3" /></td>
+        </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+</main>
+</body>
+</html>

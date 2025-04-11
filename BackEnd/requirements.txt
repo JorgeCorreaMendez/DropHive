@@ -1,0 +1,7 @@
+Flask==2.3.2
+Flask-SQLAlchemy==3.0.3
+flask-mail==0.10.0
+pydantic==2.10.6
+pydantic[email]
+pytest-mock
+bcrypt

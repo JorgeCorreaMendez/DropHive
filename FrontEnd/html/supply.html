@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Supply Management</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='CSS/Style.css') }}">
+  <script src="{{ url_for('static', filename='JavaScript/header.js') }}"></script>
+  <script src="{{ url_for('static', filename='JavaScript/redirect.js') }}"></script>
+</head>
+<body>
+<header>
+  {% include 'header.html' %}
+</header>
+<div class="supply-sidebar">
+  <button id="notification-btn">🔔 Notifications</button>
+  <div class="delete_button">
+    <button>🗑️ Delete supplier</button>
+  </div>
+</div>
+
+<div class="supply-container">
+  <table>
+    <thead>
+    <tr>
+      <th>Casilla de borrado</th>
+      <th>Nombre del proveedor</th>
+      <th>Nombre de la compañía</th>
+      <th>Email</th>
+      <th>Número de teléfono</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+      <td><input type="checkbox" class="select-item"></td>
+      <td>Nike</td>
+      <td>Dunk Low</td>
+      <td>juanitoPalotes@gmail.com</td>
+      <td>123456789</td>
+    </tr>
+    <tr>
+      <td><input type="checkbox" class="select-item"></td>
+      <td>Adidas</td>
+      <td>Samba OG</td>
+      <td>juanitoPalotes@gmail.com</td>
+      <td>123456789</td>
+    </tr>
+    <tr>
+      <td><input type="checkbox" class="select-item"></td>
+      <td>New Balance</td>
+      <td>New Balance 550</td>
+      <td>juanitoPalotes@gmail.com</td>
+      <td>123456789</td>
+    </tr>
+    <tr>
+      <td><input type="checkbox" class="select-item"></td>
+      <td>Jordan</td>
+      <td>Air Jordan 1</td>
+      <td>juanitoPalotes@gmail.com</td>
+      <td>123456789</td>
+    </tr>
+    <tr>
+      <td><input type="checkbox" class="select-item"></td>
+      <td>Carhartt</td>
+      <td>Chore Coat</td>
+      <td>juanitoPalotes@gmail.com</td>
+      <td>123456789</td>
+    </tr>
+    </tbody>
+  </table>
+</div>
+</body>
+</html>

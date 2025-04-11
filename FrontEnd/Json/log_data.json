@@ -1,0 +1,7 @@
+[
+  { "compania": "Nike", "item": "Dunk Low", "accion": "Añadir ítem" },
+  { "compania": "Adidas", "item": "Samba OG", "accion": "Añadir ítem" },
+  { "compania": "New Balance", "item": "New Balance 550", "accion": "Añadir ítem" },
+  { "compania": "Jordan", "item": "Air Jordan 1", "accion": "Eliminar" },
+  { "compania": "Carhartt", "item": "Chore Coat", "accion": "Modificar ítem" }
+]

@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>DropHive - Add Company</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='CSS/AddAndModifyCategory.css') }}">
+    <script src="{{ url_for('static', filename='JavaScript/header.js') }}"></script>
+    <script src="{{ url_for('static', filename='JavaScript/redirect.js') }}"></script>
+</head>
+<body>
+<header>
+    {% include 'header.html' %}
+</header>
+<main>
+    <!-- Caja exterior gris (contenedor externo) -->
+    <div class="main-container">
+        <!-- Caja interna que sobresale del contenedor -->
+        <div class="category-form">
+            <div class="category-header">
+                <img class="image-container" src="/FrontEnd/Images/sinFoto.png" alt="Company Image">
+                <button id="save-btn1" class="btn-add">Save Changes</button>
+                <input type="file" accept="image/*" class="company-image-input">
+            </div>
+
+
+
+            <div class="category-info">
+                <input type="text" placeholder="Add Category Name" class="input-field">
+            </div>
+
+            <div class="category-description">
+                <label>Description:</label>
+                <textarea placeholder="Add Description..." class="textarea-field"></textarea>
+            </div>
+
+
+        </div>
+    </div>
+</main>
+</body>
+</html>

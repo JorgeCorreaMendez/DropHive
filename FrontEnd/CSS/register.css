@@ -1,0 +1,120 @@
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0;
+    font-family: Arial, serif;
+}
+
+#registrationForm h3 {
+    text-align: center;
+}
+
+.image-container img {
+    width: 300px;
+    height: 200px;
+    margin-left: 10px;
+}
+
+#contenedor-principal {
+    background-color: #d3d3d3;
+    padding: 40px;
+    border-radius: 10px;
+    margin: 2em 0;
+    text-align: center;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+    height: auto;
+}
+
+#registrationForm {
+    background: white;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.2);
+    margin-top: 20px;
+    height: auto;
+}
+
+#linea-separacion {
+    width: 1px;
+    background-color: #000000;
+    height: auto;
+    margin: 5% 0;
+}
+
+#contenedor-inputs {
+    display: flex;
+    flex-direction: row;
+    height:100%;
+}
+
+input{
+    display: block;
+    width: 70%;
+    margin: 1em;
+    padding: 18px;
+    font-size: 15px;
+    border: 2px solid #ccc;
+    border-radius: 10px;
+}
+
+#descripcion{
+    display: block;
+    max-width: 80%;
+    margin: 1em;
+    padding: 18px;
+    font-size: 15px;
+    border: 2px solid #ccc;
+    border-radius: 10px;
+    max-height: 100px;
+}
+#contenedor-botones {
+    display: flex;
+    flex-direction: column;
+}
+
+button {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    background: blue;
+    color: white;
+    transition: 0.2s;
+}
+
+button:hover {
+    transform: scale(1.05);
+}
+
+#VolverLogIn {
+    background: none;
+    border-style: none;
+    color: black;
+    font-size: 15px;
+}
+
+#registrationForm button {
+}
+
+
+/*
+
+.container {
+    background: white;
+    margin: auto;
+    border-radius: 30px;
+    box-shadow: 10px 10px 20px rgba(0, 0, 0, 0.2);
+    text-align: center;
+    width: 100%;
+    min-width: 25em;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+h2 {
+    margin-bottom: 25px;
+    font-size: 30px;
+}
+
+

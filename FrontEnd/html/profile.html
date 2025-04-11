@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>DropHive</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='CSS/profile.css') }}">
+    <script src="{{ url_for('static', filename='JavaScript/redirect.js') }}"></script>
+</head>
+<body>
+<!-- Encabezado superior con el logo y botones de modificar/eliminar -->
+<header>
+    {% include 'header.html' %}
+</header>
+
+<!-- Contenedor principal -->
+<main class="main-container">
+    <!-- Sección Izquierda: Perfil de la tienda, descripción y empleados -->
+    <section class="store-section">
+        <!-- Encabezado de la tienda -->
+        <div class="store-header">
+            <!-- Imagen de perfil (circular) -->
+            <div class="store-image">
+                <!-- Usa un ícono o una imagen real -->
+            </div>
+            <div class="store-info">
+                <h2 class="store-name">Store Name</h2>
+                <!-- Botón de Log out a la derecha del nombre -->
+                <button class="btn-logout">Log out</button>
+                <p class="store-description-title">Description:</p>
+                <p class="store-description">
+                    Blabababababababab<br>
+                    Blabababababababababababababab<br>
+                    Blabababababababababababab
+                </p>
+            </div>
+        </div>
+
+        <!-- Tabla de Empleados -->
+        <div class="employees-section">
+            <h3>Employees</h3>
+            <table class="employees-table">
+                <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Email</th>
+                    <th>Role</th>
+                </tr>
+                </thead>
+                <tbody>
+                <!-- Rellenar con datos reales o dinámicos -->
+                <tr>
+                    <td>1</td>
+                    <td>employee1@store.com</td>
+                    <td>Manager</td>
+                </tr>
+                <tr>
+                    <td>2</td>
+                    <td>employee2@store.com</td>
+                    <td>Staff</td>
+                </tr>
+                <tr>
+                    <td>3</td>
+                    <td>employee3@store.com</td>
+                    <td>Staff</td>
+                </tr>
+                </tbody>
+            </table>
+            <!-- Botones para añadir o modificar empleados -->
+            <div class="employee-buttons">
+                <button class="btn-add">Add Employee</button>
+                <button class="btn-modify">Modify Employee</button>
+            </div>
+            <!-- Nuevo shortcut o acción extra -->
+            <button class="btn-outline">Add new shortcut</button>
+        </div>
+    </section>
+
+    <!-- Sección Derecha: Panel de Notificaciones -->
+    <aside class="notifications-panel">
+        <div class="notifications-header">
+            <h3>Notifications</h3>
+            <!-- Icono de campana o similar -->
+            <span class="bell-icon">🔔</span>
+        </div>
+        <div class="notification-card">
+            <h4>Adidas: <span class="dot-indicator"></span></h4>
+            <p><strong>New Stock Arrival</strong><br>
+                New Arrivals Is Coming To You! Hi [Store’s Name]...
+            </p>
+        </div>
+        <div class="notification-card">
+            <h4>Temu:</h4>
+            <p><strong>Transport problems</strong><br>
+                Dear [Store’s Name], we regret to inform you that...
+            </p>
+        </div>
+        <!-- Más notificaciones... -->
+        <button class="btn-view-actions">View employees' actions</button>
+    </aside>
+</main>
+
+</body>
+</html>

@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Drop Hive - Category Page</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='CSS/CategoryPage.css') }}">
+    <script src="{{ url_for('static', filename='JavaScript/header.js') }}"></script>
+    <script src="{{ url_for('static', filename='JavaScript/redirect.js') }}"></script>
+</head>
+<body>
+
+<header>
+    {% include 'header.html' %}
+</header>
+
+<main>
+    <div class="category-container">
+        <h2>Category</h2>
+        <div class="search-category">
+            <input type="text" placeholder="Search Category">
+            <button>🔍</button>
+        </div>
+        <div class="content-box">
+            <h3>Streetwear</h3>
+            <p>
+                Streetwear is a style of casual clothing which became global in the 1990s.
+                It grew from New York hip hop fashion and Californian surf culture to encompass elements
+                of sportswear, punk, skateboarding, 1980s nostalgia, and Japanese street fashion. Later, haute couture became an influence, and was in turn influenced by streetwear. Streetwear centers on comfortable clothing and accessories such as jeans, T-shirts, baseball caps, and sneakers.
+            </p>
+        </div>
+        <div class="add-mod-box">
+            <button id="add-btn">Add Category</button>
+            <button id="modify-btn">Modify Category</button>
+        </div>
+    </div>
+</main>
+</body>
+</html>
