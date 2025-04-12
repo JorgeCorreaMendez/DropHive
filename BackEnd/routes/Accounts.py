@@ -28,9 +28,7 @@ def change_password():
     email = data.get("mail")
     new_password = data.get("password")
     db_name = data.get("db_name")
-    print(data)
     try:
-        # TODO se tiene que saber la empresa
         with get_db_session(db_name) as db:
             account = db.query(Account).filter_by(mail=email).first()
             if account:
@@ -59,9 +57,7 @@ def comprobar_codigo_verificacion():
 
 @accounts_bp.route("/check_mail/<string:email>")
 def check_mail(email):
-
     existe = search_cuenta(email)
-
     if existe is not None:
         print(existe)
         return jsonify({"dbname": existe}), 200  # 200 OK, sin cuerpo en la respuesta

@@ -1,13 +1,12 @@
 import os
-from itertools import product
 
-from flask import Blueprint, jsonify, request
+from flask import Blueprint, jsonify
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 
-from BackEnd.utils.sqlalchemy_methods import get_all_values_from, DB_PATH
 from BackEnd.models.Category import Category
-from BackEnd.routes.Auth import login_required, get_session
+from BackEnd.routes.Auth import login_required
+from BackEnd.utils.sqlalchemy_methods import get_all_values_from, DB_PATH
 
 categories_bp = Blueprint("categories_bp", __name__)
 
@@ -20,6 +19,7 @@ def get_category(dbname):
     except Exception as e:
         print(f"Error en /category: {e}")
         return jsonify({"error": "Error al obtener las categorías."}), 500
+
 
 @categories_bp.route("/<string:db_name>/get_category/<string:category_id>")
 @login_required
@@ -43,4 +43,3 @@ def search_category(db_name, category_id):
     except Exception as e:
         print(e)
         return jsonify({"error": "Error interno del servidor"}), 500
-

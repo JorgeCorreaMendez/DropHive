@@ -25,6 +25,7 @@ app.json.ensure_ascii = False
 
 mail = init_mail(app)
 
+
 @app.route("/")
 def index():
     if "adidas" in session:
@@ -57,6 +58,7 @@ def change_password():
 @app.route("/verification_code")
 def verification_code():
     return render_template("CodigoDeVerificacion.html")
+
 
 @app.route("/<string:db_name>/addAndModifyCategory")
 def add_and_modify_category(db_name):
@@ -122,13 +124,10 @@ def supply(db_name):
 def view_employee_action(db_name):
     return render_template("ViewEmployeeAction.html")
 
+
 @app.route("/<string:db_name>/home2")
 def home_temporal(db_name):
     return render_template("home-temporal.html")
-
-
-
-
 
 
 if __name__ == "__main__":

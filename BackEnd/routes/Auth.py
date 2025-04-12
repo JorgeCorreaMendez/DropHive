@@ -16,7 +16,6 @@ auth_bp = Blueprint("auth", __name__)
 
 def get_session(db_name):
     db_path = os.path.join(DB_PATH, f"{db_name}.db")
-    print(db_path)
     if not os.path.exists(db_path):
         return None
     engine = create_engine(f"sqlite:///{db_path}")

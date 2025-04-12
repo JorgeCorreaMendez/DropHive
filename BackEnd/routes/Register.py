@@ -15,13 +15,11 @@ from DB.CreacionBaseDatosCuentas import add_cuenta_nueva
 registro_bp = Blueprint("registro", __name__)
 
 
-# TODO: split en el html
 def register_company(user_data):
     db_name = user_data.name
     db_path = os.path.join(DB_PATH, f"{db_name}.db")
     if os.path.exists(db_path):
         return False, f"La empresa {db_name} ya existe."
-
 
     engine = create_engine(f"sqlite:///{db_path}")
     Base.metadata.create_all(engine)
