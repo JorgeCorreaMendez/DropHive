@@ -1,13 +1,10 @@
-import os
-
 from flask import request, jsonify, Blueprint
-from sqlalchemy import create_engine
-from sqlalchemy.orm import sessionmaker
 
 from BackEnd import schemas
-from BackEnd.utils.sqlalchemy_methods import get_all_values_from, DB_PATH, get_db_session
 from BackEnd.models.Product import Product
+from BackEnd.models.Category import Category
 from BackEnd.routes.Auth import login_required
+from BackEnd.utils.sqlalchemy_methods import get_all_values_from, get_db_session
 
 products_bp = Blueprint("products", __name__)
 
@@ -62,18 +59,16 @@ def search_product_by_id(dbname):
         return jsonify({"error": str(e)}), 500
 
 
+# TODO: Cambiar category_id en la DB
 @products_bp.route('/<string:dbname>/filter_product_by_category')
 @login_required
 def filter_by_category(dbname):
     try:
-        category_id = request.args.get('category_id')
-        db_path = os.path.join(DB_PATH, f"{dbname}.db")
-        engine = create_engine(f"sqlite:///{db_path}")
-        Session = sessionmaker(bind=engine)
-        with Session() as db_session:
-            query = db_session.query(Product)
-            if category_id:
-                query = query.filter(int(category_id) == Product.category_id)
+        category_name = request.args.get('name')
+        with get_db_session(dbname) as db_session:
+            query = db_session.query(Product).join(Category)
+            if category_name:
+                query = query.filter(Category.name == category_name)
             return jsonify([product.serialize() for product in query.all()]), 200
     except Exception as e:
         return jsonify({"error": str(e)}), 500
