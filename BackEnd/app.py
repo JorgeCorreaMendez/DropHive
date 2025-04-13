@@ -28,10 +28,15 @@ mail = init_mail(app)
 
 @app.route("/")
 def index():
-    if "adidas" in session:
+    if "user" in session:
         return redirect(url_for("home"))
     else:
         return redirect(url_for("login"))
+
+
+@registro_bp.route("/register")
+def mostrar_register():
+    return render_template('register.html')
 
 
 @app.route("/<string:db_name>/home")

@@ -1,15 +1,11 @@
 import os
 
-from flask import Blueprint, request, jsonify, render_template
-from sqlalchemy import create_engine
-from sqlalchemy.orm import sessionmaker
+from flask import Blueprint, request, jsonify
 
 from BackEnd import schemas
-from BackEnd.models import Base
 from BackEnd.models.Account import Account
-from BackEnd.utils.sqlalchemy_methods import DB_PATH
 from BackEnd.utils.bcrypt_methods import create_hash
-
+from BackEnd.utils.sqlalchemy_methods import DB_PATH, get_db_session
 from DB.CreacionBaseDatosCuentas import add_cuenta_nueva
 
 registro_bp = Blueprint("registro", __name__)
@@ -20,11 +16,7 @@ def register_company(user_data):
     db_path = os.path.join(DB_PATH, f"{db_name}.db")
     if os.path.exists(db_path):
         return False, f"La empresa {db_name} ya existe."
-
-    engine = create_engine(f"sqlite:///{db_path}")
-    Base.metadata.create_all(engine)
-    Session = sessionmaker(bind=engine)
-    with Session() as db_session:
+    with get_db_session(db_name) as db_session:
         new_account = Account(
             name=user_data.name,
             mail=user_data.mail,
@@ -47,15 +39,9 @@ def register():
     try:
         data = request.get_json()
         user_data = schemas.UserRegisterSchema(**data)
-        print(user_data)
         success, message = register_company(user_data)
         if not success:
             return jsonify({"error": message}), 409
         return jsonify({"message": message}), 200
     except Exception as e:
         return jsonify({"error": str(e)}), 500
-
-
-@registro_bp.route("/register")
-def mostrar_register():
-    return render_template('register.html')

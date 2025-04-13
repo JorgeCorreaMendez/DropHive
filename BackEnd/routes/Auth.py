@@ -1,26 +1,13 @@
-import os
 from functools import wraps
 
 from flask import request, jsonify, session, Blueprint, redirect, url_for
-from sqlalchemy import create_engine
-from sqlalchemy.orm import sessionmaker
 
-from BackEnd.utils.sqlalchemy_methods import DB_PATH
 from BackEnd.models.Account import Account
 from BackEnd.utils.bcrypt_methods import verify_hash
-
+from BackEnd.utils.sqlalchemy_methods import get_db_session
 from DB.CreacionBaseDatosCuentas import search_cuenta
 
 auth_bp = Blueprint("auth", __name__)
-
-
-def get_session(db_name):
-    db_path = os.path.join(DB_PATH, f"{db_name}.db")
-    if not os.path.exists(db_path):
-        return None
-    engine = create_engine(f"sqlite:///{db_path}")
-    Session = sessionmaker(bind=engine)
-    return Session()
 
 
 @auth_bp.route("/login", methods=["POST"])
@@ -29,17 +16,11 @@ def login():
     mail = data.get("mail")
     password = data.get("password")
     db_name = search_cuenta(mail)
-    if not db_name:
-        return jsonify({"message": "No se encontrado"})
-    print("La base de datos es:", db_name)
-    db_session = get_session(db_name)
-
     if not mail or not password:
         return jsonify({"message": "Correo y contraseña son requeridos."}), 400
-
-    if db_session is None:
+    if not db_name:
         return jsonify({"message": f"No se encontró la base de datos para {db_name}"}), 401
-
+    db_session = get_db_session(db_name)
     try:
         account = db_session.query(Account).filter_by(mail=mail).first()
         if account:
