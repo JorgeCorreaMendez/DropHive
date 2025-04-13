@@ -41,7 +41,7 @@ def mostrar_register():
 
 @app.route("/<string:db_name>/home")
 @login_required
-def home():
+def home(db_name):
     return render_template("home.html")
 
 

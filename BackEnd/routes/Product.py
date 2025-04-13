@@ -72,3 +72,33 @@ def filter_by_category(dbname):
             return jsonify([product.serialize() for product in query.all()]), 200
     except Exception as e:
         return jsonify({"error": str(e)}), 500
+
+
+@products_bp.route('/<string:dbname>/filter_by_minimum_price')
+@login_required
+def filter_by_minimum_price(dbname):
+    try:
+        price = request.args.get('price')
+        with get_db_session(dbname) as db_session:
+            products = db_session.query(Product).filter(price <= Product.price).all()
+            if products:
+                return jsonify([product.serialize() for product in products]), 200
+            else:
+                return jsonify({"message": "No hay productos con esos pricios."}), 404
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
+
+
+@products_bp.route('/<string:dbname>/filter_by_maximum_price')
+@login_required
+def filter_by_maximum_price(dbname):
+    try:
+        price = request.args.get('price')
+        with get_db_session(dbname) as db_session:
+            products = db_session.query(Product).filter(price >= Product.price).all()
+            if products:
+                return jsonify([product.serialize() for product in products]), 200
+            else:
+                return jsonify({"message": "No hay productos con esos pricios."}), 404
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
