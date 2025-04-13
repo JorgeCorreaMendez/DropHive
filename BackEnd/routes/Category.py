@@ -1,12 +1,8 @@
-import os
-
 from flask import Blueprint, jsonify
-from sqlalchemy import create_engine
-from sqlalchemy.orm import sessionmaker
 
 from BackEnd.models.Category import Category
 from BackEnd.routes.Auth import login_required
-from BackEnd.utils.sqlalchemy_methods import get_all_values_from, DB_PATH, get_db_session
+from BackEnd.utils.sqlalchemy_methods import get_all_values_from, get_db_session
 
 categories_bp = Blueprint("categories_bp", __name__)
 

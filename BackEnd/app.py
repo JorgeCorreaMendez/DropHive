@@ -34,14 +34,14 @@ def index():
         return redirect(url_for("login"))
 
 
-@registro_bp.route("/register")
+@app.route("/register")
 def mostrar_register():
     return render_template('register.html')
 
 
 @app.route("/<string:db_name>/home")
 @login_required
-def home(db_name):
+def home():
     return render_template("home.html")
 
 
