@@ -60,45 +60,29 @@ def search_product_by_id(dbname):
 
 
 # TODO: Cambiar category_id en la DB
-@products_bp.route('/<string:dbname>/filter_product_by_category')
+@products_bp.route('/<string:dbname>/filter_products')
 @login_required
-def filter_by_category(dbname):
+def filter_products(dbname):
     try:
-        category_name = request.args.get('name')
+        category_name = request.args.get('category')
+        min_price = request.args.get('min_price')
+        max_price = request.args.get('max_price')
+        max_quantity = request.args.get('max_quantity')
+        limit = int(request.args.get('limit', 5))
+        offset = int(request.args.get('offset', 0))
         with get_db_session(dbname) as db_session:
             query = db_session.query(Product).join(Category)
+        if category_name:
+            query = query.filter(Category.name == category_name)
             if category_name:
                 query = query.filter(Category.name == category_name)
+            if min_price:
+                query = query.filter(Product.price >= float(min_price))
+            if max_price:
+                query = query.filter(Product.price <= float(max_price))
+            if max_quantity:
+                query = query.filter(Product.quantity <= int(max_quantity))
+            query = query.limit(limit).offset(offset)
             return jsonify([product.serialize() for product in query.all()]), 200
-    except Exception as e:
-        return jsonify({"error": str(e)}), 500
-
-
-@products_bp.route('/<string:dbname>/filter_by_minimum_price')
-@login_required
-def filter_by_minimum_price(dbname):
-    try:
-        price = request.args.get('price')
-        with get_db_session(dbname) as db_session:
-            products = db_session.query(Product).filter(price <= Product.price).all()
-            if products:
-                return jsonify([product.serialize() for product in products]), 200
-            else:
-                return jsonify({"message": "No hay productos con esos pricios."}), 404
-    except Exception as e:
-        return jsonify({"error": str(e)}), 500
-
-
-@products_bp.route('/<string:dbname>/filter_by_maximum_price')
-@login_required
-def filter_by_maximum_price(dbname):
-    try:
-        price = request.args.get('price')
-        with get_db_session(dbname) as db_session:
-            products = db_session.query(Product).filter(price >= Product.price).all()
-            if products:
-                return jsonify([product.serialize() for product in products]), 200
-            else:
-                return jsonify({"message": "No hay productos con esos pricios."}), 404
     except Exception as e:
         return jsonify({"error": str(e)}), 500
