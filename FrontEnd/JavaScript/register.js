@@ -52,8 +52,13 @@ function validateRegistrationForm() {
 
     // Mostrar errores si existen
     if (errors.length > 0) {
-        const mensaje = errors.join("<br>");
-        alert(mensaje);
+        const mensaje = errors.join('<br>');
+        Swal.fire({
+            icon: 'error',
+            title: 'Errores en el formulario',
+            html: mensaje,
+            confirmButtonText: 'Entendido'
+        });
         return false;
     }
 
@@ -83,13 +88,15 @@ document.addEventListener("DOMContentLoaded", function() {
             
             if (response.ok) {
                 console.log("Entra aqui");
-                
-                if (response.status === 200) {
-                    window.location.href = `http://127.0.0.1:4000/login`;
-                }
+                window.location.href = `http://127.0.0.1:4000/login`;
             } else {
-                document.getElementById('message').innerHTML = result.message || "Error en el registro";
-                document.getElementById('message').style.color = "red";
+                console.log(result.message)
+                Swal.fire({
+                    icon: 'error',
+                    title: "Error al crear la base de datos.",
+                    html: result.message,
+                    confirmButtonText: 'Entendido'
+                });
             }
         } catch (error) {
             console.error("Error:", error);

@@ -30,10 +30,22 @@ document.addEventListener("DOMContentLoaded", function() {
                 }
             } else {
                 const error = await response.json();
-                document.getElementById('message').innerHTML = error.message || "Ocurrió un error desconocido.";
+                Swal.fire({
+                    icon: 'error',
+                    title: "Error al crear la base de datos.",
+                    html: error.message || "Ocurrió un error desconocido",
+                    timer: 2500,
+                    showConfirmButton: false
+                });
             }
         } catch (error) {
-            document.getElementById('message').innerHTML = error.message || "Ocurrió un error en la solicitud.";
+            Swal.fire({
+                icon: 'error',
+                title: "Error al crear la base de datos.",
+                html: "Ocuririó un error en la solicitud",
+                timer: 2500,
+                showConfirmButton: false
+            });
         }
     });
 });
