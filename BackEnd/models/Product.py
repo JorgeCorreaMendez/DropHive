@@ -1,24 +1,22 @@
-from sqlalchemy import Integer, String, Text, Float, ForeignKey, Column
-from sqlalchemy.orm import relationship
-
-from BackEnd.models import Base
+from BackEnd.models import db
 
 
-class Product(Base):
+class Product(db.Model):
     __tablename__ = 'products'
 
-    product_id = Column(String, primary_key=True)
-    name = Column(String, nullable=False)
-    description = Column(Text)
-    price = Column(Float, default=0.0)
-    discount = Column(Float, default=0.0)
-    size = Column(String)
-    quantity = Column(Integer)
-    category_id = Column(Integer, ForeignKey('categories.id'))
-    category = relationship("Category", back_populates="products")
+    product_id = db.Column(db.String, primary_key=True)
+    name = db.Column(db.String, nullable=False)
+    description = db.Column(db.Text)
+    price = db.Column(db.Float, default=0.0)
+    discount = db.Column(db.Float, default=0.0)
+    size = db.Column(db.String)
+    quantity = db.Column(db.Integer)
+
+    category_id = db.Column(db.Integer, db.ForeignKey('categories.id'))
+    category = db.relationship("Category", back_populates="products")
 
     def __str__(self):
-        return "{}, {}, {}".format(self.product_id, self.name, self.description)
+        return f"{self.product_id}, {self.name}, {self.description}"
 
     def serialize(self):
         return {

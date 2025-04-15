@@ -1,18 +1,17 @@
-from sqlalchemy import Integer, String, Text, Column
-from sqlalchemy.orm import relationship
-from BackEnd.models import Base
+from BackEnd.models import db
 
 
-class Category(Base):
+class Category(db.Model):
     __tablename__ = 'categories'
 
-    id = Column(Integer, primary_key=True, autoincrement=True)
-    name = Column(String, nullable=False)
-    description = Column(Text)
-    products = relationship("Product", back_populates="category")
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    name = db.Column(db.String, nullable=False)
+    description = db.Column(db.Text)
+
+    products = db.relationship("Product", back_populates="category")
 
     def __str__(self):
-        return "{}, {}, {}, {}".format(self.id, self.name, self.description, self.products)
+        return f"{self.id}, {self.name}, {self.description}, {self.products}"
 
     def serialize(self):
         return {

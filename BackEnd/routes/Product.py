@@ -1,5 +1,6 @@
 import os
 
+from IPython.core.history import catch_corrupt_db
 from flask import request, jsonify, Blueprint
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
@@ -72,3 +73,47 @@ def search_product(dbname):
             return jsonify([product.serialize() for product in query.all()]), 200
     except Exception as e:
         return jsonify({"error": str(e)}), 500
+
+
+@products_bp.route('/<string:dbname>/search_product')
+@login_required
+def search(dbname):
+    try:
+        db_path = os.path.join(DB_PATH, f"{dbname}.db")
+        engine = create_engine(f"sqlite:///{db_path}")
+        Session = sessionmaker(bind=engine)
+
+        with Session() as db_session:
+            query = request.args.get('q', '')
+            if query:
+                resultados = Product.query.filter(Product.name.ilike(f"%{query}%")).limit(5).all()
+                nombres = [producto.nombre for producto in resultados]
+                return jsonify(nombres)
+            return jsonify([])
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
