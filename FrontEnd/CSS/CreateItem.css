@@ -3,91 +3,86 @@
     display: flex;
     flex-direction: column;
     background-color: white;
-    border-radius: 50px;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    border-radius: 20px;
+    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
     width: 95%;
-    max-width: 1200px;
-    margin: 20px auto;
-    padding: 30px;
+    max-width: 900px;
+    margin: 30px auto;
+    padding: 40px;
+    transition: transform 0.3s ease;
 }
 
-/* Estilo para el label y el input del nombre del producto */
+
+/* Estilos para el contenedor de nombre del producto */
+.product-name-container {
+    display: flex;
+    flex-direction: column;
+    margin-top: 10px;
+}
+
 .product-name-label {
     font-weight: bold;
-    margin-top: 10px;
-    display: block;
+    margin-bottom: 5px;
 }
 
 #product-name {
     width: 100%;
-    padding: 8px;
-    margin-bottom: 10px;
-    border: 1px solid #ccc;
+    padding: 10px;
+    border: 1px solid #ddd;
     border-radius: 5px;
 }
 
-
-
-
+/* Sección superior */
 .top-section {
     display: flex;
     justify-content: space-between;
-    align-items: flex-start; /* Alinea la parte de arriba */
+    align-items: flex-start;
     margin-bottom: 20px;
 }
 
 .top-left {
     display: flex;
     flex-direction: column;
-    gap: 10px;
 }
 
 .top-right {
     display: flex;
-    align-items: flex-start;
+    flex-direction: column;
+    align-items: flex-end;
 }
 
-/* Imagen y texto */
+/* Imagen */
 .image-placeholder {
-    width: 120px;
-    height: 120px;
-    background: #eaeaea;
+    width: 100px;
+    height: 100px;
+    background: #e0e0e0;
     border-radius: 10px;
     display: flex;
     align-items: center;
     justify-content: center;
-    color: #888;
+    color: #666;
     font-size: 12px;
     text-align: center;
     margin-bottom: 10px;
 }
 
-.top-left h2 {
-    font-size: 1.2rem;
-    font-weight: bold;
-}
-
-.brand-name {
-    font-style: italic;
-    color: #666;
-}
-
 .category-btn {
-    background-color: #f4a900;
+    background-color: #007bff;
     color: white;
     border: none;
-    padding: 10px 15px;          /* Aumentar el padding para mayor área de clic */
+    padding: 10px 15px;
     border-radius: 5px;
     cursor: pointer;
     font-weight: bold;
-    transition: background-color 0.3s ease, transform 0.2s ease; /* Transición suave */
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    margin-top: 10px;
 }
 
 .category-btn:hover {
-    background-color: #e0a800;
+    background-color: #0056b3;
     transform: scale(1.05);
 }
-/* Botón de guardar en la esquina superior derecha */
+
 .save-btn {
     background-color: #28a745;
     color: white;
@@ -96,95 +91,74 @@
     border-radius: 5px;
     cursor: pointer;
     font-weight: bold;
-    transition: background-color 0.3s ease, transform 0.2s ease; /* Transición suave */
+    transition: background-color 0.3s ease, transform 0.2s ease;
 }
 
 .save-btn:hover {
-    background-color: #218838; /* Tono más oscuro al pasar el mouse */
-    transform: scale(1.05); /* Efecto de agrandado al pasar el mouse */
+    background-color: #218838;
 }
 
+/* Cuerpo principal */
 .bottom-section {
     display: flex;
-    gap: 20px;
-    align-items: stretch; /* Asegúrate de que ambas columnas tengan la misma altura */
+    gap: 30px;
+    align-items: flex-start;
 }
 
 /* Columna izquierda: Descripción e Información */
 .bottom-left {
-    flex: 1;
+    flex: 3;
     display: flex;
     flex-direction: column;
     gap: 15px;
 }
-.input-group label {
-    font-weight: bold;
-    margin-bottom: 5px;
-    display: block;
+
+.input-group {
+    display: flex;
+    flex-direction: column;
 }
 
 .input-group textarea {
     width: 100%;
-    min-height: 80px;
-    padding: 8px;
-    border: 1px solid #ccc;
+    height: 150px;
+    padding: 10px;
+    border: 1px solid #ddd;
     border-radius: 5px;
     resize: none;
 }
 
-/* Columna derecha: ID, Price, Size, Discount */
-/* Columna derecha: ID, Price, Size, Discount */
+/* Columna derecha: ID, Precio, Talla, Descuento */
 .bottom-right {
     flex: 1;
     display: flex;
     flex-direction: column;
-    gap: 15px;
-}
-
-/* Estilo estándar para filas */
-.row-field {
-    display: flex;
-    align-items: center;
-    background-color: #f7f7f7;
-    border-radius: 8px;
-    padding: 10px;
-    border: 1px solid #ccc;
     gap: 10px;
 }
 
+/* Estilo común para filas */
+.row-field {
+    display: flex;
+    align-items: center;
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    padding: 12px;
+    border: 1px solid #ddd;
+    width: 100%;
+}
+
+/* Alinear los labels de forma vertical */
 .row-field label {
     font-weight: bold;
-    margin-right: auto;
-    width: 100px;
+    margin-right: 10px;
+    width: 120px;
+    text-align: right;
 }
 
 .row-field input {
-    width: 80px;
-    padding: 8px; /* Aumentar el padding para mayor área de clic */
-    border: 1px solid #ccc;
+    flex: 1;
+    padding: 10px;
+    border: 1px solid #ddd;
     border-radius: 5px;
-    text-align: center;
+    height: 38px;
 }
 
-.currency,
-.discount-icon {
-    font-weight: bold;
-    color: blue;
-    margin-left: -8px;
-}
-
-.add-btn {
-    background-color: white;
-    color: blue;
-    border: 1px solid blue;
-    padding: 8px 12px; /* Aumentar el padding */
-    border-radius: 5px;
-    cursor: pointer;
-    font-weight: bold;
-    transition: background-color 0.3s ease, transform 0.2s ease; /* Transición suave */
-}
-
-.add-btn:hover {
-    background-color: #f0f8ff; /* Color de fondo al pasar el mouse */
-    transform: scale(1.05); /* Efecto de agrandado al pasar el mouse */
-}
