@@ -1,30 +1,31 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Formulario de Compañía</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
 <main>
     <!-- Caja exterior gris (contenedor externo) -->
-    <div class="main-container">
-        <!-- Caja interna que sobresale del contenedor -->
-        <div class="company-form">
-            <div class="company-header">
-                <img class="image-container" src="/FrontEnd/Images/sinFoto.png" alt="Company Image">
-                <button id="save-btn1" class="btn-add">Save Changes</button>
+    <div class="company-form">
+        <div class="company-header">
+            <img class="image-container" src="/FrontEnd/Images/sinFoto.png" alt="Company Image">
+            <div class="company-name">
+                <label for="company-name-field" class="company-name-label">Nombre de la Compañía:</label>
+                <input type="text" id="company-name-field" placeholder="Add Company's Name" class="input-field">
+                <!-- Input para la imagen, lo dejamos debajo del nombre si lo prefieres -->
                 <input type="file" accept="image/*" class="company-image-input">
             </div>
-
-
-
-            <div class="company-info">
-                <input type="text" placeholder="Add Company's Name" class="input-field">
-                <input type="text" placeholder="Add Nationality" class="input-field">
-            </div>
-
-            <div class="company-description">
-                <label>Description:</label>
-                <textarea placeholder="Add Description..." class="textarea-field"></textarea>
-            </div>
-
-            <div class="company-info-section">
-                <label>Information:</label>
-                <textarea placeholder="Add Information..." class="textarea-field"></textarea>
-            </div>
         </div>
+
+        <div class="company-description">
+            <label>Description:</label>
+            <textarea placeholder="Add Description..." class="textarea-field"></textarea>
+        </div>
+        <button id="save-btn1" class="btn-add">Save Changes</button>
     </div>
 </main>
+</body>
+</html>
