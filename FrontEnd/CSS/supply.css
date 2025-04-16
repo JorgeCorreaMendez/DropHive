@@ -103,7 +103,7 @@ th:nth-child(5) {
 .delete_button button {
     background: #ec5353;
     color: white;
-}
+
 
 .delete_button button:hover {
     background: red;
