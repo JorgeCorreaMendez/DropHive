@@ -12,60 +12,60 @@
   {% include 'header.html' %}
 </header>
 
-<!-- Top Buttons -->
-<div class="top-buttons">
-  <button class="modify">Modify Item</button>
-  <button class="delete">Delete Item</button>
-  <button class="shortcut" disabled>Add new shortcut</button>
-  <button id="notification-btn"> 🔔 Notifications</button>
-</div>
 
-<!-- Main Content -->
+<main class="bloque">
 <div class="content">
-  <!-- Product Info -->
-  <div class="box product-info">
-    <img src="shoe.png" alt="Samba OG">
-    <div class="details">
-      <h2>Samba OG</h2>
-      <p>Adidas</p>
-      <span class="category">Streetwear</span>
-      <span class="price">Price: $99.99</span>
+
+  <!-- Columna izquierda -->
+  <div class="col-izquierda">
+
+    <div class="top-buttons">
+        <button class="modify">Modify Item</button>
+        <button class="delete">Delete Item</button>
+    </div>
+    <!-- Product Info -->
+    <div class="product-info">
+      <img src="shoe.png" alt="Samba OG">
+      <div class="details">
+        <h2>Samba OG</h2>
+        <p>Adidas</p>
+        <span class="category">Streetwear</span>
+        <span class="price">Price: $99.99</span>
+      </div>
+
+    </div>
+<!-- Descripción -->
+    <div class="box description">
+      <h3>Description:</h3>
+      <p>akjfhdjkhkdsajfhjkfhdsfkjjdshfksdfhdskfdshkdsfhd
+      fhdskjfhdsjkfdshkjdsfh</p>
     </div>
   </div>
 
-  <!-- Description -->
-  <div class="box description">
-    <h3>Description:</h3>
-    <textarea></textarea>
-  </div>
-
-  <!-- Size & Quantity -->
-  <div class="box size-quantity">
-    <h3>0002</h3>
-    <div class="table">
-      <div class="row"><span>Size</span><span>Quantity</span></div>
-      <div class="row"><span>0001</span><span class="green">10</span></div>
-      <div class="row"><span>0001</span><span class="green">20</span></div>
-      <div class="row"><span>0001</span><span class="red">0 <small>out of stock</small></span></div>
-      <div class="row"><span>0001</span><span class="yellow">2 <small>3 items left</small></span></div>
-      <div class="row"><span>0001</span><span class="yellow">1 <small>2 items left</small></span></div>
+  <!-- Columna derecha -->
+  <div class="col-derecha">
+    <!-- Tallas -->
+    <div class="box size-quantity">
+      <h3>id = 0002</h3>
+      <div class="table">
+        <div class="row"><span>Size</span><span>Quantity</span></div>
+        <div class="row"><span>0001</span><span class="green">10</span></div>
+        <div class="row"><span>0001</span><span class="green">20</span></div>
+        <div class="row"><span>0001</span><span class="red">0 <small>out of stock</small></span></div>
+        <div class="row"><span>0001</span><span class="yellow">2 <small>3 items left</small></span></div>
+        <div class="row"><span>0001</span><span class="yellow">1 <small>2 items left</small></span></div>
+      </div>
     </div>
-  </div>
 
-  <!-- Information -->
-  <div class="box information">
-    <h3>Information:</h3>
-    <p>Shoes combine materials like <b>leather</b> for durability, <b>suede</b> for softness, <b>mesh</b> for breathability, <b>rubber</b> for grip, and <b>EVA</b> for cushioning.</p>
-  </div>
-
-  <!-- Similar Items -->
-  <div class="box similar-items">
-    <h3>Similar Item:</h3>
-    <input type="text" value="Ultraboost 22">
-    <input type="text" value="Super Star">
+    <!-- Similar Items -->
+    <div class="box similar-items">
+      <h3>Similar Item:</h3>
+      <input type="text" value="Ultraboost 22">
+      <input type="text" value="Super Star">
+    </div>
   </div>
 
 </div>
-
+  </main>
 </body>
 </html>
