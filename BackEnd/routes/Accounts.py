@@ -42,26 +42,18 @@ def change_password():
         return jsonify({"error": str(e)}), 500
 
 
-# TODO: mirar
 @accounts_bp.route("/check_verification_code", methods=["POST"])
-def comprobar_codigo_verificacion():
-    data = request.get_json()
-    print(data)
-    if session["verification_code"] == data.get("code"):
-        # Si el código es correcto, devolver un 200 OK
-        print("Se ha enviado el codigo correcto")
-        return jsonify({}), 200  # Respuesta vacía con código de estado 200
+def check_verification_code():
+    if session["verification_code"] == request.get_json().get("code"):
+        return jsonify({}), 200
     else:
-        # Si el código es incorrecto, devolver un 400 Bad Request
-        return jsonify({}), 400  # Respuesta vacía con código de estado 400
+        return jsonify({}), 400
 
 
-# TODO: mirar
 @accounts_bp.route("/check_mail/<string:email>")
 def check_mail(email):
-    existe = search_cuenta(email)
-    if existe is not None:
-        print(existe)
-        return jsonify({"dbname": existe}), 200  # 200 OK, sin cuerpo en la respuesta
+    db_name = search_cuenta(email)
+    if db_name:
+        return jsonify({"dbname": db_name}), 200
     else:
-        return jsonify({"error": "Email already exists"}), 400  # 400 Bad Request
+        return jsonify({"error": "Email already exists"}), 400

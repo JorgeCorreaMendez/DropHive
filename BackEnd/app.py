@@ -35,7 +35,7 @@ def index():
 
 
 @app.route("/register")
-def mostrar_register():
+def register():
     return render_template('register.html')
 
 
