@@ -72,8 +72,8 @@ def filter_products(dbname):
         offset = int(request.args.get('offset', 0))
         with get_db_session(dbname) as db_session:
             query = db_session.query(Product).join(Category)
-        if category_name:
-            query = query.filter(Category.name == category_name)
+            if category_name:
+                query = query.filter(Category.name == category_name)
             if category_name:
                 query = query.filter(Category.name == category_name)
             if min_price:
