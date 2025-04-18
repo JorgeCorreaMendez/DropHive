@@ -1,116 +1,156 @@
 body {
     margin: 0;
     font-family: Arial, sans-serif;
-    background-color: #ddd !important;
-    display: block;
-    justify-content: center;
-    align-items: unset;
-    height: 100vh;
+    background-color: #ddd;
+    min-height: 100vh;
     padding-top: 0;
 }
 
 header {
     width: 100%;
-    max-width: 1920px !important;
-    margin-bottom: 0 !important;
+    margin-bottom: 0;
     padding: 0;
 }
 
 header button {
     color: #000;
     background-color: #fff;
-    font-size: 18px;
-    padding: 12px 20px;
+    font-size: 1rem;
+    padding: 0.75rem 1.25rem;
+}
+
+.total-wrapper2 {
+    background-color: white;
+    padding: 1rem;
+    overflow: auto;
+    width: 100%;
+    min-height: 100vh;
+    box-sizing: border-box;
+}
+
+.log-container {
+    margin: 1rem auto;
+    background-color: #e1e1e1;
+    border-radius: 1.5rem;
+    width: 95%;
+    max-width: 1625px;
+    padding: 1.5rem;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+}
+
+.total-wrapper {
+    background-color: white;
+    border-radius: 0.75rem;
+    padding: 1rem;
+    box-shadow: 0 0 0.75rem rgba(0, 0, 0, 0.07);
+    overflow-x: auto;
+    width: 100%;
+    margin-bottom: 1rem;
 }
 
 .table-wrapper {
     background-color: #eee;
-    border-radius: 12px;
-    padding: 30px;
-    box-shadow: 0 0 12px rgba(0, 0, 0, 0.07);
-    overflow-x: hidden;
-    width: 1175px;
-}
-
-.total-wrapper{
-    background-color: white;
-    border-radius: 12px;
-    padding: 30px;
-    box-shadow: 0 0 12px rgba(0, 0, 0, 0.07);
+    border-radius: 0.75rem;
+    padding: 1rem;
+    box-shadow: 0 0 0.75rem rgba(0, 0, 0, 0.07);
     overflow-x: auto;
-    width: 1400px;
-}
-
-.total-wrapper2{
-    background-color: white;
-    padding: 30px;
-    overflow: hidden;
-    width: 1920px;
-    height: 834px;
-    margin-top: 0px;
-
-}
-
-
-
-.log-container {
-    margin: 60px auto;
-    background-color: #e1e1e1;
-    border-radius: 25px;
-    width: 90%;
-    max-width: 1625px;
-    padding: 40px;
-    box-sizing: border-box;
-    position: relative;
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-
-}
-
-table {
     width: 100%;
-    border-collapse: separate;
-    border-spacing: 0 25px;
-    margin-right: 20px;
-    background-color: transparent;
-    font-size: 17px;
-}
-
-thead th {
-    text-align: left;
-    padding-bottom: 14px;
-    font-size: 17px;
-    border-bottom: 2px solid black;
-    background-color: #eee;
-}
-
-th, td {
-    border: none;
-}
-
-tbody td {
-    padding: 8px 12px;
-}
-
-.cell {
-    background-color: #d6d6d6;
-    padding: 14px 18px;
-    border-radius: 12px;
-    text-align: center;
-    font-size: 15px;
-}
-
-input[type="checkbox"] {
-    transform: scale(1.5);
 }
 
 .sidebar {
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
-    align-items: flex-end;
-    margin-left: 30px;
+    gap: 1rem;
+    margin-left: 0;
+    width: 100%;
+}
+
+table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0 1rem;
+    background-color: transparent;
+    font-size: 0.9rem;
+}
+
+thead th {
+    text-align: left;
+    padding-bottom: 0.75rem;
+    font-size: 0.9rem;
+    border-bottom: 2px solid black;
+    background-color: #eee;
+    position: sticky;
+    top: 0;
+}
+
+th, td {
+    border: none;
+    padding: 0.5rem;
+}
+
+.cell {
+    background-color: #d6d6d6;
+    padding: 0.75rem 1rem;
+    border-radius: 0.75rem;
+    text-align: center;
+    font-size: 0.8rem;
+}
+
+button {
+    background-color: white;
+    font-size: 0.9rem;
+    padding: 0.75rem 1.25rem;
+    border-radius: 0.75rem;
+    cursor: pointer;
+    border: none;
+    width: 100%;
+    margin: 0.5rem 0;
+    transition: all 0.3s ease;
+}
+
+#notification-btn {
+    border: none;
+    padding: 1rem;
+    border-radius: 1.125rem;
+    font-size: 0.9rem;
+    cursor: pointer;
+    box-shadow: 2px 2px 4px #999;
+    width: 100%;
+    margin: 0.5rem 0;
+}
+
+.button-wrapper {
+    background-color: #eee;
+    padding: 0.75rem;
+    border-radius: 0.75rem;
+    display: flex;
+    justify-content: center;
+    box-shadow: 0 0 0.375rem rgba(0, 0, 0, 0.06);
+    margin: 0.5rem 0;
+}
+
+.pagination-controls {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 1rem;
+    margin-top: 1rem;
+    padding: 0.75rem;
+    flex-wrap: wrap;
+}
+
+.pagination-controls button {
+    width: auto;
+    min-width: 5rem;
+    padding: 0.5rem 1rem;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 0.25rem;
+    cursor: pointer;
+    margin: 0;
 }
 
 .filters {
@@ -134,40 +174,89 @@ input[type="checkbox"] {
     margin-left: 5px;
 }
 
-#notification-btn {
-    border: none;
-    padding: 16px;
-    border-radius: 18px;
-    font-size: 16px;
-    cursor: pointer;
-    box-shadow: 2px 2px 4px #999;
-    width: 250px;
-    margin-top: 10px;
-    margin-bottom: 10px;
-}
-
 #notification-btn:hover{
     background-color: #999 !important;
 }
 
-.button-wrapper {
-    background-color: #eee;
-    padding: 14px;
-    border-radius: 12px;
-    display: flex;
-    justify-content: center;
-    box-shadow: 0 0 6px rgba(0, 0, 0, 0.06);
-    margin-inside: 10px;
+.pagination-controls button:hover {
+    background-color: #218838 !important;
+    transform: scale(1.05);
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
 }
 
-button {
-    background-color: white;
-    font-size: 16px;
-    padding: 14px 20px;
-    border-radius: 12px;
-    cursor: pointer;
-    border: none;
-    width: 250px;
-    margin-top: 10px;
-    margin-bottom: 10px;
+.pagination-controls button:disabled {
+    background-color: #cccccc !important;
+    cursor: not-allowed;
+    transform: none !important;
+    box-shadow: none !important;
+}
+
+.pagination-controls #page-info {
+    font-weight: bold;
+}
+
+@media (min-width: 768px) {
+    .log-container {
+        flex-direction: row;
+        padding: 2rem;
+    }
+
+    .sidebar {
+        width: 30%;
+        margin-left: 1.5rem;
+    }
+
+    .total-wrapper {
+        width: 70%;
+    }
+
+    table {
+        font-size: 1rem;
+    }
+
+    thead th {
+        font-size: 1rem;
+    }
+
+    .cell {
+        font-size: 0.9rem;
+    }
+
+    button, #notification-btn {
+        width: 100%;
+        font-size: 1rem;
+    }
+}
+
+@media (min-width: 1024px) {
+    .log-container {
+        margin: 3rem auto;
+        width: 90%;
+    }
+
+    .table-wrapper {
+        padding: 2rem;
+    }
+
+    .total-wrapper {
+        padding: 2rem;
+    }
+
+    .sidebar {
+        width: 25%;
+    }
+
+    .total-wrapper {
+        width: 75%;
+    }
+}
+
+@media (min-width: 1200px) {
+    .sidebar {
+        width: 20%;
+    }
+
+    .total-wrapper {
+        width: 80%;
+    }
 }

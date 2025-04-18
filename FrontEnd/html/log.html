@@ -8,6 +8,7 @@
     <script src="{{ url_for('static', filename='JavaScript/header.js') }}"></script>
     <script src="{{ url_for('static', filename='JavaScript/redirect.js') }}"></script>
     <script src="{{ url_for('static', filename='JavaScript/log.js') }}"></script>
+    <script src="{{ url_for('static', filename='JavaScript/pagination.js') }}"></script>
 </head>
 <body>
 <header>
@@ -20,39 +21,25 @@
     <table>
         <thead>
         <tr>
+            <th>ID</th>
             <th>Nombre de la compañía</th>
             <th>Nombre del ítem</th>
             <th>Acción realizada</th>
         </tr>
         </thead>
         <tbody>
-        <tr>
+        <tr><td><div class="cell">001</div></td>
             <td><div class="cell">Nike</div></td>
             <td><div class="cell">Dunk Low</div></td>
             <td><div class="cell">Añadir ítem</div></td>
         </tr>
-        <tr>
-            <td><div class="cell">Adidas</div></td>
-            <td><div class="cell">Samba OG</div></td>
-            <td><div class="cell">Añadir ítem</div></td>
-        </tr>
-        <tr>
-            <td><div class="cell">New Balance</div></td>
-            <td><div class="cell">New Balance 550</div></td>
-            <td><div class="cell">Añadir ítem</div></td>
-        </tr>
-        <tr>
-            <td><div class="cell">Jordan</div></td>
-            <td><div class="cell">Air Jordan 1</div></td>
-            <td><div class="cell">Eliminar</div></td>
-        </tr>
-        <tr>
-            <td><div class="cell">Carhartt</div></td>
-            <td><div class="cell">Chore Coat</div></td>
-            <td><div class="cell">Modificar ítem</div></td>
-        </tr>
         </tbody>
     </table>
+            <div class="pagination-controls">
+                <button id="prev-page" disabled>Anterior</button>
+                <span id="page-info">Página 1</span>
+                <button id="next-page">Siguiente</button>
+            </div>
 </div>
 </div>
     <div class="sidebar">
