@@ -2,7 +2,6 @@ import os
 
 from flask import Flask, render_template, session, redirect, url_for
 
-from BackEnd.models.User import init_user_db
 from BackEnd.routes.Accounts import accounts_bp
 from BackEnd.routes.Auth import auth_bp, login_required
 from BackEnd.routes.Category import categories_bp
@@ -11,6 +10,7 @@ from BackEnd.routes.Privilege import privileges_bp
 from BackEnd.routes.Product import products_bp
 from BackEnd.routes.Register import registro_bp
 from BackEnd.utils.flask_mail_methods import init_mail
+from BackEnd.utils.sqlalchemy_methods import init_user_db
 
 app = Flask(__name__, template_folder="../FrontEnd/html", static_folder="../FrontEnd")
 app.secret_key = os.getenv("secret_key", "12")
