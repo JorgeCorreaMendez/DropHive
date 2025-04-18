@@ -28,6 +28,7 @@ mail = init_mail(app)
 
 @app.route("/")
 def index():
+    print(session)
     if "user" in session:
         return redirect(url_for("home"))
     else:

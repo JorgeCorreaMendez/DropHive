@@ -1,11 +1,10 @@
 from flask import jsonify, Blueprint, request, session
 
 from BackEnd.models.Account import Account
+from BackEnd.models.User import User
 from BackEnd.routes.Auth import login_required
 from BackEnd.utils.bcrypt_methods import create_hash
 from BackEnd.utils.sqlalchemy_methods import get_all_values_from, get_db_session
-
-from DB.CreacionBaseDatosCuentas import search_cuenta
 
 accounts_bp = Blueprint("accounts", __name__)
 
@@ -52,8 +51,12 @@ def check_verification_code():
 
 @accounts_bp.route("/check_mail/<string:email>")
 def check_mail(email):
-    db_name = search_cuenta(email)
-    if db_name:
-        return jsonify({"dbname": db_name}), 200
-    else:
-        return jsonify({"error": "Email already exists"}), 400
+    try:
+        with get_db_session("Users") as db_session:
+            user = db_session.query(User).filter_by(mail=email).first()
+            if user:
+                return jsonify({"dbname": user.db_name}), 200
+            else:
+                return jsonify({"Error": "Correo no encontrado"}), 404
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500

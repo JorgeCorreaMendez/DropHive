@@ -1,5 +1,4 @@
 import sqlite3 as sql
-import os
 
 
 def AddAccount(path, name, mail, password, phone=None, description=None, address=None, privilege_id=None):
