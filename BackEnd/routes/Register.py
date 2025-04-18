@@ -1,4 +1,5 @@
 from flask import Blueprint, request, jsonify
+from sqlalchemy.exc import SQLAlchemyError
 
 from BackEnd.models import Base
 from BackEnd.models.Account import Account
@@ -11,10 +12,11 @@ registro_bp = Blueprint("registro", __name__)
 
 
 def register_company(user_data):
+    db_name = user_data.name
     try:
-        db_name = user_data.name
         Base.metadata.create_all(get_engine(db_name))
-        with get_db_session(db_name) as db_session:
+        with (get_db_session(db_name) as client_session,
+              get_db_session("Users") as user_session):
             new_account = Account(
                 name=user_data.name,
                 mail=user_data.mail,
@@ -24,19 +26,24 @@ def register_company(user_data):
                 address=user_data.address,
                 privilege_id=user_data.privilege_id
             )
-            db_session.add(new_account)
-            db_session.commit()
-
-        with get_db_session("Users") as session:
             new_user = User(
                 mail=user_data.mail,
                 db_name=db_name
             )
-            session.add(new_user)
-            session.commit()
+            client_session.add(new_account)
+            user_session.add(new_user)
+            client_session.commit()
+            user_session.commit()
         return True, f"Company {db_name} registered successfully."
     except Exception as e:
-        print(e)
+        try:
+            client_session.rollback()
+        except SQLAlchemyError:
+            pass
+        try:
+            user_session.rollback()
+        except SQLAlchemyError:
+            pass
         return False, e
 
 

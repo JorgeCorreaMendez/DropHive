@@ -12,29 +12,34 @@ auth_bp = Blueprint("auth", __name__)
 
 @auth_bp.route("/login", methods=["POST"])
 def login():
-    data = request.get_json()
-    mail = data.get("mail")
-    password = data.get("password")
-
-    if not mail or not password:
-        return jsonify({"message": "Correo y contraseña son requeridos."}), 400
     try:
-        with get_db_session("Users") as db_session:
-            user = db_session.query(User).filter_by(mail=mail).first()
+        data = request.get_json()
+        mail = data.get("mail")
+        password = data.get("password")
+
+        if not mail or not password:
+            return jsonify({"message": "Correo y contraseña son requeridos."}), 400
+
+        user = get_user(mail)
         if not user:
             return jsonify({"message": "No existe esa cuenta."}), 400
 
-        account = get_db_session(user.db_name).query(Account).filter_by(mail=mail).first()
-        if account:
-            if verify_hash(password, account.password):
-                session["user"] = account.name
-                return jsonify({"message": f"Bienvenido, {account.name}", "db_name": f"{user.db_name}"}), 200
-            else:
+        with get_db_session(user.db_name) as account_session:
+            account = account_session.query(Account).filter_by(mail=mail).first()
+            if not verify_hash(password, account.password):
                 return jsonify({"message": "Credenciales incorrectas"}), 401
-        else:
-            return jsonify({"message": "Credenciales incorrectas"}), 401
-    finally:
-        db_session.close()
+            session["user"] = account.name
+            return jsonify({
+                "message": f"Bienvenido, {account.name}",
+                "db_name": f"{user.db_name}"
+            }), 200
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
+
+
+def get_user(mail):
+    with get_db_session("Users") as user_session:
+        return user_session.query(User).filter_by(mail=mail).first()
 
 
 @auth_bp.route("/logout", methods=["GET"])

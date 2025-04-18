@@ -1,8 +1,6 @@
 from sqlalchemy import Column, String
-from sqlalchemy.orm import declarative_base
-from BackEnd.utils.sqlalchemy_methods import get_engine
 
-UserBase = declarative_base()
+from BackEnd.models import UserBase
 
 
 class User(UserBase):
@@ -18,7 +16,3 @@ class User(UserBase):
             "mail": self.mail,
             "db_name": self.db_name
         }
-
-
-def init_user_db():
-    UserBase.metadata.create_all(get_engine("Users"))
