@@ -66,12 +66,32 @@ button {
 
 /* ----- Contenedor Principal ----- */
 .main-container {
+    margin: 30px auto;
     display: flex;
     background-color: #d3d3d3;
-    min-height: calc(100vh - 60px);
-    padding: 20px;
+    height: 70vh;
+    width: 90%;
+    padding: 40px;
     gap: 20px;
+    border-radius: 20px;
+
 }
+
+.btn-logout {
+    background-color: #ededed;
+    color: #000;
+    padding: 8px 15px;
+    border-radius: 5px;
+    border: none;
+    cursor: pointer;
+    height: fit-content;
+    transition: transform 0.3s ease;
+}
+.btn-logout:hover {
+    transform: scale(1.05);
+    transition: transform 0.3s ease;
+}
+
 
 /* ----- Sección Izquierda (Tienda y Empleados) ----- */
 .store-section {
@@ -96,7 +116,12 @@ button {
     object-fit: cover;
     border: 2px solid #ccc;
 }
-
+.store-info-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    width: 100%;
+}
 .store-info {
     display: flex;
     flex-direction: column;
@@ -117,7 +142,10 @@ button {
     line-height: 1.4;
     max-width: 400px;
 }
-
+.image-container{
+    width: 100px;
+    height: 120px;
+}
 /* Empleados */
 .employees-section {
     margin-top: 20px;
@@ -149,14 +177,27 @@ button {
 }
 
 .btn-add {
+    margin-top: 100px;
     background-color: #28a745;
     color: #fff;
+    transition: transform 0.3s ease;
+}
+.btn-add:hover {
+    transform: scale(1.05);
+    transition: transform 0.3s ease;
 }
 
 .btn-modify {
+    margin-top: 100px;
     background-color: #007bff;
     color: #fff;
+    transition: transform 0.3s ease;
 }
+.btn-modify:hover {
+    transform: scale(1.05);
+    transition: transform 0.3s ease;
+}
+
 
 .btn-outline {
     background-color: transparent;
@@ -221,8 +262,35 @@ button {
 }
 
 /* Botón para ver acciones de empleados */
-.btn-view-actions {
-    align-self: flex-start;
-    background-color: #eee;
-    color: #333;
+.notifications-wrapper {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 100px;
 }
+
+.employee-details-panel {
+    display: flex;
+    justify-content: center;  /* Esto centra el contenido horizontalmente */
+    align-self: flex-end;
+    background-color: #ededed;
+    padding: 10px;
+    width: 12vw;
+    border-radius: 10px;
+}
+
+.btn-view-actions {
+    background-color: #d9d9d9;
+    color: #333;
+    padding: 10px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: transform 0.3s ease;
+}
+.btn-view-actions:hover {
+    transform: scale(1.05); /* Aumenta el tamaño en un 5% */
+    transition: transform 0.3s ease; /* Transición suave */
+}
+
+
