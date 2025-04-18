@@ -2,6 +2,7 @@ import os
 
 from flask import Flask, render_template, session, redirect, url_for
 
+from BackEnd.models.User import init_user_db
 from BackEnd.routes.Accounts import accounts_bp
 from BackEnd.routes.Auth import auth_bp, login_required
 from BackEnd.routes.Category import categories_bp
@@ -22,13 +23,12 @@ app.register_blueprint(categories_bp)
 app.register_blueprint(email_bp)
 app.config['APPLICATION_ROOT'] = '/'
 app.json.ensure_ascii = False
-
+init_user_db()
 mail = init_mail(app)
 
 
 @app.route("/")
 def index():
-    print(session)
     if "user" in session:
         return redirect(url_for("home"))
     else:

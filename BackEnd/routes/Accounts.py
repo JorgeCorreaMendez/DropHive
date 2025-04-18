@@ -19,6 +19,7 @@ def get_accounts(dbname):
         return jsonify({"error": "Error al obtener las cuentas."}), 500
 
 
+# TODO. DEBE USAR LA NUEVA BASE DE DATOS
 @accounts_bp.route("/change_password", methods=["POST"])
 def change_password():
     data = request.get_json()
