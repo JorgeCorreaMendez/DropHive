@@ -3,8 +3,9 @@ from functools import wraps
 from flask import request, jsonify, session, Blueprint, redirect, url_for
 
 from BackEnd.models.Account import Account
+from BackEnd.services.user_service import get_user_by
 from BackEnd.utils.bcrypt_methods import verify_hash
-from BackEnd.utils.sqlalchemy_methods import get_db_session, get_user_by
+from BackEnd.utils.sqlalchemy_methods import get_db_session
 
 auth_bp = Blueprint("auth", __name__)
 
@@ -30,6 +31,7 @@ def login():
                 "db_name": f"{user.db_name}"
             }), 200
     except Exception as e:
+        print(e)
         return jsonify({"error": str(e)}), 500
 
 

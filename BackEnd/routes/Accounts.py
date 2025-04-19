@@ -2,8 +2,10 @@ from flask import jsonify, Blueprint, request, session
 
 from BackEnd.models.Account import Account
 from BackEnd.routes.Auth import login_required
+from BackEnd.services.user_service import get_user_by
 from BackEnd.utils.bcrypt_methods import create_hash
-from BackEnd.utils.sqlalchemy_methods import get_all_values_from, get_db_session, get_user_by
+from BackEnd.utils.sqlalchemy_methods import get_db_session
+from BackEnd.services.models_service import get_all_values_from
 
 accounts_bp = Blueprint("accounts", __name__)
 
@@ -20,9 +22,9 @@ def get_accounts(dbname):
 
 @accounts_bp.route("/change_password", methods=["POST"])
 def change_password():
-    data = request.get_json()
     if "verification_code" not in session:
         return jsonify({"error": "Código de verificación no encontrado o expirado."}), 400
+    data = request.get_json()
     email = data.get("mail")
     new_password = data.get("password")
     try:

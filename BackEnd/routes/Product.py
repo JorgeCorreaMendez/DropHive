@@ -4,7 +4,8 @@ from BackEnd import schemas
 from BackEnd.models.Product import Product
 from BackEnd.models.Category import Category
 from BackEnd.routes.Auth import login_required
-from BackEnd.utils.sqlalchemy_methods import get_all_values_from, get_db_session
+from BackEnd.utils.sqlalchemy_methods import get_db_session
+from BackEnd.services.models_service import get_all_values_from
 
 products_bp = Blueprint("products", __name__)
 

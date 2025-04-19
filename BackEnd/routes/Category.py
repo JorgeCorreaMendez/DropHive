@@ -2,7 +2,8 @@ from flask import Blueprint, jsonify
 
 from BackEnd.models.Category import Category
 from BackEnd.routes.Auth import login_required
-from BackEnd.utils.sqlalchemy_methods import get_all_values_from, get_db_session
+from BackEnd.utils.sqlalchemy_methods import get_db_session
+from BackEnd.services.models_service import get_all_values_from
 
 categories_bp = Blueprint("categories_bp", __name__)
 
