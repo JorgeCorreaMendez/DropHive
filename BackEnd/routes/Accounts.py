@@ -2,10 +2,10 @@ from flask import jsonify, Blueprint, request, session
 
 from BackEnd.models.Account import Account
 from BackEnd.routes.Auth import login_required
+from BackEnd.services.user_service import get_user_by
 from BackEnd.utils.bcrypt_methods import create_hash
-from BackEnd.utils.sqlalchemy_methods import get_all_values_from, get_db_session
-
-from DB.CreacionBaseDatosCuentas import search_cuenta
+from BackEnd.utils.sqlalchemy_methods import get_db_session
+from BackEnd.services.models_service import get_all_values_from
 
 accounts_bp = Blueprint("accounts", __name__)
 
@@ -22,16 +22,13 @@ def get_accounts(dbname):
 
 @accounts_bp.route("/change_password", methods=["POST"])
 def change_password():
-    data = request.get_json()
     if "verification_code" not in session:
         return jsonify({"error": "Código de verificación no encontrado o expirado."}), 400
+    data = request.get_json()
     email = data.get("mail")
     new_password = data.get("password")
-    db_name = data.get("db_name")
-    print(data)
     try:
-        # TODO se tiene que saber la empresa
-        with get_db_session(db_name) as db:
+        with get_db_session(get_user_by(email).db_name) as db:
             account = db.query(Account).filter_by(mail=email).first()
             if account:
                 account.password = create_hash(new_password)
@@ -45,26 +42,20 @@ def change_password():
 
 
 @accounts_bp.route("/check_verification_code", methods=["POST"])
-def comprobar_codigo_verificacion():
-    data = request.get_json()
-    print(data)
-    if session["verification_code"] == data.get("code"):
-        # Si el código es correcto, devolver un 200 OK
-        print("Se ha enviado el codigo correcto")
-        return jsonify({}), 200  # Respuesta vacía con código de estado 200
+def check_verification_code():
+    if session["verification_code"] == request.get_json().get("code"):
+        return jsonify({}), 200
     else:
-        # Si el código es incorrecto, devolver un 400 Bad Request
-        return jsonify({}), 400  # Respuesta vacía con código de estado 400
+        return jsonify({}), 400
 
 
-@accounts_bp.route("/check_mail/<string:email>")
-def check_mail(email):
-
-    existe = search_cuenta(email)
-
-    if existe is not None:
-        print(existe)
-        return jsonify({"dbname": existe}), 200  # 200 OK, sin cuerpo en la respuesta
-    else:
-        return jsonify({"error": "Email already exists"}), 400  # 400 Bad Request
-
+@accounts_bp.route("/check_mail/<string:mail>")
+def check_mail(mail):
+    try:
+        user = get_user_by(mail)
+        if user:
+            return jsonify({"dbname": user.db_name}), 200
+        else:
+            return jsonify({"Error": "Correo no encontrado"}), 404
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500

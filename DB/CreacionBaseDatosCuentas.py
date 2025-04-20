@@ -1,9 +1,9 @@
 import sqlite3 as sql
 import os
 
-
 global DB_PATH_USUARIOS
-DB_PATH_USUARIOS= os.path.abspath(os.path.dirname(__file__)) + '/Redireccion.db'
+DB_PATH_USUARIOS = os.path.abspath(os.path.dirname(__file__)) + '/Redireccion.db'
+
 
 def create_db_cuentas():
     global DB_PATH_USUARIOS
@@ -14,9 +14,9 @@ def create_db_cuentas():
                     (correo TEXT PRIMARY KEY,
                      db_name TEXT NOT NULL);''')
 
-
     conn.commit()
     conn.close()
+
 
 def search_cuenta(correo):
     global DB_PATH_USUARIOS
@@ -30,6 +30,7 @@ def search_cuenta(correo):
     conn.commit()
     conn.close()
     return db[0] if db else None
+
 
 def add_cuenta_nueva(correo, db_name):
     global DB_PATH_USUARIOS
@@ -46,6 +47,7 @@ def add_cuenta_nueva(correo, db_name):
         conn.close()
 
     return estado
+
 
 def eliminar_cuenta(mail):
     global DB_PATH_USUARIOS
@@ -65,6 +67,7 @@ def eliminar_cuenta(mail):
 
     return estado
 
+
 def eliminar_cuentas_db(db_name):
     global DB_PATH_USUARIOS
 
@@ -83,6 +86,7 @@ def eliminar_cuentas_db(db_name):
 
     return estado
 
+
 def eliminar_db(db_name):
     global DB_PATH_USUARIOS
     DB_PATH = os.path.join(os.path.dirname(DB_PATH_USUARIOS), db_name + '.db')
@@ -94,6 +98,7 @@ def eliminar_db(db_name):
     else:
         print("No se ha podido eliminar la base de datos")
         return False
+
 
 if __name__ == '__main__':
     eliminar_db('Jesus')

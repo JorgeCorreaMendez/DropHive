@@ -1,9 +1,9 @@
 import os
 from sqlalchemy import create_engine
-from sqlalchemy.orm import sessionmaker, scoped_session
+from sqlalchemy.orm import sessionmaker
+from BackEnd.models import UserBase
 
 DB_PATH = os.path.join(os.path.dirname(os.path.abspath(__file__)), "../../DB")
-SessionLocal = scoped_session(sessionmaker())
 
 
 def get_engine(dbname):
@@ -11,21 +11,12 @@ def get_engine(dbname):
     return create_engine(f"sqlite:///{db_path}")
 
 
-def get_all_values_from(model, dbname):
-    engine = get_engine(dbname)
-    SessionLocal.configure(bind=engine)
-    with SessionLocal() as db_session:
-        return [item.serialize() for item in db_session.query(model).all()]
-
-
 def get_db_session(dbname):
     engine = get_engine(dbname)
-    SessionLocal.configure(bind=engine)
-    session = SessionLocal()
-    try:
-        return session
-    except Exception as e:
-        session.rollback()
-        raise e
-    finally:
-        session.close()
+    Session = sessionmaker()
+    Session.configure(bind=engine)
+    return Session()
+
+
+def init_user_db():
+    UserBase.metadata.create_all(get_engine("Users"))

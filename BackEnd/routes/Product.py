@@ -1,13 +1,11 @@
-import os
-
 from flask import request, jsonify, Blueprint
-from sqlalchemy import create_engine
-from sqlalchemy.orm import sessionmaker
 
 from BackEnd import schemas
-from BackEnd.utils.sqlalchemy_methods import get_all_values_from, DB_PATH
 from BackEnd.models.Product import Product
+from BackEnd.models.Category import Category
 from BackEnd.routes.Auth import login_required
+from BackEnd.utils.sqlalchemy_methods import get_db_session
+from BackEnd.services.models_service import get_all_values_from
 
 products_bp = Blueprint("products", __name__)
 
@@ -28,10 +26,7 @@ def add_product(dbname):
     try:
         data = request.get_json()
         product_data = schemas.ProductSchema(**data)
-        db_path = os.path.join(DB_PATH, f"{dbname}.db")
-        engine = create_engine(f"sqlite:///{db_path}")
-        Session = sessionmaker(bind=engine)
-        with Session() as db_session:
+        with get_db_session(dbname) as db_session:
             new_product = Product(
                 product_id=product_data.product_id,
                 name=product_data.name,
@@ -49,26 +44,46 @@ def add_product(dbname):
         return jsonify({"error": str(e)}), 500
 
 
-@products_bp.route('/<string:dbname>/search_product')
+@products_bp.route('/<string:dbname>/filter_product_by_id')
 @login_required
-def search_product(dbname):
+def search_product_by_id(dbname):
     try:
         id_product = request.args.get('id')
-        name = request.args.get('name')
-        category_id = request.args.get('category_id')
+        with get_db_session(dbname) as db_session:
+            products = db_session.query(Product).filter(id_product == Product.product_id).all()
+            if products:
+                return jsonify([product.serialize() for product in products]), 200
+            else:
+                return jsonify({"message": "No se encontraron productos con ese ID."}), 404
 
-        db_path = os.path.join(DB_PATH, f"{dbname}.db")
-        engine = create_engine(f"sqlite:///{db_path}")
-        Session = sessionmaker(bind=engine)
-        with Session() as db_session:
-            query = db_session.query(Product)
-            if id_product:
-                query = query.filter(id_product == Product.product_id)
-            if name:
-                query = query.filter(Product.name.ilike(f"%{name}%"))
-            if category_id:
-                query = query.filter(int(category_id) == Product.category_id)
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
 
+
+# TODO: Cambiar category_id en la DB
+@products_bp.route('/<string:dbname>/filter_products')
+@login_required
+def filter_products(dbname):
+    try:
+        category_name = request.args.get('category')
+        min_price = request.args.get('min_price')
+        max_price = request.args.get('max_price')
+        max_quantity = request.args.get('max_quantity')
+        limit = int(request.args.get('limit', 5))
+        offset = int(request.args.get('offset', 0))
+        with get_db_session(dbname) as db_session:
+            query = db_session.query(Product).join(Category)
+            if category_name:
+                query = query.filter(Category.name == category_name)
+            if category_name:
+                query = query.filter(Category.name == category_name)
+            if min_price:
+                query = query.filter(Product.price >= float(min_price))
+            if max_price:
+                query = query.filter(Product.price <= float(max_price))
+            if max_quantity:
+                query = query.filter(Product.quantity <= int(max_quantity))
+            query = query.limit(limit).offset(offset)
             return jsonify([product.serialize() for product in query.all()]), 200
     except Exception as e:
         return jsonify({"error": str(e)}), 500

@@ -3,3 +3,4 @@ from sqlalchemy.orm import declarative_base
 
 db = SQLAlchemy()
 Base = declarative_base()
+UserBase = declarative_base()
