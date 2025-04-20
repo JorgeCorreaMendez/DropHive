@@ -66,13 +66,20 @@ async function initPagination(total_productos) {
     });
 }
 
+/*
+TODO:
+ verificar para poder realizar el paginado.
+ ya se puede mostrar x elementos pero es necesario que haya un indicador de que existen más elementos para poder hacer
+ la llamada a la función que maneje el paginado.
+ Se podría realizar modificando la función de filter_products para devolver el número de elementos totales de la tabla.
+ */
 async function recuperarProductos() {
   const db_name = await recuperarNombreBaseDatos();
 
   console.log(db_name);
 
   try {
-        const response = await fetch(`http://127.0.0.1:4000/${db_name}/products`);
+        const response = await fetch(`http://127.0.0.1:4000/${db_name}/filter_products`);
 
         // Verifica que la respuesta sea exitosa
         if (!response.ok) {
@@ -85,68 +92,78 @@ async function recuperarProductos() {
         // Aquí puedes trabajar con los datos obtenidos de la API
         console.log(data);
 
-        const tableBody = document.getElementById("table-body");
+        await cargarDatosEnTabla(data);
 
-        for (const item of data) {
-          const row = document.createElement('tr');
-          row.classList.add(
-              'bg-[#D9D9D9]',
-              'gap-[5px]',
-              'text-center',
-              'modal-trigger',
-              'cursor-pointer',
-              'hover:bg-[#bfbfbf]', // un tono más oscuro que #D9D9D9
-              'transition-colors',
-              'duration-200'
-            );
-
-
-          row.id = "list-article"
-          row.setAttribute('data-product-id', item.product_id);
-
-          // A partir de aquí se muestran los elementos de las columnas
-          const idCell = document.createElement('td');
-          idCell.classList.add('p-2', 'rounded-[5px]');
-          idCell.textContent = item.product_id;
-
-          const nameCell = document.createElement('td');
-          nameCell.classList.add('p-2', 'rounded-[5px]');
-          nameCell.textContent = item.name;
-
-          let category_name = await localizarCategoria(db_name, item.category_id);
-
-          const categoryCell = document.createElement('td');
-          categoryCell.classList.add('p-2', 'rounded-[5px]');
-          categoryCell.textContent = category_name;
-
-          const purchaseCell = document.createElement('td');
-          purchaseCell.classList.add('p-2', 'rounded-[5px]');
-          purchaseCell.textContent = item.price + " €";
-
-          const sellCell = document.createElement('td');
-          sellCell.classList.add('p-2', 'rounded-[5px]');
-          sellCell.textContent = item.price + " €";
-
-          const quantityCell = document.createElement('td');
-          quantityCell.classList.add('p-2', 'rounded-[5px]');
-          quantityCell.textContent = item.quantity;
-
-          //Agregamos las celdas a la fila
-          row.appendChild(idCell);
-          row.appendChild(nameCell);
-          row.appendChild(categoryCell);
-          row.appendChild(purchaseCell);
-          row.appendChild(sellCell);
-          row.appendChild(quantityCell);
-
-          //Agregamos al tablebody
-          tableBody.appendChild(row);
-        }
-
-      return Object.keys(data).length
+      return Object.keys(data).length;
 
     } catch (error) {
         console.error('Hubo un error al hacer la solicitud:', error);
+    }
+}
+
+export async function cargarDatosEnTabla(data) {
+    const tableBody = document.getElementById("table-body");
+    tableBody.innerHTML = ''; // Limpiar antes de agregar nuevos productos
+    const db_name = await recuperarNombreBaseDatos();
+    console.log(data)
+
+    for (const item of data) {
+        const row = document.createElement('tr');
+        row.classList.add(
+            'bg-[#D9D9D9]',
+            'gap-[5px]',
+            'text-center',
+            'modal-trigger',
+            'cursor-pointer',
+            'hover:bg-[#bfbfbf]', // un tono más oscuro que #D9D9D9
+            'transition-colors',
+            'duration-200',
+        );
+
+
+        row.id = "list-article"
+        row.setAttribute('data-product-id', item.product_id);
+
+        // A partir de aquí se muestran los elementos de las columnas
+        const idCell = document.createElement('td');
+        idCell.classList.add('p-2', 'rounded-[5px]');
+        idCell.textContent = item.product_id;
+
+        const nameCell = document.createElement('td');
+        nameCell.classList.add('p-2', 'rounded-[5px]');
+        nameCell.textContent = item.name;
+
+        let category_name = await localizarCategoria(db_name, item.category_id);
+
+        const categoryCell = document.createElement('td');
+        categoryCell.classList.add('p-2', 'rounded-[5px]');
+        categoryCell.textContent = category_name;
+
+        const purchaseCell = document.createElement('td');
+        purchaseCell.classList.add('p-2', 'rounded-[5px]');
+        purchaseCell.textContent = item.price + " €";
+
+        const sellCell = document.createElement('td');
+        sellCell.classList.add('p-2', 'rounded-[5px]');
+        sellCell.textContent = item.price + " €";
+
+        const quantityCell = document.createElement('td');
+        quantityCell.classList.add('p-2', 'rounded-[5px]');
+        quantityCell.textContent = item.quantity;
+
+        //Agregamos las celdas a la fila
+        row.appendChild(idCell);
+        row.appendChild(nameCell);
+        row.appendChild(categoryCell);
+        row.appendChild(purchaseCell);
+        row.appendChild(sellCell);
+        row.appendChild(quantityCell);
+
+        //Agregamos al tablebody
+        tableBody.appendChild(row);
+        requestAnimationFrame(() => {
+          row.classList.remove('opacity-0'); // la vuelve visible gradualmente
+        });
     }
 }
 

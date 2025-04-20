@@ -75,8 +75,6 @@ def filter_products(dbname):
             query = db_session.query(Product).join(Category)
             if category_name:
                 query = query.filter(Category.name == category_name)
-            if category_name:
-                query = query.filter(Category.name == category_name)
             if min_price:
                 query = query.filter(Product.price >= float(min_price))
             if max_price:

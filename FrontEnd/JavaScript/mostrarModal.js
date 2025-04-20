@@ -120,7 +120,7 @@ document.addEventListener("DOMContentLoaded", () => {
     try {
       const db_name = await recuperarNombreBaseDatos();
 
-      let response = await fetch(`/${db_name}/search_product?id=${id_product}`);
+      let response = await fetch(`/${db_name}/filter_product_by_id?id=${id_product}`);
       const object = await response.json();
 
       response = await fetch(`/${db_name}/readArticle`);
