@@ -90,6 +90,7 @@ async function recuperarProductos() {
         for (const item of data) {
           const row = document.createElement('tr');
           row.classList.add('bg-[#D9D9D9]', 'gap-[5px]', 'text-center', 'modal-trigger');
+          row.id = "list-article"
           row.setAttribute('data-product-id', item.product_id);
 
           // A partir de aquí se muestran los elementos de las columnas
@@ -138,7 +139,7 @@ async function recuperarProductos() {
     }
 }
 
-async function localizarCategoria(db_name, id) {
+export async function localizarCategoria(db_name, id) {
     try {
         const response = await fetch(`http://127.0.0.1:4000/${db_name}/get_category/${id}`)
 
