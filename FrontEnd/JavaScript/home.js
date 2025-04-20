@@ -89,7 +89,18 @@ async function recuperarProductos() {
 
         for (const item of data) {
           const row = document.createElement('tr');
-          row.classList.add('bg-[#D9D9D9]', 'gap-[5px]', 'text-center', 'modal-trigger');
+          row.classList.add(
+              'bg-[#D9D9D9]',
+              'gap-[5px]',
+              'text-center',
+              'modal-trigger',
+              'cursor-pointer',
+              'hover:bg-[#bfbfbf]', // un tono más oscuro que #D9D9D9
+              'transition-colors',
+              'duration-200'
+            );
+
+
           row.id = "list-article"
           row.setAttribute('data-product-id', item.product_id);
 
