@@ -1,3 +1,5 @@
+import {recuperarNombreBaseDatos} from "./recursos.js";
+
 function initializeLogoutButton() {
     const logoutButton = document.getElementById("log-out");
     console.log("Se entra aquí");
@@ -28,4 +30,8 @@ function initializePage() {
 
 window.onload = function() {
     initializeLogoutButton(); // Cargar header, footer y body específico según la página
+    document.getElementById("logo").addEventListener("click", async () => {
+        const db_name = await recuperarNombreBaseDatos();
+        window.location.href = `http://127.0.0.1:4000/${db_name}/home`;
+    })
 }
