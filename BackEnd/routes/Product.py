@@ -5,7 +5,7 @@ from BackEnd.models.Product import Product
 from BackEnd.models.Category import Category
 from BackEnd.routes.Auth import login_required
 from BackEnd.utils.sqlalchemy_methods import get_db_session
-from BackEnd.services.models_service import get_all_values_from
+from BackEnd.services.models_service import get_all_values_from, get_total_quantity_query
 
 products_bp = Blueprint("products", __name__)
 
@@ -34,7 +34,6 @@ def add_product(dbname):
                 description=product_data.description,
                 price=product_data.price,
                 discount=product_data.discount,
-                quantity=product_data.quantity
             )
             db_session.add(new_product)
             db_session.commit()
@@ -60,7 +59,6 @@ def search_product_by_id(dbname):
 
 
 # TODO: Cambiar category_id en la DB
-# TODO: Cambiar por cantidad
 @products_bp.route('/<string:dbname>/filter_products')
 @login_required
 def filter_products(dbname):
@@ -71,7 +69,7 @@ def filter_products(dbname):
         max_quantity = request.args.get('max_quantity')
         limit = int(request.args.get('limit', 5))
         offset = int(request.args.get('offset', 0))
-        with get_db_session(dbname) as db_session:
+        with (get_db_session(dbname) as db_session):
             query = db_session.query(Product).join(Category)
             if category_name:
                 query = query.filter(Category.name == category_name)
@@ -80,8 +78,12 @@ def filter_products(dbname):
             if max_price:
                 query = query.filter(Product.price <= float(max_price))
             if max_quantity:
-                query = query.filter(Product.quantity <= int(max_quantity))
+                query_quantity = get_total_quantity_query(db_session)
+                query = query.join(query_quantity, Product.id == query_quantity.c.product_id)
+                query = query.filter(query_quantity.c.total_quantity <= int(max_quantity))
             query = query.limit(limit).offset(offset)
             return jsonify([product.serialize() for product in query.all()]), 200
     except Exception as e:
         return jsonify({"error": str(e)}), 500
+
+

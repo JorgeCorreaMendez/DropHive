@@ -13,14 +13,18 @@ class Product(Base):
     description = Column(Text)
     price = Column(Float, default=0.0)
     discount = Column(Float, default=0.0)
-    quantity = Column(Integer, default=0)
     category_id = Column(Integer, ForeignKey('categories.id'))
     category = relationship("Category", back_populates="products")
     sizes = relationship("Size", back_populates="product", cascade="all, delete-orphan")
 
+    @property
+    def total_quantity(self):
+        return sum(size.quantity for size in self.sizes)
+
     def __str__(self):
         return "{}, {}, {}".format(self.id, self.name, self.description)
 
+    # TODO. cambiar quantity en el front
     def serialize(self):
         return {
             "product_id": self.id,
@@ -29,5 +33,9 @@ class Product(Base):
             "price": self.price,
             "category_id": self.category_id,
             "discount": self.discount,
-            "size": [size.serialize() for size in self.sizes]
+            "size": [size.serialize() for size in self.sizes],
+            "quantity": self.total_quantity
         }
+
+    def get_total_quantity(self):
+        return self.total_quantity
