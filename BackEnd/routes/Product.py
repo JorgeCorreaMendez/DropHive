@@ -71,7 +71,7 @@ def filter_products(dbname):
         max_quantity = request.args.get('max_quantity')
         limit = int(request.args.get('limit', 5))
         offset = int(request.args.get('offset', 0))
-        with get_db_session(dbname) as db_session:
+        with (get_db_session(dbname) as db_session):
             query = db_session.query(Product).join(Category)
             if category_name:
                 query = query.filter(Category.name == category_name)
@@ -81,7 +81,14 @@ def filter_products(dbname):
                 query = query.filter(Product.price <= float(max_price))
             if max_quantity:
                 query = query.filter(Product.quantity <= int(max_quantity))
+
+            total = query.count()
+            print(total)
             query = query.limit(limit).offset(offset)
-            return jsonify([product.serialize() for product in query.all()]), 200
+
+            return jsonify({
+                "total": total,
+                "productos": [product.serialize() for product in query.all()]
+            }), 200
     except Exception as e:
         return jsonify({"error": str(e)}), 500
