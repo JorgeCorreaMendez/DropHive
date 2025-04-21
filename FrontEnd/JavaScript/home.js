@@ -1,9 +1,4 @@
 // Función asincrónica que se ejecuta cuando el DOM está listo
-
-/*TODO:
-  Hay que revisar que los productos se actualicen bien cuando hay un gran número de elementos.
-  Hay que actualizar el recuperarProductos para que muestre el número de productos según se dice en el selector.
- */
 import {recuperarNombreBaseDatos} from "./recursos.js";
 import {aplicarFiltros} from "./filtrado.js";
 
@@ -56,14 +51,6 @@ export async function initPagination(total_productos) {
             currentPage++;
             updatePage();
         }
-    });
-
-    // Cuando cambie el valor del select, recalcular y actualizar la paginación
-    itemsPerPageSelect.addEventListener('change', () => {
-        itemsPerPage = parseInt(itemsPerPageSelect.value, 10);
-        totalPages = Math.ceil(totalItems / itemsPerPage); // Recálculo de páginas
-        currentPage = 1; // Resetear a la primera página
-        updatePage();
     });
 }
 
