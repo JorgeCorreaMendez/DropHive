@@ -1,12 +1,8 @@
 // Función asincrónica que se ejecuta cuando el DOM está listo
-
-/*TODO:
-  Hay que revisar que los productos se actualicen bien cuando hay un gran número de elementos.
-  Hay que actualizar el recuperarProductos para que muestre el número de productos según se dice en el selector.
- */
 import {recuperarNombreBaseDatos} from "./recursos.js";
+import {aplicarFiltros} from "./filtrado.js";
 
-async function initPagination(total_productos) {
+export async function initPagination(total_productos) {
     // Número total de artículos (esto debería ser el resultado de tu llamada a la API)
     const totalItems = total_productos; // Ejemplo: 100 artículos
 
@@ -56,14 +52,6 @@ async function initPagination(total_productos) {
             updatePage();
         }
     });
-
-    // Cuando cambie el valor del select, recalcular y actualizar la paginación
-    itemsPerPageSelect.addEventListener('change', () => {
-        itemsPerPage = parseInt(itemsPerPageSelect.value, 10);
-        totalPages = Math.ceil(totalItems / itemsPerPage); // Recálculo de páginas
-        currentPage = 1; // Resetear a la primera página
-        updatePage();
-    });
 }
 
 /*
@@ -87,14 +75,16 @@ async function recuperarProductos() {
         }
 
         // Espera la respuesta JSON
-        const data = await response.json();
+        const respuesta_json = await response.json();
+        const data = await respuesta_json.productos
 
         // Aquí puedes trabajar con los datos obtenidos de la API
         console.log(data);
 
         await cargarDatosEnTabla(data);
+        await initPagination(respuesta_json.total);
 
-      return Object.keys(data).length;
+      return respuesta_json.total;
 
     } catch (error) {
         console.error('Hubo un error al hacer la solicitud:', error);
@@ -218,5 +208,11 @@ document.addEventListener('DOMContentLoaded', async () => {
     document.getElementById("supplier-btn").addEventListener("click", async () => {
         const db_name = await recuperarNombreBaseDatos();
         window.location.href = `http://127.0.0.1:4000/${db_name}/supply`;
+    });
+    document.getElementById("next-button").addEventListener("click", async () => {
+        await aplicarFiltros();
+    })
+    document.getElementById("prev-button").addEventListener("click", async () => {
+        await aplicarFiltros();
     })
 });

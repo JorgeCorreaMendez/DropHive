@@ -1,5 +1,5 @@
 import {recuperarNombreBaseDatos} from "./recursos.js";
-import {cargarDatosEnTabla} from "./home.js";
+import {cargarDatosEnTabla, initPagination} from "./home.js";
 
 
 const filtros = {
@@ -16,9 +16,14 @@ Object.values(filtros).forEach((elistener => {
     elistener.addEventListener(eventType, aplicarFiltros);
 }))
 
-async function aplicarFiltros() {
+export async function aplicarFiltros() {
     const params = new URLSearchParams();
     const db_name = await recuperarNombreBaseDatos();
+    const numero_de_pagina = parseInt(document.getElementById("page-number").textContent);
+
+    let offset = parseInt(filtros.limite.value) * (numero_de_pagina - 1);
+
+    params.set("offset", offset.toString());
 
     if(filtros.limite.value) params.set("limit", filtros.limite.value);
     if(filtros.categoria.value !== "all") params.set("category", filtros.categoria.value);
@@ -33,6 +38,8 @@ async function aplicarFiltros() {
 
     fetch(url)
         .then(res => res.json())
-        .then(data => cargarDatosEnTabla(data))
+        .then(data => {
+            cargarDatosEnTabla(data.productos);
+        })
         .catch(err => console.error("Error cargando productos", err))
 }
