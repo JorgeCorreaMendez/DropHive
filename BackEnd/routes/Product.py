@@ -28,13 +28,12 @@ def add_product(dbname):
         product_data = schemas.ProductSchema(**data)
         with get_db_session(dbname) as db_session:
             new_product = Product(
-                product_id=product_data.product_id,
+                id=product_data.product_id,
                 name=product_data.name,
                 category_id=product_data.category_id,
                 description=product_data.description,
                 price=product_data.price,
                 discount=product_data.discount,
-                size=product_data.size,
                 quantity=product_data.quantity
             )
             db_session.add(new_product)
@@ -50,7 +49,7 @@ def search_product_by_id(dbname):
     try:
         id_product = request.args.get('id')
         with get_db_session(dbname) as db_session:
-            products = db_session.query(Product).filter(id_product == Product.product_id).all()
+            products = db_session.query(Product).filter(id_product == Product.id).all()
             if products:
                 return jsonify([product.serialize() for product in products]), 200
             else:
@@ -61,6 +60,7 @@ def search_product_by_id(dbname):
 
 
 # TODO: Cambiar category_id en la DB
+# TODO: Cambiar por cantidad
 @products_bp.route('/<string:dbname>/filter_products')
 @login_required
 def filter_products(dbname):
