@@ -42,6 +42,27 @@ def add_product(dbname):
         return jsonify({"error": str(e)}), 500
 
 
+@products_bp.route("/<string:dbname>/modify_product", methods=["POST"])
+@login_required
+def modify_product(dbname):
+    try:
+        id_product = request.args.get('id')
+        data = request.get_json()
+        with get_db_session(dbname) as db_session:
+            product = db_session.query(Product).filter_by(id=id_product).first()
+            if not product:
+                return jsonify({"error": "Producto no encontrado"}), 404
+            product.name = data["name"]
+            product.category_id = data["category_id"]
+            product.description = data["description"]
+            product.price = data["price"]
+            product.discount = data["discount"]
+            db_session.commit()
+        return jsonify({"message": "Producto modificado correctamente"}), 200
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
+
+
 @products_bp.route('/<string:dbname>/filter_product_by_id')
 @login_required
 def search_product_by_id(dbname):
@@ -85,5 +106,3 @@ def filter_products(dbname):
             return jsonify([product.serialize() for product in query.all()]), 200
     except Exception as e:
         return jsonify({"error": str(e)}), 500
-
-
