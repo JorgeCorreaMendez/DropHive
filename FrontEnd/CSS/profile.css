@@ -100,6 +100,7 @@ button {
     border-radius: 10px;
     padding: 20px;
     box-shadow: 0 0 5px rgba(0,0,0,0.1);
+    min-width: 80%;
 }
 
 /* Header de la tienda (imagen + info) */
@@ -171,13 +172,16 @@ button {
 }
 
 .employee-buttons {
+    background-color: #ededed ;
     display: flex;
+    flex-direction: column;
     gap: 10px;
-    margin-bottom: 10px;
+    padding: 10px;
+    margin: 10px;
+    border-radius: 10px;
 }
 
 .btn-add {
-    margin-top: 150px;
     background-color: #28a745;
     color: #fff;
     transition: transform 0.3s ease;
@@ -188,7 +192,6 @@ button {
 }
 
 .btn-modify {
-    margin-top: 150px;
     background-color: #007bff;
     color: #fff;
     transition: transform 0.3s ease;
@@ -198,77 +201,23 @@ button {
     transition: transform 0.3s ease;
 }
 
-/* ----- Sección Derecha (Panel de Notificaciones) ----- */
-.notifications-panel {
-    flex: 1;
-    background-color: #fff;
-    border-radius: 10px;
-    box-shadow: 0 0 5px rgba(0,0,0,0.1);
-    padding: 20px;
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
-}
-
-/* Cabecera del panel de notificaciones */
-.notifications-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-}
-
-.notifications-header h3 {
-    font-size: 1.2em;
-}
-
-.bell-icon {
-    font-size: 1.2em;
-}
-
-/* Cada tarjeta de notificación */
-.notification-card {
-    background-color: #f5f5f5;
-    border-radius: 8px;
-    padding: 10px;
-}
-
-.notification-card h4 {
-    margin-bottom: 5px;
-    display: flex;
-    align-items: center;
-    gap: 5px;
-}
-
-.dot-indicator {
-    display: inline-block;
-    width: 8px;
-    height: 8px;
-    background-color: orange;
-    border-radius: 50%;
-}
-
-/* Texto de notificación */
-.notification-card p {
-    font-size: 0.9em;
-    line-height: 1.4;
-}
-
 /* Botón para ver acciones de empleados */
 .notifications-wrapper {
     flex: 1;
     display: flex;
     flex-direction: column;
-    align-items: stretch;
-    gap: 100px;
+    height: 50%; /* Asegura que intente ocupar todo el alto disponible */
+    max-width: 12vw;
 }
+
 
 .employee-details-panel {
     display: flex;
     justify-content: center;  /* Esto centra el contenido horizontalmente */
-    align-self: flex-end;
+    align-self: center;
     background-color: #ededed;
     padding: 10px;
-    width: 12vw;
+    max-width: 12vw;
     border-radius: 10px;
 }
 
@@ -284,5 +233,7 @@ button {
     transform: scale(1.05); /* Aumenta el tamaño en un 5% */
     transition: transform 0.3s ease; /* Transición suave */
 }
+
+.w
 
 
