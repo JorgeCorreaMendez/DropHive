@@ -63,6 +63,22 @@ def modify_product(dbname):
         return jsonify({"error": str(e)}), 500
 
 
+@products_bp.route("/<string:dbname>/delete_product", methods=["GET"])
+@login_required
+def delete_product(dbname):
+    try:
+        id_product = request.args.get('id')
+        with get_db_session(dbname) as db_session:
+            product = db_session.query(Product).filter_by(id=id_product).first()
+            if not product:
+                return jsonify({"error": "Producto no encontrado"}), 404
+            db_session.delete(product)
+            db_session.commit()
+        return jsonify({"message": "Producto eleminado correctamente"}), 200
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
+
+
 @products_bp.route('/<string:dbname>/filter_product_by_id')
 @login_required
 def search_product_by_id(dbname):
