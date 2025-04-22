@@ -8,57 +8,51 @@
     <script src="{{ url_for('static', filename='JavaScript/header.js') }}"></script>
     <script src="{{ url_for('static', filename='JavaScript/redirect.js') }}"></script>
     <script src="{{ url_for('static', filename='JavaScript/log.js') }}"></script>
+    <script src="{{ url_for('static', filename='JavaScript/pagination.js') }}"></script>
 </head>
 <body>
 <header>
     {% include 'header.html' %}
 </header>
-<div class="log-sidebar">
-    <button id="notification-btn"> 🔔 Notifications</button>
-    <div class="filters">
-        <label>Nombre: <select><option>Todos</option></select></label>
-        <label>Categoría: <select><option>Todos</option></select></label>
-        <label>Fecha de compra: <select><option>Todos</option></select></label>
-    </div>
-</div>
-
+<div class="total-wrapper2">
 <div class="log-container">
+    <div class="total-wrapper">
+        <div class="table-wrapper">
     <table>
         <thead>
         <tr>
+            <th>ID</th>
             <th>Nombre de la compañía</th>
             <th>Nombre del ítem</th>
             <th>Acción realizada</th>
         </tr>
         </thead>
         <tbody>
-        <tr>
-            <td>Nike</td>
-            <td>Dunk Low</td>
-            <td>Añadir ítem</td>
-        </tr>
-        <tr>
-            <td>Adidas</td>
-            <td>Samba OG</td>
-            <td>Añadir ítem</td>
-        </tr>
-        <tr>
-            <td>New Balance</td>
-            <td>New Balance 550</td>
-            <td>Añadir ítem</td>
-        </tr>
-        <tr>
-            <td>Jordan</td>
-            <td>Air Jordan 1</td>
-            <td>Eliminar</td>
-        </tr>
-        <tr>
-            <td>Carhartt</td>
-            <td>Chore Coat</td>
-            <td>Modificar ítem</td>
+        <tr><td><div class="cell">001</div></td>
+            <td><div class="cell">Nike</div></td>
+            <td><div class="cell">Dunk Low</div></td>
+            <td><div class="cell">Añadir ítem</div></td>
         </tr>
         </tbody>
     </table>
+            <div class="pagination-controls">
+                <button id="prev-page" disabled>Anterior</button>
+                <span id="page-info">Página 1</span>
+                <button id="next-page">Siguiente</button>
+            </div>
+</div>
+</div>
+    <div class="sidebar">
+        <div class="button-wrapper notification-wrapper">
+            <button id="notification-btn">🔔 Notifications</button>
+        </div>
+        <div class="button-wrapper filters">
+            <label>Nombre: <select><option>Todos</option></select></label>
+            <label>Categoría: <select><option>Todos</option></select></label>
+            <label>Fecha de compra: <select><option>Todos</option></select></label>
+        </div>
+    </div>
+</div>
 </div>
 </body>
 
