@@ -33,8 +33,8 @@ class Product(Base):
             "price": self.price,
             "category_id": self.category_id,
             "discount": self.discount,
-            "size": [size.serialize() for size in self.sizes],
-            "quantity": self.total_quantity
+            "quantity": self.total_quantity,
+            "size": [size.serialize() for size in self.sizes]
         }
 
     def get_total_quantity(self):

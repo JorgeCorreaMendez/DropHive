@@ -1,11 +1,11 @@
 from flask import request, jsonify, Blueprint
 
-from BackEnd import schemas
-from BackEnd.models.Product import Product
 from BackEnd.models.Category import Category
+from BackEnd.models.Product import Product
+from BackEnd.models.Size import Size
 from BackEnd.routes.Auth import login_required
-from BackEnd.utils.sqlalchemy_methods import get_db_session
 from BackEnd.services.models_service import get_all_values_from, get_total_quantity_query
+from BackEnd.utils.sqlalchemy_methods import get_db_session
 
 products_bp = Blueprint("products", __name__)
 
@@ -25,17 +25,26 @@ def get_products(dbname):
 def add_product(dbname):
     try:
         data = request.get_json()
-        product_data = schemas.ProductSchema(**data)
         with get_db_session(dbname) as db_session:
             new_product = Product(
-                id=product_data.product_id,
-                name=product_data.name,
-                category_id=product_data.category_id,
-                description=product_data.description,
-                price=product_data.price,
-                discount=product_data.discount,
+                id=data["id"],
+                name=data["name"],
+                category_id=data["category_id"],
+                description=data["description"],
+                price=data["price"],
+                discount=data["discount"],
             )
             db_session.add(new_product)
+            db_session.flush()
+
+            if "sizes" in data:
+                for size in data["sizes"]:
+                    db_session.add(Size(
+                        product_id=new_product.id,
+                        name=size["name"],
+                        quantity=size["quantity"]
+                    ))
+
             db_session.commit()
         return jsonify({"message": "Producto añadido correctamente"}), 200
     except Exception as e:
@@ -116,7 +125,7 @@ def filter_products(dbname):
                 query = query.filter(Product.price <= float(max_price))
             if max_quantity:
                 query_quantity = get_total_quantity_query(db_session)
-                query = query.join(query_quantity, Product.id == query_quantity.c.product_id)
+                query = query.join(query_quantity, Product.id == query_quantity.c.id)
                 query = query.filter(query_quantity.c.total_quantity <= int(max_quantity))
             query = query.limit(limit).offset(offset)
             return jsonify([product.serialize() for product in query.all()]), 200

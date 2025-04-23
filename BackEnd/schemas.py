@@ -21,7 +21,7 @@ class UserLoginSchema(BaseModel):
 
 # Esquema para agregar un producto
 class ProductSchema(BaseModel):
-    product_id: str = Field(..., max_length=5)
+    id: str = Field(..., max_length=5)
     name: str = Field(..., min_length=2, max_length=100)
     category_id: int
     description: Optional[str] = None
