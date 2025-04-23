@@ -6,12 +6,38 @@
 
 body {
     font-family: sans-serif;
-    background-color: #ddd !important;
+    background-color: white !important;
     min-height: 100vh;
     display: flex;
     flex-direction: column;
     align-items: center;
     padding: 20px;
+}
+
+header button {
+    color: #000;
+    background-color: #fff;
+}
+
+.total-wrapper {
+    background-color: #ddd !important;
+    padding: 20px;
+    border-radius: 10px;
+    width: 100%;
+    max-width: 650px;
+    height: auto;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.container {
+    background: #eee;
+    padding: 25px;
+    border-radius: 10px;
+    width: 100%;
+    max-width: 550px;
+    text-align: center;
+    margin: 0 auto;
+    margin-top: 7px !important;
 }
 
 header {
@@ -22,28 +48,37 @@ header {
     margin-bottom: 20px;
 }
 
-.container {
-    background: white;
-    padding: 20px;
-    border-radius: 10px;
-    width: 100%;
-    max-width: 500px;
-    text-align: center;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-}
-
 .form-group {
     display: flex;
     justify-content: space-between;
-    align-items: center;
+    align-items: flex-start;
     margin-bottom: 20px;
     gap: 10px;
+    flex-wrap: wrap;
 }
 
-.form-group label {
-    font-weight: bold;
+.form-group > div {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
     flex: 1;
-    text-align: left;
+    min-width: 150px;
+}
+
+.field-label {
+    display: inline-block;
+    border-bottom: 2px solid black;
+    padding-bottom: 0.25rem;
+    margin-bottom: 0.5rem;
+}
+
+.form-group input {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #999;
+    border-radius: 5px;
+    text-align: center;
+    background-color: #ddd;
 }
 
 button {
@@ -53,70 +88,69 @@ button {
     cursor: pointer;
 }
 
-.form-group input {
-    width: 120px;
-    padding: 10px;
-    border: 1px solid #999;
-    border-radius: 5px;
-    text-align: center;
-    background-color: #ddd;
-}
-
 .save-btn {
-    background-color: blue;
-    color: white;
-    border: none;
-    padding: 10px 15px;
+    background-color: #8DC96A;
+    color: black;
+    padding: 10px 20px;
     border-radius: 5px;
     cursor: pointer;
     transition: all 0.2s ease-in-out;
+    margin-top: 30px;
+    align-self: flex-end;
 }
 
 .save-btn:hover {
-    background-color: #000080;
+    background-color: #9DD97A;
     transform: scale(1.05);
 }
 
-/* ≤ 480px: móviles pequeños */
 @media (max-width: 480px) {
     .form-group {
         flex-direction: column;
         align-items: stretch;
     }
 
+    .form-group > div {
+        width: 100%;
+    }
+
     .form-group input {
         width: 100%;
     }
 
     .save-btn {
         width: 100%;
+        align-self: center;
     }
 }
 
-/* 481px – 768px: tablets */
 @media (max-width: 768px) and (min-width: 481px) {
     .form-group {
         flex-direction: column;
         align-items: stretch;
     }
 
+    .form-group > div {
+        width: 100%;
+    }
+
     .form-group input {
         width: 100%;
     }
 
     .save-btn {
         width: 100%;
+        align-self: center;
     }
 }
 
-/* 769px – 1024px: pantallas medianas */
 @media (max-width: 1024px) and (min-width: 769px) {
     .container {
         width: 90%;
     }
 
     .form-group input {
-        width: 100%;
-        max-width: 200px;
+        max-width: 100%;
     }
 }
+
