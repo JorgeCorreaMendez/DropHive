@@ -210,9 +210,9 @@ document.addEventListener('DOMContentLoaded', async () => {
         window.location.href = `http://127.0.0.1:4000/${db_name}/supply`;
     });
     document.getElementById("next-button").addEventListener("click", async () => {
-        await aplicarFiltros();
+        await aplicarFiltros("producto");
     })
     document.getElementById("prev-button").addEventListener("click", async () => {
-        await aplicarFiltros();
+        await aplicarFiltros("producto");
     })
 });
