@@ -20,6 +20,35 @@ def get_accounts(dbname):
         return jsonify({"error": "Error al obtener las cuentas."}), 500
 
 
+# TODO. añadir privilegios SPRINT2
+@accounts_bp.route("/<string:dbname>/create_account", methods=["POST"])
+def create_account(dbname):
+    data = request.get_json()
+    name = data.get("name")
+    mail = data.get("mail")
+    password = data.get("password")
+    if not name or not mail or not password:
+        return jsonify({"error": "Faltan datos obligatorios"}), 400
+    try:
+        with get_db_session(dbname) as db:
+            if db.query(Account).filter_by(mail=mail).first():
+                return jsonify({"error": "El correo ya está registrado"}), 400
+            new_account = Account(
+                name=name,
+                mail=mail,
+                password=create_hash(password),
+                phone=data.get("phone"),
+                description=data.get("description"),
+                address=data.get("address")
+            )
+            db.add(new_account)
+            db.commit()
+        return jsonify({"message": "Cuenta creada correctamente"}), 201
+    except Exception as e:
+        print(e)
+        return jsonify({"Error, al crear la cuenta": str(e)}), 500
+
+
 @accounts_bp.route("/change_password", methods=["POST"])
 def change_password():
     if "verification_code" not in session:
