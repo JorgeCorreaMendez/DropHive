@@ -2,18 +2,33 @@
 <div class="outer-container">
     <!-- Caja blanca interior -->
     <div id="createProductForm" class="create-product-container">
-        <!-- Encabezado -->
-        <div class="top-section">
-            <div class="top-left">
-                <img class="image-container" src="/FrontEnd/Images/sinFoto.png" alt="Article Image">
-                <label for="product-name" class="product-name-label">Nombre del Producto:</label>
-                <input type="text" id="product-name" placeholder="Escribe el nombre aquí" required>
-                <button type="button" class="category-btn">Add Category</button>
-            </div>
-            <div class="top-right">
-                <button class="save-btn" id="save-changes-btn" type="submit">Save Changes</button>
-            </div>
+
+    <div class="top-section">
+      <div class="top-left">
+
+        <!-- este wrapper alinea solo img + nombre -->
+        <div class="img-name-wrapper">
+          <div class="image-upload-wrapper">
+            <img class="image-container" src="/FrontEnd/Images/sinFoto.png" alt="Article Image">
+            <div class="overlay"><span>Adjuntar imagen</span></div>
+            <input type="file" accept="image/*" class="company-image-input">
+          </div>
+
+          <div class="product-name-wrapper">
+            <label for="product-name" class="product-name-label">Nombre del Producto:</label>
+            <input type="text" id="product-name" placeholder="Escribe el nombre aquí" required>
+          </div>
         </div>
+        <!-- este botón NO se mueve -->
+        <button type="button" class="category-btn">Add Category</button>
+      </div>
+
+      <div class="top-right">
+        <!-- tu botón de guardar sigue donde estaba -->
+        <button class="save-btn" id="save-changes-btn" type="submit">Save Changes</button>
+      </div>
+    </div>
+
         <!-- Cuerpo principal -->
         <div class="bottom-section">
             <div class="bottom-left">
@@ -22,25 +37,36 @@
                     <textarea id="description" placeholder="Add Description..."></textarea>
                 </div>
             </div>
+
             <div class="bottom-right">
                 <div class="row-field">
-                    <label for="product-id">Add ID:</label>
+                    <label for="product-id">ID:</label>
                     <input type="text" id="product-id" placeholder="Ej: 1234" required>
                 </div>
+
                 <div class="row-field">
-                    <label for="price">Add Price:</label>
+                    <label for="price">Price:</label>
                     <input type="number" id="price" placeholder="0.00€" step="0.01" min="0" required>
                     <span class="currency"></span>
                 </div>
+
                 <div class="row-field">
-                    <label for="size">Add Size:</label>
+                    <label for="size">Size:</label>
                     <input type="text" id="size" placeholder="Ej: M, L, XL">
                 </div>
+
                 <div class="row-field">
-                    <label for="discount">Add Discount:</label>
+                    <label for="discount">Discount:</label>
                     <input type="number" id="discount" placeholder="0%" min="0" max="100">
                     <span class="discount-icon"></span>
                 </div>
+
+                <div class="row-field">
+                    <label for="discount">Quantity</label>
+                    <input type="number" id="quantity" placeholder="0">
+                    <span class="discount-icon"></span>
+                </div>
+
             </div>
         </div>
     </div>

@@ -47,4 +47,25 @@ export const agregarProducto = async () => {
         console.error("Error al enviar datos:", error);
         alert("Ocurrió un error inesperado. Ver consola para detalles.");
     }
+
 };
+document.addEventListener('change', e => {
+      // Solo nos interesa cuando cambia un input de imagen
+      if (!e.target.matches('.company-image-input')) return;
+
+      const inputFile = e.target;
+      const wrapper   = inputFile.closest('.image-upload-wrapper');
+      if (!wrapper) return;
+
+      const img = wrapper.querySelector('.image-container');
+      const file = inputFile.files[0];
+      if (!file) return;
+
+      // Creamos una URL temporal y actualizamos el src
+      const objectURL = URL.createObjectURL(file);
+      img.src = objectURL;
+      img.onload = () => URL.revokeObjectURL(objectURL);
+
+      // Reiniciamos para permitir re-selección del mismo fichero
+      inputFile.value = '';
+});
