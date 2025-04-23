@@ -50,7 +50,7 @@ def add_product(dbname):
     except Exception as e:
         return jsonify({"error": str(e)}), 500
 
-
+# TODO. poner if para no cambiar todos los datos
 @products_bp.route("/<string:dbname>/modify_product", methods=["POST"])
 @login_required
 def modify_product(dbname):

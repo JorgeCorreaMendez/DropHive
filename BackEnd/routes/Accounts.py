@@ -80,6 +80,23 @@ def modify_account(dbname):
     except Exception as e:
         return jsonify({"error": str(e)}), 500
 
+
+@accounts_bp.route("/<string:dbname>/delete_account", methods=["GET"])
+@login_required
+def delete_account(dbname):
+    try:
+        account_id = request.args.get('id')
+        with get_db_session(dbname) as db_session:
+            account = db_session.query(Account).filter_by(id=account_id).first()
+            if not account:
+                return jsonify({"error": "Cuenta no encontrado"}), 404
+            db_session.delete(account)
+            db_session.commit()
+        return jsonify({"message": "Cuenta eleminada correctamente"}), 200
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
+
+
 @accounts_bp.route("/change_password", methods=["POST"])
 def change_password():
     if "verification_code" not in session:
