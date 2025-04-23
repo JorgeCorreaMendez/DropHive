@@ -49,6 +49,37 @@ def create_account(dbname):
         return jsonify({"Error, al crear la cuenta": str(e)}), 500
 
 
+@accounts_bp.route("/<string:dbname>/modify_account", methods=["POST"])
+@login_required
+def modify_account(dbname):
+    account_id = request.args.get("id", type=int)
+    data = request.get_json()
+    if not account_id:
+        return jsonify({"error": "Falta el ID de la cuenta"}), 400
+    try:
+        with get_db_session(dbname) as db:
+            account = db.query(Account).filter_by(id=account_id).first()
+            if not account:
+                return jsonify({"error": "Cuenta no encontrada"}), 404
+            if "name" in data:
+                account.name = data["name"]
+            if "mail" in data:
+                if db.query(Account).filter(Account.mail == data["mail"], Account.id != account_id).first():
+                    return jsonify({"error": "El correo ya está registrado"}), 400
+                account.mail = data["mail"]
+            if "phone" in data:
+                account.phone = data["phone"]
+            if "description" in data:
+                account.description = data["description"]
+            if "address" in data:
+                account.address = data["address"]
+            if "password" in data:
+                account.password = create_hash(data["password"])
+            db.commit()
+        return jsonify({"message": "Cuenta modificada correctamente"}), 200
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
+
 @accounts_bp.route("/change_password", methods=["POST"])
 def change_password():
     if "verification_code" not in session:
