@@ -1,5 +1,7 @@
 import {recuperarNombreBaseDatos} from "../recursos.js";
-import {cargarDatosEnTabla, initPagination} from "../home.js";
+import {cargarDatosEnTabla} from "../home.js";
+import { initPagination } from "../recursos/paginado.js";
+
 
 export async function recuperarProductos() {
     const db_name = await recuperarNombreBaseDatos();

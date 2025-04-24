@@ -32,7 +32,7 @@ document.addEventListener("DOMContentLoaded", function() {
                 const error = await response.json();
                 Swal.fire({
                     icon: 'error',
-                    title: "Error al crear la base de datos.",
+                    title: "Error durante el inicio de sesión.",
                     html: error.message || "Ocurrió un error desconocido",
                     timer: 2500,
                     showConfirmButton: false
@@ -41,7 +41,7 @@ document.addEventListener("DOMContentLoaded", function() {
         } catch (error) {
             Swal.fire({
                 icon: 'error',
-                title: "Error al crear la base de datos.",
+                title: "Error en el servidor.",
                 html: "Ocuririó un error en la solicitud",
                 timer: 2500,
                 showConfirmButton: false

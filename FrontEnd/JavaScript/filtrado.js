@@ -1,22 +1,31 @@
 import {recuperarNombreBaseDatos} from "./recursos.js";
-import {cargarDatosEnTabla, initPagination} from "./home.js";
-
+import {cargarDatosEnTabla} from "./home.js";
+import {debounce} from "./recursos/retrasarEjecucion.js";
+import {obtenerValorPrecio} from "./recursos/recursosParaNumeros.js";
 
 const filtros = {
     limite: document.getElementById("items-per-page"),
     categoria: document.getElementById("select-categoria"),
-    //proveedor: document.getElementById("select-proveedor"),
+    // proveedor: document.getElementById("select-proveedor"),
     min_precio: document.getElementById("min-price"),
     max_precio: document.getElementById("max-price"),
     cantidad: document.getElementById("max-quantity")
-}
+};
 
-Object.values(filtros).forEach((elistener => {
-    const eventType = elistener.tagName === 'SELECT' ? 'change' : 'input';
-    elistener.addEventListener(eventType, aplicarFiltros);
-}))
+Object.values(filtros).forEach((elemento) => {
+    const eventType = elemento.tagName === 'SELECT' ? 'change' : 'input';
+
+    // Usamos el debounce para aplicar la función con un retraso de 1 segundo
+    elemento.addEventListener(eventType, debounce(async () => {
+        const vistaActual = document.body.dataset.vista;
+        await aplicarFiltros(vistaActual);
+    }, 750)); // 1000 ms = 1 segundo
+});
+
+
 
 export async function aplicarFiltros(tipo) {
+    console.log("El tipo de la página actual es:", tipo);
     const params = new URLSearchParams();
     const db_name = await recuperarNombreBaseDatos();
     const numero_de_pagina = parseInt(document.getElementById("page-number").textContent);
@@ -26,12 +35,13 @@ export async function aplicarFiltros(tipo) {
     params.set("offset", offset.toString());
 
     if(filtros.limite.value) params.set("limit", filtros.limite.value);
-
+    console.log("Entramos en aplicarFiltros");
 
     if(tipo === "productos") {
+        console.log("Entra en productos");
         if(filtros.categoria.value !== "all") params.set("category", filtros.categoria.value);
-        if(filtros.min_precio.value) params.set("min_price", filtros.min_precio.value);
-        if(filtros.max_precio.value) params.set("max_price", filtros.max_precio.value);
+        if(filtros.min_precio.value) params.set("min_price", obtenerValorPrecio(filtros.min_precio.value)); // Aparece un error pero no hay problema
+        if(filtros.max_precio.value) params.set("max_price", obtenerValorPrecio(filtros.max_precio.value)); // ya que no puede devolver un valor null
         if(filtros.cantidad.value) params.set("max_quantity", filtros.cantidad.value);
 
         const url = `http://127.0.0.1:4000/${db_name}/filter_products?${params.toString()}`
@@ -45,6 +55,7 @@ export async function aplicarFiltros(tipo) {
             })
             .catch(err => console.error("Error cargando productos", err))
     } else {
+        console.log("Entra en categorias");
         const url = `http://127.0.0.1:4000/${db_name}/filter_category?${params.toString()}`
 
         console.log(url);

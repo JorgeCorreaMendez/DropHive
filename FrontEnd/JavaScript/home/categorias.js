@@ -15,6 +15,7 @@ export async function addInformacionFilaCategoria(item, db_name) {
     row.id = "list-article"
     row.setAttribute('data-product-id', item.id);
 
+    console.log(item)
     // A partir de aquí se muestran los elementos de las columnas
     const idCell = document.createElement('td');
     idCell.classList.add('p-2', 'rounded-[5px]');
@@ -25,8 +26,8 @@ export async function addInformacionFilaCategoria(item, db_name) {
     nameCell.textContent = item.name;
 
     const descriptionCell = document.createElement('td');
-    nameCell.classList.add('p-2', 'rounded-[5px]');
-    nameCell.textContent = item.description;
+    descriptionCell.classList.add('p-2', 'rounded-[5px]');
+    descriptionCell.textContent = item.description;
 
     //Agregamos las celdas a la fila
     row.appendChild(idCell);

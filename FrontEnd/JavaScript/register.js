@@ -93,7 +93,7 @@ document.addEventListener("DOMContentLoaded", function() {
                 console.log(result.message)
                 Swal.fire({
                     icon: 'error',
-                    title: "Error al crear la base de datos.",
+                    title: "Error en el servidor.",
                     html: result.message,
                     confirmButtonText: 'Entendido'
                 });
