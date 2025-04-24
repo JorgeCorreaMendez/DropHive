@@ -28,7 +28,7 @@ export async function aplicarFiltros(tipo) {
     if(filtros.limite.value) params.set("limit", filtros.limite.value);
 
 
-    if(tipo === "producto") {
+    if(tipo === "productos") {
         if(filtros.categoria.value !== "all") params.set("category", filtros.categoria.value);
         if(filtros.min_precio.value) params.set("min_price", filtros.min_precio.value);
         if(filtros.max_precio.value) params.set("max_price", filtros.max_precio.value);

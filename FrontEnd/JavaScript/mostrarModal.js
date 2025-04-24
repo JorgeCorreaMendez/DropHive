@@ -1,6 +1,6 @@
 import { recuperarNombreBaseDatos } from "./recursos.js";
 import {agregarProducto} from "./createItem.js";
-import {localizarCategoria} from "./home.js";
+import {localizarCategoria} from "./home/productos.js";
 
 document.addEventListener("DOMContentLoaded", () => {
   const modalContainer = document.getElementById("modal-container");

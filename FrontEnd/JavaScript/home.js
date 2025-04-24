@@ -1,6 +1,8 @@
 // Función asincrónica que se ejecuta cuando el DOM está listo
 import {recuperarNombreBaseDatos} from "./recursos.js";
 import {aplicarFiltros} from "./filtrado.js";
+import {recuperarProductos, addInformacionFilaProducto, modificarCabeceraTablaProductos} from "./home/productos.js";
+import {addInformacionFilaCategoria} from "./home/categorias.js";
 
 export async function initPagination(total_productos) {
     // Número total de artículos (esto debería ser el resultado de tu llamada a la API)
@@ -61,117 +63,31 @@ TODO:
  la llamada a la función que maneje el paginado.
  Se podría realizar modificando la función de filter_products para devolver el número de elementos totales de la tabla.
  */
-async function recuperarProductos() {
-  const db_name = await recuperarNombreBaseDatos();
-
-  console.log(db_name);
-
-  try {
-        const response = await fetch(`http://127.0.0.1:4000/${db_name}/filter_products`);
-
-        // Verifica que la respuesta sea exitosa
-        if (!response.ok) {
-            throw new Error(`Error en la solicitud: ${response.statusText}`);
-        }
-
-        // Espera la respuesta JSON
-        const respuesta_json = await response.json();
-        const data = await respuesta_json.productos
-
-        // Aquí puedes trabajar con los datos obtenidos de la API
-        console.log(data);
-
-        await cargarDatosEnTabla(data);
-        await initPagination(respuesta_json.total);
-
-      return respuesta_json.total;
-
-    } catch (error) {
-        console.error('Hubo un error al hacer la solicitud:', error);
-    }
-}
 
 export async function cargarDatosEnTabla(data) {
     const tableBody = document.getElementById("table-body");
     tableBody.innerHTML = ''; // Limpiar antes de agregar nuevos productos
     const db_name = await recuperarNombreBaseDatos();
     console.log(data)
+    const vistaActual = document.body.dataset.vista;
 
     for (const item of data) {
-        const row = document.createElement('tr');
-        row.classList.add(
-            'bg-[#D9D9D9]',
-            'gap-[5px]',
-            'text-center',
-            'modal-trigger',
-            'cursor-pointer',
-            'hover:bg-[#bfbfbf]', // un tono más oscuro que #D9D9D9
-            'transition-colors',
-            'duration-200',
-        );
-
-
-        row.id = "list-article"
-        row.setAttribute('data-product-id', item.product_id);
-
-        // A partir de aquí se muestran los elementos de las columnas
-        const idCell = document.createElement('td');
-        idCell.classList.add('p-2', 'rounded-[5px]');
-        idCell.textContent = item.product_id;
-
-        const nameCell = document.createElement('td');
-        nameCell.classList.add('p-2', 'rounded-[5px]');
-        nameCell.textContent = item.name;
-
-        let category_name = await localizarCategoria(db_name, item.category_id);
-
-        const categoryCell = document.createElement('td');
-        categoryCell.classList.add('p-2', 'rounded-[5px]');
-        categoryCell.textContent = category_name;
-
-        const purchaseCell = document.createElement('td');
-        purchaseCell.classList.add('p-2', 'rounded-[5px]');
-        purchaseCell.textContent = item.price + " €";
-
-        const sellCell = document.createElement('td');
-        sellCell.classList.add('p-2', 'rounded-[5px]');
-        sellCell.textContent = item.price + " €";
-
-        const quantityCell = document.createElement('td');
-        quantityCell.classList.add('p-2', 'rounded-[5px]');
-        quantityCell.textContent = item.quantity;
-
-        //Agregamos las celdas a la fila
-        row.appendChild(idCell);
-        row.appendChild(nameCell);
-        row.appendChild(categoryCell);
-        row.appendChild(purchaseCell);
-        row.appendChild(sellCell);
-        row.appendChild(quantityCell);
+        let row = "";
+        if (vistaActual === "productos") {
+            row = addInformacionFilaProducto(item, db_name);
+        } else {
+            row = addInformacionFilaCategoria(item, db_name);
+        }
 
         //Agregamos al tablebody
-        tableBody.appendChild(row);
-        requestAnimationFrame(() => {
-          row.classList.remove('opacity-0'); // la vuelve visible gradualmente
-        });
+        await tableBody.appendChild(await row);
     }
 }
 
-export async function localizarCategoria(db_name, id) {
-    try {
-        const response = await fetch(`http://127.0.0.1:4000/${db_name}/get_category/${id}`)
-
-        if(!response.ok) {
-            throw new Error(`Error en la solicitud: ${response.statusText}`);
-        }
-        const data = await response.json();
-        console.log(data.name)
-        return data.name
-    } catch (e) {
-        console.log(e)
-    }
-}
-
+/*
+No recuerdo que hace esto.
+Revisar durante refactorización.
+ */
 async function actualizarOpcionesCategoria() {
     const db_name = await recuperarNombreBaseDatos();
 
@@ -203,6 +119,7 @@ async function actualizarOpcionesCategoria() {
 // Llamamos a la función cuando el DOM está cargado
 document.addEventListener('DOMContentLoaded', async () => {
     let total_productos = await recuperarProductos();
+    await modificarCabeceraTablaProductos();
     await actualizarOpcionesCategoria();
     await initPagination(total_productos); // Ejecuta la paginación después de obtener los datos de la API
     document.getElementById("supplier-btn").addEventListener("click", async () => {
@@ -210,9 +127,11 @@ document.addEventListener('DOMContentLoaded', async () => {
         window.location.href = `http://127.0.0.1:4000/${db_name}/supply`;
     });
     document.getElementById("next-button").addEventListener("click", async () => {
-        await aplicarFiltros("producto");
+        const vistaActual = document.body.dataset.vista;
+        await aplicarFiltros(vistaActual);
     })
     document.getElementById("prev-button").addEventListener("click", async () => {
-        await aplicarFiltros("producto");
+        const vistaActual = document.body.dataset.vista;
+        await aplicarFiltros(vistaActual);
     })
 });
