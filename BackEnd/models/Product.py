@@ -1,5 +1,6 @@
 from sqlalchemy import Integer, String, Text, Float, ForeignKey, Column
 from sqlalchemy.orm import relationship
+from BackEnd.models.Size import Size
 
 from BackEnd.models import Base
 
@@ -7,27 +8,34 @@ from BackEnd.models import Base
 class Product(Base):
     __tablename__ = 'products'
 
-    product_id = Column(String, primary_key=True)
+    id = Column(String, primary_key=True)
     name = Column(String, nullable=False)
     description = Column(Text)
     price = Column(Float, default=0.0)
     discount = Column(Float, default=0.0)
-    size = Column(String)
-    quantity = Column(Integer)
     category_id = Column(Integer, ForeignKey('categories.id'))
     category = relationship("Category", back_populates="products")
+    sizes = relationship("Size", back_populates="product", cascade="all, delete-orphan")
+
+    @property
+    def total_quantity(self):
+        return sum(size.quantity for size in self.sizes)
 
     def __str__(self):
-        return "{}, {}, {}".format(self.product_id, self.name, self.description)
+        return "{}, {}, {}".format(self.id, self.name, self.description)
 
+    # TODO. cambiar quantity en el front
     def serialize(self):
         return {
-            "product_id": self.product_id,
+            "product_id": self.id,
             "name": self.name,
             "description": self.description,
             "price": self.price,
             "category_id": self.category_id,
             "discount": self.discount,
-            "size": self.size,
-            "quantity": self.quantity
+            "quantity": self.total_quantity,
+            "size": [size.serialize() for size in self.sizes]
         }
+
+    def get_total_quantity(self):
+        return self.total_quantity

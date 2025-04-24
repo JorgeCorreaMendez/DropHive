@@ -1,56 +1,107 @@
-from flask import request, jsonify, Blueprint
+from flask import request, jsonify, Blueprint, session
 
-from BackEnd import schemas
-from BackEnd.models.Product import Product
 from BackEnd.models.Category import Category
+from BackEnd.models.Product import Product
+from BackEnd.models.Size import Size
 from BackEnd.routes.Auth import login_required
+from BackEnd.services.models_service import get_all_values_from, get_total_quantity_query
 from BackEnd.utils.sqlalchemy_methods import get_db_session
-from BackEnd.services.models_service import get_all_values_from
 
 products_bp = Blueprint("products", __name__)
 
 
-@products_bp.route("/<string:dbname>/products")
+@products_bp.route("/products")
 @login_required
-def get_products(dbname):
+def get_products():
     try:
-        return jsonify(get_all_values_from(Product, dbname)), 200, {'Content-Type': 'application/json; charset=utf-8'}
-    except Exception as e:
-        print(f"Error en /products: {e}")
-        return jsonify({"error": "Error al obtener la lista de productos."}), 500
-
-
-@products_bp.route("/<string:dbname>/add_product", methods=["POST"])
-@login_required
-def add_product(dbname):
-    try:
-        data = request.get_json()
-        product_data = schemas.ProductSchema(**data)
-        with get_db_session(dbname) as db_session:
-            new_product = Product(
-                product_id=product_data.product_id,
-                name=product_data.name,
-                category_id=product_data.category_id,
-                description=product_data.description,
-                price=product_data.price,
-                discount=product_data.discount,
-                size=product_data.size,
-                quantity=product_data.quantity
-            )
-            db_session.add(new_product)
-            db_session.commit()
-        return jsonify({"message": "Producto añadido correctamente"}), 200
+        return jsonify(get_all_values_from(Product, session["db.name"])), 200, {
+            'Content-Type': 'application/json; charset=utf-8'}
     except Exception as e:
         return jsonify({"error": str(e)}), 500
 
 
-@products_bp.route('/<string:dbname>/filter_product_by_id')
+@products_bp.route("/add_product", methods=["POST"])
 @login_required
-def search_product_by_id(dbname):
+def add_product():
+    try:
+        data = request.get_json()
+        print(data)
+        with get_db_session(session["db.name"]) as db_session:
+            new_product = Product(
+                id=data["product_id"],
+                name=data["name"],
+                category_id=data["category_id"],
+                description=data["description"],
+                price=data["price"],
+                discount=data["discount"],
+            )
+            db_session.add(new_product)
+            db_session.flush()
+
+            if "sizes" in data:
+                for size in data["sizes"]:
+                    db_session.add(Size(
+                        product_id=new_product.id,
+                        name=size["name"],
+                        quantity=size["quantity"]
+                    ))
+
+            db_session.commit()
+        return jsonify({"message": "Producto añadido correctamente"}), 200
+    except Exception as e:
+        print(e)
+        return jsonify({"error": str(e)}), 500
+
+
+@products_bp.route("/modify_product", methods=["POST"])
+@login_required
+def modify_product():
     try:
         id_product = request.args.get('id')
-        with get_db_session(dbname) as db_session:
-            products = db_session.query(Product).filter(id_product == Product.product_id).all()
+        data = request.get_json()
+        with get_db_session(session["db.name"]) as db_session:
+            product = db_session.query(Product).filter_by(id=id_product).first()
+            if not product:
+                return jsonify({"error": "Producto no encontrado"}), 404
+            if "name" in data:
+                product.name = data["name"]
+            if "category_id" in data:
+                product.category_id = data["category_id"]
+            if "description" in data:
+                product.description = data["description"]
+            if "price" in data:
+                product.price = data["price"]
+            if "discount" in data:
+                product.discount = data["discount"]
+            db_session.commit()
+        return jsonify({"message": "Producto modificado correctamente"}), 200
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
+
+
+@products_bp.route("/delete_product", methods=["GET"])
+@login_required
+def delete_product():
+    try:
+        id_product = request.args.get('id')
+        with get_db_session(session["db.name"]) as db_session:
+            product = db_session.query(Product).filter_by(id=id_product).first()
+            if not product:
+                return jsonify({"error": "Producto no encontrado"}), 404
+            db_session.delete(product)
+            db_session.commit()
+        return jsonify({"message": "Producto eleminado correctamente"}), 200
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
+
+
+@products_bp.route('/filter_product_by_id')
+@login_required
+def search_product_by_id():
+    try:
+        id_product = request.args.get('id')
+        with get_db_session(session["db.name"]) as db_session:
+            products = db_session.query(Product).filter(id_product == Product.id).all()
             if products:
                 return jsonify([product.serialize() for product in products]), 200
             else:
@@ -61,9 +112,9 @@ def search_product_by_id(dbname):
 
 
 # TODO: Cambiar category_id en la DB
-@products_bp.route('/<string:dbname>/filter_products')
+@products_bp.route('/filter_products')
 @login_required
-def filter_products(dbname):
+def filter_products():
     try:
         category_name = request.args.get('category')
         min_price = request.args.get('min_price')
@@ -71,7 +122,7 @@ def filter_products(dbname):
         max_quantity = request.args.get('max_quantity')
         limit = int(request.args.get('limit', 5))
         offset = int(request.args.get('offset', 0))
-        with (get_db_session(dbname) as db_session):
+        with (get_db_session(session["db.name"]) as db_session):
             query = db_session.query(Product).join(Category)
             if category_name:
                 query = query.filter(Category.name == category_name)
@@ -80,15 +131,10 @@ def filter_products(dbname):
             if max_price:
                 query = query.filter(Product.price <= float(max_price))
             if max_quantity:
-                query = query.filter(Product.quantity <= int(max_quantity))
-
-            total = query.count()
-            print(total)
+                query_quantity = get_total_quantity_query(db_session)
+                query = query.join(query_quantity, Product.id == query_quantity.c.id)
+                query = query.filter(query_quantity.c.total_quantity <= int(max_quantity))
             query = query.limit(limit).offset(offset)
-
-            return jsonify({
-                "total": total,
-                "productos": [product.serialize() for product in query.all()]
-            }), 200
+            return jsonify([product.serialize() for product in query.all()]), 200
     except Exception as e:
         return jsonify({"error": str(e)}), 500

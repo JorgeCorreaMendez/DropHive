@@ -26,12 +26,12 @@ def login():
             if not verify_hash(password, account.password):
                 return jsonify({"message": "Credenciales incorrectas"}), 401
             session["user"] = account.name
+            session["db.name"] = user.db_name
             return jsonify({
                 "message": f"Bienvenido, {account.name}",
                 "db_name": f"{user.db_name}"
             }), 200
     except Exception as e:
-        print(e)
         return jsonify({"error": str(e)}), 500
 
 
@@ -41,11 +41,10 @@ def logout():
     return jsonify({"message": "Sesión cerrada correctamente"}), 200
 
 
-def login_required(f):
-    @wraps(f)
+def login_required(route_function):
+    @wraps(route_function)
     def decorated_function(*args, **kwargs):
         if "user" not in session:
-            return redirect(url_for("login"))
-        return f(*args, **kwargs)
-
+            return redirect(url_for("pages.login"))
+        return route_function(*args, **kwargs)
     return decorated_function
