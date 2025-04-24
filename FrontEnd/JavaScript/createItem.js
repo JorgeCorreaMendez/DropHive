@@ -49,6 +49,7 @@ export const agregarProducto = async () => {
     }
 
 };
+
 document.addEventListener('change', e => {
       // Solo nos interesa cuando cambia un input de imagen
       if (!e.target.matches('.company-image-input')) return;
@@ -69,3 +70,4 @@ document.addEventListener('change', e => {
       // Reiniciamos para permitir re-selección del mismo fichero
       inputFile.value = '';
 });
+

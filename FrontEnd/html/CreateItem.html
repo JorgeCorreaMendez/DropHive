@@ -1,73 +1,101 @@
-<!-- Caja gris exterior -->
+<!-- HTML -->
 <div class="outer-container">
-    <!-- Caja blanca interior -->
-    <div id="createProductForm" class="create-product-container">
+  <div id="createProductForm" class="create-product-container">
 
+    <!-- TOP SECTION -->
     <div class="top-section">
-      <div class="top-left">
 
-        <!-- este wrapper alinea solo img + nombre -->
+      <!-- IZQUIERDA: imagen + nombre + ID -->
+      <div class="top-left">
         <div class="img-name-wrapper">
+
+          <!-- Imagen con overlay -->
           <div class="image-upload-wrapper">
             <img class="image-container" src="/FrontEnd/Images/sinFoto.png" alt="Article Image">
             <div class="overlay"><span>Adjuntar imagen</span></div>
             <input type="file" accept="image/*" class="company-image-input">
           </div>
 
+          <!-- Nombre del Producto -->
           <div class="product-name-wrapper">
             <label for="product-name" class="product-name-label">Nombre del Producto:</label>
-            <input type="text" id="product-name" placeholder="Escribe el nombre aquí" required>
+            <input type="text" id="product-name" placeholder="Escribe el nombre aquí" required class="input-grey">
+          </div>
+
+          <!-- Product ID en la misma fila -->
+          <div class="id-container">
+            <label for="product-id" class="product-id-label">Product ID:</label>
+            <input type="text" id="product-id" placeholder="Ej: 1234" required class="input-grey">
           </div>
         </div>
-        <!-- este botón NO se mueve -->
-        <button type="button" class="category-btn">Add Category</button>
+
+        <!-- Categorías (segunda fila dentro de top-left) -->
+        <div class="category-container">
+          <input type="text" id="new-category" placeholder="Primary Category" class="category-input">
+          <button type="button" class="category-btn">Add Category</button>
+        </div>
       </div>
 
+      <!-- DERECHA: botón Save Changes -->
       <div class="top-right">
-        <!-- tu botón de guardar sigue donde estaba -->
         <button class="save-btn" id="save-changes-btn" type="submit">Save Changes</button>
       </div>
     </div>
 
-        <!-- Cuerpo principal -->
-        <div class="bottom-section">
-            <div class="bottom-left">
-                <div class="input-group">
-                    <label for="description">Description:</label>
-                    <textarea id="description" placeholder="Add Description..."></textarea>
-                </div>
-            </div>
+    <!-- (OPCIONAL) Tabla de listados -->
+    <table class="w-full rounded border-separate border-spacing-y-[10px] border-spacing-x-[5px]">
+      <thead class="bg-transparent">
+        <tr id="cabecera-tabla"><!-- encabezados... --></tr>
+      </thead>
+      <tbody id="table-body"><!-- filas... --></tbody>
+    </table>
 
-            <div class="bottom-right">
-                <div class="row-field">
-                    <label for="product-id">ID:</label>
-                    <input type="text" id="product-id" placeholder="Ej: 1234" required>
-                </div>
-
-                <div class="row-field">
-                    <label for="price">Price:</label>
-                    <input type="number" id="price" placeholder="0.00€" step="0.01" min="0" required>
-                    <span class="currency"></span>
-                </div>
-
-                <div class="row-field">
-                    <label for="size">Size:</label>
-                    <input type="text" id="size" placeholder="Ej: M, L, XL">
-                </div>
-
-                <div class="row-field">
-                    <label for="discount">Discount:</label>
-                    <input type="number" id="discount" placeholder="0%" min="0" max="100">
-                    <span class="discount-icon"></span>
-                </div>
-
-                <div class="row-field">
-                    <label for="discount">Quantity</label>
-                    <input type="number" id="quantity" placeholder="0">
-                    <span class="discount-icon"></span>
-                </div>
-
-            </div>
-        </div>
+    <!-- DESCRIPTION -->
+    <div class="description-container">
+      <label for="description" class="description-label">Description:</label>
+      <textarea id="description" placeholder="Add Description..."></textarea>
     </div>
-</div> <!-- Fin .outer-container -->
+
+    <!-- BOTTOM SECTION -->
+    <div class="bottom-section flex gap-8">
+
+      <!-- SIZE & QUANTITY -->
+      <div class="flex-1">
+        <table class="w-full rounded border-separate border-spacing-y-[10px] border-spacing-x-[5px]">
+          <thead class="bg-transparent">
+            <tr>
+              <th class="text-left px-4 py-2 font-semibold">Size:</th>
+              <th class="text-left px-4 py-2 font-semibold">Quantity:</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td class="bg-gray-200 px-4 py-3 rounded">
+                <input type="text" id="size" placeholder="Ej: M, L, XL" class="w-full bg-transparent outline-none">
+              </td>
+              <td class="bg-gray-200 px-4 py-3 rounded">
+                <input type="number" id="quantity" placeholder="0" class="w-full bg-transparent outline-none">
+              </td>
+            </tr>
+          </tbody>
+        </table>
+        <button type="button" class="mt-4 bg-amber-600 text-white px-4 py-2 rounded font-bold">
+          Add more sized
+        </button>
+      </div>
+
+      <!-- PRICE & DISCOUNT -->
+      <div class="bottom-right-vertical flex-1">
+        <div class="field-group-vertical">
+          <label for="price">Add Price:</label>
+          <input type="number" id="price" placeholder="0.00€" step="0.01" min="0" class="input-grey">
+        </div>
+        <div class="field-group-vertical">
+          <label for="discount">Add Discount:</label>
+          <input type="number" id="discount" placeholder="0%" min="0" max="100" class="input-grey">
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>

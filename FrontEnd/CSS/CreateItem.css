@@ -1,119 +1,65 @@
-/* Caja blanca interior (formulario) */
+/* CSS */
+/* 1) Contenedor exterior */
+.outer-container {
+  background: #f0f0f0;
+  padding: 20px;
+  border-radius: 16px;
+  max-width: 960px;
+  margin: 40px auto;
+}
+
+/* 2) Form interior */
 .create-product-container {
-    display: flex;
-    flex-direction: column;
-    background-color: white;
-    border-radius: 20px;
-    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
-    width: 95%;
-    max-width: 900px;
-    margin: 30px auto;
-    padding: 40px;
-    transition: transform 0.3s ease;
-}
-
-.img-name-wrapper {
-  display: flex;
-  align-items: center;    /* centra verticalmente img y campo */
-  gap: 15px;              /* separación entre ambos */
-}
-
-
-.product-name-wrapper {
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 8px 15px rgba(0,0,0,0.2);
+  padding: 40px;
   display: flex;
   flex-direction: column;
+  gap: 20px;
 }
 
-
-.product-name-wrapper #product-name {
-  width: 200px;           /* ajústalo a tu gusto */
-}
-
+/* 3) Top Section */
 .top-section {
   display: flex;
   justify-content: space-between;
-  align-items: flex-start;
-  margin-bottom: 20px;
+  align-items: center;
+  gap: 20px;
 }
 
-/* Estilos para el contenedor de nombre del producto */
-.product-name-container {
-    display: flex;
-    flex-direction: column;
-    margin-top: 10px;
+/* Img + Nombre + ID fila */
+.img-name-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 15px;
 }
 
-.product-name-label {
-    font-weight: bold;
-    margin-bottom: 5px;
-}
-
-#product-name {
-    width: 100%;
-    padding: 10px;
-    border: 1px solid #ddd;
-    border-radius: 5px;
-}
-
-
-
-.top-left {
-    display: flex;
-    flex-direction: column;
-}
-
-.top-right {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-end;
-}
-
-/* Imagen */
-.image-placeholder {
-    width: 100px;
-    height: 100px;
-    background: #e0e0e0;
-    border-radius: 10px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: #666;
-    font-size: 12px;
-    text-align: center;
-    margin-bottom: 10px;
-}
-
+/* Overlay (mantiene tu implementación) */
 .image-upload-wrapper {
   position: relative;
-  display: inline-block;   /* Se “encoge” al ancho/alto de su contenido (la img) */
-  line-height: 0;          /* Elimina espacios en blanco extra bajo la img */
+  display: inline-block;
+  line-height: 0;
 }
-
 .image-container {
-  display: block;          /* Desaparece el pequeño gap de un img inline-block */
+  display: block;
   max-width: 100%;
   height: auto;
   border-radius: 4px;
 }
-
-/* Overlay ahora “pega” sus cuatro bordes a los del contenedor */
 .overlay {
   position: absolute;
-  top: 0;  right: 0; bottom: 0; left: 0;
+  top: 0; right: 0; bottom: 0; left: 0;
   background-color: rgba(0,0,0,0.5);
   opacity: 0;
   display: flex;
   align-items: center;
   justify-content: center;
-  border-radius: 4px;      /* Igual border-radius que la imagen */
+  border-radius: 4px;
   transition: opacity 0.3s ease;
 }
-
 .image-upload-wrapper:hover .overlay {
   opacity: 1;
 }
-
-
 .company-image-input {
   position: absolute;
   top: 0; left: 0;
@@ -122,111 +68,112 @@
   cursor: pointer;
 }
 
-
-/* Hacemos el input transparente y que cubra totalmente la imagen */
-.company-image-input {
-  position: absolute;
-  top: 0; left: 0;
-  width: 100%; height: 100%;
-  opacity: 0;
-  cursor: pointer;
+/* Nombre y ID */
+.product-name-wrapper,
+.id-container {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+.product-name-label,
+.product-id-label {
+  font-weight: bold;
+}
+.input-grey {
+  padding: 8px 12px;
+  border: none;
+  border-radius: 6px;
+  background: #e0e0e0;
+  outline: none;
+  width: 200px;
 }
 
+/* Categorías */
+.category-container {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.category-input {
+  /* Antes: flex: 1; */
+  flex: 0 0 150px;    /* no crece ni encoge, ancho fijo de 150px */
+  width: 150px;       /* ancho exacto */
+  padding: 8px 12px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  background: #e0e0e0;
+  outline: none;
+}
 .category-btn {
-    background-color: #007bff;
-    color: white;
-    border: none;
-    padding: 10px 15px;
-    border-radius: 5px;
-    cursor: pointer;
-    font-weight: bold;
-    transition: background-color 0.3s ease, transform 0.2s ease;
-    margin-top: 10px;
-    width: 50%;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  padding: 10px 15px;
+  border-radius: 5px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.3s, transform 0.2s;
 }
-
 .category-btn:hover {
-    background-color: #0056b3;
-    transform: scale(1.05);
+  background-color: #0056b3;
+  transform: scale(1.05);
 }
 
-
-.save-btn {
-    background-color: #28a745;
-    color: white;
-    border: none;
-    padding: 10px 15px;
-    border-radius: 5px;
-    cursor: pointer;
-    font-weight: bold;
-    transition: background-color 0.3s ease, transform 0.2s ease;
+/* Save Changes */
+.top-right .save-btn {
+  background-color: #28a745;
+  color: white;
+  border: none;
+  padding: 10px 16px;
+  border-radius: 4px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+.top-right .save-btn:hover {
+  background-color: #218838;
 }
 
-.save-btn:hover {
-    background-color: #218838;
+/* Description */
+.description-container {
+  background: #e0e0e0;
+  border-radius: 8px;
+  padding: 16px;
+}
+.description-label {
+  font-weight: bold;
+  margin-bottom: 8px;
+  display: block;
+}
+.description-container textarea {
+  width: 100%;
+  height: 120px;
+  border: none;
+  resize: none;
+  border-radius: 4px;
+  padding: 10px;
+  background: transparent;
 }
 
-/* Cuerpo principal */
+/* Bottom Section */
 .bottom-section {
-    display: flex;
-    gap: 30px;
-    align-items: flex-start;
+  display: flex;
+  gap: 30px;
+  align-items: flex-start;
 }
+.flex-1 { flex: 1; }
 
-/* Columna izquierda: Descripción e Información */
-.bottom-left {
-    flex: 3;
-    display: flex;
-    flex-direction: column;
-    gap: 15px;
+/* Price & Discount vertical */
+.bottom-right-vertical {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
 }
-
-.input-group {
-    display: flex;
-    flex-direction: column;
+.field-group-vertical {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
 }
-
-.input-group textarea {
-    width: 100%;
-    height: 150px;
-    padding: 10px;
-    border: 1px solid #ddd;
-    border-radius: 5px;
-    resize: none;
+.field-group-vertical label {
+  font-weight: bold;
 }
-
-/* Columna derecha: ID, Precio, Talla, Descuento */
-.bottom-right {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-}
-
-/* Estilo común para filas */
-.row-field {
-    display: flex;
-    align-items: center;
-    background-color: #f9f9f9;
-    border-radius: 8px;
-    padding: 12px;
-    border: 1px solid #ddd;
-    width: 100%;
-}
-
-/* Alinear los labels de forma vertical */
-.row-field label {
-    font-weight: bold;
-    margin-right: 10px;
-    width: 120px;
-    text-align: right;
-}
-
-.row-field input {
-    flex: 1;
-    padding: 10px;
-    border: 1px solid #ddd;
-    border-radius: 5px;
-    height: 38px;
-}
-
