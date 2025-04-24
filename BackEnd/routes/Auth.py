@@ -41,7 +41,6 @@ def logout():
     return jsonify({"message": "Sesión cerrada correctamente"}), 200
 
 
-# TODO. investigar correcto funcionamiento
 def login_required(route_function):
     @wraps(route_function)
     def decorated_function(*args, **kwargs):

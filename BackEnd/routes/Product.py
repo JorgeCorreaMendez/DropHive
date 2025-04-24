@@ -53,7 +53,6 @@ def add_product():
         return jsonify({"error": str(e)}), 500
 
 
-# TODO. poner if para no cambiar todos los datos
 @products_bp.route("/modify_product", methods=["POST"])
 @login_required
 def modify_product():
@@ -64,11 +63,16 @@ def modify_product():
             product = db_session.query(Product).filter_by(id=id_product).first()
             if not product:
                 return jsonify({"error": "Producto no encontrado"}), 404
-            product.name = data["name"]
-            product.category_id = data["category_id"]
-            product.description = data["description"]
-            product.price = data["price"]
-            product.discount = data["discount"]
+            if "name" in data:
+                product.name = data["name"]
+            if "category_id" in data:
+                product.category_id = data["category_id"]
+            if "description" in data:
+                product.description = data["description"]
+            if "price" in data:
+                product.price = data["price"]
+            if "discount" in data:
+                product.discount = data["discount"]
             db_session.commit()
         return jsonify({"message": "Producto modificado correctamente"}), 200
     except Exception as e:

@@ -18,7 +18,6 @@ def get_category():
         return jsonify({"error": str(e)}), 500
 
 
-# TODO. pasar como parametro
 @categories_bp.route("/get_category")
 @login_required
 def search_category():
