@@ -1,4 +1,4 @@
-from flask import request, jsonify, Blueprint
+from flask import request, jsonify, Blueprint, session
 
 from BackEnd.models.Category import Category
 from BackEnd.models.Product import Product
@@ -10,24 +10,25 @@ from BackEnd.utils.sqlalchemy_methods import get_db_session
 products_bp = Blueprint("products", __name__)
 
 
-@products_bp.route("/<string:dbname>/products")
+@products_bp.route("/products")
 @login_required
-def get_products(dbname):
+def get_products():
     try:
-        return jsonify(get_all_values_from(Product, dbname)), 200, {'Content-Type': 'application/json; charset=utf-8'}
+        return jsonify(get_all_values_from(Product, session["db.name"])), 200, {
+            'Content-Type': 'application/json; charset=utf-8'}
     except Exception as e:
-        print(f"Error en /products: {e}")
-        return jsonify({"error": "Error al obtener la lista de productos."}), 500
+        return jsonify({"error": str(e)}), 500
 
 
-@products_bp.route("/<string:dbname>/add_product", methods=["POST"])
+@products_bp.route("/add_product", methods=["POST"])
 @login_required
-def add_product(dbname):
+def add_product():
     try:
         data = request.get_json()
-        with get_db_session(dbname) as db_session:
+        print(data)
+        with get_db_session(session["db.name"]) as db_session:
             new_product = Product(
-                id=data["id"],
+                id=data["product_id"],
                 name=data["name"],
                 category_id=data["category_id"],
                 description=data["description"],
@@ -48,16 +49,18 @@ def add_product(dbname):
             db_session.commit()
         return jsonify({"message": "Producto añadido correctamente"}), 200
     except Exception as e:
+        print(e)
         return jsonify({"error": str(e)}), 500
 
+
 # TODO. poner if para no cambiar todos los datos
-@products_bp.route("/<string:dbname>/modify_product", methods=["POST"])
+@products_bp.route("/modify_product", methods=["POST"])
 @login_required
-def modify_product(dbname):
+def modify_product():
     try:
         id_product = request.args.get('id')
         data = request.get_json()
-        with get_db_session(dbname) as db_session:
+        with get_db_session(session["db.name"]) as db_session:
             product = db_session.query(Product).filter_by(id=id_product).first()
             if not product:
                 return jsonify({"error": "Producto no encontrado"}), 404
@@ -72,12 +75,12 @@ def modify_product(dbname):
         return jsonify({"error": str(e)}), 500
 
 
-@products_bp.route("/<string:dbname>/delete_product", methods=["GET"])
+@products_bp.route("/delete_product", methods=["GET"])
 @login_required
-def delete_product(dbname):
+def delete_product():
     try:
         id_product = request.args.get('id')
-        with get_db_session(dbname) as db_session:
+        with get_db_session(session["db.name"]) as db_session:
             product = db_session.query(Product).filter_by(id=id_product).first()
             if not product:
                 return jsonify({"error": "Producto no encontrado"}), 404
@@ -88,12 +91,12 @@ def delete_product(dbname):
         return jsonify({"error": str(e)}), 500
 
 
-@products_bp.route('/<string:dbname>/filter_product_by_id')
+@products_bp.route('/filter_product_by_id')
 @login_required
-def search_product_by_id(dbname):
+def search_product_by_id():
     try:
         id_product = request.args.get('id')
-        with get_db_session(dbname) as db_session:
+        with get_db_session(session["db.name"]) as db_session:
             products = db_session.query(Product).filter(id_product == Product.id).all()
             if products:
                 return jsonify([product.serialize() for product in products]), 200
@@ -105,9 +108,9 @@ def search_product_by_id(dbname):
 
 
 # TODO: Cambiar category_id en la DB
-@products_bp.route('/<string:dbname>/filter_products')
+@products_bp.route('/filter_products')
 @login_required
-def filter_products(dbname):
+def filter_products():
     try:
         category_name = request.args.get('category')
         min_price = request.args.get('min_price')
@@ -115,7 +118,7 @@ def filter_products(dbname):
         max_quantity = request.args.get('max_quantity')
         limit = int(request.args.get('limit', 5))
         offset = int(request.args.get('offset', 0))
-        with (get_db_session(dbname) as db_session):
+        with (get_db_session(session["db.name"]) as db_session):
             query = db_session.query(Product).join(Category)
             if category_name:
                 query = query.filter(Category.name == category_name)
