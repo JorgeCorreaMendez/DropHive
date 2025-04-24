@@ -25,7 +25,6 @@ def get_products():
 def add_product():
     try:
         data = request.get_json()
-        print(data)
         with get_db_session(session["db.name"]) as db_session:
             new_product = Product(
                 id=data["product_id"],
@@ -49,7 +48,6 @@ def add_product():
             db_session.commit()
         return jsonify({"message": "Producto añadido correctamente"}), 200
     except Exception as e:
-        print(e)
         return jsonify({"error": str(e)}), 500
 
 
@@ -106,7 +104,6 @@ def search_product_by_id():
                 return jsonify([product.serialize() for product in products]), 200
             else:
                 return jsonify({"message": "No se encontraron productos con ese ID."}), 404
-
     except Exception as e:
         return jsonify({"error": str(e)}), 500
 
