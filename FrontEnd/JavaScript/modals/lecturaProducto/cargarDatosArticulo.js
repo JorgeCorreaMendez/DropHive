@@ -1,8 +1,6 @@
-import {recuperarNombreBaseDatos} from "../../recursos.js";
 import {localizarCategoria} from "../../home/productos.js";
 
 export async function cargarDatosArticulo(datos_articulo) {
-  const db_name = await recuperarNombreBaseDatos();
 
   const id = document.getElementById("id");
   const product_name = document.getElementById("product-name");

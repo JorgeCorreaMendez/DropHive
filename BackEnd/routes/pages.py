@@ -91,7 +91,7 @@ def profile():
 
 @pages_bp.route("/readArticle")
 def read_article():
-    return render_template("read_article_2.html")
+    return render_template("Read_Article.html")
 
 
 @pages_bp.route("/readCompany")
