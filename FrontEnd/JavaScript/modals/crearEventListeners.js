@@ -2,10 +2,11 @@ import { recuperarNombreBaseDatos } from "../recursos.js";
 import { openModal } from "./abrirYCerrarModal.js";
 import { agregarProducto } from "../createItem.js";
 
+/// TODO: QUE HACE ESTO AQUI ?
 export function setupEventListeners() {
   document.getElementById("add-item-btn")?.addEventListener("click", async () => {
     const db_name = await recuperarNombreBaseDatos();
-    const response = await fetch(`/${db_name}/createItem`);
+    const response = await fetch(`/createItem`);
     const html = await response.text();
     openModal(html);
     setTimeout(() => {

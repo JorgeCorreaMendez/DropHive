@@ -17,7 +17,7 @@ export const agregarProducto = async () => {
         console.log("Nombre de la base de datos:", db_name); // Depuración
 
         // Hacer la solicitud POST a la ruta dinámica
-        const response = await fetch(`/${db_name}/add_product`, {
+        const response = await fetch(`/add_product`, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
@@ -37,7 +37,7 @@ export const agregarProducto = async () => {
         // Verificar si la respuesta es correcta
         if (response.ok) {
             console.log("Producto añadido correctamente");
-            window.location.href = `/${db_name}/home`;  // Asegurarse de que usamos db_name
+            window.location.href = `/home`;  // Asegurarse de que usamos db_name
         } else {
             const errorMessage = await response.text(); // Obtener mensaje de error del servidor
             console.error("Error en la respuesta del servidor:", errorMessage);
