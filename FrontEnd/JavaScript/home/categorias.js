@@ -1,4 +1,4 @@
-export async function addInformacionFilaCategoria(item, db_name) {
+export async function addInformacionFilaCategoria(item) {
     const row = document.createElement('tr');
     row.classList.add(
         'bg-[#D9D9D9]',

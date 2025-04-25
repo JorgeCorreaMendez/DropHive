@@ -8,8 +8,6 @@ import { initPagination } from "./recursos/paginado.js";
 export async function cargarDatosEnTabla(data) {
     const tableBody = document.getElementById("table-body");
     tableBody.innerHTML = '';
-
-    const db_name = await recuperarNombreBaseDatos();
     const vistaActual = document.body.dataset.vista;
 
     console.log(`Vista actual: ${vistaActual}`);
@@ -18,23 +16,21 @@ export async function cargarDatosEnTabla(data) {
     for (const item of data) {
         let row;
         if (vistaActual === "productos") {
-            row = await addInformacionFilaProducto(item, db_name);
+            row = await addInformacionFilaProducto(item);
         } else {
-            row = await addInformacionFilaCategoria(item, db_name);
+            row = await addInformacionFilaCategoria(item);
         }
         tableBody.appendChild(row);
     }
 }
 
 async function actualizarOpcionesCategoria() {
-    const db_name = await recuperarNombreBaseDatos();
-
     const select = document.getElementById('select-categoria');
 
     select.innerHTML = '<option value="all">All</option>';
 
     try {
-        const response = await fetch(`http://127.0.0.1:4000/${db_name}/categories`);
+        const response = await fetch(`http://127.0.0.1:4000/categories`);
 
         if(!response.ok) {
             throw new Error(`Error en la solicitud: ${response.statusText}`);

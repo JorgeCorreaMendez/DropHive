@@ -25,11 +25,6 @@ function validateRegistrationForm() {
     const data = recuperarDatos();
     const email = document.getElementById('email').value.trim();
     const confirm_password = document.getElementById('confirm-password').value;
-    let db_name = "";
-    if (email.includes("@") && email.includes(".")) {
-        db_name = email.split('@')[1].split('.')[0].toLowerCase();
-    }
-
     // Validar campo nombre
     if (!data.name) {
         errors.push("El nombre debe tener al menos 2 caracteres");

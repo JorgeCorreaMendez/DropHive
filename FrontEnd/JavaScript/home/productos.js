@@ -1,15 +1,10 @@
-import {recuperarNombreBaseDatos} from "../recursos.js";
 import {cargarDatosEnTabla} from "../home.js";
 import { initPagination } from "../recursos/paginado.js";
 
 
 export async function recuperarProductos() {
-    const db_name = await recuperarNombreBaseDatos();
-
-    console.log(db_name);
-
     try {
-        const response = await fetch(`http://127.0.0.1:4000/${db_name}/filter_products`);
+        const response = await fetch(`http://127.0.0.1:4000/filter_products`);
 
         // Verifica que la respuesta sea exitosa
         if (!response.ok) {
@@ -18,22 +13,20 @@ export async function recuperarProductos() {
 
         // Espera la respuesta JSON
         const respuesta_json = await response.json();
-        const data = await respuesta_json.productos
+
 
         // Aquí puedes trabajar con los datos obtenidos de la API
-        console.log(data);
+        await cargarDatosEnTabla(respuesta_json);
+        await initPagination(respuesta_json.length);
 
-        await cargarDatosEnTabla(data);
-        await initPagination(respuesta_json.total);
-
-        return respuesta_json.total;
+        return respuesta_json.length;
 
     } catch (error) {
         console.error('Hubo un error al hacer la solicitud:', error);
     }
 }
 
-export async function addInformacionFilaProducto(item, db_name) {
+export async function addInformacionFilaProducto(item) {
     const row = document.createElement('tr');
     row.classList.add(
         'bg-[#D9D9D9]',
@@ -59,7 +52,7 @@ export async function addInformacionFilaProducto(item, db_name) {
     nameCell.classList.add('p-2', 'rounded-[5px]');
     nameCell.textContent = item.name;
 
-    let category_name = await localizarCategoria(db_name, item.category_id);
+    let category_name = await localizarCategoria(item.category_id);
 
     const categoryCell = document.createElement('td');
     categoryCell.classList.add('p-2', 'rounded-[5px]');
@@ -88,9 +81,9 @@ export async function addInformacionFilaProducto(item, db_name) {
     return row;
 }
 
-export async function localizarCategoria(db_name, id) {
+export async function localizarCategoria(id) {
     try {
-        const response = await fetch(`http://127.0.0.1:4000/${db_name}/get_category/${id}`)
+        const response = await fetch(`http://127.0.0.1:4000/get_category/${id}`)
 
         if (!response.ok) {
             throw new Error(`Error en la solicitud: ${response.statusText}`);

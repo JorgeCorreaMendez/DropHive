@@ -27,7 +27,6 @@ Object.values(filtros).forEach((elemento) => {
 export async function aplicarFiltros(tipo) {
     console.log("El tipo de la página actual es:", tipo);
     const params = new URLSearchParams();
-    const db_name = await recuperarNombreBaseDatos();
     const numero_de_pagina = parseInt(document.getElementById("page-number").textContent);
 
     let offset = parseInt(filtros.limite.value) * (numero_de_pagina - 1);
@@ -44,7 +43,7 @@ export async function aplicarFiltros(tipo) {
         if(filtros.max_precio.value) params.set("max_price", obtenerValorPrecio(filtros.max_precio.value)); // ya que no puede devolver un valor null
         if(filtros.cantidad.value) params.set("max_quantity", filtros.cantidad.value);
 
-        const url = `http://127.0.0.1:4000/${db_name}/filter_products?${params.toString()}`
+        const url = `http://127.0.0.1:4000/filter_products?${params.toString()}`
 
         console.log(url);
 
@@ -56,7 +55,7 @@ export async function aplicarFiltros(tipo) {
             .catch(err => console.error("Error cargando productos", err))
     } else {
         console.log("Entra en categorias");
-        const url = `http://127.0.0.1:4000/${db_name}/filter_category?${params.toString()}`
+        const url = `http://127.0.0.1:4000/filter_category?${params.toString()}`
 
         console.log(url);
 

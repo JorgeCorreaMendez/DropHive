@@ -5,7 +5,6 @@ import { agregarProducto } from "../createItem.js";
 /// TODO: QUE HACE ESTO AQUI ?
 export function setupEventListeners() {
   document.getElementById("add-item-btn")?.addEventListener("click", async () => {
-    const db_name = await recuperarNombreBaseDatos();
     const response = await fetch(`/createItem`);
     const html = await response.text();
     openModal(html);
@@ -15,15 +14,13 @@ export function setupEventListeners() {
   });
 
   document.getElementById("add-company-btn")?.addEventListener("click", async () => {
-    const db_name = await recuperarNombreBaseDatos();
-    const response = await fetch(`/${db_name}/addAndModifyCompany`);
+    const response = await fetch(`/addAndModifyCompany`);
     const html = await response.text();
     openModal(html);
   });
 
   document.getElementById("notification-btn")?.addEventListener("click", async () => {
-    const db_name = await recuperarNombreBaseDatos();
-    const response = await fetch(`/${db_name}/notifications`);
+    const response = await fetch(`/notifications`);
     const html = await response.text();
     openModal(html);
   });
