@@ -23,16 +23,17 @@ function showErrorAlert(title, errors) {
     });
 }
 
-function showOkAlert(title, errors) {
+function showOkAlert(title, text) {
     return Swal.fire({
         icon: 'success',
         title: title,
-        html: Array.isArray(errors) ? errors.join('<br>') : errors,
+        html: Array.isArray(text) ? text.join('<br>') : text,
         confirmButtonText: 'Entendido'
     });
 }
 
-function isNotValidForm(data) {
+/// TODO. se debe comprobar el correo no esta en la base de datos
+function isValidForm(data) {
     const errorText = [];
     if (data.password.length < 8) {
         errorText.push("La contraseña debe tener al menos 8 caracteres");
@@ -42,39 +43,72 @@ function isNotValidForm(data) {
     }
     if (errorText.length > 0) {
         showErrorAlert('Error en el formulario', errorText);
-        return true;
+        return false;
     }
-    return false;
+    return true;
 }
 
 document.addEventListener("DOMContentLoaded", () => {
-    const form = document.getElementById('registrationForm');
+    const form = document.getElementById('registrationForm')
     form.addEventListener('submit', async (event) => {
         event.preventDefault();
         const registerData = getFormData();
-        if (isNotValidForm(registerData)) return;
-        try {
-            const response = await fetch(`${BASE_URL}/register`, {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(registerData)
-            });
-            const result = await response.json();
-            if (response.ok) {
-                showOkAlert("¡Registro exitoso!", "Tu cuenta ha sido creada correctamente.")
-                    .then(() => {
-                        window.location.href = `${BASE_URL}/login`
-                    })
 
-            } else {
-                showErrorAlert("Error al crear la cuenta.", result.message);
+        if (isValidForm(registerData)) {
+            try {
+                const sendResponse = await fetch(`${BASE_URL}/send_verification_code?mail=${encodeURIComponent(registerData.mail)}`);
+                if (!sendResponse.ok) {
+                    showErrorAlert("Error", "No se pudo enviar el código de verificación.");
+                    return;
+                }
+                Swal.fire({
+                    title: 'Verificación para crear la cuenta',
+                    input: 'text',
+                    inputLabel: 'El código se ha enviado a tu correo',
+                    inputPlaceholder: 'Código de verificación',
+                    confirmButtonText: 'Verificar',
+                    showCancelButton: true,
+                    cancelButtonText: 'Salir',
+                    preConfirm: (code) => {
+                        if (!code) {
+                            Swal.showValidationMessage('Debes introducir un código');
+                        }
+                        return code;
+                    }
+                }).then(async result => {
+                    if (result.isConfirmed) {
+                        const code = result.value;
+                        const checkResponse = await fetch(`${BASE_URL}/check_verification_code`, {
+                            method: 'POST',
+                            headers: {'Content-Type': 'application/json'},
+                            body: JSON.stringify({ code })
+                        });
+                        if (checkResponse.ok) {
+                            const response = await fetch(`${BASE_URL}/register`, {
+                                method: 'POST',
+                                headers: {'Content-Type': 'application/json'},
+                                body: JSON.stringify(registerData)
+                            });
+                            const result = await response.json();
+                            if (response.ok) {
+                                showOkAlert("¡Cuenta creada!", "Tu cuenta ha sido creada correctamente.")
+                                    .then(() => {
+                                        window.location.href = `${BASE_URL}/home`
+                                    });
+                            } else {
+                                showErrorAlert("Error al crear la cuenta.", result.message);
+                            }
+                        } else {
+                            showErrorAlert("Código incorrecto", "El código de verificación no es válido.");
+                        }
+                    }
+                });
+            } catch (error) {
+                showErrorAlert("Error de red", "No se pudo conectar con el servidor.");
+                console.error("Error:", error);
             }
-        } catch (error) {
-            showErrorAlert("Error de red", "No se pudo conectar con el servidor.");
-            console.error("Error:", error);
         }
     });
-
     document.getElementById('VolverLogIn').addEventListener('click', (e) => {
         e.preventDefault();
         window.location.href = `${BASE_URL}/login`;
