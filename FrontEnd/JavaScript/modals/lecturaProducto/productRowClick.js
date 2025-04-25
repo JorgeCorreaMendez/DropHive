@@ -1,7 +1,8 @@
 import { recuperarNombreBaseDatos } from "../../recursos.js";
 import { cargarDatosArticulo } from "./cargarDatosArticulo.js";
 import { modificarArticulo } from "./modificarProducto.js";
-import { openModal } from "../abrirYCerrarModal.js"; // ajusta según tu ruta
+import { openModal } from "../abrirYCerrarModal.js";
+import {eliminarArticulo} from "./eliminarArticulo.js"; // ajusta según tu ruta
 
 export function initializeRowClickHandler() {
   const tableBody = document.getElementById("table-body");
@@ -34,6 +35,7 @@ export function initializeRowClickHandler() {
       openModal(bodyContent);
       await cargarDatosArticulo(object[0]);
       await modificarArticulo(object[0]);
+      await eliminarArticulo();
     } catch (err) {
       console.error("Error al cargar el modal:", err);
       Swal.fire({

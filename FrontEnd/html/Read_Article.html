@@ -3,7 +3,7 @@
     <!-- Izquierda: Imagen + Info -->
     <div class="flex gap-4 items-start">
       <!-- Imagen -->
-      <img src="" alt="Samba OG" class="w-20 h-20 rounded-lg border border-gray-300" />
+      <img src="" alt="Samba OG" class="w-20 h-20 rounded-lg border border-gray-300" id="imagen"/>
 
       <!-- Información -->
       <div>
@@ -24,15 +24,15 @@
 
     <!-- Derecha: Botones -->
     <div class="flex gap-2">
-      <button class="bg-gray-300 hover:bg-gray-400 text-black px-4 py-2 rounded">Modify Item</button>
-      <button class="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded">Delete Item</button>
+      <button class="bg-gray-300 hover:bg-gray-400 text-black px-4 py-2 rounded" id="modify-btn">Modify Item</button>
+      <button class="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded" id="delete-btn">Delete Item</button>
     </div>
   </div>
 
   <!-- Descripción -->
   <div class="bg-gray-200 rounded-lg p-4 m-4">
     <h3 class="text-lg font-semibold mb-2">Description:</h3>
-    <p id="descripcion" class="text-gray-800">Aquí va la descripción del producto.</p>
+    <p id="descripcion" class="text-gray-800"></p>
   </div>
 
   <!-- Zona Inferior -->
