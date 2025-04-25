@@ -27,7 +27,7 @@ def add_product():
         data = request.get_json()
         with get_db_session(session["db.name"]) as db_session:
             new_product = Product(
-                id=data["product_id"],
+                id=data["id"],
                 name=data["name"],
                 category_id=data["category_id"],
                 description=data["description"],

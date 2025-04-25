@@ -27,7 +27,7 @@ class Product(Base):
     # TODO. cambiar quantity en el front
     def serialize(self):
         return {
-            "product_id": self.id,
+            "id:": self.id,
             "name": self.name,
             "description": self.description,
             "price": self.price,

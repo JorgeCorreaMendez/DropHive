@@ -1,111 +1,82 @@
-// Función para recuperar los datos del formulario
-function recuperarDatos() {
-    // Obtener valores de los campos del formulario
-    const name = document.getElementById('company').value.trim();
-    const email = document.getElementById('email').value.trim();
-    const password = document.getElementById('password').value;
-    const phone = document.getElementById('phone').value.trim();
-    const description = document.getElementById('descripcion').value.trim();
-    const address = document.getElementById('direccion').value.trim();
+/* global Swal */
 
-    // Crear objeto con los datos
+const BASE_URL = "http://127.0.0.1:4000"; // TODO. variable global para js
+
+function getFormData() {
     return {
-        name: name,
-        mail: email,
-        password: password,
-        phone: phone || null,
-        description: description || null,
-        address: address || null
-    }; // Devuelve el objeto directamente (no stringify)
+        name: document.getElementById('company').value.trim(),
+        mail: document.getElementById('email').value.trim(),
+        password: document.getElementById('password').value,
+        confirm_password: document.getElementById('confirm-password').value,
+        phone: document.getElementById('phone').value.trim() || null,
+        description: document.getElementById('descripcion').value.trim() || null,
+        address: document.getElementById('direccion').value.trim() || null
+    };
 }
 
-// Función para validar el formulario
-function validateRegistrationForm() {
-    const errors = [];
-    const data = recuperarDatos();
-    const email = document.getElementById('email').value.trim();
-    const confirm_password = document.getElementById('confirm-password').value;
-    let db_name = "";
-    if (email.includes("@") && email.includes(".")) {
-        db_name = email.split('@')[1].split('.')[0].toLowerCase();
-    }
-
-    // Validar campo nombre
-    if (!data.name) {
-        errors.push("El nombre debe tener al menos 2 caracteres");
-    }
-
-    // Validar email
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (!emailRegex.test(data.mail)) {
-        errors.push("Por favor ingrese un email válido");
-    }
-
-    // Validar contraseña
-    if (!data.password || (data.password.length < 8)) {
-        errors.push("La contraseña debe tener al menos 8 caracteres");
-    }
-
-    if (data.password !== confirm_password) {
-        errors.push("Ambas contraseñas deben coincidir.")
-    }
-
-    // Mostrar errores si existen
-    if (errors.length > 0) {
-        const mensaje = errors.join('<br>');
-        Swal.fire({
-            icon: 'error',
-            title: 'Errores en el formulario',
-            html: mensaje,
-            confirmButtonText: 'Entendido'
-        });
-        return false;
-    }
-
-    return true;
+function showErrorAlert(title, errors) {
+    return Swal.fire({
+        icon: 'error',
+        title: title,
+        html: Array.isArray(errors) ? errors.join('<br>') : errors,
+        confirmButtonText: 'Entendido'
+    });
 }
 
-// Función principal para manejar el registro
-document.addEventListener("DOMContentLoaded", function() {
-    document.getElementById('registrationForm').addEventListener('submit', async function(event) {
+function showOkAlert(title, errors) {
+    return Swal.fire({
+        icon: 'success',
+        title: title,
+        html: Array.isArray(errors) ? errors.join('<br>') : errors,
+        confirmButtonText: 'Entendido'
+    });
+}
+
+function isNotValidForm(data) {
+    const errorText = [];
+    if (data.password.length < 8) {
+        errorText.push("La contraseña debe tener al menos 8 caracteres");
+    }
+    if (data.password !== data.confirm_password) {
+        errorText.push("Ambas contraseñas deben coincidir.");
+    }
+    if (errorText.length > 0) {
+        showErrorAlert('Error en el formulario', errorText);
+        return true;
+    }
+    return false;
+}
+
+document.addEventListener("DOMContentLoaded", () => {
+    const form = document.getElementById('registrationForm');
+    form.addEventListener('submit', async (event) => {
         event.preventDefault();
-
-        if (!validateRegistrationForm()) {
-            return;
-        }
-
-        const registerData = recuperarDatos();
-
+        const registerData = getFormData();
+        if (isNotValidForm(registerData)) return;
         try {
-            const response = await fetch('http://127.0.0.1:4000/register', {
+            const response = await fetch(`${BASE_URL}/register`, {
                 method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(registerData) // Aquí se convierte a JSON
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(registerData)
             });
             const result = await response.json();
-            
             if (response.ok) {
-                console.log("Entra aqui");
-                window.location.href = `http://127.0.0.1:4000/login`;
+                showOkAlert("¡Registro exitoso!", "Tu cuenta ha sido creada correctamente.")
+                    .then(() => {
+                        window.location.href = `${BASE_URL}/login`
+                    })
+
             } else {
-                console.log(result.message)
-                Swal.fire({
-                    icon: 'error',
-                    title: "Error en el servidor.",
-                    html: result.message,
-                    confirmButtonText: 'Entendido'
-                });
+                showErrorAlert("Error al crear la cuenta.", result.message);
             }
         } catch (error) {
+            showErrorAlert("Error de red", "No se pudo conectar con el servidor.");
             console.error("Error:", error);
         }
     });
 
-    // Botón para volver al login
-    document.getElementById('VolverLogIn').addEventListener('click', function(e) {
+    document.getElementById('VolverLogIn').addEventListener('click', (e) => {
         e.preventDefault();
-        window.location.href = 'http://127.0.0.1:4000/login';
+        window.location.href = `${BASE_URL}/login`;
     });
 });
