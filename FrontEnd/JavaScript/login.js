@@ -57,6 +57,6 @@ document.addEventListener("DOMContentLoaded", function() {
     })
 
     document.getElementById('need-help').addEventListener('click', function() {
-        window.location.href = 'http://127.0.0.1:4000/forgotted_password';
+        window.location.href = 'http://127.0.0.1:4000/forgotten_password';
     })
 })
