@@ -14,7 +14,6 @@ export async function recuperarProductos() {
         // Espera la respuesta JSON
         const respuesta_json = await response.json();
 
-
         // Aquí puedes trabajar con los datos obtenidos de la API
         await cargarDatosEnTabla(respuesta_json);
         await initPagination(respuesta_json.length);
@@ -83,13 +82,12 @@ export async function addInformacionFilaProducto(item) {
 
 export async function localizarCategoria(id) {
     try {
-        const response = await fetch(`http://127.0.0.1:4000/get_category/${id}`)
+        const response = await fetch(`http://127.0.0.1:4000/get_category?id=${id}`)
 
         if (!response.ok) {
             throw new Error(`Error en la solicitud: ${response.statusText}`);
         }
         const data = await response.json();
-        console.log(data.name)
         return data.name
     } catch (e) {
         console.log(e)
