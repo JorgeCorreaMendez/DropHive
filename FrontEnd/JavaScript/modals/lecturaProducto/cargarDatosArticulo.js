@@ -1,5 +1,5 @@
-import { recuperarNombreBaseDatos } from "../../recursos.js";
-import { localizarCategoria } from "../../home/productos.js";
+import {recuperarNombreBaseDatos} from "../../recursos.js";
+import {localizarCategoria} from "../../home/productos.js";
 
 export async function cargarDatosArticulo(datos_articulo) {
   const db_name = await recuperarNombreBaseDatos();
@@ -21,8 +21,7 @@ export async function cargarDatosArticulo(datos_articulo) {
   img.alt = `imagen de ${datos_articulo.name}`;
   // img.src = datos_articulo.imagen;
 
-  const nombre_categoria = await localizarCategoria(db_name, datos_articulo.category_id);
-  main_category.textContent = nombre_categoria;
+  main_category.textContent = await localizarCategoria(datos_articulo.category_id);
 
   price.textContent = datos_articulo.price;
   descripcion.textContent = datos_articulo.description;

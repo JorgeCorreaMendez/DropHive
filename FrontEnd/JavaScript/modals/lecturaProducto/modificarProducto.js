@@ -6,7 +6,7 @@ export function modificarArticulo(datos_articulo) {
   document.getElementById("modify-btn")?.addEventListener("click", async () => {
     try {
       const db_name = await recuperarNombreBaseDatos();
-      const response = await fetch(`/${db_name}/createItem`);
+      const response = await fetch(`/createItem`);
       const html = await response.text();
 
       const parser = new DOMParser();
