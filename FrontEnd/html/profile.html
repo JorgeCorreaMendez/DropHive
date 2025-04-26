@@ -8,6 +8,7 @@
   <link rel="icon" href="{{ url_for('static', filename='Images/LogoSoloCaja.ico') }}" type="image/x-icon">
   <script type="module" src="{{ url_for('static', filename='JavaScript/header.js') }}"></script>
   <script type="module" src="{{ url_for('static', filename='JavaScript/mi-perfil/cargarDatosTabla.js') }}"></script>
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </head>
 <body class="bg-white">
   <!-- Header -->
@@ -24,13 +25,9 @@
 
         <!-- Información de la tienda -->
         <div class="mt-4 text-center">
-          <h2 class="text-2xl font-bold" id="store-name">Store Name</h2>
+          <h2 class="text-2xl font-bold" id="store-name"></h2>
           <p class="mt-2 font-semibold">Description:</p>
-          <p class="mt-1 text-gray-700 text-sm" id="description">
-            Blabababababababab<br>
-            Blabababababababababababababab<br>
-            Blabababababababababababab
-          </p>
+          <p class="mt-1 text-gray-700 text-sm" id="description"></p>
         </div>
 
         <!-- Botón de logout -->

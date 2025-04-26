@@ -11,11 +11,11 @@ export async function cargarDatosEnTablaPerfil(data) {
     for (const item of data) {
         const row = await addInformacionFilaEmpleado(item);
         await tableBody.appendChild(row);
-        cargarDatosEmpresa(item.name, item.descripcion);
+        cargarDatosEmpresa(item.name, item.description);
     }
 }
 
-async function cargarDatosEmpresa(nombre, descripcion) {
+function cargarDatosEmpresa(nombre, descripcion) {
     document.getElementById("store-name").textContent = nombre;
     document.getElementById("description").textContent = descripcion;
 }
