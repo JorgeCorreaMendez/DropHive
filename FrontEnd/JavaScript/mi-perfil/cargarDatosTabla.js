@@ -71,7 +71,7 @@ Crear función en el backend para buscar privilegios por id.
  */
 export async function localizarPrivilegio(id) {
     try {
-        const response = await fetch(`http://127.0.0.1:4000/get_category?id=${id}`)
+        const response = await fetch(`http://127.0.0.1:4000/get_privilege?id=${id}`)
 
         if (!response.ok) {
             throw new Error(`Error en la solicitud: ${response.statusText}`);
