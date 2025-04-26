@@ -1,99 +1,110 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <title>DropHive</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='CSS/profile.css') }}">
-    <script src="{{ url_for('static', filename='JavaScript/redirect.js') }}"></script>
-    <script src="https://cdn.tailwindcss.com"></script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>DropHive - Profile</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="icon" href="{{ url_for('static', filename='Images/LogoSoloCaja.ico') }}" type="image/x-icon">
+  <script type="module" src="{{ url_for('static', filename='JavaScript/header.js') }}"></script>
+  <script type="module" src="{{ url_for('static', filename='JavaScript/mi-perfil/cargarDatosTabla.js') }}"></script>
 </head>
-<body>
-<!-- Encabezado superior con el logo y botones de modificar/eliminar -->
-<header>
-    {% include 'header.html' %}
-</header>
+<body class="bg-white">
+  <!-- Header -->
+  {% include 'header.html' %}
 
-<!-- Contenedor principal -->
-<main class="main-container">
-    <!-- Sección Izquierda: Perfil de la tienda, descripción y empleados -->
+  <!-- Contenedor principal -->
+  <div class="flex flex-col gap-6 m-8">
+    <!-- Fila superior -->
+    <div class="flex gap-6">
+      <!-- Arriba izquierda: Perfil tienda -->
+      <aside class="w-1/2 bg-[#EDEDED] p-6 rounded-[20px] flex flex-col items-center">
+        <!-- Imagen de la tienda -->
+        <img class="w-[150px] h-[150px] rounded-full object-cover" src="/FrontEnd/Images/sinFoto.png" alt="Store Image">
 
-    <section class="store-section">
-
-
-        <!-- Encabezado de la tienda -->
-        <div class="store-header">
-            <img class="image-container" src="/FrontEnd/Images/sinFoto.png" alt="Store Image">
-            <div class="store-image">
-        <!-- Imagen -->
-            </div>
-
-    <!-- Info + botón logout en la misma fila -->
-            <div class="store-info-container">
-                <div class="store-info">
-                <h2 class="store-name">Store Name</h2>
-                <p class="store-description-title">Description:</p>
-                <p class="store-description">
-                Blabababababababab<br>
-                Blabababababababababababababab<br>
-                Blabababababababababababab
-                </p>
-                </div>
-
-            <button class="btn-logout">Log out</button>
-            </div>
+        <!-- Información de la tienda -->
+        <div class="mt-4 text-center">
+          <h2 class="text-2xl font-bold">Store Name</h2>
+          <p class="mt-2 font-semibold">Description:</p>
+          <p class="mt-1 text-gray-700 text-sm">
+            Blabababababababab<br>
+            Blabababababababababababababab<br>
+            Blabababababababababababab
+          </p>
         </div>
 
-        <!-- Tabla de Empleados -->
-       <main class="w-90% p-4 bg-[#EDEDED] m-[10px] mt-[25px] rounded-[20px]">
-            <table class="w-full rounded border-separate border-spacing-y-[10px] border-spacing-x-[5px]">
-                <thead class="no-background thead-line">
-                    <tr>
-                        <th class="p-2 rounded-[5px]">ID</th>
-                        <th class="p-2 rounded-[5px]">Email</th>
-                        <th class="p-2 rounded-[5px]">Role</th>
-                    </tr>
-                </thead>
-                <tbody id="table-body">
-                    <!-- Aquí se añaden los productos -->
-                        <th class="p-2 rounded-[5px]"> 1</th>
-                        <th class="p-2 rounded-[5px]"> employee1@store.com</th>
-                        <th class="p-2 rounded-[5px]"> Manager</th>
-                </tbody>
-            </table>
+        <!-- Botón de logout -->
+        <button class="mt-6 bg-red-400 hover:bg-red-500 text-white font-bold py-2 px-6 rounded">
+          Log Out
+        </button>
+      </aside>
 
-            <div id="pagination" class="flex justify-center items-center space-x-2 mt-4">
-              <!-- Botón anterior -->
-              <button id="prev-button" class="px-3 py-1 rounded bg-gray-300 hover:bg-gray-400" disabled>
-                ←
-              </button>
-
-              <!-- Número de página -->
-              <span id="page-number" class="text-lg font-semibold">1</span>
-
-              <!-- Botón siguiente -->
-              <button id="next-button" class="px-3 py-1 rounded bg-gray-300 hover:bg-gray-400">
-                →
-              </button>
-       </main>
-            <!-- Botones para añadir o modificar empleados -->
-
+      <!-- Arriba derecha: Estadísticas -->
+      <section class="w-1/2 bg-[#EDEDED] p-6 rounded-[20px] grid grid-cols-2 gap-4">
+        <div class="bg-[#D9D9D9] p-6 rounded-xl flex flex-col items-center justify-center">
+          <h3 class="text-lg font-semibold">Total Employees</h3>
+          <p class="text-3xl font-bold mt-2">25</p>
         </div>
-    </section>
-
-    <div class="notifications-wrapper">
-
-    <!-- Sección Derecha: Panel de Notificaciones -->
-        <div class="employee-buttons">
-                <button class="btn-add">Add Employee</button>
-                <button class="btn-modify">Modify Employee</button>
+        <div class="bg-[#D9D9D9] p-6 rounded-xl flex flex-col items-center justify-center">
+          <h3 class="text-lg font-semibold">Managers</h3>
+          <p class="text-3xl font-bold mt-2">5</p>
         </div>
-
-
-        <div class="employee-details-panel">
-            <button class="btn-view-actions">View employees' actions</button>
+        <div class="bg-[#D9D9D9] p-6 rounded-xl flex flex-col items-center justify-center">
+          <h3 class="text-lg font-semibold">Active</h3>
+          <p class="text-3xl font-bold mt-2">22</p>
         </div>
+        <div class="bg-[#D9D9D9] p-6 rounded-xl flex flex-col items-center justify-center">
+          <h3 class="text-lg font-semibold">Pending</h3>
+          <p class="text-3xl font-bold mt-2">3</p>
+        </div>
+      </section>
     </div>
-</main>
 
+    <!-- Fila inferior -->
+    <div class="flex gap-6">
+      <!-- Abajo izquierda: Tabla empleados -->
+      <main class="w-3/4 bg-[#EDEDED] p-6 rounded-[20px]">
+        <h2 class="text-xl font-bold mb-4">Employees</h2>
+        <table class="w-full rounded border-separate border-spacing-y-[10px] border-spacing-x-[5px]">
+          <thead class="thead-line">
+            <tr>
+              <th class="p-2 rounded-[5px]">ID</th>
+              <th class="p-2 rounded-[5px]">Email</th>
+              <th class="p-2 rounded-[5px]">Role</th>
+            </tr>
+          </thead>
+          <tbody id="table-body">
+            <tr class="bg-[#D9D9D9] gap-[5px] text-center modal-trigger cursor-pointer hover:bg-[#bfbfbf] transition-colors duration-200">
+              <td class="p-2 rounded-[5px]">1</td>
+              <td class="p-2 rounded-[5px]">employee1@store.com</td>
+              <td class="p-2 rounded-[5px]">Manager</td>
+            </tr>
+          </tbody>
+
+        </table>
+
+        <!-- Paginación -->
+        <div id="pagination" class="flex justify-center items-center space-x-2 mt-4">
+          <button id="prev-button" class="px-3 py-1 rounded bg-gray-300 hover:bg-gray-400" disabled>←</button>
+          <span id="page-number" class="text-lg font-semibold">1</span>
+          <button id="next-button" class="px-3 py-1 rounded bg-gray-300 hover:bg-gray-400">→</button>
+        </div>
+      </main>
+
+      <!-- Abajo derecha: Botones empleados -->
+      <aside class="w-1/4 bg-[#EDEDED] p-6 rounded-[20px] flex flex-col items-center gap-4">
+        <button class="w-full bg-[#8DC96A] hover:bg-[#7BB85C] text-black py-2 rounded">Add Employee</button>
+        <button class="w-full bg-[#8DC96A] hover:bg-[#7BB85C] text-black py-2 rounded">Modify Employee</button>
+        <button class="w-full bg-[#D9D9D9] hover:bg-[#C9C9C9] text-black py-2 rounded">View Employees' Actions</button>
+      </aside>
+    </div>
+  </div>
+
+  <!-- Estilos extra para bordes de la tabla -->
+  <style>
+    .thead-line {
+      box-shadow: 0 1px 0 0 black;
+    }
+  </style>
 </body>
 </html>
