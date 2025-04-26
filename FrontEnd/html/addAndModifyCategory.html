@@ -17,8 +17,21 @@
             </div>
 
             <!-- Información de la categoría -->
-            <div class="mt-4">
-                <input type="text" placeholder="Add Category Name" class="w-full p-3 rounded bg-white border border-gray-300 placeholder-gray-500">
+            <div class="mt-4 flex gap-4">
+                <!-- Input ID (máximo 4 caracteres) -->
+                <input
+                    type="text"
+                    placeholder="ID"
+                    maxlength="4"
+                    class="w-32 p-3 rounded bg-white border border-gray-300 placeholder-gray-500"
+                >
+
+                <!-- Input Nombre (flexible) -->
+                <input
+                    type="text"
+                    placeholder="Add Category Name"
+                    class="flex-1 p-3 rounded bg-white border border-gray-300 placeholder-gray-500"
+                >
             </div>
 
             <!-- Descripción de la categoría -->
