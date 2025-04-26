@@ -5,6 +5,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Añadir Producto</title>
   <link rel="stylesheet" href="styles.css">
+  <!-- Cargamos tu JS como módulo y defer para que el DOM ya exista -->
+  <script type="module" src="createItem.js" defer></script>
 </head>
 <body class="add-product">
 <div class="outer-container">
@@ -12,7 +14,6 @@
 
     <!-- TOP SECTION -->
     <div class="top-section">
-
       <!-- IZQUIERDA: imagen + nombre + ID -->
       <div class="top-left">
         <div class="img-name-wrapper">
@@ -35,11 +36,8 @@
 
         <!-- Categorías -->
         <div class="category-container">
-          <!-- Label colocado encima -->
           <label for="new-category" class="category-label">Primary Category:</label>
-          <!-- Fila en la que el botón aparece "en frente" (a la izquierda) del input -->
           <div class="category-row">
-
             <input type="text" id="new-category" class="category-input" placeholder="Nombre de categoría" required>
             <button class="category-btn" id="secondary-category-btn" type="submit">Secondary Category</button>
           </div>
@@ -68,50 +66,55 @@
     </div>
 
     <!-- BOTTOM SECTION -->
-    <div class="bottom-section flex gap-8">
-      <!-- SIZE & QUANTITY -->
-      <div class="flex-1">
-        <table class="w-full rounded border-separate border-spacing-y-[10px] border-spacing-x-[5px]">
-          <thead class="bg-transparent">
-          <tr>
-            <th class="text-left px-4 py-2 font-semibold">Size:</th>
-            <th class="text-left px-4 py-2 font-semibold">Quantity:</th>
+    <main class="w-full p-6 bg-[#EDEDED] m-[10px] mt-[25px] rounded-[20px]">
+      <div class="flex gap-8">
+        <table class="w-full rounded border-separate border-spacing-y-[4px] border-spacing-x-[5px]">
+          <tr class="bg-transparent align-top">
+            <!-- Size + Input -->
+            <th class="text-left px-4 py-2 font-semibold align-top">
+              <div class="flex flex-col gap-2">
+                <div class="flex items-center gap-2">
+                  <span>Size:</span>
+                  <input id="new-size" class="w-40 bg-gray-100 rounded-full outline-none px-2 py-1 text-sm text-left">
+                  <!-- Contenedor donde se inyectarán los nuevos inputs -->
+                  <div id="div-sizes" class="mt-4 space-y-2"></div>
+                </div>
+              </div>
+            </th>
+
+            <!-- Quantity + Input -->
+            <th class="text-left px-4 py-2 font-semibold align-top">
+              <div class="flex items-center gap-2">
+                <span>Quantity:</span>
+                <input id="new-quantity" class="w-40 bg-gray-100 rounded-full outline-none px-2 py-1 text-sm text-left">
+              </div>
+            </th>
+
+            <!-- Price and Discount Column -->
+            <th class="text-left px-4 py-2 font-semibold align-top">
+              <div class="flex flex-col gap-2">
+                <div class="flex items-center gap-2">
+                  <span>Price:</span>
+                  <input id="price" class="w-40 bg-gray-100 rounded-full outline-none px-2 py-1 text-sm text-left" placeholder="€0.00">
+                </div>
+                <div class="flex items-center gap-2">
+                  <span>Discount:</span>
+                  <input id="discount" class="w-40 bg-gray-100 rounded-full outline-none px-2 py-1 text-sm text-left" placeholder="%">
+                </div>
+              </div>
+            </th>
           </tr>
-          </thead>
-          <tbody>
-          <tr>
-            <td class="bg-gray-200 px-4 py-3 rounded">
-              <input type="text" id="new-size" placeholder="Ej: M, L, XL" class="w-full bg-transparent outline-none">
-            </td>
-            <td class="bg-gray-200 px-4 py-3 rounded">
-                <input type="number" id="new-quantity" placeholder="0" class="w-full bg-transparent outline-none">
-            </td>
-          </tr>
-          </tbody>
         </table>
-        <button type="button" id="add-size-btn" class="mt-4 bg-amber-600 text-white px-4 py-2 rounded font-bold">
-          Add more sized
-        </button>
-        <div id="added-sizes" class="added-sizes"></div>
       </div>
 
-      <!-- PRICE & DISCOUNT -->
-      <div class="bottom-right-vertical">
-        <div class="field-group-vertical">
-          <label for="price">Add Price:</label>
-          <input type="number" id="price" placeholder="0.00€" step="0.01" min="0" class="input-grey">
-        </div>
+      <!-- Botón para añadir más tallas -->
+      <button type="button" id="add-size-b" class="bg-amber-600 text-white px-4 py-2 rounded font-bold w-fit">
+        Add more sized
+      </button>
 
-        <div class="field-group-vertical">
-          <label for="discount">Add Discount:</label>
-          <input type="number" id="discount" placeholder="0%" min="0" max="100" class="input-grey">
-        </div>
-      </div>
-    </div>
+    </main>
 
   </div>
 </div>
-
-
 </body>
 </html>
