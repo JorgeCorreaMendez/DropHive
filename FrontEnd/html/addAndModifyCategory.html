@@ -1,41 +1,31 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>DropHive - Add Company</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='CSS/AddAndModifyCategory.css') }}">
-    <script src="{{ url_for('static', filename='JavaScript/header.js') }}"></script>
-    <script src="{{ url_for('static', filename='JavaScript/redirect.js') }}"></script>
-</head>
-<body>
-<header>
-    {% include 'header.html' %}
-</header>
 <main>
     <!-- Caja exterior gris (contenedor externo) -->
-    <div class="main-container">
+    <div class="bg-gray-300 rounded-lg p-4 m-4">
         <!-- Caja interna que sobresale del contenedor -->
-        <div class="category-form">
-            <div class="category-header">
-                <img class="image-container" src="/FrontEnd/Images/sinFoto.png" alt="Company Image">
-                <button id="save-btn1" class="btn-add">Save Changes</button>
-                <input type="file" accept="image/*" class="company-image-input">
+        <div class="bg-gray-200 rounded-lg p-4">
+            <!-- Encabezado con imagen y botón -->
+            <div class="flex justify-between items-center">
+                <img class="w-20 h-20 rounded-lg border border-gray-300" src="/FrontEnd/Images/sinFoto.png" alt="Company Image">
+
+                <div class="flex items-center gap-4">
+                    <!-- Input de imagen -->
+                    <input type="file" accept="image/*" class="company-image-input p-2 border rounded">
+
+                    <!-- Botón guardar cambios -->
+                    <button id="save-btn1" class="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded">Save Changes</button>
+                </div>
             </div>
 
-
-
-            <div class="category-info">
-                <input type="text" placeholder="Add Category Name" class="input-field">
+            <!-- Información de la categoría -->
+            <div class="mt-4">
+                <input type="text" placeholder="Add Category Name" class="w-full p-3 rounded bg-white border border-gray-300 placeholder-gray-500">
             </div>
 
-            <div class="category-description">
-                <label>Description:</label>
-                <textarea placeholder="Add Description..." class="textarea-field"></textarea>
+            <!-- Descripción de la categoría -->
+            <div class="mt-4">
+                <label class="block font-semibold">Description:</label>
+                <textarea placeholder="Add Description..." class="w-full p-3 rounded bg-white border border-gray-300 placeholder-gray-500"></textarea>
             </div>
-
-
         </div>
     </div>
 </main>
-</body>
-</html>

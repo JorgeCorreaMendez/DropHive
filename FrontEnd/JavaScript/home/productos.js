@@ -1,5 +1,7 @@
 import {cargarDatosEnTabla} from "../home.js";
 import { initPagination } from "../recursos/paginado.js";
+import {openModal} from "../modals/abrirYCerrarModal.js";
+import {agregarProducto} from "../createItem.js";
 
 
 export async function recuperarProductos() {
@@ -106,4 +108,13 @@ export async function modificarCabeceraTablaProductos() {
       th.className = "p-2 rounded-[5px]"; // Tailwind classes
       filaCabecera.appendChild(th);
     });
+}
+
+export async function cargarModalCrearProducto() {
+    const response = await fetch(`/createItem`);
+    const html = await response.text();
+    openModal(html);
+    setTimeout(() => {
+      document.getElementById("save-changes-btn")?.addEventListener("click", agregarProducto);
+    }, 50);
 }

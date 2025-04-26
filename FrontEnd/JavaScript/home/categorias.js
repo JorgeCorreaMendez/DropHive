@@ -1,3 +1,5 @@
+import {openModal} from "../modals/abrirYCerrarModal.js";
+
 export async function addInformacionFilaCategoria(item) {
     const row = document.createElement('tr');
     row.classList.add(
@@ -49,4 +51,10 @@ export async function modificarCabeceraTablaCategoria() {
       th.className = "p-2 rounded-[5px]"; // Tailwind classes
       filaCabecera.appendChild(th);
     });
+}
+
+export async function cargarModalCrearCategoria() {
+    const response = await fetch(`/addAndModifyCategory`);
+    const html = await response.text();
+    openModal(html);
 }

@@ -2,16 +2,10 @@ import { recuperarNombreBaseDatos } from "../recursos.js";
 import { openModal } from "./abrirYCerrarModal.js";
 import { agregarProducto } from "../createItem.js";
 import { initializeRowClickHandler } from "./lecturaProducto/productRowClick.js"
+import { cargarModalCrearProducto } from "../home/productos.js";
 
 export function setupEventListeners() {
-  document.getElementById("add-item-btn")?.addEventListener("click", async () => {
-    const response = await fetch(`/createItem`);
-    const html = await response.text();
-    openModal(html);
-    setTimeout(() => {
-      document.getElementById("save-changes-btn")?.addEventListener("click", agregarProducto);
-    }, 50);
-  });
+  document.getElementById("add-item-btn")?.addEventListener("click", cargarModalCrearProducto);
 
   document.getElementById("add-company-btn")?.addEventListener("click", async () => {
     const response = await fetch(`/addAndModifyCompany`);
