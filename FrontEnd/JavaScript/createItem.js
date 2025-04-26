@@ -122,3 +122,53 @@
             console.log('Nuevo input añadido');
         });
     }
+
+
+    document.addEventListener('DOMContentLoaded', () => {
+        // Observa cambios en el <body>
+        const observer = new MutationObserver((mutations, obs) => {
+            const addedSizesContainer = document.getElementById('div-sizes');
+            if (addedSizesContainer) {
+                // Una vez encontrado, ya no es necesario seguir observando
+                obs.disconnect();
+                setupAddQuantity();
+            }
+        });
+
+        observer.observe(document.body, { childList: true, subtree: true });
+    });
+
+    function setupAddQuantity() {
+        const addedSizesContainer = document.getElementById('div-quantity');
+        const addSizeBtn = document.getElementById('add-size-b');
+
+        if (!addedSizesContainer) {
+            console.error('Contenedor "div-sizes" no encontrado');
+            return;
+        }
+        if (!addSizeBtn) {
+            console.error('Botón "add-size-b" no encontrado');
+            return;
+        }
+
+        console.log('addedSizesContainer:', addedSizesContainer);
+        console.log('addSizeBtn:', addSizeBtn);
+
+        addSizeBtn.addEventListener('click', () => {
+            console.log('Botón pulsado');
+            const wrapper = document.createElement('div');
+            wrapper.classList.add('flex', 'items-center', 'gap-2', 'mt-2');
+
+            const input = document.createElement('input');
+            input.type = 'text';
+            input.placeholder = 'Ej: S, M, L';
+            input.classList.add(
+                'w-40', 'bg-gray-100', 'rounded-full', 'outline-none',
+                'px-2', 'py-1', 'text-sm', 'text-left'
+            );
+
+            wrapper.appendChild(input);
+            addedSizesContainer.appendChild(wrapper);
+            console.log('Nuevo input añadido');
+        });
+    }
