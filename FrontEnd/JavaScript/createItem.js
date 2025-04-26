@@ -6,10 +6,10 @@ export const agregarProducto = async () => {
     const name = document.getElementById("product-name").value;
     const description = document.getElementById("description").value;
     const price = parseFloat(document.getElementById("price").value);
-    const size = document.getElementById("size").value;
+    const size = document.getElementById("new-size").value;
     const discount = parseFloat(document.getElementById("discount").value);
     const category_id = 1; // Puedes ajustar esto dinámicamente si tienes múltiples categorías
-    const quantity = 1;
+    const quantity = document.getElementById("new-quantity").value;
 
     try {
         // Recuperar el nombre de la base de datos

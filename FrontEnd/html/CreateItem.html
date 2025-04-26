@@ -1,4 +1,12 @@
-<!-- HTML -->
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Añadir Producto</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body class="add-product">
 <div class="outer-container">
   <div id="createProductForm" class="create-product-container">
 
@@ -8,35 +16,38 @@
       <!-- IZQUIERDA: imagen + nombre + ID -->
       <div class="top-left">
         <div class="img-name-wrapper">
-
-          <!-- Imagen con overlay -->
           <div class="image-upload-wrapper">
-            <img class="image-container" src="" alt="Article Image">
+            <img class="image-container" src="/FrontEnd/Images/sinFoto.png" alt="Article Image">
             <div class="overlay"><span>Adjuntar imagen</span></div>
             <input type="file" accept="image/*" class="company-image-input">
           </div>
 
-          <!-- Nombre del Producto -->
           <div class="product-name-wrapper">
             <label for="product-name" class="product-name-label">Nombre del Producto:</label>
             <input type="text" id="product-name" placeholder="Escribe el nombre aquí" required class="input-grey">
           </div>
 
-          <!-- Product ID en la misma fila -->
           <div class="id-container">
             <label for="product-id" class="product-id-label">Product ID:</label>
             <input type="text" id="product-id" placeholder="Ej: 1234" required class="input-grey">
           </div>
         </div>
 
-        <!-- Categorías (segunda fila dentro de top-left) -->
+        <!-- Categorías -->
         <div class="category-container">
-          <input type="text" id="new-category" placeholder="Primary Category" class="category-input">
-          <button type="button" class="category-btn">Add Category</button>
+          <!-- Label colocado encima -->
+          <label for="new-category" class="category-label">Primary Category:</label>
+          <!-- Fila en la que el botón aparece "en frente" (a la izquierda) del input -->
+          <div class="category-row">
+
+            <input type="text" id="new-category" class="category-input" placeholder="Nombre de categoría" required>
+            <button class="category-btn" id="secondary-category-btn" type="submit">Secondary Category</button>
+          </div>
+          <div id="added-categories" class="added-categories"></div>
         </div>
       </div>
 
-      <!-- DERECHA: botón Save Changes -->
+      <!-- DERECHA: Save Changes Button -->
       <div class="top-right">
         <button class="save-btn" id="save-changes-btn" type="submit">Save Changes</button>
       </div>
@@ -45,7 +56,7 @@
     <!-- (OPCIONAL) Tabla de listados -->
     <table class="w-full rounded border-separate border-spacing-y-[10px] border-spacing-x-[5px]">
       <thead class="bg-transparent">
-        <tr id="cabecera-tabla"><!-- encabezados... --></tr>
+      <tr id="cabecera-tabla"><!-- encabezados... --></tr>
       </thead>
       <tbody id="table-body"><!-- filas... --></tbody>
     </table>
@@ -58,38 +69,39 @@
 
     <!-- BOTTOM SECTION -->
     <div class="bottom-section flex gap-8">
-
       <!-- SIZE & QUANTITY -->
       <div class="flex-1">
         <table class="w-full rounded border-separate border-spacing-y-[10px] border-spacing-x-[5px]">
           <thead class="bg-transparent">
-            <tr>
-              <th class="text-left px-4 py-2 font-semibold">Size:</th>
-              <th class="text-left px-4 py-2 font-semibold">Quantity:</th>
-            </tr>
+          <tr>
+            <th class="text-left px-4 py-2 font-semibold">Size:</th>
+            <th class="text-left px-4 py-2 font-semibold">Quantity:</th>
+          </tr>
           </thead>
           <tbody>
-            <tr>
-              <td class="bg-gray-200 px-4 py-3 rounded">
-                <input type="text" id="size" placeholder="Ej: M, L, XL" class="w-full bg-transparent outline-none">
-              </td>
-              <td class="bg-gray-200 px-4 py-3 rounded">
-                <input type="number" id="quantity" placeholder="0" class="w-full bg-transparent outline-none">
-              </td>
-            </tr>
+          <tr>
+            <td class="bg-gray-200 px-4 py-3 rounded">
+              <input type="text" id="new-size" placeholder="Ej: M, L, XL" class="w-full bg-transparent outline-none">
+            </td>
+            <td class="bg-gray-200 px-4 py-3 rounded">
+                <input type="number" id="new-quantity" placeholder="0" class="w-full bg-transparent outline-none">
+            </td>
+          </tr>
           </tbody>
         </table>
-        <button type="button" class="mt-4 bg-amber-600 text-white px-4 py-2 rounded font-bold">
+        <button type="button" id="add-size-btn" class="mt-4 bg-amber-600 text-white px-4 py-2 rounded font-bold">
           Add more sized
         </button>
+        <div id="added-sizes" class="added-sizes"></div>
       </div>
 
       <!-- PRICE & DISCOUNT -->
-      <div class="bottom-right-vertical flex-1">
+      <div class="bottom-right-vertical">
         <div class="field-group-vertical">
           <label for="price">Add Price:</label>
           <input type="number" id="price" placeholder="0.00€" step="0.01" min="0" class="input-grey">
         </div>
+
         <div class="field-group-vertical">
           <label for="discount">Add Discount:</label>
           <input type="number" id="discount" placeholder="0%" min="0" max="100" class="input-grey">
@@ -99,3 +111,7 @@
 
   </div>
 </div>
+
+
+</body>
+</html>
