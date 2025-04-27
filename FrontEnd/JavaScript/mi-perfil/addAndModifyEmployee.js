@@ -13,6 +13,7 @@ async function crearCuentaEmpleado() {
     const email = document.getElementById("email").value;
     const password = document.getElementById("password").value;
     const role = 1;
+    const modal = document.getElementById('loadingModal');
 
     if(password.length < 8) {
         Swal.fire({
@@ -33,6 +34,7 @@ async function crearCuentaEmpleado() {
     console.log(newUserData)
 
     try {
+        modal.classList.remove('hidden');
         const response = await fetch('http://127.0.0.1:4000/create_account', {
                 method: 'POST',
                 headers: {
@@ -42,6 +44,7 @@ async function crearCuentaEmpleado() {
             });
 
         if (response.ok) {
+            modal.classList.add('hidden');
             fetch(`http://127.0.0.1:4000/new_account_registered?mail=${email}&password=${password}`)
             Swal.fire({
                 icon: 'success',
@@ -51,6 +54,7 @@ async function crearCuentaEmpleado() {
                 showConfirmButton: false
             })
         } else {
+            modal.classList.add('hidden');
             const error = await response.json();
             Swal.fire({
                 icon: 'error',

@@ -113,6 +113,14 @@
   </div>
 </div>
 
+<!-- Modal de carga -->
+<div id="loadingModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 hidden">
+  <div class="bg-white p-6 rounded-2xl shadow-lg flex flex-col items-center">
+    <div class="animate-spin rounded-full h-10 w-10 border-t-4 border-blue-500 border-opacity-60 mb-4"></div>
+    <p class="text-center text-gray-700 font-medium">Enviando código de verificación...</p>
+  </div>
+</div>
+
 <!-- <link rel="stylesheet" href="{{ url_for('static', filename='CSS/viewEmployeeActions.css') }}"> -->
 
 <link rel="stylesheet" href="{{ url_for('static', filename='CSS/addEmployee.css') }}">
