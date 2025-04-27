@@ -90,8 +90,7 @@
 
       <!-- Abajo derecha: Botones empleados -->
       <aside class="w-1/4 bg-[#EDEDED] p-6 rounded-[20px] flex flex-col items-center gap-4">
-        <button class="w-full bg-[#8DC96A] hover:bg-[#7BB85C] text-black py-2 rounded">Add Employee</button>
-        <button class="w-full bg-[#8DC96A] hover:bg-[#7BB85C] text-black py-2 rounded">Modify Employee</button>
+        <button class="w-full bg-[#8DC96A] hover:bg-[#7BB85C] text-black py-2 rounded" id="add-employee-btn">Add Employee</button>
         <button class="w-full bg-[#D9D9D9] hover:bg-[#C9C9C9] text-black py-2 rounded">View Employees' Actions</button>
       </aside>
     </div>
@@ -114,5 +113,8 @@
   </div>
 </div>
 
-<link rel="stylesheet" href="{{ url_for('static', filename='CSS/viewEmployeeActions.css') }}">
+<!-- <link rel="stylesheet" href="{{ url_for('static', filename='CSS/viewEmployeeActions.css') }}"> -->
+
+<link rel="stylesheet" href="{{ url_for('static', filename='CSS/addEmployee.css') }}">
+
 

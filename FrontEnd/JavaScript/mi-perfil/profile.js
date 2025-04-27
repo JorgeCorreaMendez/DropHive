@@ -1,6 +1,7 @@
 import {addInformacionFilaEmpleado, recuperarCuentas} from "./cargarDatosTabla.js";
 import {initializeRowClickHandler} from "../modals/lecturaUsuario/eventListenerTabla.js";
 import {initializeModalEvents} from "../modals/abrirYCerrarModal.js";
+import {addEventListenerAddEmployee} from "./addAndModifyEmployee.js";
 
 export async function cargarDatosEnTablaPerfil(data) {
     const tableBody = document.getElementById("table-body");
@@ -27,4 +28,5 @@ document.addEventListener('DOMContentLoaded', async () => {
     await recuperarCuentas()
     initializeRowClickHandler();
     initializeModalEvents();
+    addEventListenerAddEmployee();
 });
