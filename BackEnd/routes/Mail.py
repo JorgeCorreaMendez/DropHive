@@ -25,6 +25,19 @@ def send_verification_code():
     except Exception as e:
         return jsonify({"error": str(e)}), 500
 
+@email_bp.route("/new_account_registered", methods=["GET"])
+def new_account_registered():
+    try:
+        mail = request.args.get('mail')
+        password = request.args.get('password')
+        subject = "Added to a project"
+        sender = os.getenv("MAIL_USERNAME")
+        recipients = [mail]
+        body = f"You have been added to a project, your password is {password}."
+        send_email(subject, sender, recipients, body)
+        return jsonify({"message": "El correo se ha enviado correctamente."}), 200
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
 
 @accounts_bp.route("/check_mail")
 def check_mail():

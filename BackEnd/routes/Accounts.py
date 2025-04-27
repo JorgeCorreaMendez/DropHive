@@ -1,6 +1,7 @@
 from flask import jsonify, Blueprint, request, session
 
 from BackEnd.models.Account import Account
+from BackEnd.models.User import User
 from BackEnd.routes.Auth import login_required
 from BackEnd.services.user_service import get_user_by
 from BackEnd.utils.bcrypt_methods import create_hash
@@ -24,25 +25,32 @@ def get_accounts():
 @accounts_bp.route("/create_account", methods=["POST"])
 def create_account():
     data = request.get_json()
-    name = data.get("name")
+    db_name = session["db.name"]
     mail = data.get("mail")
     password = data.get("password")
-    if not name or not mail or not password:
+    if not db_name or not mail or not password:
         return jsonify({"error": "Faltan datos obligatorios"}), 400
     try:
-        with get_db_session(session["db.name"]) as db:
-            if db.query(Account).filter_by(mail=mail).first():
+        with (get_db_session(db_name) as client_session,
+            get_db_session("Users") as user_session):
+            if client_session.query(Account).filter_by(mail=mail).first() or user_session.query(User).filter_by(mail=mail).first():
                 return jsonify({"error": "El correo ya está registrado"}), 400
             new_account = Account(
-                name=name,
+                name=db_name,
                 mail=mail,
                 password=create_hash(password),
                 phone=data.get("phone"),
                 description=data.get("description"),
                 address=data.get("address")
             )
-            db.add(new_account)
-            db.commit()
+            new_user = User(
+                mail=mail,
+                db_name=db_name
+            )
+            client_session.add(new_account)
+            user_session.add(new_user)
+            client_session.commit()
+            user_session.commit()
         return jsonify({"message": "Cuenta creada correctamente"}), 201
     except Exception as e:
         return jsonify({"Error, al crear la cuenta": str(e)}), 500
