@@ -3,6 +3,7 @@ from sqlalchemy.exc import SQLAlchemyError
 
 from BackEnd.models import Base
 from BackEnd.models.Account import Account
+from BackEnd.models.Privilege import Privilege
 from BackEnd.models.User import User
 from BackEnd.schemas import UserRegisterSchema
 from BackEnd.utils.bcrypt_methods import create_hash
@@ -17,6 +18,10 @@ def register_company(user_data):
         Base.metadata.create_all(get_engine(db_name))
         with (get_db_session(db_name) as client_session,
               get_db_session("Users") as user_session):
+
+            new_privilege = Privilege(id=1, name="Administrador")
+            print(new_privilege)
+
             new_account = Account(
                 name=user_data.name,
                 mail=user_data.mail,
@@ -32,10 +37,12 @@ def register_company(user_data):
             )
             client_session.add(new_account)
             user_session.add(new_user)
+            client_session.add(new_privilege)
             client_session.commit()
             user_session.commit()
         return True, f"Company {db_name} registered successfully."
     except Exception as e:
+        print(e)
         try:
             client_session.rollback()
         except SQLAlchemyError:
