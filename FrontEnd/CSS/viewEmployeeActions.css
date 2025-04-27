@@ -14,7 +14,6 @@ html, body {
 
 .total-wrapper2 {
     background-color: white;
-    width: 100vw;
     height: auto;
     box-sizing: border-box;
 }
@@ -53,9 +52,6 @@ header button {
     overflow-x: auto;
     width: 100%;
     max-width: 735px;
-    margin-bottom: 1rem;
-    margin-left: 400px;
-    margin-top: 50px;
 }
 
 .logo-section {

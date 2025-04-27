@@ -1,4 +1,6 @@
 import {addInformacionFilaEmpleado, recuperarCuentas} from "./cargarDatosTabla.js";
+import {initializeRowClickHandler} from "../modals/lecturaUsuario/eventListenerTabla.js";
+import {initializeModalEvents} from "../modals/abrirYCerrarModal.js";
 
 export async function cargarDatosEnTablaPerfil(data) {
     const tableBody = document.getElementById("table-body");
@@ -23,5 +25,6 @@ function cargarDatosEmpresa(nombre, descripcion) {
 // Ejecutar cuando el DOM esté cargado
 document.addEventListener('DOMContentLoaded', async () => {
     await recuperarCuentas()
-
+    initializeRowClickHandler();
+    initializeModalEvents();
 });

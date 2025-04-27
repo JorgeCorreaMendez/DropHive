@@ -123,3 +123,17 @@ def check_verification_code():
         return jsonify({}), 200
     else:
         return jsonify({}), 400
+
+@accounts_bp.route('/filter_account_by_id')
+@login_required
+def search_product_by_id():
+    try:
+        id_product = request.args.get('id')
+        with get_db_session(session["db.name"]) as db_session:
+            accounts = db_session.query(Account).filter(id_product == Account.id).all()
+            if accounts:
+                return jsonify([account.serialize() for account in accounts]), 200
+            else:
+                return jsonify({"message": "No se encontraron productos con ese ID."}), 404
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500

@@ -40,7 +40,7 @@ export async function addInformacionFilaEmpleado(item) {
 
 
     row.id = "list-article"
-    row.setAttribute('data-product-id', item.id);
+    row.setAttribute('data-account-id', item.id);
 
     // A partir de aquí se muestran los elementos de las columnas
     const idCell = document.createElement('td');
