@@ -5,26 +5,28 @@
         <div class="bg-gray-200 rounded-lg p-4">
             <!-- Encabezado con imagen y botón -->
             <div class="flex justify-between items-center">
-                <img class="w-20 h-20 rounded-lg border border-gray-300" src="/FrontEnd/Images/sinFoto.png" alt="Company Image">
+                <!-- Imagen en la que se puede hacer clic -->
+                <img id="preview-image" class="w-20 h-20 rounded-lg border border-gray-300 cursor-pointer" src="/FrontEnd/Images/sinFoto.png" alt="Company Image">
 
                 <div class="flex items-center gap-4">
-                    <!-- Input de imagen -->
-                    <input type="file" accept="image/*" class="company-image-input p-2 border rounded">
+                    <!-- input de archivo oculto -->
+                    <input type="file" id="image-input" accept="image/*" class="hidden">
 
-                    <!-- Botón guardar cambios -->
-                    <button id="save-btn1" class="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded">Save Changes</button>
+                    <!-- Boton Guardar -->
+                    <button id="save-btn1" onclick="agregarCategoria()" class="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded">Save Changes</button>
                 </div>
             </div>
 
             <!-- Información de la categoría -->
             <div class="mt-4">
-                <input type="text" placeholder="Add Category Name" class="w-full p-3 rounded bg-white border border-gray-300 placeholder-gray-500">
+                <input id="category-id" type="text" placeholder="Category ID" class="w-full p-3 rounded bg-white border border-gray-300 placeholder-gray-500">
+                <input id="category-name" type="text" placeholder="Add Category Name" class="w-full p-3 rounded bg-white border border-gray-300 placeholder-gray-500">
             </div>
 
             <!-- Descripción de la categoría -->
             <div class="mt-4">
                 <label class="block font-semibold">Description:</label>
-                <textarea placeholder="Add Description..." class="w-full p-3 rounded bg-white border border-gray-300 placeholder-gray-500"></textarea>
+                <textarea id="category-description" placeholder="Add Description..." class="w-full p-3 rounded bg-white border border-gray-300 placeholder-gray-500"></textarea>
             </div>
         </div>
     </div>
