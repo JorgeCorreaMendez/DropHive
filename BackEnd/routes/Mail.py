@@ -3,7 +3,6 @@ import random
 
 from flask import Blueprint, session, jsonify, request
 
-from BackEnd.routes.Accounts import accounts_bp
 from BackEnd.services.user_service import get_user_by
 from BackEnd.utils.flask_mail_methods import send_email
 
@@ -39,7 +38,7 @@ def new_account_registered():
     except Exception as e:
         return jsonify({"error": str(e)}), 500
 
-@accounts_bp.route("/check_mail")
+@email_bp.route("/check_mail")
 def check_mail():
     mail = request.args.get('mail')
     try:

@@ -27,7 +27,7 @@ def add_product():
         data = request.get_json()
         with get_db_session(session["db.name"]) as db_session:
             new_product = Product(
-                id=data["product_id"],
+                id=data["id"],
                 name=data["name"],
                 category_id=data["category_id"],
                 description=data["description"],
@@ -36,7 +36,6 @@ def add_product():
             )
             db_session.add(new_product)
             db_session.flush()
-
             if "sizes" in data:
                 for size in data["sizes"]:
                     db_session.add(Size(
@@ -44,7 +43,6 @@ def add_product():
                         name=size["name"],
                         quantity=size["quantity"]
                     ))
-
             db_session.commit()
         return jsonify({"message": "Producto añadido correctamente"}), 200
     except Exception as e:
@@ -131,7 +129,7 @@ def filter_products():
             if max_quantity:
                 query_quantity = get_total_quantity_query(db_session)
                 query = query.join(query_quantity, Product.id == query_quantity.c.id)
-                query = query.filter(query_quantity.c.total_quantity <= int(max_quantity))
+                query = query.filter(query_quantity.c.quantity <= int(max_quantity))
             query = query.limit(limit).offset(offset)
             return jsonify([product.serialize() for product in query.all()]), 200
     except Exception as e:

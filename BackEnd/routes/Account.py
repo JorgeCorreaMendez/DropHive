@@ -25,24 +25,21 @@ def get_accounts():
 @accounts_bp.route("/create_account", methods=["POST"])
 def create_account():
     data = request.get_json()
-    db_name = session["db.name"]
+    name = data.get("name")
     mail = data.get("mail")
-    user_id = data.get("user_id")
     password = data.get("password")
-    if not db_name or not mail or not password:
+    if not name or not mail or not password:
         return jsonify({"error": "Faltan datos obligatorios"}), 400
     try:
-        with (get_db_session(db_name) as client_session,
+        with (get_db_session(session["db.name"]) as client_session,
             get_db_session("Users") as user_session):
             if client_session.query(Account).filter_by(mail=mail).first() or user_session.query(User).filter_by(mail=mail).first():
                 return jsonify({"error": "El correo ya está registrado"}), 400
             new_account = Account(
-                id = user_id,
-                name=db_name,
+                name=name,
                 mail=mail,
                 password=create_hash(password),
                 phone=data.get("phone"),
-                description=data.get("description"),
                 address=data.get("address"),
                 privilege_id=1
             )
@@ -79,8 +76,6 @@ def modify_account():
                 account.mail = data["mail"]
             if "phone" in data:
                 account.phone = data["phone"]
-            if "description" in data:
-                account.description = data["description"]
             if "address" in data:
                 account.address = data["address"]
             if "password" in data:
@@ -96,14 +91,28 @@ def modify_account():
 def delete_account():
     try:
         account_id = request.args.get('id')
-        with get_db_session(session["db.name"]) as db_session:
-            account = db_session.query(Account).filter_by(id=account_id).first()
+        with (get_db_session(session["db.name"]) as client_db,
+              get_db_session("Users") as users_db):
+            account = client_db.query(Account).filter_by(id=account_id).first()
+            user = users_db.query(User).filter_by(mail=account.mail).first()
             if not account:
-                return jsonify({"error": "Cuenta no encontrado"}), 404
-            db_session.delete(account)
-            db_session.commit()
-        return jsonify({"message": "Cuenta eleminada correctamente"}), 200
+                return jsonify({"error": "Cuenta no encontrada"}), 404
+            client_db.delete(account)
+            users_db.delete(user)
+            client_db.commit()
+            users_db.commit()
+        return jsonify({"message": "Cuenta eliminada correctamente"}), 200
     except Exception as e:
+        try:
+            if client_db:
+                client_db.rollback()
+        except SQLAlchemyError:
+            pass
+        try:
+            if users_db:
+                users_db.rollback()
+        except SQLAlchemyError:
+            pass
         return jsonify({"error": str(e)}), 500
 
 

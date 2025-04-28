@@ -1,106 +1,119 @@
-// Función para recuperar los datos del formulario
-function recuperarDatos() {
-    // Obtener valores de los campos del formulario
-    const name = document.getElementById('company').value.trim();
-    const email = document.getElementById('email').value.trim();
-    const password = document.getElementById('password').value;
-    const phone = document.getElementById('phone').value.trim();
-    const description = document.getElementById('descripcion').value.trim();
-    const address = document.getElementById('direccion').value.trim();
+/* global Swal */
 
-    // Crear objeto con los datos
+function getFormData() {
     return {
-        name: name,
-        mail: email,
-        password: password,
-        phone: phone || null,
-        description: description || null,
-        address: address || null
-    }; // Devuelve el objeto directamente (no stringify)
+        name: document.getElementById('company').value.trim(),
+        mail: document.getElementById('email').value.trim(),
+        password: document.getElementById('password').value,
+        confirm_password: document.getElementById('confirm-password').value,
+        phone: document.getElementById('phone').value.trim() || null,
+        description: document.getElementById('descripcion').value.trim() || null,
+        address: document.getElementById('direccion').value.trim() || null
+    };
 }
 
-// Función para validar el formulario
-function validateRegistrationForm() {
-    const errors = [];
-    const data = recuperarDatos();
-    const email = document.getElementById('email').value.trim();
-    const confirm_password = document.getElementById('confirm-password').value;
-    // Validar campo nombre
-    if (!data.name) {
-        errors.push("El nombre debe tener al menos 2 caracteres");
-    }
+///TODO. Reutilizar modales, crear nuevos modelos
+function showErrorAlert(title, errors) {
+    return Swal.fire({
+        icon: 'error',
+        title: title,
+        html: Array.isArray(errors) ? errors.join('<br>') : errors,
+        confirmButtonText: 'Entendido'
+    });
+}
 
-    // Validar email
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (!emailRegex.test(data.mail)) {
-        errors.push("Por favor ingrese un email válido");
-    }
+function showOkAlert(title, text) {
+    return Swal.fire({
+        icon: 'success',
+        title: title,
+        html: Array.isArray(text) ? text.join('<br>') : text,
+        confirmButtonText: 'Entendido'
+    });
+}
 
-    // Validar contraseña
-    if (!data.password || (data.password.length < 8)) {
-        errors.push("La contraseña debe tener al menos 8 caracteres");
+// TODO. comprobar si existe la empresa
+async function isValidForm(data) {
+    const errorText = [];
+    const verifyEmailResponse = await fetch(`${BASE_URL}/check_mail?mail=${data.mail}`);
+    if (verifyEmailResponse.ok) {
+        errorText.push("Ya existe una cuenta asociada a este correo.");
     }
-
-    if (data.password !== confirm_password) {
-        errors.push("Ambas contraseñas deben coincidir.")
+    if (data.password.length < 8) {
+        errorText.push("La contraseña debe tener al menos 8 caracteres");
     }
-
-    // Mostrar errores si existen
-    if (errors.length > 0) {
-        const mensaje = errors.join('<br>');
-        Swal.fire({
-            icon: 'error',
-            title: 'Errores en el formulario',
-            html: mensaje,
-            confirmButtonText: 'Entendido'
-        });
+    if (data.password !== data.confirm_password) {
+        errorText.push("Ambas contraseñas deben coincidir.");
+    }
+    if (errorText.length > 0) {
+        showErrorAlert('Error en el formulario', errorText);
         return false;
     }
-
     return true;
 }
 
-// Función principal para manejar el registro
-document.addEventListener("DOMContentLoaded", function() {
-    document.getElementById('registrationForm').addEventListener('submit', async function(event) {
+/// TODO. Añadir aviso de que se esta creando la cuenta. NO AÑADIR, rompe CSS
+document.addEventListener("DOMContentLoaded", () => {
+    const form = document.getElementById('registrationForm')
+    form.addEventListener('submit', async (event) => {
         event.preventDefault();
-
-        if (!validateRegistrationForm()) {
-            return;
-        }
-
-        const registerData = recuperarDatos();
-
-        try {
-            const response = await fetch('http://127.0.0.1:4000/register', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(registerData) // Aquí se convierte a JSON
-            });
-            const result = await response.json();
-            
-            if (response.ok) {
-                console.log("Entra aqui");
-                window.location.href = `http://127.0.0.1:4000/login`;
-            } else {
-                console.log(result.message)
+        const registerData = getFormData();
+        if (await isValidForm(registerData)) {
+            try {
+                const sendResponse = await fetch(`${BASE_URL}/send_verification_code?mail=${encodeURIComponent(registerData.mail)}`);
+                if (!sendResponse.ok) {
+                    showErrorAlert("Error", "No se pudo enviar el código de verificación.");
+                    return;
+                }
                 Swal.fire({
-                    icon: 'error',
-                    title: "Error en el servidor.",
-                    html: result.message,
-                    confirmButtonText: 'Entendido'
+                    title: 'Verificación para crear la cuenta',
+                    input: 'text',
+                    inputLabel: 'El código se ha enviado a tu correo',
+                    inputPlaceholder: 'Código de verificación',
+                    confirmButtonText: 'Verificar',
+                    showCancelButton: true,
+                    cancelButtonText: 'Salir',
+                    preConfirm: (code) => {
+                        if (!code) {
+                            Swal.showValidationMessage('Debes introducir un código');
+                        }
+                        return code;
+                    }
+                }).then(async result => {
+                    if (result.isConfirmed) {
+                        const code = result.value;
+                        const checkResponse = await fetch(`${BASE_URL}/check_verification_code`, {
+                            method: 'POST',
+                            headers: {'Content-Type': 'application/json'},
+                            body: JSON.stringify({ code })
+                        });
+                        if (checkResponse.ok) {
+                            const response = await fetch(`${BASE_URL}/register`, {
+                                method: 'POST',
+                                headers: {'Content-Type': 'application/json'},
+                                body: JSON.stringify(registerData)
+                            });
+                            const result = await response.json();
+                            if (response.ok) {
+                                showOkAlert("¡Cuenta creada!", "Tu cuenta ha sido creada correctamente.")
+                                    .then(() => {
+                                        window.location.href = `${BASE_URL}/home`
+                                    });
+                            } else {
+                                showErrorAlert("Error al crear la cuenta.", result.message);
+                            }
+                        } else {
+                            showErrorAlert("Código incorrecto", "El código de verificación no es válido.");
+                        }
+                    }
                 });
+            } catch (error) {
+                showErrorAlert("Error de red", "No se pudo conectar con el servidor.");
+                console.error("Error:", error);
             }
-        } catch (error) {
-            console.error("Error:", error);
         }
     });
-
-    // Botón para volver al login
-    document.getElementById('VolverLogIn').addEventListener('click', function(e) {
+    document.getElementById('VolverLogIn').addEventListener('click', (e) => {
         e.preventDefault();
-        window.location.href = 'http://127.0.0.1:4000/login';
+        window.location.href = `${BASE_URL}/login`;
     });
 });

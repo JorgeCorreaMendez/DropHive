@@ -18,24 +18,23 @@ class Product(Base):
     sizes = relationship("Size", back_populates="product", cascade="all, delete-orphan")
 
     @property
-    def total_quantity(self):
+    def quantity(self):
         return sum(size.quantity for size in self.sizes)
 
     def __str__(self):
         return "{}, {}, {}".format(self.id, self.name, self.description)
 
-    # TODO. cambiar quantity en el front
     def serialize(self):
         return {
-            "product_id": self.id,
+            "id:": self.id,
             "name": self.name,
             "description": self.description,
             "price": self.price,
             "category_id": self.category_id,
             "discount": self.discount,
-            "quantity": self.total_quantity,
+            "quantity": self.quantity,
             "size": [size.serialize() for size in self.sizes]
         }
 
     def get_total_quantity(self):
-        return self.total_quantity
+        return self.quantity
