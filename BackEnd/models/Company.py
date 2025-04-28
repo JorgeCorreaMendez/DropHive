@@ -4,6 +4,7 @@ from sqlalchemy.orm import relationship
 from BackEnd.models import Base
 
 
+# TODO. cambiar a base de datos User
 class Company(Base):
     __tablename__ = 'companies'
 

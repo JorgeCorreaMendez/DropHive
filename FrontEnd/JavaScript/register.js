@@ -1,7 +1,5 @@
 /* global Swal */
 
-const BASE_URL = "http://127.0.0.1:4000"; // TODO. variable global para js
-
 function getFormData() {
     return {
         name: document.getElementById('company').value.trim(),
@@ -14,6 +12,7 @@ function getFormData() {
     };
 }
 
+///TODO. Reutilizar modales, crear nuevos modelos
 function showErrorAlert(title, errors) {
     return Swal.fire({
         icon: 'error',
@@ -32,9 +31,13 @@ function showOkAlert(title, text) {
     });
 }
 
-/// TODO. se debe comprobar el correo no esta en la base de datos
-function isValidForm(data) {
+// TODO. comprobar si existe la empresa
+async function isValidForm(data) {
     const errorText = [];
+    const verifyEmailResponse = await fetch(`${BASE_URL}/check_mail?mail=${data.mail}`);
+    if (verifyEmailResponse.ok) {
+        errorText.push("Ya existe una cuenta asociada a este correo.");
+    }
     if (data.password.length < 8) {
         errorText.push("La contraseña debe tener al menos 8 caracteres");
     }
@@ -48,13 +51,13 @@ function isValidForm(data) {
     return true;
 }
 
+/// TODO. Añadir aviso de que se esta creando la cuenta. NO AÑADIR, rompe CSS
 document.addEventListener("DOMContentLoaded", () => {
     const form = document.getElementById('registrationForm')
     form.addEventListener('submit', async (event) => {
         event.preventDefault();
         const registerData = getFormData();
-
-        if (isValidForm(registerData)) {
+        if (await isValidForm(registerData)) {
             try {
                 const sendResponse = await fetch(`${BASE_URL}/send_verification_code?mail=${encodeURIComponent(registerData.mail)}`);
                 if (!sendResponse.ok) {
