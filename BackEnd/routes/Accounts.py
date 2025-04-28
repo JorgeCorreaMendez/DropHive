@@ -27,6 +27,7 @@ def create_account():
     data = request.get_json()
     db_name = session["db.name"]
     mail = data.get("mail")
+    user_id = data.get("user_id")
     password = data.get("password")
     if not db_name or not mail or not password:
         return jsonify({"error": "Faltan datos obligatorios"}), 400
@@ -36,6 +37,7 @@ def create_account():
             if client_session.query(Account).filter_by(mail=mail).first() or user_session.query(User).filter_by(mail=mail).first():
                 return jsonify({"error": "El correo ya está registrado"}), 400
             new_account = Account(
+                id = user_id,
                 name=db_name,
                 mail=mail,
                 password=create_hash(password),
