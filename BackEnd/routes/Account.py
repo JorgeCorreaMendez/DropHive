@@ -1,6 +1,8 @@
 from flask import jsonify, Blueprint, request, session
+from sqlalchemy.exc import SQLAlchemyError
 
 from BackEnd.models.Account import Account
+from BackEnd.models.User import User
 from BackEnd.routes.Auth import login_required
 from BackEnd.services.user_service import get_user_by
 from BackEnd.utils.bcrypt_methods import create_hash
@@ -77,20 +79,33 @@ def modify_account():
         return jsonify({"error": str(e)}), 500
 
 
-# TODO. se tienen que eliminar todas las cuentas de user
 @accounts_bp.route("/delete_account", methods=["GET"])
 @login_required
 def delete_account():
     try:
         account_id = request.args.get('id')
-        with get_db_session(session["db.name"]) as db_session:
-            account = db_session.query(Account).filter_by(id=account_id).first()
+        with (get_db_session(session["db.name"]) as client_db,
+              get_db_session("Users") as users_db):
+            account = client_db.query(Account).filter_by(id=account_id).first()
+            user = users_db.query(User).filter_by(mail=account.mail).first()
             if not account:
-                return jsonify({"error": "Cuenta no encontrado"}), 404
-            db_session.delete(account)
-            db_session.commit()
-        return jsonify({"message": "Cuenta eleminada correctamente"}), 200
+                return jsonify({"error": "Cuenta no encontrada"}), 404
+            client_db.delete(account)
+            users_db.delete(user)
+            client_db.commit()
+            users_db.commit()
+        return jsonify({"message": "Cuenta eliminada correctamente"}), 200
     except Exception as e:
+        try:
+            if client_db:
+                client_db.rollback()
+        except SQLAlchemyError:
+            pass
+        try:
+            if users_db:
+                users_db.rollback()
+        except SQLAlchemyError:
+            pass
         return jsonify({"error": str(e)}), 500
 
 

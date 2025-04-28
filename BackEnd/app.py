@@ -1,7 +1,7 @@
 import os
 
 from flask import Flask
-from BackEnd.routes.Accounts import accounts_bp
+from BackEnd.routes.Account import accounts_bp
 from BackEnd.routes.Auth import auth_bp
 from BackEnd.routes.Category import categories_bp
 from BackEnd.routes.Company import companies_bp

@@ -1,9 +1,8 @@
 import pytest
-from flask import session
-from BackEnd.routes.Accounts import accounts_bp
-from BackEnd.models.Account import Account
-from BackEnd.utils.bcrypt_methods import create_hash
 from flask import Flask
+
+from BackEnd.routes.Account import accounts_bp
+
 
 # App de prueba
 @pytest.fixture

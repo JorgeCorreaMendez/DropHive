@@ -3,7 +3,6 @@ import random
 
 from flask import Blueprint, session, jsonify, request
 
-from BackEnd.routes.Accounts import accounts_bp
 from BackEnd.services.user_service import get_user_by
 from BackEnd.utils.flask_mail_methods import send_email
 

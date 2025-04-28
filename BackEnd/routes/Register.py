@@ -12,18 +12,21 @@ from BackEnd.utils.sqlalchemy_methods import get_db_session, get_engine
 registro_bp = Blueprint("registro", __name__)
 
 
-def register_company(user_data):
-    db_name = user_data.name
+@registro_bp.route("/register", methods=["POST"])
+def register():
     try:
+        data = request.get_json()
+        user_data = UserRegisterSchema(**data)
+        db_name = user_data.name
         Base.metadata.create_all(get_engine(db_name))
-        with (get_db_session(db_name) as client_session,
-              get_db_session("Users") as user_session):
+        with (get_db_session(db_name) as client_db,
+              get_db_session("Users") as users_db):
             new_company = Company(
                 name=db_name,
                 description=user_data.description,
             )
-            client_session.add(new_company)
-            client_session.flush()
+            client_db.add(new_company)
+            client_db.flush()
             new_account = Account(
                 name="Admin",
                 mail=user_data.mail,
@@ -37,28 +40,20 @@ def register_company(user_data):
                 mail=user_data.mail,
                 db_name=db_name
             )
-            client_session.add(new_account)
-            user_session.add(new_user)
-            client_session.commit()
-            user_session.commit()
-        return True, f"Company {db_name} registered successfully."
+            client_db.add(new_account)
+            users_db.add(new_user)
+            client_db.commit()
+            users_db.commit()
+        return jsonify({"message": f"Company {db_name} registered successfully."}), 200
     except Exception as e:
         try:
-            client_session.rollback()
+            if client_db:
+                client_db.rollback()
         except SQLAlchemyError:
             pass
         try:
-            user_session.rollback()
+            if users_db:
+                users_db.rollback()
         except SQLAlchemyError:
             pass
-        return False, e
-
-
-@registro_bp.route("/register", methods=["POST"])
-def register():
-    data = request.get_json()
-    user_data = UserRegisterSchema(**data)
-    success, message = register_company(user_data)
-    if not success:
-        return jsonify({"error": str(message)}), 500
-    return jsonify({"message": str(message)}), 200
+        return jsonify({"error": str(e)}), 500

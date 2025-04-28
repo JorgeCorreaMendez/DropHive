@@ -36,7 +36,6 @@ def add_product():
             )
             db_session.add(new_product)
             db_session.flush()
-
             if "sizes" in data:
                 for size in data["sizes"]:
                     db_session.add(Size(
@@ -44,7 +43,6 @@ def add_product():
                         name=size["name"],
                         quantity=size["quantity"]
                     ))
-
             db_session.commit()
         return jsonify({"message": "Producto añadido correctamente"}), 200
     except Exception as e:
