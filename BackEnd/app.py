@@ -4,6 +4,7 @@ from flask import Flask
 from BackEnd.routes.Accounts import accounts_bp
 from BackEnd.routes.Auth import auth_bp
 from BackEnd.routes.Category import categories_bp
+from BackEnd.routes.Company import companies_bp
 from BackEnd.routes.Mail import email_bp
 from BackEnd.routes.Privilege import privileges_bp
 from BackEnd.routes.Product import products_bp
@@ -20,6 +21,7 @@ app.register_blueprint(products_bp)
 app.register_blueprint(privileges_bp)
 app.register_blueprint(accounts_bp)
 app.register_blueprint(categories_bp)
+app.register_blueprint(companies_bp)
 app.register_blueprint(email_bp)
 app.register_blueprint(pages_bp)
 app.config['APPLICATION_ROOT'] = '/'

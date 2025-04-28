@@ -38,7 +38,6 @@ def create_account():
                 mail=mail,
                 password=create_hash(password),
                 phone=data.get("phone"),
-                description=data.get("description"),
                 address=data.get("address")
             )
             db.add(new_account)
@@ -68,8 +67,6 @@ def modify_account():
                 account.mail = data["mail"]
             if "phone" in data:
                 account.phone = data["phone"]
-            if "description" in data:
-                account.description = data["description"]
             if "address" in data:
                 account.address = data["address"]
             if "password" in data:
@@ -80,6 +77,7 @@ def modify_account():
         return jsonify({"error": str(e)}), 500
 
 
+# TODO. se tienen que eliminar todas las cuentas de user
 @accounts_bp.route("/delete_account", methods=["GET"])
 @login_required
 def delete_account():
