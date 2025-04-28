@@ -60,7 +60,7 @@
     <!-- Fila inferior -->
     <div class="flex gap-6">
       <!-- Abajo izquierda: Tabla empleados -->
-      <main class="w-3/4 bg-[#EDEDED] p-6 rounded-[20px]">
+      <main-container class="w-3/4 bg-[#EDEDED] p-6 rounded-[20px]">
         <h2 class="text-xl font-bold mb-4">Employees</h2>
         <table class="w-full rounded border-separate border-spacing-y-[10px] border-spacing-x-[5px]">
           <thead class="thead-line">
@@ -86,7 +86,7 @@
           <span id="page-number" class="text-lg font-semibold">1</span>
           <button id="next-button" class="px-3 py-1 rounded bg-gray-300 hover:bg-gray-400">→</button>
         </div>
-      </main>
+      </main-container>
 
       <!-- Abajo derecha: Botones empleados -->
       <aside class="w-1/4 bg-[#EDEDED] p-6 rounded-[20px] flex flex-col items-center gap-4">
@@ -121,7 +121,7 @@
   </div>
 </div>
 
-<!-- <link rel="stylesheet" href="{{ url_for('static', filename='CSS/viewEmployeeActions.css') }}"> -->
+ <link rel="stylesheet" href="{{ url_for('static', filename='CSS/viewEmployeeActions.css') }}">
 
 <link rel="stylesheet" href="{{ url_for('static', filename='CSS/addEmployee.css') }}">
 
