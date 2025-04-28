@@ -1,7 +1,6 @@
 from functools import wraps
 
 from flask import request, jsonify, session, Blueprint, redirect, url_for
-from sympy import false
 
 from BackEnd.models.Account import Account
 from BackEnd.models.User import User
@@ -42,6 +41,7 @@ def logout():
     session.pop("user", None)
     return jsonify({"message": "Sesión cerrada correctamente"}), 200
 
+#TODO.
 @auth_bp.route("/aceptar_primer_login")
 def modificar_registro():
     mail = request.args.get("mail")
@@ -54,10 +54,12 @@ def modificar_registro():
     except Exception as e:
         return jsonify({"error": str(e)}), 500
 
+
 def login_required(route_function):
     @wraps(route_function)
     def decorated_function(*args, **kwargs):
         if "user" not in session:
             return redirect(url_for("pages.login"))
         return route_function(*args, **kwargs)
+
     return decorated_function
