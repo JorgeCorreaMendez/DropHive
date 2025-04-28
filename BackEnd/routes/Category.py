@@ -17,7 +17,6 @@ def get_category():
     except Exception as e:
         return jsonify({"error": str(e)}), 500
 
-
 @categories_bp.route("/get_category")
 @login_required
 def search_category():

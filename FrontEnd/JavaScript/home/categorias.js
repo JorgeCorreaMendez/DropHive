@@ -1,4 +1,5 @@
 import {openModal} from "../modals/abrirYCerrarModal.js";
+import {agregarCategoria} from "../addAndModifyCategory.js";
 
 export async function addInformacionFilaCategoria(item) {
     const row = document.createElement('tr');
@@ -57,4 +58,7 @@ export async function cargarModalCrearCategoria() {
     const response = await fetch(`/addAndModifyCategory`);
     const html = await response.text();
     openModal(html);
+    setTimeout(() => {
+      document.getElementById("save-btn1")?.addEventListener("click", agregarCategoria);
+    }, 50);
 }
