@@ -42,7 +42,7 @@ def logout():
     session.pop("user", None)
     return jsonify({"message": "Sesión cerrada correctamente"}), 200
 
-@auth_bp.route("/cambio_primer_login")
+@auth_bp.route("/aceptar_primer_login")
 def modificar_registro():
     mail = request.args.get("mail")
     try:
