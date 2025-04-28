@@ -3,6 +3,7 @@ from sqlalchemy.exc import SQLAlchemyError
 
 from BackEnd.models import Base
 from BackEnd.models.Account import Account
+from BackEnd.models.Company import Company
 from BackEnd.models.User import User
 from BackEnd.schemas import UserRegisterSchema
 from BackEnd.utils.bcrypt_methods import create_hash
@@ -17,14 +18,20 @@ def register_company(user_data):
         Base.metadata.create_all(get_engine(db_name))
         with (get_db_session(db_name) as client_session,
               get_db_session("Users") as user_session):
+            new_company = Company(
+                name=db_name,
+                description=user_data.description,
+            )
+            client_session.add(new_company)
+            client_session.flush()
             new_account = Account(
-                name=user_data.name,
+                name="Admin",
                 mail=user_data.mail,
                 password=create_hash(user_data.password),
                 phone=user_data.phone,
-                description=user_data.description,
                 address=user_data.address,
-                privilege_id=user_data.privilege_id
+                privilege_id=user_data.privilege_id,
+                company_id=new_company.id
             )
             new_user = User(
                 mail=user_data.mail,
