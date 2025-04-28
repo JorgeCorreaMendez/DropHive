@@ -22,6 +22,11 @@ def register_company(user_data):
             new_privilege = Privilege(id=1, name="Administrador")
             print(new_privilege)
 
+            new_privilege = Privilege(
+                id=1,
+                name="Administrador"
+            );
+
             new_account = Account(
                 name=user_data.name,
                 mail=user_data.mail,
@@ -36,6 +41,7 @@ def register_company(user_data):
                 db_name=db_name
             )
             client_session.add(new_account)
+            client_session.add(new_privilege)
             user_session.add(new_user)
             client_session.add(new_privilege)
             client_session.commit()
