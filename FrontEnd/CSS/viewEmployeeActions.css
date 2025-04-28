@@ -77,25 +77,23 @@ main {
     text-align: center !important;
 }
 
-/* Modifica la clase .button-wrapper para hacerla más pequeña */
 .button-wrapper {
     background-color: #ccc;
-    padding: 0.5rem; /* Reducir el padding */
+    padding: 0.5rem;
     border-radius: 0.75rem;
-    display: inline-flex; /* Cambiar de flex a inline-flex */
+    display: inline-flex;
     justify-content: center;
     box-shadow: 0 0 0.375rem rgba(0, 0, 0, 0.06);
-    width: auto; /* Quitar el width: 100% */
+    width: auto;
     margin-left: 225px;
 }
 
-/* Estilos específicos para el botón de borrar */
 .delete_button button {
     display: flex;
     align-items: center;
     justify-content: center;
     gap: 8px;
-    padding: 8px 16px; /* Ajustar padding interno */
+    padding: 8px 16px;
     background-color: #f0f0f0;
     border: 1px solid #aaa;
     border-radius: 6px;
@@ -107,7 +105,6 @@ main {
     background-color: #e0e0e0;
 }
 
-/* Opcional: ajustar el tamaño del icono */
 .icon {
     width: 14px;
     height: 14px;
