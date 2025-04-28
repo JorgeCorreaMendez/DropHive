@@ -38,7 +38,8 @@ def register_company(user_data):
             )
             new_user = User(
                 mail=user_data.mail,
-                db_name=db_name
+                db_name=db_name,
+                first_login=False
             )
             client_session.add(new_account)
             client_session.add(new_privilege)
