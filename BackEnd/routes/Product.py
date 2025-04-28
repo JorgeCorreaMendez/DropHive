@@ -130,7 +130,7 @@ def filter_products():
             if max_quantity:
                 query_quantity = get_total_quantity_query(db_session)
                 query = query.join(query_quantity, Product.id == query_quantity.c.id)
-                query = query.filter(query_quantity.c.total_quantity <= int(max_quantity))
+                query = query.filter(query_quantity.c.quantity <= int(max_quantity))
             query = query.limit(limit).offset(offset)
             return jsonify([product.serialize() for product in query.all()]), 200
     except Exception as e:

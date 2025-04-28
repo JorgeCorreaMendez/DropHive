@@ -26,7 +26,7 @@ def send_verification_code():
         return jsonify({"error": str(e)}), 500
 
 
-@accounts_bp.route("/check_mail")
+@email_bp.route("/check_mail")
 def check_mail():
     mail = request.args.get('mail')
     try:

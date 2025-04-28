@@ -5,7 +5,6 @@ from BackEnd.models import Base
 
 
 # TODO. eliminar privilege_id y company_id
-# TODO. cambiar descripción, no tiene sentido
 class Account(Base):
     __tablename__ = 'accounts'
 

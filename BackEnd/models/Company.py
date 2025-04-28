@@ -4,7 +4,6 @@ from sqlalchemy.orm import relationship
 from BackEnd.models import Base
 
 
-# TODO. añadir descripción
 class Company(Base):
     __tablename__ = 'companies'
 
