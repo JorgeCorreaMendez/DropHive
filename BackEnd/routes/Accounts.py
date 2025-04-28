@@ -43,7 +43,8 @@ def create_account():
                 password=create_hash(password),
                 phone=data.get("phone"),
                 description=data.get("description"),
-                address=data.get("address")
+                address=data.get("address"),
+                privilege_id=1
             )
             new_user = User(
                 mail=mail,

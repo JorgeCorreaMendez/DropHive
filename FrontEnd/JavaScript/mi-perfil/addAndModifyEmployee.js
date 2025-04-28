@@ -54,6 +54,8 @@ async function crearCuentaEmpleado() {
                 text: 'An email will be sent to the new user',
                 timer: 2500,
                 showConfirmButton: false
+            }).then(() => {
+                window.location.reload();
             })
         } else {
             modal.classList.add('hidden');
