@@ -1,5 +1,4 @@
 from flask import Blueprint, request, jsonify
-from sqlalchemy import inspect
 from sqlalchemy.exc import SQLAlchemyError
 
 from BackEnd.models import Base
@@ -8,22 +7,20 @@ from BackEnd.models.Company import Company
 from BackEnd.models.User import User
 from BackEnd.schemas import UserRegisterSchema
 from BackEnd.utils.bcrypt_methods import create_hash
-from BackEnd.utils.sqlalchemy_methods import get_db_session, get_engine
+from BackEnd.utils.sqlalchemy_methods import get_db_session, get_engine, database_exists
 
 registro_bp = Blueprint("registro", __name__)
 
-# TODO. cambiar inspect a su paquete correspondiente
+
 @registro_bp.route("/register", methods=["POST"])
 def register():
     try:
         user_data = UserRegisterSchema(**request.get_json())
         db_name = user_data.name
-        engine = get_engine(db_name)
-        if inspect(engine).get_table_names():
+        if database_exists(db_name):
             return jsonify({"error": "La empresa ya está registrada."}), 400
-
+        engine = get_engine(db_name)
         Base.metadata.create_all(engine)
-
         with (get_db_session(db_name) as client_db,
               get_db_session("Users") as users_db):
             new_company = Company(
