@@ -1,8 +1,10 @@
 from functools import wraps
 
 from flask import request, jsonify, session, Blueprint, redirect, url_for
+from sympy import false
 
 from BackEnd.models.Account import Account
+from BackEnd.models.User import User
 from BackEnd.services.user_service import get_user_by
 from BackEnd.utils.bcrypt_methods import verify_hash
 from BackEnd.utils.sqlalchemy_methods import get_db_session
@@ -40,6 +42,17 @@ def logout():
     session.pop("user", None)
     return jsonify({"message": "Sesión cerrada correctamente"}), 200
 
+@auth_bp.route("/cambio_primer_login")
+def modificar_registro():
+    mail = request.args.get("mail")
+    try:
+        with get_db_session("Users") as user_session:
+            user = user_session.query(User).filter_by(mail=mail).first()
+            user.first_login = False
+            user_session.commit()
+        return jsonify({"message": "Cambio de contraseña aceptado."}), 200
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
 
 def login_required(route_function):
     @wraps(route_function)
