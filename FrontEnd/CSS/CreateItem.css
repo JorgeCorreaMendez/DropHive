@@ -7,6 +7,8 @@
   margin: 2.5em auto;       /* 40px auto */
 }
 
+
+
 /* 2) Form interior */
 .create-product-container {
   background: white;
@@ -22,8 +24,8 @@
 .top-section {
   display: flex;
   justify-content: space-between;
-  align-items: center;
-  gap: 1.25em;             /* 20px */
+  align-items: flex-start; /* <--- CAMBIAR center por flex-start */
+  gap: 1.25em;
   flex-wrap: wrap;
 }
 

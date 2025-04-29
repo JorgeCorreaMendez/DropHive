@@ -4,14 +4,13 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Añadir Producto</title>
-  <link rel="stylesheet" href="styles.css">
   <!-- Cargamos tu JS como módulo y defer para que el DOM ya exista -->
-  <script type="module" src="createItem.js" defer></script>
 </head>
 <body class="add-product">
 <div class="outer-container">
   <div id="createProductForm" class="create-product-container">
 
+<main class="container mx-auto p-6 bg-[#EDEDED] m-[10px] mt-[25px] rounded-[20px]">
     <!-- TOP SECTION -->
     <div class="top-section">
       <!-- IZQUIERDA: imagen + nombre + ID -->
@@ -34,6 +33,7 @@
           </div>
         </div>
 
+
         <!-- Categorías -->
         <div class="category-container">
           <label for="new-category" class="category-label">Primary Category:</label>
@@ -50,14 +50,8 @@
         <button class="save-btn" id="save-changes-btn" type="submit">Save Changes</button>
       </div>
     </div>
+    </main>
 
-    <!-- (OPCIONAL) Tabla de listados -->
-    <table class="w-full rounded border-separate border-spacing-y-[10px] border-spacing-x-[5px]">
-      <thead class="bg-transparent">
-      <tr id="cabecera-tabla"><!-- encabezados... --></tr>
-      </thead>
-      <tbody id="table-body"><!-- filas... --></tbody>
-    </table>
 
     <!-- DESCRIPTION -->
     <div class="description-container">
@@ -66,10 +60,11 @@
     </div>
 
     <!-- BOTTOM SECTION -->
-    <main class="w-full p-6 bg-[#EDEDED] m-[10px] mt-[25px] rounded-[20px]">
+  <main class="container mx-auto p-6 bg-[#EDEDED] m-[10px] mt-[25px] rounded-[20px]">
       <div class="flex gap-8">
         <table class="w-full rounded border-separate border-spacing-y-[4px] border-spacing-x-[5px]">
-          <tr class="bg-transparent align-top">
+          <thead class="no-background thead-line">
+          <tr id="cabecera-tabla" class="bg-transparent align-top">
             <!-- Size + Input -->
             <th class="text-left px-4 py-2 font-semibold align-top">
               <div class="flex flex-col gap-2">
@@ -93,13 +88,13 @@
 
             <!-- Price and Discount Column -->
             <th class="text-left px-4 py-2 font-semibold align-top">
+               <span>Price:</span>
               <div class="flex flex-col gap-2">
                 <div class="flex items-center gap-2">
-                  <span>Price:</span>
                   <input id="price" class="w-40 bg-gray-100 rounded-full outline-none px-2 py-1 text-sm text-left" placeholder="€0.00">
                 </div>
+                <span>Discount:</span>
                 <div class="flex items-center gap-2">
-                  <span>Discount:</span>
                   <input id="discount" class="w-40 bg-gray-100 rounded-full outline-none px-2 py-1 text-sm text-left" placeholder="%">
                 </div>
               </div>
