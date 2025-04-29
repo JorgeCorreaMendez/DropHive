@@ -1,9 +1,12 @@
+import traceback
+
 from flask import Blueprint, request, jsonify
 from sqlalchemy.exc import SQLAlchemyError
 
 from BackEnd.models import Base
 from BackEnd.models.Account import Account
 from BackEnd.models.Company import Company
+from BackEnd.models.Privilege import Privilege
 from BackEnd.models.User import User
 from BackEnd.schemas import UserRegisterSchema
 from BackEnd.utils.bcrypt_methods import create_hash
@@ -18,7 +21,8 @@ def register():
         user_data = UserRegisterSchema(**request.get_json())
         db_name = user_data.name
         if database_exists(db_name):
-            return jsonify({"error": "La empresa ya está registrada."}), 400
+            print("Error, la empresa ya está registrada.")
+            return jsonify({"error": "La empresa ya está registrada."}), 409
         engine = get_engine(db_name)
         Base.metadata.create_all(engine)
         with (get_db_session(db_name) as client_db,
@@ -29,7 +33,6 @@ def register():
             )
             client_db.add(new_company)
             client_db.flush()
-            new_privilege = Privilege(id=1, name="Administrador")
             new_privilege = Privilege(
                 id=1,
                 name="Administrador"
@@ -48,13 +51,13 @@ def register():
                 db_name=db_name,
                 first_login=False
             )
-            client_session.add(new_account)
-            client_session.add(new_privilege)
-            user_session.add(new_user)
-            client_session.commit()
-            user_session.commit()
-        return jsonify({"message": f"Company {db_name} registered successfully."}), 200
-    except Exception as e:
+            client_db.add(new_account)
+            client_db.add(new_privilege)
+            users_db.add(new_user)
+            client_db.commit()
+            users_db.commit()
+        return jsonify({"message": f"Company {db_name} registered successfully."}), 201
+    except SQLAlchemyError:
         try:
             if client_db:
                 client_db.rollback()
@@ -65,4 +68,6 @@ def register():
                 users_db.rollback()
         except SQLAlchemyError:
             pass
-        return jsonify({"error": str(e)}), 500
+        print("Ocurrio un error: ")
+        traceback.print_exc()
+        return jsonify({"Ocurrio un error creando la cuenta"}), 500

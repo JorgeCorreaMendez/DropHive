@@ -1,4 +1,7 @@
+import traceback
+
 from flask import request, jsonify, Blueprint, session
+from sqlalchemy.exc import SQLAlchemyError
 
 from BackEnd.models.Category import Category
 from BackEnd.models.Product import Product
@@ -10,14 +13,16 @@ from BackEnd.utils.sqlalchemy_methods import get_db_session
 products_bp = Blueprint("products", __name__)
 
 
-@products_bp.route("/products")
+@products_bp.route("/products", methods=["GET"])
 @login_required
 def get_products():
     try:
         return jsonify(get_all_values_from(Product, session["db.name"])), 200, {
             'Content-Type': 'application/json; charset=utf-8'}
-    except Exception as e:
-        return jsonify({"error": str(e)}), 500
+    except SQLAlchemyError:
+        print("Error, obteniendo los productos")
+        traceback.print_exc()
+        return jsonify({"error": "obteniendo los productos"}), 500
 
 
 @products_bp.route("/add_product", methods=["POST"])
@@ -44,9 +49,11 @@ def add_product():
                         quantity=size["quantity"]
                     ))
             db_session.commit()
-        return jsonify({"message": "Producto añadido correctamente"}), 200
-    except Exception as e:
-        return jsonify({"error": str(e)}), 500
+        return jsonify({"message": "Producto añadido correctamente"}), 201
+    except SQLAlchemyError:
+        print("Error, añadiendo un nuevo producto")
+        traceback.print_exc()
+        return jsonify({"error": "añadiendo un nuevo producto"}), 500
 
 
 @products_bp.route("/modify_product", methods=["POST"])
@@ -58,6 +65,7 @@ def modify_product():
         with get_db_session(session["db.name"]) as db_session:
             product = db_session.query(Product).filter_by(id=id_product).first()
             if not product:
+                print("Error, producto no encontrado")
                 return jsonify({"error": "Producto no encontrado"}), 404
             if "name" in data:
                 product.name = data["name"]
@@ -71,28 +79,34 @@ def modify_product():
                 product.discount = data["discount"]
             db_session.commit()
         return jsonify({"message": "Producto modificado correctamente"}), 200
-    except Exception as e:
-        return jsonify({"error": str(e)}), 500
+    except SQLAlchemyError:
+        print("Error, modificando productos")
+        traceback.print_exc()
+        return jsonify({"error": "modificando productos"}), 500
 
 
-@products_bp.route("/delete_product", methods=["GET"])
+@products_bp.route("/delete_product", methods=["DELETE"])
 @login_required
 def delete_product():
     try:
         id_product = request.args.get('id')
-        print(id_product)
         with get_db_session(session["db.name"]) as db_session:
             product = db_session.query(Product).filter_by(id=id_product).first()
             if not product:
+                print("Error, producto no encontrado")
                 return jsonify({"error": "Producto no encontrado"}), 404
             db_session.delete(product)
             db_session.commit()
-        return jsonify({"message": "Producto eleminado correctamente"}), 200
-    except Exception as e:
-        return jsonify({"error": str(e)}), 500
+        return jsonify({"message": "Producto eliminado correctamente"}), 200
+    except SQLAlchemyError:
+        print("Error, eliminando el producto")
+        traceback.print_exc()
+        return jsonify({"error": "eliminando el producto"}), 500
 
 
-@products_bp.route('/filter_product_by_id')
+# TODO. cambiar ruta en front
+# TODO. crear servicio para filtrar por ID
+@products_bp.route('/filter_product_by_id', methods=["GET"])
 @login_required
 def search_product_by_id():
     try:
@@ -103,12 +117,14 @@ def search_product_by_id():
                 return jsonify([product.serialize() for product in products]), 200
             else:
                 return jsonify({"message": "No se encontraron productos con ese ID."}), 404
-    except Exception as e:
-        return jsonify({"error": str(e)}), 500
+    except SQLAlchemyError:
+        print("Error, buscando el producto")
+        traceback.print_exc()
+        return jsonify({"error": "buscando el producto"}), 500
 
 
 # TODO: Cambiar category_id en la DB
-@products_bp.route('/filter_products')
+@products_bp.route('/filter_products', methods=["GET"])
 @login_required
 def filter_products():
     try:
@@ -132,5 +148,7 @@ def filter_products():
                 query = query.filter(query_quantity.c.quantity <= int(max_quantity))
             query = query.limit(limit).offset(offset)
             return jsonify([product.serialize() for product in query.all()]), 200
-    except Exception as e:
-        return jsonify({"error": str(e)}), 500
+    except SQLAlchemyError:
+        print("Error, filtrando los productos")
+        traceback.print_exc()
+        return jsonify({"error": "filtrando los productos"}), 500
