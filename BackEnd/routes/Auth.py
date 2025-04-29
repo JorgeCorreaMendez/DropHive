@@ -1,7 +1,7 @@
+import traceback
 from functools import wraps
 
 from flask import request, jsonify, session, Blueprint, redirect, url_for
-from sympy import false
 
 from BackEnd.models.Account import Account
 from BackEnd.models.User import User
@@ -19,14 +19,17 @@ def login():
         mail = data.get("mail")
         password = data.get("password")
         if not mail or not password:
-            return jsonify({"message": "Correo y contraseña son requeridos."}), 400
+            print("Error, correo y contraseña son requeridos")
+            return jsonify({"error": "Correo y contraseña son requeridos."}), 400
         user = get_user_by(mail)
         if not user:
-            return jsonify({"message": "No existe esa cuenta."}), 400
+            print("Error, No existe la cuenta")
+            return jsonify({"error": "No existe la cuenta."}), 400
         with get_db_session(user.db_name) as account_session:
             account = account_session.query(Account).filter_by(mail=mail).first()
             if not verify_hash(password, account.password):
-                return jsonify({"message": "Credenciales incorrectas"}), 401
+                print("Error, Credenciales incorrectas")
+                return jsonify({"error": "Credenciales incorrectas"}), 401
             session["user"] = account.name
             session["db.name"] = user.db_name
             return jsonify({
@@ -34,6 +37,8 @@ def login():
                 "db_name": f"{user.db_name}"
             }), 200
     except Exception as e:
+        print("Ocurrio un error registrando la empresa: ")
+        traceback.print_exc()
         return jsonify({"error": str(e)}), 500
 
 
@@ -42,7 +47,9 @@ def logout():
     session.pop("user", None)
     return jsonify({"message": "Sesión cerrada correctamente"}), 200
 
-@auth_bp.route("/aceptar_primer_login")
+
+# TODO.
+@auth_bp.route("/aceptar_primer_login", methods=["POST"])
 def modificar_registro():
     mail = request.args.get("mail")
     try:
@@ -52,7 +59,10 @@ def modificar_registro():
             user_session.commit()
         return jsonify({"message": "Cambio de contraseña aceptado."}), 200
     except Exception as e:
+        print("Ocurrio un error acceptando el primer acceso: ")
+        traceback.print_exc()
         return jsonify({"error": str(e)}), 500
+
 
 def login_required(route_function):
     @wraps(route_function)
@@ -60,4 +70,5 @@ def login_required(route_function):
         if "user" not in session:
             return redirect(url_for("pages.login"))
         return route_function(*args, **kwargs)
+
     return decorated_function

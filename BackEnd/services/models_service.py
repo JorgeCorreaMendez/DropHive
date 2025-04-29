@@ -12,8 +12,8 @@ def get_all_values_from(model, dbname):
 def get_total_quantity_query(db_session):
     return (
         db_session.query(
-            Size.product_id.label('product_id'),
-            func.sum(Size.quantity).label('total_quantity')
+            Size.product_id.label('id'),
+            func.sum(Size.quantity).label('quantity')
         )
         .group_by(Size.product_id)
         .subquery()

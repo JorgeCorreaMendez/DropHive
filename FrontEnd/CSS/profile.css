@@ -206,7 +206,7 @@ button {
     flex: 1;
     display: flex;
     flex-direction: column;
-    height: 50%; /* Asegura que intente ocupar todo el alto disponible */
+    height: 50%; /* Asegura que intente ocupar tod el alto disponible */
     max-width: 12vw;
 }
 
