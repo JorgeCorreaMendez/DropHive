@@ -137,6 +137,7 @@
 }
 
 /* Save Changes Button */
+/* Save Changes Button con la misma animación que la categoría */
 .top-right .save-btn {
   background-color: #28a745;
   color: white;
@@ -145,11 +146,13 @@
   border-radius: 0.25em;
   font-weight: bold;
   cursor: pointer;
-  transition: background-color 0.3s;
+  transition: background-color 0.3s, transform 0.2s;
 }
 .top-right .save-btn:hover {
   background-color: #218838;
+  transform: scale(1.05);
 }
+
 
 /* Description */
 .description-container {

@@ -59,56 +59,68 @@
       <textarea id="description" placeholder="Add Description..."></textarea>
     </div>
 
-    <!-- BOTTOM SECTION -->
-  <main class="container mx-auto p-6 bg-[#EDEDED] m-[10px] mt-[25px] rounded-[20px]">
+    <main class="container mx-auto p-6 bg-[#EDEDED] m-[10px] mt-[25px] rounded-[20px]">
       <div class="flex gap-8">
         <table class="w-full rounded border-separate border-spacing-y-[4px] border-spacing-x-[5px]">
+          <!-- Encabezados en el thead -->
           <thead class="no-background thead-line">
-          <tr id="cabecera-tabla" class="bg-transparent align-top">
-            <!-- Size + Input -->
-            <th class="text-left px-4 py-2 font-semibold align-top">
-              <div class="flex flex-col gap-2">
-                <div class="flex items-center gap-2">
-                  <span>Size:</span>
-                  <input id="new-size" class="w-40 bg-gray-100 rounded-full outline-none px-2 py-1 text-sm text-left">
-                  <!-- Contenedor donde se inyectarán los nuevos inputs -->
-                </div>
-                <div id="div-sizes" class="mt-4 space-y-2"></div>
-              </div>
-            </th>
-
-            <!-- Quantity + Input -->
-            <th class="text-left px-4 py-2 font-semibold align-top">
-              <div class="flex items-center gap-2">
-                <span>Quantity:</span>
-                <input id="new-quantity" class="w-40 bg-gray-100 rounded-full outline-none px-2 py-1 text-sm text-left">
-              </div>
-              <div id="div-quantity" class="mt-4 space-y-2"></div>
-            </th>
-
-            <!-- Price and Discount Column -->
-            <th class="text-left px-4 py-2 font-semibold align-top">
-               <span>Price:</span>
-              <div class="flex flex-col gap-2">
-                <div class="flex items-center gap-2">
-                  <input id="price" class="w-40 bg-gray-100 rounded-full outline-none px-2 py-1 text-sm text-left" placeholder="€0.00">
-                </div>
-                <span>Discount:</span>
-                <div class="flex items-center gap-2">
-                  <input id="discount" class="w-40 bg-gray-100 rounded-full outline-none px-2 py-1 text-sm text-left" placeholder="%">
-                </div>
-              </div>
-            </th>
+          <tr class="bg-transparent">
+            <th class="text-left px-4 py-2 font-semibold">Size</th>
+            <th class="text-left px-4 py-2 font-semibold">Quantity</th>
+            <th class="text-left px-4 py-2 font-semibold">Price</th>
+            <th class="text-left px-4 py-2 font-semibold">Discount</th>
           </tr>
+          </thead>
+          <!-- Inputs en el tbody -->
+          <tbody>
+          <tr class="bg-transparent">
+            <!-- Size -->
+            <td class="px-4 py-2 align-top">
+              <div class="flex flex-col gap-2">
+                <input id="new-size"
+                       class="w-40 bg-gray-100 rounded-full outline-none px-2 py-1 text-sm"
+                       placeholder="Ej: S, M, L ">
+
+              </div>
+              <div id="div-sizes" class="mt-2 space-y-2"></div>
+            </td>
+            <!-- Quantity -->
+            <td class="px-4 py-2 align-top">
+              <div class="flex flex-col gap-2">
+                <input id="new-quantity"
+                       class="w-40 bg-gray-100 rounded-full outline-none px-2 py-1 text-sm"
+                       placeholder="ej: 10">
+              </div>
+              <div id="div-quantity" class="mt-2 space-y-2"></div>
+            </td>
+            <!-- Price -->
+            <td class="px-4 py-2 align-top">
+              <div class="flex flex-col gap-2">
+                <input id="price"
+                       class="w-40 bg-gray-100 rounded-full outline-none px-2 py-1 text-sm"
+                       placeholder="€0.00">
+              </div>
+            </td>
+            <!-- Discount -->
+            <td class="px-4 py-2 align-top">
+              <div class="flex flex-col gap-2">
+                <input id="discount"
+                       class="w-40 bg-gray-100 rounded-full outline-none px-2 py-1 text-sm"
+                       placeholder="%">
+              </div>
+            </td>
+          </tr>
+          <!-- Otras filas de datos, en caso de haberlas -->
+          </tbody>
         </table>
       </div>
-
       <!-- Botón para añadir más tallas -->
-      <button type="button" id="add-size-b" class="bg-amber-600 text-white px-4 py-2 rounded font-bold w-fit">
-        Add more sized
+      <button type="button" id="add-size-b"
+              class="bg-amber-600 text-white px-4 py-2 rounded font-bold w-fit mt-4">
+        Add more sizes
       </button>
-
     </main>
+
 
   </div>
 </div>
