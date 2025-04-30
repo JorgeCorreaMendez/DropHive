@@ -30,7 +30,7 @@ def get_accounts():
 @accounts_bp.route("/create_account", methods=["POST"])
 def create_account():
     data = request.get_json()
-    name = data.get("name")
+    name = session["db.name"]
     mail = data.get("mail")
     password = data.get("password")
     if not name or not mail or not password:
@@ -63,7 +63,6 @@ def create_account():
         print("Error, al crear la cuenta")
         traceback.print_exc()
         return jsonify({"Error, al crear la cuenta"}), 500
-
 
 @accounts_bp.route("/modify_account", methods=["POST"])
 @login_required
@@ -174,3 +173,4 @@ def search_product_by_id():
         print("Error, al buscar la cuenta")
         traceback.print_exc()
         return jsonify({"Error, al buscar la cuenta"}), 500
+
