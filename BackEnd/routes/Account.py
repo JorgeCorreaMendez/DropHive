@@ -160,7 +160,7 @@ def change_password():
 # TODO. cambiar en front
 @accounts_bp.route('/filter_account_by_id', methods=["GET"])
 @login_required
-def search_product_by_id():
+def search_account_by_id():
     try:
         id = request.args.get('id')
         with get_db_session(session["db.name"]) as db_session:
@@ -174,3 +174,18 @@ def search_product_by_id():
         traceback.print_exc()
         return jsonify({"Error, al buscar la cuenta"}), 500
 
+@accounts_bp.route('/check_first_login', methods=["GET"])
+@login_required
+def check_first_login():
+    try:
+        mail = request.args.get('mail')
+        with get_db_session("Users") as user_session:
+            user = user_session.query(User).filter(mail == User.mail).first()
+            if user:
+                return jsonify(user.serialize()), 200
+            else:
+                return jsonify({"message": "No se encontraron productos con ese ID."}), 404
+    except SQLAlchemyError:
+        print("Error, al buscar la cuenta")
+        traceback.print_exc()
+        return jsonify({"Error, al buscar la cuenta"}), 500

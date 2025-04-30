@@ -15,5 +15,6 @@ class User(UserBase):
     def serialize(self):
         return {
             "mail": self.mail,
-            "db_name": self.db_name
+            "db_name": self.db_name,
+            "first_login": self.first_login
         }
