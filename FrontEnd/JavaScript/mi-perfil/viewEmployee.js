@@ -14,26 +14,26 @@ export async function cargarDatosUsuario(data) {
 
 function eliminarCuenta(userId) {
   Swal.fire({
-    title: '¿Estás seguro?',
-    text: "Esta acción eliminará la cuenta permanentemente.",
+    title: 'Are You Sure?',
+    text: "This Action Will Delete The Account Permanently.",
     icon: 'warning',
     showCancelButton: true,
     confirmButtonColor: '#d33',
     cancelButtonColor: '#3085d6',
-    confirmButtonText: 'Sí, eliminar',
-    cancelButtonText: 'Cancelar'
+    confirmButtonText: 'Yes, Delete',
+    cancelButtonText: 'Cancel'
   }).then((result) => {
     if (result.isConfirmed) {
       fetch(`/delete_account?id=${userId}`, { method: 'DELETE' })
         .then(response => {
-          if (!response.ok) throw new Error("Error al borrar");
+          if (!response.ok) throw new Error("Error While Deleting");
           return response.json();
         })
         .then(() => {
           Swal.fire({
             icon: 'success',
-            title: 'Cuenta eliminada',
-            text: 'Se ha borrado la cuenta correctamente',
+            title: 'Account Deleted',
+            text: 'The Account Has Been Deleted Succesfully',
             confirmButtonColor: '#3085d6'
           }).then(() => {
             window.location.reload();
@@ -43,7 +43,7 @@ function eliminarCuenta(userId) {
           Swal.fire({
             icon: 'error',
             title: 'Error',
-            text: 'Ha habido un problema, no se ha podido borrar la cuenta',
+            text: 'An Error Ocurred While Deleting The Account.',
             confirmButtonColor: '#d33'
           });
         });
