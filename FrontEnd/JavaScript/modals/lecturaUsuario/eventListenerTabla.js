@@ -1,4 +1,5 @@
 import { openModal } from "../abrirYCerrarModal.js";
+import {cargarDatosUsuario} from "../../mi-perfil/viewEmployee.js";
 
 export function initializeRowClickHandler() {
   const tableBody = document.getElementById("table-body");
@@ -28,6 +29,7 @@ export function initializeRowClickHandler() {
       const bodyContent = doc.body.innerHTML;
 
       openModal(bodyContent);
+      await cargarDatosUsuario(object[0]);
     } catch (err) {
       console.error("Error al cargar el modal:", err);
       Swal.fire({
