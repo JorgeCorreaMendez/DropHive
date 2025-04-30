@@ -19,27 +19,25 @@ class Account(Base):
     company_id = Column(Integer, ForeignKey('companies.id'))
     company = relationship('Company', back_populates='accounts')
 
-    def __str__(self):
+    def _str_(self):
         return "{}, {}, {}, {}, {}, {}, {}, {}, {}".format(
             self.id, self.name, self.mail, self.password,
             self.phone, self.address, self.privileges,
             self.privilege_id, self.company_id
         )
 
-
-def serialize(self):
-    return {
-        "id": self.id,
-        "name": self.name,
-        "mail": self.mail,
-        "password": self.password,
-        "phone": self.phone,
-        "address": self.address,
-        "privileges": [p.serialize() for p in self.privileges] if self.privileges else [],
-        "privilege_id": self.privilege_id,
-        "company_id": self.company_id,
-        "company": {
-            "id": self.company.id,
-            "name": self.company.name
-        } if self.company else None
-    }
+    def serialize(self):
+        return {
+            "id": self.id,
+            "name": self.name,
+            "mail": self.mail,
+            "phone": self.phone,
+            "address": self.address,
+            "privileges": self.privileges.serialize() if self.privileges else None,
+            "privilege_id": self.privilege_id,
+            "company_id": self.company_id,
+            "company": {
+                "id": self.company.id,
+                "name": self.company.name
+            } if self.company else None
+        }
