@@ -134,9 +134,6 @@ def delete_account():
 
 @accounts_bp.route("/change_password", methods=["POST"])
 def change_password():
-    if "verification_code" not in session:
-        print("Error, Código de verificación no encontrado o expirado")
-        return jsonify({"error": "Código de verificación no encontrado o expirado."}), 400
     data = request.get_json()
     email = data.get("mail")
     new_password = data.get("password")
@@ -146,7 +143,6 @@ def change_password():
             if account:
                 account.password = create_hash(new_password)
                 db.commit()
-                session.pop("verification_code")
                 return jsonify({"message": "Contraseña actualizada correctamente."}), 200
             else:
                 print("Correo electrónico no encontrado")
@@ -183,6 +179,24 @@ def check_first_login():
             user = user_session.query(User).filter(mail == User.mail).first()
             if user:
                 return jsonify(user.serialize()), 200
+            else:
+                return jsonify({"message": "No se encontraron productos con ese ID."}), 404
+    except SQLAlchemyError:
+        print("Error, al buscar la cuenta")
+        traceback.print_exc()
+        return jsonify({"Error, al buscar la cuenta"}), 500
+
+@accounts_bp.route('/change_first_login', methods=["GET"])
+@login_required
+def change_first_login():
+    try:
+        mail = request.args.get('mail')
+        with get_db_session("Users") as user_session:
+            user = user_session.query(User).filter(mail == User.mail).first()
+            if user:
+                user.first_login = 0
+                user_session.commit()
+                return jsonify("Se ha modificado correctamente el primer LogIn."), 200
             else:
                 return jsonify({"message": "No se encontraron productos con ese ID."}), 404
     except SQLAlchemyError:

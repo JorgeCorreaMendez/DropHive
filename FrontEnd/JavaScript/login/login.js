@@ -48,6 +48,7 @@ document.addEventListener("DOMContentLoaded", function () {
                         });
 
                         if (passChangeRes.ok) {
+                            fetch(`http://127.0.0.1:4000/change_first_login?mail=${mail}`);
                             window.location.href = `http://127.0.0.1:4000/home`;
                         } else {
                             const error = await passChangeRes.json();
