@@ -23,7 +23,6 @@ def get_categories():
         return jsonify({"Error, obteniendo las categorias"}), 500
 
 
-# Añadir una nueva categoría
 @categories_bp.route("/add_category", methods=["POST"])
 @login_required
 def add_category():
@@ -43,6 +42,34 @@ def add_category():
         print("Error, añadiendo la categoría")
         traceback.print_exc()
         return jsonify({"error": "Error, añadiendo la categoría"}), 500
+
+# TODO. cambiar rutas para modificar a PUT
+@categories_bp.route("/modify_category", methods=["PUT"])
+@login_required
+def modify_category():
+    data = request.get_json()
+    category_id = data.get("id")
+    name = data.get("name")
+    description = data.get("description")
+    if not category_id:
+        print("El id es obligatorio")
+        return jsonify({"error": "El id es obligatorio"}), 400
+    try:
+        with get_db_session(session["db.name"]) as db:
+            category = db.query(Category).filter(Category.id == category_id).first()
+            if not category:
+                print("Categoría no encontrada")
+                return jsonify({"error": "Categoría no encontrada"}), 404
+            if name:
+                category.name = name
+            if description:
+                category.description = description
+            db.commit()
+            return jsonify({"message": "Categoría actualizada exitosamente", "category": category.serialize()}), 200
+    except SQLAlchemyError:
+        print("Error, modificando la categoría")
+        traceback.print_exc()
+        return jsonify({"error": "Error, modificando la categoría"}), 500
 
 # TODO. cambiar en el front
 @categories_bp.route("/get_category", methods=["GET"])
