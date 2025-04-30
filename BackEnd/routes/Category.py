@@ -23,6 +23,27 @@ def get_categories():
         return jsonify({"Error, obteniendo las categorias"}), 500
 
 
+# Añadir una nueva categoría
+@categories_bp.route("/add_category", methods=["POST"])
+@login_required
+def add_category():
+    data = request.get_json()
+    name = data.get("name")
+    description = data.get("description")
+    if not name:
+        print("Error, añadiendo la categoría")
+        return jsonify({"error": "El nombre es obligatorio"}), 400
+    try:
+        with get_db_session(session["db.name"]) as db:
+            new_category = Category(name=name, description=description)
+            db.add(new_category)
+            db.commit()
+            return jsonify({"message": "Categoría creada exitosamente"}), 201
+    except SQLAlchemyError:
+        print("Error, añadiendo la categoría")
+        traceback.print_exc()
+        return jsonify({"error": "Error, añadiendo la categoría"}), 500
+
 # TODO. cambiar en el front
 @categories_bp.route("/get_category", methods=["GET"])
 @login_required
