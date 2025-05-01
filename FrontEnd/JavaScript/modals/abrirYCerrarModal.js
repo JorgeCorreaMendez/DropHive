@@ -1,3 +1,5 @@
+import { loadCategories } from "../createItem.js";
+
 const modalContainer = document.getElementById("modal-container");
 const modalContent = document.getElementById("modal-content");
 
@@ -13,6 +15,16 @@ export function openModal(htmlContent) {
   modalContent.classList.add("scale-100", "opacity-100");
 
   modalContent.querySelector("#close-modal").addEventListener("click", closeModal);
+
+
+  setTimeout(() => {
+    if (document.getElementById("primary-category")) {
+      console.log("Se encontró el select 'primary-category' en el modal, cargando categorías...");
+      loadCategories();
+    } else {
+      console.warn("El select 'primary-category' no se encontró dentro del modal.");
+    }
+  }, 0);
 }
 
 export function closeModal() {
