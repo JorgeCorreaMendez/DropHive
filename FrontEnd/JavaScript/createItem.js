@@ -1,53 +1,91 @@
+export const agregarProducto = async () => {
+    // 1. Leer y validar valores del formulario
+    const product_id  = document.getElementById("product-id").value.trim();
+    const name        = document.getElementById("product-name").value.trim();
+    const description = document.getElementById("description").value.trim();
+    const priceRaw    = document.getElementById("price").value;
+    const discountRaw = document.getElementById("discount").value;
+    const sizeName    = document.getElementById("new-size").value.trim();
+    const quantityRaw = document.getElementById("new-quantity").value;
+    const category_id = parseInt(
+        document.getElementById("new-category").value,
+        10
+    );
 
-    export const agregarProducto = async () => {
-        const product_id = document.getElementById("product-id").value;
-        const name = document.getElementById("product-name").value;
-        const description = document.getElementById("description").value;
-        const price = parseFloat(document.getElementById("price").value);
-        const sizeName = document.getElementById("new-size").value;
-        const discount = parseFloat(document.getElementById("discount").value);
-        const quantity = parseInt(document.getElementById("new-quantity").value, 10);
-        const category_id = parseInt(
-            document.getElementById("new-category").value,
-            10
-        );
+    // Validaciones de cliente
+    if (!product_id) {
+        alert("🛑 Error: El campo Product ID está vacío.");
+        return;
+    }
+    if (!name) {
+        alert("🛑 Error: El campo Nombre del producto está vacío.");
+        return;
+    }
+    const price = parseFloat(priceRaw);
+    if (isNaN(price) || price < 0) {
+        alert(`🛑 Error: Precio inválido (“${priceRaw}”). Debe ser un número positivo.`);
+        return;
+    }
+    const discount = parseFloat(discountRaw);
+    if (isNaN(discount) || discount < 0) {
+        alert(`🛑 Error: Descuento inválido (“${discountRaw}”). Debe ser ≥ 0.`);
+        return;
+    }
+    const quantity = parseInt(quantityRaw, 10);
+    if (isNaN(quantity) || quantity < 0) {
+        alert(`🛑 Error: Cantidad inválida (“${quantityRaw}”). Debe ser un entero ≥ 0.`);
+        return;
+    }
+    if (isNaN(category_id)) {
+        alert("🛑 Error: La categoría no es válida.");
+        return;
+    }
+    if (!sizeName) {
+        alert("🛑 Error: Debes indicar al menos un talle (size).");
+        return;
+    }
 
-        try {
-            // Recuperar el nombre de la base de datos
-
-
-            // Hacer la solicitud POST a la ruta dinámica
-            const response = await fetch(`/add_product`, {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({
-                    product_id,
-                    name,
-                    description,
-                    price,
-                    discount,
-                    category_id,
-                    sizes: [
-                        { name: sizeName, quantity }
-                    ]
-                }),
-            });
-
-            // Verificar si la respuesta es correcta
-            if (response.ok) {
-                console.log("Producto añadido correctamente");
-                window.location.href = `/home`;  // Asegurarse de que usamos db_name
-            } else {
-                const errorMessage = await response.text(); // Obtener mensaje de error del servidor
-                console.error("Error en la respuesta del servidor:", errorMessage);
-                alert(`Error al añadir el producto: ${errorMessage}`);
-            }
-        } catch (error) {
-            console.error("Error al enviar datos:", error);
-            alert("Ocurrió un error inesperado. Ver consola para detalles.");
-        }
-
+    // 2. Construir el payload
+    const body = {
+        id: product_id,
+        name,
+        description,
+        price,
+        discount,
+        category_id,
+        sizes: [{ name: sizeName, quantity }],
     };
+    console.log("📤 Enviando payload:", body);
+
+    // 3. Envío al servidor
+    try {
+        const response = await fetch("/add_product", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(body),
+        });
+
+        // 4. Manejo de la respuesta HTTP
+        if (response.ok) {
+            console.log("✅ Producto añadido correctamente");
+            window.location.href = "/home";
+        } else {
+            let errorDetail;
+            const ct = response.headers.get("Content-Type") || "";
+            if (ct.includes("application/json")) {
+                const errJson = await response.json();
+                errorDetail = errJson.error || JSON.stringify(errJson);
+            } else {
+                errorDetail = await response.text();
+            }
+            console.error("🚨 Error del servidor:", errorDetail);
+            alert(`❌ Error al añadir el producto:\n${errorDetail}`);
+        }
+    } catch (networkError) {
+        console.error("🚧 Error de red o inesperado:", networkError);
+        alert(`❌ Error de red o inesperado:\n${networkError.message || networkError}`);
+    }
+};
 
     document.addEventListener('change', e => {
           // Solo nos interesa cuando cambia un input de imagen
