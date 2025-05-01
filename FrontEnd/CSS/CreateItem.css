@@ -1,40 +1,43 @@
-/* CSS */
 /* 1) Contenedor exterior */
 .outer-container {
   background: #f0f0f0;
-  padding: 20px;
-  border-radius: 16px;
-  max-width: 960px;
-  margin: 40px auto;
+  padding: 1.25em;          /* 20px */
+  border-radius: 1em;       /* 16px */
+  max-width: 60em;          /* 960px */
+  margin: 2.5em auto;       /* 40px auto */
 }
+
+
 
 /* 2) Form interior */
 .create-product-container {
   background: white;
-  border-radius: 12px;
-  box-shadow: 0 8px 15px rgba(0,0,0,0.2);
-  padding: 40px;
+  border-radius: 0.75em;    /* 12px */
+  box-shadow: 0 0.5em 0.9375em rgba(0, 0, 0, 0.2); /* 8px y 15px */
+  padding: 2.5em;           /* 40px */
   display: flex;
   flex-direction: column;
-  gap: 20px;
+  gap: 1.25em;             /* 20px */
 }
 
 /* 3) Top Section */
 .top-section {
   display: flex;
   justify-content: space-between;
-  align-items: center;
-  gap: 20px;
+  align-items: flex-start; /* <--- CAMBIAR center por flex-start */
+  gap: 1.25em;
+  flex-wrap: wrap;
 }
 
-/* Img + Nombre + ID fila */
+/* Img + Nombre + ID */
 .img-name-wrapper {
   display: flex;
   align-items: center;
-  gap: 15px;
+  gap: 0.9375em;           /* 15px */
+  flex-wrap: wrap;
 }
 
-/* Overlay (mantiene tu implementación) */
+/* Funciones de la imagen */
 .image-upload-wrapper {
   position: relative;
   display: inline-block;
@@ -44,17 +47,20 @@
   display: block;
   max-width: 100%;
   height: auto;
-  border-radius: 4px;
+  border-radius: 0.25em;     /* 4px */
 }
 .overlay {
   position: absolute;
-  top: 0; right: 0; bottom: 0; left: 0;
-  background-color: rgba(0,0,0,0.5);
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  background-color: rgba(0, 0, 0, 0.5);
   opacity: 0;
   display: flex;
   align-items: center;
   justify-content: center;
-  border-radius: 4px;
+  border-radius: 0.25em;
   transition: opacity 0.3s ease;
 }
 .image-upload-wrapper:hover .overlay {
@@ -62,8 +68,10 @@
 }
 .company-image-input {
   position: absolute;
-  top: 0; left: 0;
-  width: 100%; height: 100%;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
   opacity: 0;
   cursor: pointer;
 }
@@ -73,43 +81,52 @@
 .id-container {
   display: flex;
   flex-direction: column;
-  gap: 4px;
+  gap: 0.25em;             /* 4px */
 }
 .product-name-label,
 .product-id-label {
   font-weight: bold;
 }
 .input-grey {
-  padding: 8px 12px;
+  padding: 0.5em 0.75em;     /* 8px 12px */
   border: none;
-  border-radius: 6px;
+  border-radius: 0.375em;    /* 6px */
   background: #e0e0e0;
   outline: none;
-  width: 200px;
+  width: 12.5em;            /* 200px */
 }
 
 /* Categorías */
 .category-container {
   display: flex;
+  flex-direction: column;
+  gap: 0.625em;             /* 10px */
+  margin-top: 0.9375em;      /* 15px */
+}
+.category-label {
+  font-weight: bold;
+}
+
+/* Fila para botón e input */
+.category-row {
+  display: flex;
   align-items: center;
-  gap: 10px;
+  gap: 0.625em;             /* 10px */
 }
 .category-input {
-  /* Antes: flex: 1; */
-  flex: 0 0 150px;    /* no crece ni encoge, ancho fijo de 150px */
-  width: 150px;       /* ancho exacto */
-  padding: 8px 12px;
-  border: 1px solid #ccc;
-  border-radius: 6px;
+  padding: 0.5em 0.75em;
+  border: none;
+  border-radius: 0.375em;
   background: #e0e0e0;
   outline: none;
+  width: 12.5em;            /* 200px */
 }
 .category-btn {
   background-color: #007bff;
   color: white;
   border: none;
-  padding: 10px 15px;
-  border-radius: 5px;
+  padding: 0.63em 0.94em;    /* ~10px 15px */
+  border-radius: 0.3125em;    /* 5px */
   font-weight: bold;
   cursor: pointer;
   transition: background-color 0.3s, transform 0.2s;
@@ -119,61 +136,114 @@
   transform: scale(1.05);
 }
 
-/* Save Changes */
+/* Save Changes Button */
+/* Save Changes Button con la misma animación que la categoría */
 .top-right .save-btn {
   background-color: #28a745;
   color: white;
   border: none;
-  padding: 10px 16px;
-  border-radius: 4px;
+  padding: 0.625em 1em;      /* 10px 16px */
+  border-radius: 0.25em;
   font-weight: bold;
   cursor: pointer;
-  transition: background-color 0.3s;
+  transition: background-color 0.3s, transform 0.2s;
 }
 .top-right .save-btn:hover {
   background-color: #218838;
+  transform: scale(1.05);
 }
+
 
 /* Description */
 .description-container {
   background: #e0e0e0;
-  border-radius: 8px;
-  padding: 16px;
+  border-radius: 0.5em;      /* 8px */
+  padding: 1em;
 }
 .description-label {
   font-weight: bold;
-  margin-bottom: 8px;
+  margin-bottom: 0.5em;
   display: block;
 }
 .description-container textarea {
   width: 100%;
-  height: 120px;
+  height: 7.5em;            /* 120px */
   border: none;
   resize: none;
-  border-radius: 4px;
-  padding: 10px;
+  border-radius: 0.25em;
+  padding: 0.625em;
   background: transparent;
 }
 
 /* Bottom Section */
 .bottom-section {
   display: flex;
-  gap: 30px;
+  gap: 1.875em;            /* 30px */
   align-items: flex-start;
+  flex-wrap: wrap;
 }
-.flex-1 { flex: 1; }
+.flex-1 {
+  flex: 1;
+}
 
 /* Price & Discount vertical */
 .bottom-right-vertical {
   display: flex;
   flex-direction: column;
-  gap: 12px;
+  gap: 0.75em;            /* 12px */
+  margin-left: auto;       /* Se desplaza hacia la derecha */
 }
 .field-group-vertical {
   display: flex;
   flex-direction: column;
-  gap: 4px;
+  gap: 0.25em;
 }
 .field-group-vertical label {
   font-weight: bold;
+}
+
+/* RESPONSIVE */
+@media (max-width: 48em) { /* 768px */
+  .outer-container {
+    padding: 0.625em;      /* 10px */
+  }
+  .create-product-container {
+    padding: 1.25em;       /* 20px */
+  }
+  .top-section {
+    flex-wrap: wrap;
+  }
+  .img-name-wrapper {
+    flex-wrap: wrap;
+    gap: 0.625em;
+  }
+  .top-right {
+    width: auto;
+    text-align: right;
+    margin-top: 0;
+  }
+  .input-grey,
+  .category-input {
+    width: auto;
+    max-width: 100%;
+  }
+  table {
+    font-size: 0.875em;    /* 14px */
+  }
+  .bottom-section {
+    flex-wrap: wrap;
+    gap: 1.25em;          /* 20px */
+  }
+  .category-btn {
+    padding: 0.5em 0.75em;
+    font-size: 0.875em;
+  }
+}
+
+/* Contenedor de categorías añadidas */
+.added-categories {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5em;
+  margin-top: 0.5em;
 }

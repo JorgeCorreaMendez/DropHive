@@ -1,44 +1,79 @@
-<main>
-    <!-- Caja exterior gris (contenedor externo) -->
-    <div class="bg-gray-300 rounded-lg p-4 m-4">
-        <!-- Caja interna que sobresale del contenedor -->
-        <div class="bg-gray-200 rounded-lg p-4">
-            <!-- Encabezado con imagen y botón -->
-            <div class="flex justify-between items-center">
-                <img class="w-20 h-20 rounded-lg border border-gray-300" src="/FrontEnd/Images/sinFoto.png" alt="Company Image">
+<!DOCTYPE html>
+<html lang="es" xmlns="http://www.w3.org/1999/html">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Crear Compañía</title>
+    <!-- Puedes cargar Tailwind CSS o tu propia hoja de estilos -->
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body class="bg-gray-100">
+<!-- Caja exterior gris -->
+<div class="outer-container bg-gray-300 p-6 m-6 rounded-lg">
+    <!-- Contenedor principal interno -->
+    <main class="container mx-auto p-6 bg-white rounded-[20px]">
 
-                <div class="flex items-center gap-4">
-                    <!-- Input de imagen -->
-                    <input type="file" accept="image/*" class="company-image-input p-2 border rounded">
+        <!-- ENCABEZADO: Imagen + Nombre de la Categoría + Botón -->
+        <div class="company-header">
+            <div class="container mx-auto p-6 bg-[#EDEDED] m-[10px] mt-[25px] rounded-[20px]">
+                <!-- BOTÓN DE GUARDAR alineado a la derecha -->
+                <div class="mt-6 md:mt-0 flex justify-end">
+                    <button
+                            id="save-btn1"
+                            class="bg-amber-600 text-white px-6 py-2 rounded font-bold"
+                    >
+                        Save Changes
+                    </button>
+                </div>
+                <div class="flex flex-col md:flex-row md:items-center md:gap-6">
 
-                    <!-- Botón guardar cambios -->
-                    <button id="save-btn1" class="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded">Save Changes</button>
+                    <!-- Imagen con overlay para subir foto -->
+                    <div class="image-upload-wrapper relative w-32 h-32">
+                        <img
+                                src="/FrontEnd/Images/sinFoto.png"
+                                alt="Company Image"
+                                class="w-full h-full rounded-full object-cover"
+                        >
+                        <div
+                                class="overlay absolute inset-0 flex items-center justify-center bg-black bg-opacity-50 text-white opacity-0 hover:opacity-100 transition-opacity cursor-pointer"
+                        >
+                            Adjuntar imagen
+                        </div>
+                        <!-- Input invisible para la imagen -->
+                        <input type="file" accept="image/*" class="absolute inset-0 opacity-0 cursor-pointer">
+                    </div>
+
+                    <!-- Input de Nombre de la Categoría junto a la imagen -->
+                    <div class="company-info flex flex-col flex-1">
+                        <label for="new-category" class="font-semibold text-lg mb-2">Nombre de la Categoria:</label>
+                        <input
+                                type="text"
+                                id="new-category"
+                                placeholder="Añade el nombre de la categoría"
+                                class="w-full bg-gray-100 rounded-full px-4 py-2 outline-none text-sm"
+                                required
+                        >
+                    </div>
+
+
                 </div>
             </div>
-
-            <!-- Información de la categoría -->
-            <div class="mt-4 flex gap-4">
-                <!-- Input ID (máximo 4 caracteres) -->
-                <input
-                    type="text"
-                    placeholder="ID"
-                    maxlength="4"
-                    class="w-32 p-3 rounded bg-white border border-gray-300 placeholder-gray-500"
-                >
-
-                <!-- Input Nombre (flexible) -->
-                <input
-                    type="text"
-                    placeholder="Add Category Name"
-                    class="flex-1 p-3 rounded bg-white border border-gray-300 placeholder-gray-500"
-                >
-            </div>
-
-            <!-- Descripción de la categoría -->
-            <div class="mt-4">
-                <label class="block font-semibold">Description:</label>
-                <textarea placeholder="Add Description..." class="w-full p-3 rounded bg-white border border-gray-300 placeholder-gray-500"></textarea>
-            </div>
         </div>
-    </div>
-</main>
+
+        <!-- DESCRIPCIÓN (sin cambios) -->
+        <main class="container mx-auto p-6 bg-[#EDEDED] m-[10px] mt-[25px] rounded-[20px]">
+            <div class="company-description mt-6">
+                <label for="company-description" class="font-semibold text-lg mb-2 block">Descripción:</label>
+                <textarea
+                        id="company-description"
+                        placeholder="Añade una descripción..."
+                        class="w-full bg-gray-100 rounded-lg px-4 py-2 outline-none text-sm"
+                        rows="4"
+                ></textarea>
+            </div>
+        </main>
+
+    </main>
+</div>
+</body>
+</html>
