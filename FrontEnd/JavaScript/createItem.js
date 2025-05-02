@@ -147,9 +147,17 @@ function handleModalDelegatedClick(event) {
         wrapperSize.classList.add("flex", "items-center", "gap-2", "mt-2");
         const inputSize = document.createElement("input");
         inputSize.type = "text";
-        inputSize.name = "newSize[]";            // <-- nombre para array dinámico
+        inputSize.name = "newSize[]";
         inputSize.placeholder = "Ej: S, M, L";
-        inputSize.classList.add("w-40", "bg-gray-100", "rounded-full", "outline-none", "px-2", "py-1", "text-sm");
+        inputSize.classList.add(
+            "w-40",               // mismo ancho
+            "bg-gray-100",
+            "rounded-full",
+            "outline-none",
+            "px-2",
+            "py-1",
+            "text-sm"
+        );
         wrapperSize.appendChild(inputSize);
         divSizes.appendChild(wrapperSize);
 
@@ -158,10 +166,18 @@ function handleModalDelegatedClick(event) {
         wrapperQuantity.classList.add("flex", "items-center", "gap-2", "mt-2");
         const inputQuantity = document.createElement("input");
         inputQuantity.type = "number";
-        inputQuantity.name = "newQuantity[]";      // <-- nombre para array dinámico
+        inputQuantity.name = "newQuantity[]";
         inputQuantity.placeholder = "Ej: 10";
         inputQuantity.min = "0";
-        inputQuantity.classList.add("w-20", "bg-gray-100", "rounded-full", "outline-none", "px-2", "py-1", "text-sm");
+        inputQuantity.classList.add(
+            "w-40",               // aquí igualamos el ancho
+            "bg-gray-100",
+            "rounded-full",
+            "outline-none",
+            "px-2",
+            "py-1",
+            "text-sm"
+        );
         wrapperQuantity.appendChild(inputQuantity);
         divQuantity.appendChild(wrapperQuantity);
 
