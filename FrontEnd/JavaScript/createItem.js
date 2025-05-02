@@ -8,50 +8,54 @@ const getInputValue = (id) => {
 // ========================================================================
 // Función para agregar un producto
 export const agregarProducto = async () => {
-    // Se obtienen los valores de cada campo del formulario
-    const product_id = getInputValue("product-id");
-    const name = getInputValue("product-name");
+    // Leer campos estáticos
+    const product_id  = getInputValue("product-id");
+    const name        = getInputValue("product-name");
     const description = getInputValue("description");
-    const price = parseFloat(getInputValue("price"));
-    const sizeName = getInputValue("new-size");
-    const discount = parseFloat(getInputValue("discount"));
-    const quantity = parseInt(getInputValue("new-quantity"), 10);
+    const price       = parseFloat(getInputValue("price")) || 0;
+    const discount    = parseFloat(getInputValue("discount")) || 0;
 
-    // Obtenemos el select de categoría
+    // Leer categoría
     const categoryEl = document.getElementById("primary-category");
-    if (!categoryEl) {
-        console.error("Error: No se encontró el elemento con id 'primary-category' al agregar el producto.");
-    } else {
-        console.log("Elemento 'primary-category' encontrado:", categoryEl);
+    const category   = categoryEl ? { name: categoryEl.value } : { name: '' };
+
+    // 1) Recoger el primer input (estático) con id y luego los dinámicos
+    const initialSize = getInputValue("new-size").trim();
+    const initialQty  = parseInt(getInputValue("new-quantity"), 10) || 0;
+
+    // 2) Dinámicos
+    const sizeInputs = Array.from(document.querySelectorAll("input[name='newSize[]']"));
+    const qtyInputs  = Array.from(document.querySelectorAll("input[name='newQuantity[]']"));
+
+    // 3) Construir el array completo
+    const sizes = [];
+    if (initialSize) {
+        sizes.push({ name: initialSize, quantity: initialQty });
     }
-    const category = { name: categoryEl ? categoryEl.value : "" };
+    sizeInputs.forEach((input, i) => {
+        const name = input.value.trim();
+        const qty  = parseInt(qtyInputs[i].value, 10) || 0;
+        if (name) sizes.push({ name, quantity: qty });
+    });
 
     try {
         const response = await fetch("/add_product", {
-            method: "POST",
+            method:  "POST",
             headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({
-                product_id,
-                name,
-                description,
-                price,
-                discount,
-                category,
-                sizes: [{ name: sizeName, quantity }]
-            }),
+            body:    JSON.stringify({ product_id, name, description, price, discount, category, sizes })
         });
 
         if (response.ok) {
             console.log("Producto añadido correctamente");
             window.location.href = "/home";
         } else {
-            const errorMessage = await response.text();
-            console.error("Error en la respuesta del servidor:", errorMessage);
-            alert(`Error al añadir el producto: ${errorMessage}`);
+            const msg = await response.text();
+            console.error("Error servidor:", msg);
+            alert(`Error al añadir el producto: ${msg}`);
         }
-    } catch (error) {
-        console.error("Error al enviar datos:", error);
-        alert("Ocurrió un error inesperado. Ver consola para detalles.");
+    } catch (err) {
+        console.error("Error envío datos:", err);
+        alert("Ocurrió un error inesperado. Ver consola.");
     }
 };
 
@@ -121,47 +125,49 @@ export async function loadCategories() {
 
 // ========================================================================
 // Delegado para manejar el clic en el botón de añadir inputs para Size y Quantity
-const handleModalDelegatedClick = (event) => {
+function handleModalDelegatedClick(event) {
     if (event.target && event.target.matches("#add-size-b")) {
-        console.log("Botón pulsado (delegación) para añadir inputs de Size y Quantity");
+        console.log("Botón pulsado para añadir inputs de Size y Quantity");
 
         const modalContent = document.getElementById("modal-content");
         if (!modalContent) {
-            console.error("Elemento con id 'modal-content' no encontrado en el DOM.");
+            console.error("Elemento con id 'modal-content' no encontrado.");
             return;
         }
 
         const divSizes = modalContent.querySelector("#div-sizes");
         const divQuantity = modalContent.querySelector("#div-quantity");
-
         if (!divSizes || !divQuantity) {
-            console.error("Contenedores en modal no encontrados");
+            console.error("Contenedores de tallas o cantidades no encontrados.");
             return;
         }
 
-        // Creación del input para Size
+        // Crear input de Size dinámico
         const wrapperSize = document.createElement("div");
         wrapperSize.classList.add("flex", "items-center", "gap-2", "mt-2");
         const inputSize = document.createElement("input");
         inputSize.type = "text";
+        inputSize.name = "newSize[]";            // <-- nombre para array dinámico
         inputSize.placeholder = "Ej: S, M, L";
-        inputSize.classList.add("w-40", "bg-gray-100", "rounded-full", "outline-none", "px-2", "py-1", "text-sm", "text-left");
+        inputSize.classList.add("w-40", "bg-gray-100", "rounded-full", "outline-none", "px-2", "py-1", "text-sm");
         wrapperSize.appendChild(inputSize);
         divSizes.appendChild(wrapperSize);
 
-        // Creación del input para Quantity
+        // Crear input de Quantity dinámico
         const wrapperQuantity = document.createElement("div");
         wrapperQuantity.classList.add("flex", "items-center", "gap-2", "mt-2");
         const inputQuantity = document.createElement("input");
-        inputQuantity.type = "text";
+        inputQuantity.type = "number";
+        inputQuantity.name = "newQuantity[]";      // <-- nombre para array dinámico
         inputQuantity.placeholder = "Ej: 10";
-        inputQuantity.classList.add("w-40", "bg-gray-100", "rounded-full", "outline-none", "px-2", "py-1", "text-sm");
+        inputQuantity.min = "0";
+        inputQuantity.classList.add("w-20", "bg-gray-100", "rounded-full", "outline-none", "px-2", "py-1", "text-sm");
         wrapperQuantity.appendChild(inputQuantity);
         divQuantity.appendChild(wrapperQuantity);
 
-        console.log("Nuevos inputs añadidos en Size y Quantity");
+        console.log("Nuevos inputs añadidos para tallas y cantidades");
     }
-};
+}
 
 // ========================================================================
 // Document Ready: Configuración de eventos cuando el DOM está listo
