@@ -7,9 +7,11 @@
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
   <script src="{{ url_for('static', filename='JavaScript/config.js') }}"></script>
   <script src="{{ url_for('static', filename='JavaScript/register.js') }}"></script>
+  <script type="module" src="{{ url_for('static', filename='JavaScript/webComponents/modals/Load.js') }}"></script>
   <link rel="stylesheet" href="{{ url_for('static', filename='CSS/register.css') }}">
 </head>
 <body>
+  <loading-modal id="loading">Enviando correo de verificación</loading-modal>
   <div id="contenedor-principal">
     <div class="image-container">
       <img src="{{ url_for('static', filename='Images/DropHive.png') }}" alt="Logo">

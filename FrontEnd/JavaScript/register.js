@@ -53,14 +53,17 @@ async function isValidForm(data) {
 
 /// TODO. Añadir aviso de que se esta creando la cuenta. NO AÑADIR, rompe CSS
 document.addEventListener("DOMContentLoaded", () => {
+    const loader = document.getElementById('loading');
     const form = document.getElementById('registrationForm')
     form.addEventListener('submit', async (event) => {
         event.preventDefault();
         const registerData = getFormData();
         if (await isValidForm(registerData)) {
+            loader.show();
             try {
                 const sendResponse = await fetch(`${BASE_URL}/send_verification_code?mail=${encodeURIComponent(registerData.mail)}`);
                 if (!sendResponse.ok) {
+                    loader.hide();
                     showErrorAlert("Error", "No se pudo enviar el código de verificación.");
                     return;
                 }
@@ -96,14 +99,19 @@ document.addEventListener("DOMContentLoaded", () => {
                             if (response.ok) {
                                 showOkAlert("¡Cuenta creada!", "Tu cuenta ha sido creada correctamente.")
                                     .then(() => {
+                                        loader.hide();
                                         window.location.href = `${BASE_URL}/home`
                                     });
                             } else {
+                                loader.hide();
                                 showErrorAlert("Error al crear la cuenta.", result.message);
                             }
                         } else {
+                            loader.hide();
                             showErrorAlert("Código incorrecto", "El código de verificación no es válido.");
                         }
+                    } else {
+                        loader.hide();
                     }
                 });
             } catch (error) {
