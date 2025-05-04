@@ -9,12 +9,14 @@
   <script src="{{ url_for('static', filename='JavaScript/register.js') }}"></script>
   <script type="module" src="{{ url_for('static', filename='JavaScript/webComponents/modals/loading.js') }}"></script>
   <script type="module" src="{{ url_for('static', filename='JavaScript/webComponents/modals/alert.js') }}"></script>
+  <script type="module" src="{{ url_for('static', filename='JavaScript/webComponents/modals/prompt.js') }}"></script>
   <link rel="stylesheet" href="{{ url_for('static', filename='CSS/register.css') }}">
 </head>
 <body>
   <loading-modal id="loading">Enviando correo de verificación</loading-modal>
   <alert-message id="alert-error" type="error"></alert-message>
   <alert-message id="alert-success" type="success">Registro exitoso</alert-message>
+  <prompt-modal id="prompt-modal"></prompt-modal>
   <div id="contenedor-principal">
     <div class="image-container">
       <img src="{{ url_for('static', filename='Images/DropHive.png') }}" alt="Logo">

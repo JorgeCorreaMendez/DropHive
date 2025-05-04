@@ -2,9 +2,30 @@ export class loading extends HTMLElement {
     constructor() {
         super();
         const shadow = this.attachShadow({ mode: 'open' });
-
         const style = document.createElement('style');
-        style.textContent = `
+        style.textContent = styles;
+        this.style.display = 'none';
+        const wrapper = document.createElement('div');
+        wrapper.classList.add('loader-container');
+        const spinner = document.createElement('div');
+        spinner.classList.add('spinner');
+        const text = document.createElement('span');
+        text.textContent = this.textContent.trim() || "Cargando su solicitud...";
+        wrapper.appendChild(spinner);
+        wrapper.appendChild(text);
+        shadow.appendChild(style);
+        shadow.appendChild(wrapper);
+    }
+
+    show() {
+        this.style.display = 'flex';
+    }
+
+    hide() {
+        this.style.display = 'none';
+    }
+}
+const styles = `
   :host {
     position: fixed;
     top: 0;
@@ -45,31 +66,5 @@ export class loading extends HTMLElement {
     to { transform: rotate(360deg); }
   }
 `;
-
-        this.style.display = 'none';
-
-        const wrapper = document.createElement('div');
-        wrapper.classList.add('loader-container');
-
-        const spinner = document.createElement('div');
-        spinner.classList.add('spinner');
-
-        const text = document.createElement('span');
-        text.textContent = this.textContent.trim() || "Cargando su solicitud...";
-
-        wrapper.appendChild(spinner);
-        wrapper.appendChild(text);
-        shadow.appendChild(style);
-        shadow.appendChild(wrapper);
-    }
-
-    show() {
-        this.style.display = 'flex';
-    }
-
-    hide() {
-        this.style.display = 'none';
-    }
-}
 
 customElements.define('loading-modal', loading);

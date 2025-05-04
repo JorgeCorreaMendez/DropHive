@@ -34,7 +34,7 @@ async function isValidForm(data) {
     return true;
 }
 
-/// TODO. Añadir aviso de que se esta creando la cuenta. NO AÑADIR, rompe CSS
+
 document.addEventListener("DOMContentLoaded", () => {
     const loader = document.getElementById('loading');
     const form = document.getElementById('registrationForm')
@@ -52,58 +52,50 @@ document.addEventListener("DOMContentLoaded", () => {
                     alert.show(2000);
                     return;
                 }
-                Swal.fire({
+                const prompt = document.getElementById('prompt-modal');
+                const code = await prompt.show({
                     title: 'Verificación para crear la cuenta',
-                    input: 'text',
-                    inputLabel: 'El código se ha enviado a tu correo',
-                    inputPlaceholder: 'Código de verificación',
-                    confirmButtonText: 'Verificar',
-                    showCancelButton: true,
-                    cancelButtonText: 'Salir',
-                    preConfirm: (code) => {
-                        if (!code) {
-                            Swal.showValidationMessage('Debes introducir un código');
-                        }
-                        return code;
-                    }
-                }).then(async result => {
-                    if (result.isConfirmed) {
-                        const code = result.value;
-                        const checkResponse = await fetch(`${BASE_URL}/check_verification_code`, {
+                    text: 'El código se ha enviado a tu correo',
+                    placeholder: 'Código de verificación'
+                });
+
+                if (code) {
+                    const checkResponse = await fetch(`${BASE_URL}/check_verification_code`, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ code })
+                    });
+
+                    if (checkResponse.ok) {
+                        const response = await fetch(`${BASE_URL}/register`, {
                             method: 'POST',
-                            headers: {'Content-Type': 'application/json'},
-                            body: JSON.stringify({ code })
+                            headers: { 'Content-Type': 'application/json' },
+                            body: JSON.stringify(registerData)
                         });
-                        if (checkResponse.ok) {
-                            const response = await fetch(`${BASE_URL}/register`, {
-                                method: 'POST',
-                                headers: {'Content-Type': 'application/json'},
-                                body: JSON.stringify(registerData)
-                            });
-                            const result = await response.json();
-                            if (response.ok) {
-                                /// TODO. mostrar al volver al login
-                                const alert = document.getElementById('alert-success');
-                                alert.setMessage("Tu cuenta ha sido creada correctamente.");
-                                alert.show(2000);
-                                loader.hide();
-                                window.location.href = `${BASE_URL}/home`
-                            } else {
-                                loader.hide();
-                                const alert = document.getElementById('alert-error');
-                                alert.setMessage(result.message);
-                                alert.show(2000);
-                            }
+
+                        const result = await response.json();
+
+                        if (response.ok) {
+                            const alert = document.getElementById('alert-success');
+                            alert.setMessage("Tu cuenta ha sido creada correctamente.");
+                            alert.show(2000);
+                            loader.hide();
+                            window.location.href = `${BASE_URL}/home`;
                         } else {
                             loader.hide();
                             const alert = document.getElementById('alert-error');
-                            alert.setMessage("El código de verificación no es válido.");
+                            alert.setMessage(result.message);
                             alert.show(2000);
                         }
                     } else {
                         loader.hide();
+                        const alert = document.getElementById('alert-error');
+                        alert.setMessage("El código de verificación no es válido.");
+                        alert.show(2000);
                     }
-                });
+                } else {
+                    loader.hide();
+                }
             } catch (error) {
                 const alert = document.getElementById('alert-error');
                 alert.setMessage(error);
