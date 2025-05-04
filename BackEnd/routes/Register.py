@@ -1,3 +1,4 @@
+import os
 import traceback
 
 from flask import Blueprint, request, jsonify
@@ -71,3 +72,13 @@ def register():
         print("Ocurrio un error: ")
         traceback.print_exc()
         return jsonify({"Ocurrio un error creando la cuenta"}), 500
+
+
+@registro_bp.route("/check_company", methods=["GET"])
+def check_company():
+    name = request.args.get("name")
+    if not name:
+        return jsonify({"error": "Falta el nombre de la empresa"}), 400
+    if os.path.exists(os.path.abspath(os.path.join(os.path.dirname(__file__), "../../DB", f"{name}.db"))):
+        return jsonify({"mensaje": "la empresa existe"}), 200
+    return jsonify({"error": "comprobando la compañia"}), 404

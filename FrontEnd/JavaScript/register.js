@@ -12,9 +12,12 @@ function getFormData() {
     };
 }
 
-// TODO. comprobar si existe la empresa
 async function isValidForm(data) {
     const errorText = [];
+    const verifyCompanyResponse = await fetch(`${BASE_URL}/check_company?name=${data.name}`);
+    if (verifyCompanyResponse.ok) {
+        errorText.push("Ya existe una empresa registrada con ese nombre.");
+    }
     const verifyEmailResponse = await fetch(`${BASE_URL}/check_mail?mail=${data.mail}`);
     if (verifyEmailResponse.ok) {
         errorText.push("Ya existe una cuenta asociada a este correo.");

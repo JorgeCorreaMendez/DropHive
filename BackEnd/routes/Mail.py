@@ -48,6 +48,7 @@ def new_account_registered():
         return jsonify({"error": "enviando la contraseña a la nueva cuenta"}), 500
 
 
+# TODO. por que se devuelve la db
 @email_bp.route("/check_mail", methods=["GET"])
 def check_mail():
     mail = request.args.get('mail')
