@@ -1,22 +1,21 @@
 <!DOCTYPE html>
-<html lang="es" xmlns="http://www.w3.org/1999/html">
+<html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Crear Compañía</title>
-    <!-- Puedes cargar Tailwind CSS o tu propia hoja de estilos -->
     <link rel="stylesheet" href="styles.css">
 </head>
 <body class="bg-gray-100">
-<!-- Caja exterior gris -->
+
 <div class="outer-container bg-gray-300 p-6 m-6 rounded-lg">
-    <!-- Contenedor principal interno -->
     <main class="container mx-auto p-6 bg-white rounded-[20px]">
 
-        <!-- ENCABEZADO: Imagen + Nombre de la Categoría + Botón -->
+        <input type="hidden" id="category-id">
+
         <div class="company-header">
             <div class="container mx-auto p-6 bg-[#EDEDED] m-[10px] mt-[25px] rounded-[20px]">
-                <!-- BOTÓN DE GUARDAR alineado a la derecha -->
+
                 <div class="mt-6 md:mt-0 flex justify-end">
                     <button
                             id="save-btn1"
@@ -25,11 +24,12 @@
                         Save Changes
                     </button>
                 </div>
+
                 <div class="flex flex-col md:flex-row md:items-center md:gap-6">
 
-                    <!-- Imagen con overlay para subir foto -->
                     <div class="image-upload-wrapper relative w-32 h-32">
                         <img
+                                id="preview-image"
                                 src="/FrontEnd/Images/sinFoto.png"
                                 alt="Company Image"
                                 class="w-full h-full rounded-full object-cover"
@@ -39,41 +39,39 @@
                         >
                             Adjuntar imagen
                         </div>
-                        <!-- Input invisible para la imagen -->
-                        <input type="file" accept="image/*" class="absolute inset-0 opacity-0 cursor-pointer">
+                        <input type="file" id="image-input" accept="image/*" class="absolute inset-0 opacity-0 cursor-pointer">
                     </div>
 
-                    <!-- Input de Nombre de la Categoría junto a la imagen -->
                     <div class="company-info flex flex-col flex-1">
-                        <label for="new-category" class="font-semibold text-lg mb-2">Nombre de la Categoria:</label>
+                        <label for="category-name" class="font-semibold text-lg mb-2">Nombre de la Categoria:</label>
                         <input
                                 type="text"
-                                id="new-category"
+                                id="category-name"
                                 placeholder="Añade el nombre de la categoría"
                                 class="w-full bg-gray-100 rounded-full px-4 py-2 outline-none text-sm"
                                 required
                         >
                     </div>
 
-
                 </div>
             </div>
         </div>
 
-        <!-- DESCRIPCIÓN (sin cambios) -->
         <main class="container mx-auto p-6 bg-[#EDEDED] m-[10px] mt-[25px] rounded-[20px]">
             <div class="company-description mt-6">
-                <label for="company-description" class="font-semibold text-lg mb-2 block">Descripción:</label>
+                <label for="category-description" class="font-semibold text-lg mb-2 block">Descripción:</label>
                 <textarea
-                        id="company-description"
+                        id="category-description"
                         placeholder="Añade una descripción..."
                         class="w-full bg-gray-100 rounded-lg px-4 py-2 outline-none text-sm"
-                        rows="4"
+                        rows="4" required
                 ></textarea>
             </div>
         </main>
 
     </main>
 </div>
+
+<script type="module" src="/FrontEnd/JavaScript/addAndModifyCategory.js" defer></script>
 </body>
 </html>

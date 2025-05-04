@@ -1,66 +1,56 @@
-// readCategory.js
+document.addEventListener("DOMContentLoaded", async () => {
+    await cargarCategorias();
+});
 
 const cargarCategorias = async () => {
     try {
-        const response = await fetch(`/get_categories?${id}`);
-        const categories = await response.json();
+        const response = await fetch("/get_all_categories");
+        if (!response.ok) throw new Error("Errore nel recupero delle categorie");
 
-        const container = document.getElementById('categories-container');
-        container.innerHTML = '';
+        const categories = await response.json();
+        const container = document.getElementById("categories-container");
+        container.innerHTML = "";
+
+        if (!Array.isArray(categories) || categories.length === 0) {
+            container.innerHTML = "<p>Nessuna categoria trovata.</p>";
+            return;
+        }
 
         categories.forEach(category => {
-            const card = document.createElement('div');
-            card.className = "bg-white p-4 rounded shadow-md flex flex-col justify-between";
+            const card = document.createElement("div");
+            card.className = "category-card bg-white rounded-xl shadow p-4 m-4";
 
-            card.innerHTML = `
-                <div class="mb-4">
-                    <h2 class="text-xl font-semibold">${category.name}</h2>
-                    <p class="text-gray-600">${category.description}</p>
-                </div>
-                <div class="flex gap-2 justify-end">
-                    <button onclick="modificaCategoria('${category.id}')" class="bg-yellow-400 hover:bg-yellow-500 text-white px-4 py-2 rounded">
-                        Modifica
-                    </button>
-                    <button onclick="eliminaCategoria('${category.id}')" class="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded">
-                        Elimina
-                    </button>
-                </div>
-            `;
+            const image = document.createElement("img");
+            image.src = category.image_url || "/FrontEnd/Images/sinFoto.png";
+            image.alt = category.name;
+            image.className = "w-32 h-32 object-cover rounded-full mx-auto";
+
+            const name = document.createElement("h3");
+            name.textContent = category.name;
+            name.className = "text-xl font-bold text-center mt-4";
+
+            const description = document.createElement("p");
+            description.textContent = category.description;
+            description.className = "text-gray-700 mt-2 text-center";
+
+            const editBtn = document.createElement("button");
+            editBtn.textContent = "Modifica";
+            editBtn.className = "bg-blue-500 text-white px-4 py-1 rounded mt-4 block mx-auto";
+            editBtn.addEventListener("click", () => {
+                localStorage.setItem("editCategoryId", category.id);
+                window.location.href = "/addAndModifyCategory";
+            });
+
+            card.appendChild(image);
+            card.appendChild(name);
+            card.appendChild(description);
+            card.appendChild(editBtn);
 
             container.appendChild(card);
         });
-
-    } catch (err) {
-        console.error('Errore nel caricare le categorie:', err);
+    } catch (error) {
+        console.error("Errore nel caricamento categorie:", error);
+        const container = document.getElementById("category-container");
+        container.innerHTML = "<p>Errore nel caricamento delle categorie.</p>";
     }
 };
-
-const eliminaCategoria = async (id) => {
-    if (!confirm("Are you sure you want to delete this category?")) return;
-
-    try {
-        const res = await fetch(`/delete_category/${id}`, {
-            method: 'DELETE'
-        });
-
-        if (res.ok) {
-            alert('Category successfully deleted.');
-            cargarCategorias();
-        } else {
-            const errorText = await res.text();
-            alert('Errore: ' + errorText);
-        }
-    } catch (err) {
-        console.error('Errore nell\'eliminazione:', err);
-    }
-};
-
-const modificaCategoria = (id) => {
-    // Reindirizza alla pagina con id come parametro
-    window.location.href = `/FrontEnd/addAndModifyCategory.html?id=${id}`;
-    localStorage.setItem('editCategoryId', id);
-    localStorage.setItem('editCategoryName', name);
-    localStorage.setItem('editCategoryDescription', description);
-};
-
-document.addEventListener('DOMContentLoaded', cargarCategorias);
