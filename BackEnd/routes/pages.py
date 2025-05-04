@@ -31,7 +31,7 @@ def login():
 
 @pages_bp.route("/forgotten_password")
 def forgotten_password():
-    return render_template("send_mail_for_password.html")
+    return render_template("password-recovery/send_mail_for_password.html")
 
 
 @pages_bp.route("/change_password")
