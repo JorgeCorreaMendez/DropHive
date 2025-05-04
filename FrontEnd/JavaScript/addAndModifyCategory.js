@@ -1,21 +1,39 @@
 // addAndModifyCategory.js
 
-import { recuperarNombreBaseDatos } from "./recursos.js";  // Se lo usi anche per categorie
+import { recuperarNombreBaseDatos } from "./recursos.js";
 
-// --- 1. Caricamento immagine su click ---
-document.addEventListener('DOMContentLoaded', function() {
+// --- 1. Caricamento dati e immagine (modifica categoria) ---
+document.addEventListener('DOMContentLoaded', async function() {
     const editId = localStorage.getItem('editCategoryId');
-    const editName = localStorage.getItem('editCategoryName');
-    const editDescription = localStorage.getItem('editCategoryDescription');
 
-    if (editId && editName && editDescription) {
-        document.getElementById('category-id').value = editId;
-        document.getElementById('category-name').value = editName;
-        document.getElementById('category-description').value = editDescription;
+    if (editId) {
+        try {
+            const response = await fetch(`/get_category?id=${editId}`);
+            if (!response.ok) {
+                throw new Error('Categoria non trovata');
+            }
+            const data = await response.json();
 
-        localStorage.removeItem('editCategoryId');
-        localStorage.removeItem('editCategoryName');
-        localStorage.removeItem('editCategoryDescription');
+            document.getElementById('category-id').value = data.id;
+            document.getElementById('category-name').value = data.name;
+            document.getElementById('category-description').value = data.description;
+
+            if (data.image_url) {
+                const previewImage = document.getElementById('preview-image');
+                if (previewImage) {
+                    previewImage.src = data.image_url;
+                }
+            }
+
+            // Pulizia del localStorage
+            localStorage.removeItem('editCategoryId');
+            localStorage.removeItem('editCategoryName');
+            localStorage.removeItem('editCategoryDescription');
+
+        } catch (error) {
+            console.error("Errore nel recupero della categoria:", error);
+            alert("Impossibile caricare i dati della categoria.");
+        }
     }
 });
 
@@ -38,7 +56,7 @@ export const agregarCategoria = async () => {
             formData.append('image', imageFile);
         }
         if (categoryId) {
-            formData.append('id', categoryId);
+            formData.append('id', categoryId);  // Per aggiornare invece che creare
         }
 
         const response = await fetch('/add_category', {
@@ -47,7 +65,7 @@ export const agregarCategoria = async () => {
         });
 
         if (response.ok) {
-            console.log("Categoria aggiunta correttamente!");
+            console.log("Categoria aggiunta/modificata correttamente!");
             window.location.href = '/home';
         } else {
             const errorMessage = await response.text();
@@ -59,6 +77,3 @@ export const agregarCategoria = async () => {
         alert("Errore inatteso, vedi la console.");
     }
 }
-
-
-
