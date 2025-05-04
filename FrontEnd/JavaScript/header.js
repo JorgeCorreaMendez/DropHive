@@ -39,6 +39,14 @@ function initializeLogoutButton() {
     }
 }
 
+document.getElementById("mi-perfil").addEventListener("click", async () => {
+    window.location.href = "http://127.0.0.1:4000/profile";
+})
+
+document.getElementById("retorno-home").addEventListener("click", () => {
+    window.location.href = "http://127.0.0.1:4000/home";
+})
+
 
 function initializePage() {
     initializeLogoutButton(); // Siempre cargamos el header y footer

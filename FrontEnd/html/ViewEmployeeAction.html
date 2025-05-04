@@ -1,42 +1,24 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-  <meta charset="UTF-8" />
-  <title>DropHive</title>
-  <link rel="stylesheet" href="{{ url_for('static', filename='CSS/viewEmployeeActions.css') }}">
-</head>
-<body>
-
-<!-- Encabezado -->
-<header>
-  {% include 'header.html' %}
-</header>
-<!-- Contenedor principal -->
 <main>
+  <div class="total-wrapper2">
+  <div class="total-wrapper">
   <section class="employee-actions">
     <h2>Employee actions</h2>
-
-    <!-- Barra de búsqueda de ID -->
-    <div class="search-id">
-      <label for="searchId">Search ID</label>
-      <input type="text" id="searchId" placeholder="Buscar ID...🔍" />
-    </div>
 
     <!-- Datos del empleado -->
     <div class="employee-data">
       <div class="field">
         <label>ID</label>
-        <input type="text" value="0001" readonly />
+        <p id="id">0001</p>
       </div>
 
       <div class="field">
         <label>Email</label>
-        <input type="text" placeholder="email@ejemplo.com" readonly/>
+        <p id="mail">email@ejemplo.com</p>
       </div>
 
       <div class="field">
         <label>Role</label>
-        <input type="text" placeholder="Admin/User" readonly/>
+        <p id="role">Admin/User</p>
       </div>
     </div>
 
@@ -52,21 +34,38 @@
         </thead>
         <tbody>
         <tr>
-          <td><input type="text" placeholder="Action 1" /></td>
-          <td><input type="text" placeholder="Target 1" /></td>
+          <td><input type="text"/></td>
+          <td><input type="text"/></td>
         </tr>
         <tr>
-          <td><input type="text" placeholder="Action 2" /></td>
-          <td><input type="text" placeholder="Target 2" /></td>
+          <td><input type="text"/></td>
+          <td><input type="text"/></td>
         </tr>
         <tr>
-          <td><input type="text" placeholder="Action 3" /></td>
-          <td><input type="text" placeholder="Target 3" /></td>
+          <td><input type="text"/></td>
+          <td><input type="text"/></td>
         </tr>
         </tbody>
       </table>
     </div>
+    <div class="button-row">
+    <div class="button-wrapper delete_button">
+      <button class="delete-button" id="delete-btn">
+        <img src="{{ url_for('static', filename='Images/archivo-bin.ico') }}" alt="Delete icon" class="icon">
+        Delete employee
+      </button>
+    </div>
+    <div class="button-wrapper modify_button">
+      <button class="modify-button" id="modify-btn">
+        <img src="{{ url_for('static', filename='Images/escritura.ico') }}" alt="modify icon" class="icon">
+        Modify employee
+      </button>
+    </div>
+    </div>
   </section>
+  </div>
+  </div>
 </main>
-</body>
-</html>
+
+
+<link rel="stylesheet" href="{{ url_for('static', filename='CSS/viewEmployeeActions.css') }}">

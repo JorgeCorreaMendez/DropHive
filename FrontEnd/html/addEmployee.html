@@ -1,22 +1,9 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="{{ url_for('static', filename='CSS/addEmployee.css') }}">
-    <script src="{{ url_for('static', filename='JavaScript/header.js') }}"></script>
-    <title>Add Employee</title>
-</head>
-<body>
-<header>
-    {% include 'header.html' %}
-</header>
 <div class="total-wrapper">
 <div class="container">
     <div class="form-group">
         <div>
-            <label class="field-label">ID</label>
-            <input type="text" id="id" placeholder="Add ID">
+            <label class="field-label">Id</label>
+            <input type="text" id="id" placeholder="Add Id">
         </div>
         <div>
             <label class="field-label">Email</label>
@@ -27,8 +14,6 @@
             <input type="text" id="role" placeholder="Add Role">
         </div>
     </div>
-    <button class="save-btn">Save Changes</button>
+    <button class="save-btn" id="save-changes-btn">Save Changes</button>
 </div>
 </div>
-</body>
-</html>

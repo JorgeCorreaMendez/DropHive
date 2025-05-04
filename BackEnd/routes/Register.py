@@ -1,57 +1,73 @@
+import traceback
+
 from flask import Blueprint, request, jsonify
 from sqlalchemy.exc import SQLAlchemyError
 
 from BackEnd.models import Base
 from BackEnd.models.Account import Account
+from BackEnd.models.Company import Company
+from BackEnd.models.Privilege import Privilege
 from BackEnd.models.User import User
 from BackEnd.schemas import UserRegisterSchema
 from BackEnd.utils.bcrypt_methods import create_hash
-from BackEnd.utils.sqlalchemy_methods import get_db_session, get_engine
+from BackEnd.utils.sqlalchemy_methods import get_db_session, get_engine, database_exists
 
 registro_bp = Blueprint("registro", __name__)
 
 
-def register_company(user_data):
-    db_name = user_data.name
+@registro_bp.route("/register", methods=["POST"])
+def register():
     try:
-        Base.metadata.create_all(get_engine(db_name))
-        with (get_db_session(db_name) as client_session,
-              get_db_session("Users") as user_session):
+        user_data = UserRegisterSchema(**request.get_json())
+        db_name = user_data.name
+        if database_exists(db_name):
+            print("Error, la empresa ya está registrada.")
+            return jsonify({"error": "La empresa ya está registrada."}), 409
+        engine = get_engine(db_name)
+        Base.metadata.create_all(engine)
+        with (get_db_session(db_name) as client_db,
+              get_db_session("Users") as users_db):
+            new_company = Company(
+                name=db_name,
+                description=user_data.description,
+            )
+            client_db.add(new_company)
+            client_db.flush()
+            new_privilege = Privilege(
+                id=1,
+                name="Administrador"
+            )
             new_account = Account(
-                name=user_data.name,
+                name="Admin",
                 mail=user_data.mail,
                 password=create_hash(user_data.password),
                 phone=user_data.phone,
-                description=user_data.description,
                 address=user_data.address,
-                privilege_id=user_data.privilege_id
+                privilege_id=user_data.privilege_id,
+                company_id=new_company.id
             )
             new_user = User(
                 mail=user_data.mail,
-                db_name=db_name
+                db_name=db_name,
+                first_login=False
             )
-            client_session.add(new_account)
-            user_session.add(new_user)
-            client_session.commit()
-            user_session.commit()
-        return True, f"Company {db_name} registered successfully."
-    except Exception as e:
+            client_db.add(new_account)
+            client_db.add(new_privilege)
+            users_db.add(new_user)
+            client_db.commit()
+            users_db.commit()
+        return jsonify({"message": f"Company {db_name} registered successfully."}), 201
+    except SQLAlchemyError:
         try:
-            client_session.rollback()
+            if client_db:
+                client_db.rollback()
         except SQLAlchemyError:
             pass
         try:
-            user_session.rollback()
+            if users_db:
+                users_db.rollback()
         except SQLAlchemyError:
             pass
-        return False, e
-
-
-@registro_bp.route("/register", methods=["POST"])
-def register():
-    data = request.get_json()
-    user_data = UserRegisterSchema(**data)
-    success, message = register_company(user_data)
-    if not success:
-        return jsonify({"error": str(message)}), 500
-    return jsonify({"message": str(message)}), 200
+        print("Ocurrio un error: ")
+        traceback.print_exc()
+        return jsonify({"Ocurrio un error creando la cuenta"}), 500

@@ -31,7 +31,6 @@
             </div>
         </form>
     </div>
-
     <div id="message"></div>
 </div>
 </body>
@@ -48,11 +47,7 @@
                 },
                 body: JSON.stringify({code: verification_code}),
             });
-
-            console.log(verification_code)
-
             if (response.ok) {
-                console.log("Se ha entrado aquí");
                 window.location.href = 'http://127.0.0.1:4000/change_password'
             } else {
                 alert("Wrong Verification Code")

@@ -1,5 +1,5 @@
 import os
-from sqlalchemy import create_engine
+from sqlalchemy import create_engine, inspect
 from sqlalchemy.orm import sessionmaker
 from BackEnd.models import UserBase
 
@@ -16,6 +16,10 @@ def get_db_session(dbname):
     Session = sessionmaker()
     Session.configure(bind=engine)
     return Session()
+
+
+def database_exists(dbname):
+    return bool(inspect(get_engine(dbname)).get_table_names())
 
 
 def init_user_db():

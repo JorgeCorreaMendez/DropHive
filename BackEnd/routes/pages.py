@@ -41,7 +41,7 @@ def change_password():
 
 @pages_bp.route("/verification_code")
 def verification_code():
-    return render_template("CodigoDeVerificacion.html")
+    return render_template("verificationCode.html")
 
 
 @pages_bp.route("/addAndModifyCategory")
