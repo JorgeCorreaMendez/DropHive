@@ -12,25 +12,6 @@ function getFormData() {
     };
 }
 
-///TODO. Reutilizar modales, crear nuevos modelos
-function showErrorAlert(title, errors) {
-    return Swal.fire({
-        icon: 'error',
-        title: title,
-        html: Array.isArray(errors) ? errors.join('<br>') : errors,
-        confirmButtonText: 'Entendido'
-    });
-}
-
-function showOkAlert(title, text) {
-    return Swal.fire({
-        icon: 'success',
-        title: title,
-        html: Array.isArray(text) ? text.join('<br>') : text,
-        confirmButtonText: 'Entendido'
-    });
-}
-
 // TODO. comprobar si existe la empresa
 async function isValidForm(data) {
     const errorText = [];
@@ -39,13 +20,15 @@ async function isValidForm(data) {
         errorText.push("Ya existe una cuenta asociada a este correo.");
     }
     if (data.password.length < 8) {
-        errorText.push("La contraseña debe tener al menos 8 caracteres");
+        errorText.push("La contraseña debe tener al menos 8 caracteres.");
     }
     if (data.password !== data.confirm_password) {
         errorText.push("Ambas contraseñas deben coincidir.");
     }
     if (errorText.length > 0) {
-        showErrorAlert('Error en el formulario', errorText);
+        const alert = document.getElementById('alert-error');
+        alert.setMessage(Array.isArray(errorText) ? errorText.join('<br>') : errorText);
+        alert.show(2000);
         return false;
     }
     return true;
@@ -64,7 +47,9 @@ document.addEventListener("DOMContentLoaded", () => {
                 const sendResponse = await fetch(`${BASE_URL}/send_verification_code?mail=${encodeURIComponent(registerData.mail)}`);
                 if (!sendResponse.ok) {
                     loader.hide();
-                    showErrorAlert("Error", "No se pudo enviar el código de verificación.");
+                    const alert = document.getElementById('alert-error');
+                    alert.setMessage("No se pudo enviar el código de verificación.");
+                    alert.show(2000);
                     return;
                 }
                 Swal.fire({
@@ -97,26 +82,32 @@ document.addEventListener("DOMContentLoaded", () => {
                             });
                             const result = await response.json();
                             if (response.ok) {
-                                showOkAlert("¡Cuenta creada!", "Tu cuenta ha sido creada correctamente.")
-                                    .then(() => {
-                                        loader.hide();
-                                        window.location.href = `${BASE_URL}/home`
-                                    });
+                                /// TODO. mostrar al volver al login
+                                const alert = document.getElementById('alert-success');
+                                alert.setMessage("Tu cuenta ha sido creada correctamente.");
+                                alert.show(2000);
+                                loader.hide();
+                                window.location.href = `${BASE_URL}/home`
                             } else {
                                 loader.hide();
-                                showErrorAlert("Error al crear la cuenta.", result.message);
+                                const alert = document.getElementById('alert-error');
+                                alert.setMessage(result.message);
+                                alert.show(2000);
                             }
                         } else {
                             loader.hide();
-                            showErrorAlert("Código incorrecto", "El código de verificación no es válido.");
+                            const alert = document.getElementById('alert-error');
+                            alert.setMessage("El código de verificación no es válido.");
+                            alert.show(2000);
                         }
                     } else {
                         loader.hide();
                     }
                 });
             } catch (error) {
-                showErrorAlert("Error de red", "No se pudo conectar con el servidor.");
-                console.error("Error:", error);
+                const alert = document.getElementById('alert-error');
+                alert.setMessage(error);
+                alert.show(2000);
             }
         }
     });

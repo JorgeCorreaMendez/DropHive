@@ -1,4 +1,4 @@
-export class loadingModal extends HTMLElement {
+export class loading extends HTMLElement {
     constructor() {
         super();
         const shadow = this.attachShadow({ mode: 'open' });
@@ -72,4 +72,4 @@ export class loadingModal extends HTMLElement {
     }
 }
 
-customElements.define('loading-modal', loadingModal);
+customElements.define('loading-modal', loading);
