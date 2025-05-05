@@ -1,6 +1,4 @@
-import { recuperarNombreBaseDatos } from "./recursos.js";
 
-// Caricamento dati per modifica
 document.addEventListener('DOMContentLoaded', async function () {
     const editId = localStorage.getItem('editCategoryId');
 
@@ -13,12 +11,6 @@ document.addEventListener('DOMContentLoaded', async function () {
             document.getElementById('category-id').value = data.id;
             document.getElementById('category-name').value = data.name;
             document.getElementById('category-description').value = data.description;
-
-            if (data.image_url) {
-                const previewImage = document.getElementById('preview-image');
-                if (previewImage) previewImage.src = data.image_url;
-            }
-
             localStorage.removeItem('editCategoryId');
             localStorage.removeItem('editCategoryName');
             localStorage.removeItem('editCategoryDescription');
@@ -28,9 +20,9 @@ document.addEventListener('DOMContentLoaded', async function () {
         }
     }
 
-    const btn = document.getElementById("save-btn1");
-    if (btn) {
-        btn.addEventListener("click", agregarCategoria);
+    const saveButton = document.getElementById("save-btn1");
+    if (saveButton) {
+        saveButton.addEventListener("click", agregarCategoria);
     } else {
         console.warn("Bottone non trovato");
     }
@@ -41,17 +33,13 @@ export const agregarCategoria = async () => {
     const name = document.getElementById('category-name').value;
     const description = document.getElementById('category-description').value;
 
-    if (!name || !description) {
-        alert("Nome e descrizione sono obbligatori");
+    if (!name) {
+        alert("El mombre es obligatorio");
         return;
     }
 
     try {
-        const db_name = await recuperarNombreBaseDatos();
-        console.log("Base de datos:", db_name);
-
         const payload = {
-            id: categoryId,
             name,
             description
         };
@@ -68,7 +56,6 @@ export const agregarCategoria = async () => {
         });
 
         if (response.ok) {
-            console.log("Categoria salvata con successo!");
             window.location.href = '/home';
         } else {
             const errorMessage = await response.text();
