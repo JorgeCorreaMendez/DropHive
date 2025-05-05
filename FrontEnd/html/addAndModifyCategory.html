@@ -9,38 +9,25 @@
 <body class="bg-gray-100">
 <div class="outer-container bg-gray-300 p-6 m-6 rounded-lg">
     <main class="container mx-auto p-6 bg-white rounded-[20px]">
-
-        <input type="hidden" id="category-id">
-
-        <div class="company-header">
-            <div class="container mx-auto p-6 bg-[#EDEDED] m-[10px] mt-[25px] rounded-[20px]">
-
-                <div class="mt-6 md:mt-0 flex justify-end">
-                    <button
-                            id="save-btn1"
-                            class="bg-amber-600 text-white px-6 py-2 rounded font-bold"
-                    >
-                        Save Changes
-                    </button>
-                </div>
-
-                <div class="flex flex-col md:flex-row md:items-center md:gap-6">
-                    <div class="company-info flex flex-col flex-1">
-                        <label for="category-name" class="font-semibold text-lg mb-2">Nombre de la Categoria:</label>
-                        <input
-                                type="text"
-                                id="category-name"
-                                placeholder="Añade el nombre de la categoría"
-                                class="w-full bg-gray-100 rounded-full px-4 py-2 outline-none text-sm"
-                                required
-                        >
-                    </div>
-
-                </div>
-            </div>
-        </div>
-
         <main class="container mx-auto p-6 bg-[#EDEDED] m-[10px] mt-[25px] rounded-[20px]">
+            <div class="mt-6 md:mt-0 flex justify-end">
+                <button
+                        id="save-btn1"
+                        class="bg-amber-600 text-white px-6 py-2 rounded font-bold"
+                >
+                    Save Changes
+                </button>
+            </div>
+            <div class="company-info flex flex-col flex-1">
+                <label for="category-name" class="font-semibold text-lg mb-2">Nombre de la Categoria:</label>
+                <input
+                        type="text"
+                        id="category-name"
+                        placeholder="Añade el nombre de la categoría"
+                        class="w-full bg-gray-100 rounded-full px-4 py-2 outline-none text-sm"
+                        required
+                >
+            </div>
             <div class="company-description mt-6">
                 <label for="category-description" class="font-semibold text-lg mb-2 block">Descripción:</label>
                 <textarea
@@ -51,7 +38,6 @@
                 ></textarea>
             </div>
         </main>
-
     </main>
 </div>
 
