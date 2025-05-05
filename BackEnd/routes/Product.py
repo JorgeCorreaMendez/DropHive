@@ -147,6 +147,7 @@ def filter_products():
                 query = query.join(query_quantity, Product.id == query_quantity.c.id)
                 query = query.filter(query_quantity.c.quantity <= int(max_quantity))
             query = query.limit(limit).offset(offset)
+            print([product.serialize() for product in query.all()])
             return jsonify([product.serialize() for product in query.all()]), 200
     except SQLAlchemyError:
         print("Error, filtrando los productos")
