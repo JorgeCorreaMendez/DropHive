@@ -13,7 +13,7 @@ from BackEnd.routes.pages import pages_bp
 from BackEnd.utils.flask_mail_methods import init_mail
 from BackEnd.utils.sqlalchemy_methods import init_user_db
 
-app = Flask(__name__, template_folder="../FrontEnd/html", static_folder="../FrontEnd")
+app = Flask(__name__, template_folder="../FrontEnd/html", static_folder="../FrontEnd", static_url_path="")
 app.secret_key = os.getenv("SECRET_KEY")
 app.register_blueprint(auth_bp)
 app.register_blueprint(registro_bp)

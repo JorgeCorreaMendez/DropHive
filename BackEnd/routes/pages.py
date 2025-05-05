@@ -26,7 +26,7 @@ def home():
 
 @pages_bp.route("/login")
 def login():
-    return render_template("LogIn.html")
+    return render_template("Login.html")
 
 
 @pages_bp.route("/forgotten_password")
