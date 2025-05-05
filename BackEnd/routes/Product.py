@@ -153,3 +153,37 @@ def filter_products():
         print("Error, filtrando los productos")
         traceback.print_exc()
         return jsonify({"error": "filtrando los productos"}), 500
+
+from sqlalchemy import or_
+
+@products_bp.route('/similar_products/<string:product_id>', methods=["GET"])
+@login_required
+def get_similar_products(product_id):
+    try:
+        with get_db_session(session["db.name"]) as db_session:
+            original = db_session.query(Product).get(product_id)
+            if not original:
+                return jsonify({"error": "Producto no encontrado"}), 404
+
+            print(original)
+            # Dividir el nombre original en palabras clave
+            search_terms = original.name.split()
+            name_filters = [Product.name.ilike(f"%{term}%") for term in search_terms]
+
+            # Buscar productos similares
+            similares = (
+                db_session.query(Product)
+                .filter(Product.id != product_id)
+                .filter(Product.category_id == original.category_id)
+                .limit(10)
+                .all()
+            )
+
+            print("Similares encontrados:", [p.name for p in similares])
+
+            return jsonify([p.serialize() for p in similares]), 200
+
+    except SQLAlchemyError:
+        traceback.print_exc()
+        return jsonify({"error": "Error buscando productos similares"}), 500
+

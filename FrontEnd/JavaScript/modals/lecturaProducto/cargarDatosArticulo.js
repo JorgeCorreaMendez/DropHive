@@ -10,6 +10,10 @@ export async function cargarDatosArticulo(datos_articulo) {
   const descripcion = document.getElementById("descripcion");
   const tabla_tallas = document.getElementById("table-body-producto");
   tabla_tallas.innerHTML = ''
+  const tabla_productos_similares  = document.getElementById("tabla-productos-similares");
+  tabla_productos_similares.innerHTML = ''
+  const productos_similares = await fetch(`http://127.0.0.1:4000/similar_products/${datos_articulo.id}`)
+  console.log("Productos similares:", await productos_similares.json());
 
   if (!product_name || !img) {
     console.log("No se ha encontrado algún elemento.");
