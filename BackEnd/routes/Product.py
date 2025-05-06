@@ -175,7 +175,7 @@ def get_similar_products(product_id):
                 db_session.query(Product)
                 .filter(Product.id != product_id)
                 .filter(Product.category_id == original.category_id)
-                .limit(10)
+                .limit(5)
                 .all()
             )
 

@@ -1,4 +1,7 @@
 import {localizarCategoria} from "../../home/productos.js";
+import {openModal} from "../abrirYCerrarModal.js";
+import {modificarArticulo} from "./modificarProducto.js";
+import {eliminarArticulo} from "./eliminarArticulo.js";
 
 export async function cargarDatosArticulo(datos_articulo) {
 
@@ -12,8 +15,8 @@ export async function cargarDatosArticulo(datos_articulo) {
   tabla_tallas.innerHTML = ''
   const tabla_productos_similares  = document.getElementById("tabla-productos-similares");
   tabla_productos_similares.innerHTML = ''
-  const productos_similares = await fetch(`http://127.0.0.1:4000/similar_products/${datos_articulo.id}`)
-  console.log("Productos similares:", await productos_similares.json());
+  const response_productos_similares = await fetch(`http://127.0.0.1:4000/similar_products/${datos_articulo.id}`)
+  const productos_similares = await response_productos_similares.json();
 
   if (!product_name || !img) {
     console.log("No se ha encontrado algún elemento.");
@@ -39,5 +42,41 @@ export async function cargarDatosArticulo(datos_articulo) {
       <td>${size.quantity}</td>
     `;
     tabla_tallas.appendChild(fila);
+  })
+
+  productos_similares.forEach(producto => {
+    const li = document.createElement('li');
+    li.textContent = producto.name;
+    li.id = `producto-${producto.id}`;
+    li.className = 'bg-white rounded p-2 shadow cursor-pointer';
+
+    li.addEventListener('click', async () => {
+      try {
+        let response = await fetch(`filter_product_by_id?id=${producto.id}`);
+        const object = await response.json();
+
+        response = await fetch(`readArticle`);
+        const html = await response.text();
+
+        const parser = new DOMParser();
+        const doc = parser.parseFromString(html, "text/html");
+        const bodyContent = doc.body.innerHTML;
+
+        openModal(bodyContent);
+        await cargarDatosArticulo(object[0]);
+        await modificarArticulo(object[0]);
+        await eliminarArticulo();
+      } catch (err) {
+        console.error("Error al cargar el modal:", err);
+        Swal.fire({
+          icon: 'error',
+          title: "Error al cargar el modal",
+          html: err.message || "Ocurrió un error inesperado.",
+          timer: 2500,
+          showConfirmButton: false
+        });
+      }
+    })
+    tabla_productos_similares.appendChild(li);
   })
 }
