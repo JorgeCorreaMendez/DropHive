@@ -16,6 +16,7 @@ export async function cargarDatosEnTabla(data) {
 
     for (const item of data) {
         let row;
+        console.log("Este es el row", item)
         if (vistaActual === "productos") {
             row = await addInformacionFilaProducto(item);
         } else {

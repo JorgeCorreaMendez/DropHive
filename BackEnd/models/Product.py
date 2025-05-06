@@ -26,7 +26,7 @@ class Product(Base):
 
     def serialize(self):
         return {
-            "id:": self.id,
+            "id": self.id,
             "name": self.name,
             "description": self.description,
             "price": self.price,

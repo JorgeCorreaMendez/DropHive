@@ -16,6 +16,8 @@ export async function recuperarProductos() {
         // Espera la respuesta JSON
         const respuesta_json = await response.json();
 
+        console.log("El objeto es:", respuesta_json);
+
         // Aquí puedes trabajar con los datos obtenidos de la API
         await cargarDatosEnTabla(respuesta_json);
         await initPagination(respuesta_json.length);
@@ -42,12 +44,12 @@ export async function addInformacionFilaProducto(item) {
 
 
     row.id = "list-article"
-    row.setAttribute('data-product-id', item.product_id);
+    row.setAttribute('data-product-id', item.id);
 
     // A partir de aquí se muestran los elementos de las columnas
     const idCell = document.createElement('td');
     idCell.classList.add('p-2', 'rounded-[5px]');
-    idCell.textContent = item.product_id;
+    idCell.textContent = item.id;
 
     const nameCell = document.createElement('td');
     nameCell.classList.add('p-2', 'rounded-[5px]');
