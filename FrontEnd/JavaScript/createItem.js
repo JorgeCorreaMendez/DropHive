@@ -9,33 +9,65 @@ const getInputValue = (id) => {
 // Función para agregar un producto
 export const agregarProducto = async () => {
     // Leer campos estáticos
-    const id  = getInputValue("product-id");
-    const name        = getInputValue("product-name");
-    const description = getInputValue("description");
-    const price       = parseFloat(getInputValue("price")) || 0;
-    const discount    = parseFloat(getInputValue("discount")) || 0;
+    const id  = getInputValue("product-id").trim();
+    const name        = getInputValue("product-name").trim();
+    const description = getInputValue("description").trim();
+    const priceRaw    = getInputValue("price").trim();
+    const discountRaw = getInputValue("discount").trim();
+
+    // Validaciones básicas
+    if (!id) {
+        return Swal.fire({ icon: 'error', title: 'Error', text: 'El ID es obligatorio.' });
+    }
+    if (!name) {
+        return Swal.fire({ icon: 'error', title: 'Error', text: 'El nombre del producto es obligatorio.' });
+    }
+    if (priceRaw === '') {
+        return Swal.fire({ icon: 'error', title: 'Error', text: 'El precio es obligatorio.' });
+    }
+    const price    = parseFloat(priceRaw);
+    const discount = parseFloat(discountRaw) || 0;
+    if (isNaN(price) || price < 0) {
+        return Swal.fire({ icon: 'error', title: 'Error', text: 'El precio debe ser un número positivo.' });
+    }
+    if (isNaN(discount) || discount < 0) {
+        return Swal.fire({ icon: 'error', title: 'Error', text: 'El descuento debe ser un número positivo.' });
+    }
 
     // Leer categoría
     const categoryEl = document.getElementById("primary-category");
-    const category   = categoryEl ? { name: categoryEl.value } : { name: '' };
+    const category   = categoryEl ? { name: categoryEl.value.trim() } : { name: '' };
 
-    // 1) Recoger el primer input (estático) con id y luego los dinámicos
+    // 1) Primer tamaño/cantidad
     const initialSize = getInputValue("new-size").trim();
-    const initialQty  = parseInt(getInputValue("new-quantity"), 10) || 0;
+    const initialQty  = parseInt(getInputValue("new-quantity"), 10);
 
-    // 2) Dinámicos
+    if (initialSize && (isNaN(initialQty) || initialQty < 0)) {
+        return Swal.fire({ icon: 'error', title: 'Error', text: 'La cantidad inicial no es válida.' });
+    }
+
+    // 2) Inputs dinámicos
     const sizeInputs = Array.from(document.querySelectorAll("input[name='newSize[]']"));
     const qtyInputs  = Array.from(document.querySelectorAll("input[name='newQuantity[]']"));
 
-    // 3) Construir el array completo
+    // 3) Construir array de tallas
     const sizes = [];
     if (initialSize) {
-        sizes.push({ name: initialSize, quantity: initialQty });
+        sizes.push({ name: initialSize, quantity: initialQty || 0 });
     }
     sizeInputs.forEach((input, i) => {
         const name = input.value.trim();
-        const qty  = parseInt(qtyInputs[i].value, 10) || 0;
-        if (name) sizes.push({ name, quantity: qty });
+        const qty  = parseInt(qtyInputs[i].value, 10);
+        if (name && (!isNaN(qty) && qty >= 0)) {
+            sizes.push({ name, quantity: qty });
+        } else if (name) {
+            // Nombre sí, pero cantidad inválida
+            return Swal.fire({
+                icon: 'error',
+                title: 'Error',
+                text: `Cantidad no válida para la talla "${name}".`
+            });
+        }
     });
 
     try {
@@ -46,16 +78,30 @@ export const agregarProducto = async () => {
         });
 
         if (response.ok) {
-            console.log("Producto añadido correctamente");
-            window.location.href = "/home";
+            Swal.fire({
+                icon: 'success',
+                title: '¡Éxito!',
+                text: 'Producto añadido correctamente.',
+                confirmButtonText: 'Ir al inicio'
+            }).then(() => {
+                window.location.href = "/home";
+            });
         } else {
             const msg = await response.text();
             console.error("Error servidor:", msg);
-            alert(`Error al añadir el producto: ${msg}`);
+            Swal.fire({
+                icon: 'error',
+                title: 'Error al añadir',
+                text: `Servidor respondió: ${msg}`
+            });
         }
     } catch (err) {
         console.error("Error envío datos:", err);
-        alert("Ocurrió un error inesperado. Ver consola.");
+        Swal.fire({
+            icon: 'error',
+            title: 'Error inesperado',
+            text: 'No se pudo conectar con el servidor. Revisa tu conexión.'
+        });
     }
 };
 
