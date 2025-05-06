@@ -9,7 +9,7 @@ const getInputValue = (id) => {
 // Función para agregar un producto
 export const agregarProducto = async () => {
     // Leer campos estáticos
-    const product_id  = getInputValue("product-id");
+    const id  = getInputValue("product-id");
     const name        = getInputValue("product-name");
     const description = getInputValue("description");
     const price       = parseFloat(getInputValue("price")) || 0;
@@ -42,7 +42,7 @@ export const agregarProducto = async () => {
         const response = await fetch("/add_product", {
             method:  "POST",
             headers: { "Content-Type": "application/json" },
-            body:    JSON.stringify({ product_id, name, description, price, discount, category, sizes })
+            body:    JSON.stringify({ id, name, description, price, discount, category, sizes })
         });
 
         if (response.ok) {
