@@ -31,10 +31,16 @@ def add_product():
     try:
         data = request.get_json()
         with get_db_session(session["db.name"]) as db_session:
+            category = db_session.query(Category).filter_by(name=data["category"]["name"]).first()
+            if not category:
+                category = Category(name=data["category"]["name"])
+                db_session.add(category)
+                db_session.flush()
+
             new_product = Product(
                 id=data["id"],
                 name=data["name"],
-                category_id=data["category_id"],
+                category_id=category.id,
                 description=data["description"],
                 price=data["price"],
                 discount=data["discount"],

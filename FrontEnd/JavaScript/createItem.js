@@ -1,172 +1,207 @@
+// ========================================================================
+// Helper para obtener el valor de un elemento por su id
+const getInputValue = (id) => {
+    const el = document.getElementById(id);
+    return el ? el.value : "";
+};
+
+// ========================================================================
+// Función para agregar un producto
 export const agregarProducto = async () => {
-    // 1. Leer y validar valores del formulario
-    const product_id  = document.getElementById("product-id").value.trim();
-    const name        = document.getElementById("product-name").value.trim();
-    const description = document.getElementById("description").value.trim();
-    const priceRaw    = document.getElementById("price").value;
-    const discountRaw = document.getElementById("discount").value;
-    const sizeName    = document.getElementById("new-size").value.trim();
-    const quantityRaw = document.getElementById("new-quantity").value;
-    const category_id = parseInt(
-        document.getElementById("new-category").value,
-        10
-    );
+    // Leer campos estáticos
+    const product_id  = getInputValue("product-id");
+    const name        = getInputValue("product-name");
+    const description = getInputValue("description");
+    const price       = parseFloat(getInputValue("price")) || 0;
+    const discount    = parseFloat(getInputValue("discount")) || 0;
 
-    // Validaciones de cliente
-    if (!product_id) {
-        alert("🛑 Error: El campo Product ID está vacío.");
-        return;
-    }
-    if (!name) {
-        alert("🛑 Error: El campo Nombre del producto está vacío.");
-        return;
-    }
-    const price = parseFloat(priceRaw);
-    if (isNaN(price) || price < 0) {
-        alert(`🛑 Error: Precio inválido (“${priceRaw}”). Debe ser un número positivo.`);
-        return;
-    }
-    const discount = parseFloat(discountRaw);
-    if (isNaN(discount) || discount < 0) {
-        alert(`🛑 Error: Descuento inválido (“${discountRaw}”). Debe ser ≥ 0.`);
-        return;
-    }
-    const quantity = parseInt(quantityRaw, 10);
-    if (isNaN(quantity) || quantity < 0) {
-        alert(`🛑 Error: Cantidad inválida (“${quantityRaw}”). Debe ser un entero ≥ 0.`);
-        return;
-    }
-    if (isNaN(category_id)) {
-        alert("🛑 Error: La categoría no es válida.");
-        return;
-    }
-    if (!sizeName) {
-        alert("🛑 Error: Debes indicar al menos un talle (size).");
-        return;
-    }
+    // Leer categoría
+    const categoryEl = document.getElementById("primary-category");
+    const category   = categoryEl ? { name: categoryEl.value } : { name: '' };
 
-    // 2. Construir el payload
-    const body = {
-        id: product_id,
-        name,
-        description,
-        price,
-        discount,
-        category_id,
-        sizes: [{ name: sizeName, quantity }],
-    };
-    console.log("📤 Enviando payload:", body);
+    // 1) Recoger el primer input (estático) con id y luego los dinámicos
+    const initialSize = getInputValue("new-size").trim();
+    const initialQty  = parseInt(getInputValue("new-quantity"), 10) || 0;
 
-    // 3. Envío al servidor
+    // 2) Dinámicos
+    const sizeInputs = Array.from(document.querySelectorAll("input[name='newSize[]']"));
+    const qtyInputs  = Array.from(document.querySelectorAll("input[name='newQuantity[]']"));
+
+    // 3) Construir el array completo
+    const sizes = [];
+    if (initialSize) {
+        sizes.push({ name: initialSize, quantity: initialQty });
+    }
+    sizeInputs.forEach((input, i) => {
+        const name = input.value.trim();
+        const qty  = parseInt(qtyInputs[i].value, 10) || 0;
+        if (name) sizes.push({ name, quantity: qty });
+    });
+
     try {
         const response = await fetch("/add_product", {
-            method: "POST",
+            method:  "POST",
             headers: { "Content-Type": "application/json" },
-            body: JSON.stringify(body),
+            body:    JSON.stringify({ product_id, name, description, price, discount, category, sizes })
         });
 
-        // 4. Manejo de la respuesta HTTP
         if (response.ok) {
-            console.log("✅ Producto añadido correctamente");
+            console.log("Producto añadido correctamente");
             window.location.href = "/home";
         } else {
-            let errorDetail;
-            const ct = response.headers.get("Content-Type") || "";
-            if (ct.includes("application/json")) {
-                const errJson = await response.json();
-                errorDetail = errJson.error || JSON.stringify(errJson);
-            } else {
-                errorDetail = await response.text();
-            }
-            console.error("🚨 Error del servidor:", errorDetail);
-            alert(`❌ Error al añadir el producto:\n${errorDetail}`);
+            const msg = await response.text();
+            console.error("Error servidor:", msg);
+            alert(`Error al añadir el producto: ${msg}`);
         }
-    } catch (networkError) {
-        console.error("🚧 Error de red o inesperado:", networkError);
-        alert(`❌ Error de red o inesperado:\n${networkError.message || networkError}`);
+    } catch (err) {
+        console.error("Error envío datos:", err);
+        alert("Ocurrió un error inesperado. Ver consola.");
     }
 };
 
-    document.addEventListener('change', e => {
-          // Solo nos interesa cuando cambia un input de imagen
-          if (!e.target.matches('.company-image-input')) return;
+// ========================================================================
+// Manejador para actualizar la imagen cuando se seleccione un nuevo archivo
+const handleImageInputChange = (e) => {
+    if (!e.target.matches(".company-image-input")) return;
 
-          const inputFile = e.target;
-          const wrapper   = inputFile.closest('.image-upload-wrapper');
-          if (!wrapper) return;
+    const inputFile = e.target;
+    const wrapper = inputFile.closest(".image-upload-wrapper");
+    if (!wrapper) return;
 
-          const img = wrapper.querySelector('.image-container');
-          const file = inputFile.files[0];
-          if (!file) return;
+    const img = wrapper.querySelector(".image-container");
+    const file = inputFile.files[0];
+    if (!file) return;
 
-          // Creamos una URL temporal y actualizamos el src
-          const objectURL = URL.createObjectURL(file);
-          img.src = objectURL;
-          img.onload = () => URL.revokeObjectURL(objectURL);
+    // Creamos y asignamos una URL temporal para mostrar la imagen
+    const objectURL = URL.createObjectURL(file);
+    img.src = objectURL;
+    img.onload = () => URL.revokeObjectURL(objectURL);
+    inputFile.value = "";
+};
 
-          // Reiniciamos para permitir re-selección del mismo fichero
-          inputFile.value = '';
-    });
+document.addEventListener("change", handleImageInputChange);
 
+// ========================================================================
+// Función para cargar las categorías en el desplegable
+export async function loadCategories() {
+    const select = document.getElementById("primary-category");
+    if (!select) {
+        console.error('No se encontró el elemento con id "primary-category" en el DOM.');
+        return;
+    }
 
+    // Se reinicia el contenido del select y se agrega el placeholder
+    select.innerHTML = `<option value="" disabled selected>Selecciona una categoría</option>`;
+    console.log("Select encontrado, placeholder agregado.");
 
-    // Asegúrate de que se ejecuta cuando el DOM está cargado
-    document.addEventListener('DOMContentLoaded', () => {
-        // Suponemos que el modalContent está definido de forma permanente en el HTML
-        const modalContent = document.getElementById('modal-content');
+    try {
+        const res = await fetch("/categories");
+        if (!res.ok) throw new Error(`HTTP ${res.status}`);
 
+        const cats = await res.json();
+        console.log("Datos recibidos del endpoint /categories:", cats);
+
+        if (!Array.isArray(cats) || cats.length === 0) {
+            console.warn("No se encontraron categorías en la respuesta.");
+        }
+
+        cats.forEach((cat) => {
+            if (!cat.name) {
+                console.warn("La categoría no tiene propiedad 'name':", cat);
+                // Si lo prefieres, puedes asignar un valor predeterminado en lugar de omitirla:
+                // cat.name = "Categoría sin nombre";
+                return;
+            }
+            const opt = document.createElement("option");
+            opt.value = cat.name; // O usa cat.id según necesites
+            opt.textContent = cat.name;
+            select.append(opt);
+        });
+        console.log("Categorías agregadas al desplegable.");
+    } catch (e) {
+        console.error("No se pudieron cargar las categorías:", e);
+    }
+}
+
+// ========================================================================
+// Delegado para manejar el clic en el botón de añadir inputs para Size y Quantity
+function handleModalDelegatedClick(event) {
+    if (event.target && event.target.matches("#add-size-b")) {
+        console.log("Botón pulsado para añadir inputs de Size y Quantity");
+
+        const modalContent = document.getElementById("modal-content");
         if (!modalContent) {
-            console.error('Elemento modal-content no encontrado');
+            console.error("Elemento con id 'modal-content' no encontrado.");
             return;
         }
 
-        // Delegación de eventos en modalContent
-        modalContent.addEventListener('click', (event) => {
-            if (event.target && event.target.matches('#add-size-b')) {
-                console.log('Botón pulsado (delegación)');
-                // Aquí agregas la lógica para añadir inputs, por ejemplo:
+        const divSizes = modalContent.querySelector("#div-sizes");
+        const divQuantity = modalContent.querySelector("#div-quantity");
+        if (!divSizes || !divQuantity) {
+            console.error("Contenedores de tallas o cantidades no encontrados.");
+            return;
+        }
 
-                // Obtener los contenedores dentro del modal
-                const divSizes = modalContent.querySelector('#div-sizes');
-                const divQuantity = modalContent.querySelector('#div-quantity');
+        // Crear input de Size dinámico
+        const wrapperSize = document.createElement("div");
+        wrapperSize.classList.add("flex", "items-center", "gap-2", "mt-2");
+        const inputSize = document.createElement("input");
+        inputSize.type = "text";
+        inputSize.name = "newSize[]";
+        inputSize.placeholder = "Ej: S, M, L";
+        inputSize.classList.add(
+            "w-40",               // mismo ancho
+            "bg-gray-100",
+            "rounded-full",
+            "outline-none",
+            "px-2",
+            "py-1",
+            "text-sm"
+        );
+        wrapperSize.appendChild(inputSize);
+        divSizes.appendChild(wrapperSize);
 
-                if (!divSizes || !divQuantity) {
-                    console.error('Contenedores en modal no encontrados');
-                    return;
-                }
+        // Crear input de Quantity dinámico
+        const wrapperQuantity = document.createElement("div");
+        wrapperQuantity.classList.add("flex", "items-center", "gap-2", "mt-2");
+        const inputQuantity = document.createElement("input");
+        inputQuantity.type = "number";
+        inputQuantity.name = "newQuantity[]";
+        inputQuantity.placeholder = "Ej: 10";
+        inputQuantity.min = "0";
+        inputQuantity.classList.add(
+            "w-40",               // aquí igualamos el ancho
+            "bg-gray-100",
+            "rounded-full",
+            "outline-none",
+            "px-2",
+            "py-1",
+            "text-sm"
+        );
+        wrapperQuantity.appendChild(inputQuantity);
+        divQuantity.appendChild(wrapperQuantity);
 
-                // Crear y añadir input para "Size"
-                const wrapperSize = document.createElement('div');
-                wrapperSize.classList.add('flex', 'items-center', 'gap-2', 'mt-2');
+        console.log("Nuevos inputs añadidos para tallas y cantidades");
+    }
+}
 
-                const inputSize = document.createElement('input');
-                inputSize.type = 'text';
-                inputSize.placeholder = 'Ej: S, M, L';
-                inputSize.classList.add(
-                    'w-40', 'bg-gray-100', 'rounded-full', 'outline-none',
-                    'px-2', 'py-1', 'text-sm', 'text-left'
-                );
+// ========================================================================
+// Document Ready: Configuración de eventos cuando el DOM está listo
+document.addEventListener("DOMContentLoaded", () => {
+    // Si el formulario de creación se muestra de forma estática, se cargan las categorías
+    const select = document.getElementById("primary-category");
+    if (select) {
+        console.log("Formulario de creación detectado, cargando categorías...");
+        loadCategories();
+    } else {
+        console.warn("El select 'primary-category' no se encontró en el DOM. Verifica la vista o si el formulario se carga dinámicamente.");
+    }
 
-                wrapperSize.appendChild(inputSize);
-                divSizes.appendChild(wrapperSize);
-
-                // Crear y añadir input para "Quantity"
-                const wrapperQuantity = document.createElement('div');
-                wrapperQuantity.classList.add('flex', 'items-center', 'gap-2', 'mt-2');
-
-                const inputQuantity = document.createElement('input');
-                inputQuantity.type = 'text';
-                inputQuantity.placeholder = 'Ej: 10';
-                inputQuantity.classList.add(
-                    'w-40', 'bg-gray-100', 'rounded-full', 'outline-none',
-                    'px-2', 'py-1', 'text-sm'
-                );
-
-                wrapperQuantity.appendChild(inputQuantity);
-                divQuantity.appendChild(wrapperQuantity);
-
-                console.log('Nuevo input añadido en Size y Quantity');
-            }
-        });
-    });
-
+    // Delegar el evento de clic para añadir inputs en el contenido del modal
+    const modalContent = document.getElementById("modal-content");
+    if (modalContent) {
+        modalContent.addEventListener("click", handleModalDelegatedClick);
+    } else {
+        console.warn('Elemento con id "modal-content" no encontrado en el DOM.');
+    }
+});
