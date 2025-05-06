@@ -62,34 +62,65 @@ def add_product():
         return jsonify({"error": "añadiendo un nuevo producto"}), 500
 
 
-@products_bp.route("/modify_product", methods=["POST"])
+@products_bp.route("/modify_product/<string:product_id>", methods=["PUT"])
 @login_required
-def modify_product():
+def modify_product(product_id):
+    """
+    Actualiza un producto existente:
+      - name, description, price, discount
+      - categoría (busca o crea)
+      - tallas (borra las previas y añade las nuevas)
+    Devuelve el producto completo con tallas al front-end.
+    """
     try:
-        id_product = request.args.get('id')
-        data = request.get_json()
+        data = request.get_json(force=True)
         with get_db_session(session["db.name"]) as db_session:
-            product = db_session.query(Product).filter_by(id=id_product).first()
+            # 1) Buscar el producto
+            product = db_session.query(Product).filter_by(id=product_id).first()
             if not product:
-                print("Error, producto no encontrado")
                 return jsonify({"error": "Producto no encontrado"}), 404
-            if "name" in data:
-                product.name = data["name"]
-            if "category_id" in data:
-                product.category_id = data["category_id"]
-            if "description" in data:
-                product.description = data["description"]
-            if "price" in data:
-                product.price = data["price"]
-            if "discount" in data:
-                product.discount = data["discount"]
-            db_session.commit()
-        return jsonify({"message": "Producto modificado correctamente"}), 200
-    except SQLAlchemyError:
-        print("Error, modificando productos")
-        traceback.print_exc()
-        return jsonify({"error": "modificando productos"}), 500
 
+            # 2) Actualizar campos simples
+            for field in ("name", "description", "price", "discount"):
+                if field in data:
+                    setattr(product, field, data[field])
+
+            # 3) Actualizar categoría (crear si no existe)
+            if data.get("category", {}).get("name"):
+                cat_name = data["category"]["name"]
+                category = db_session.query(Category).filter_by(name=cat_name).first()
+                if not category:
+                    category = Category(name=cat_name)
+                    db_session.add(category)
+                    db_session.flush()
+                product.category_id = category.id
+
+            # 4) Reemplazar tallas: borrar las antiguas y añadir las nuevas
+            if "sizes" in data:
+                db_session.query(Size).filter_by(product_id=product.id).delete()
+                for sz in data["sizes"]:
+                    db_session.add(Size(
+                        product_id=product.id,
+                        name=sz["name"],
+                        quantity=sz["quantity"]
+                    ))
+
+            db_session.commit()
+
+            # 5) Serializar salida con tallas
+            result = product.serialize()
+            result["sizes"] = [
+                {"name": s.name, "quantity": s.quantity}
+                for s in db_session.query(Size).filter_by(product_id=product.id)
+            ]
+        return jsonify(result), 200
+
+    except SQLAlchemyError:
+        traceback.print_exc()
+        return jsonify({"error": "Error modificando productos"}), 500
+    except Exception:
+        traceback.print_exc()
+        return jsonify({"error": "Error inesperado"}), 500
 
 @products_bp.route("/delete_product", methods=["DELETE"])
 @login_required

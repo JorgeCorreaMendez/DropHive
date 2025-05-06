@@ -1,36 +1,63 @@
-import { recuperarNombreBaseDatos } from "../../recursos.js";
+import { openModal } from "../abrirYCerrarModal.js";
 import { agregarProducto } from "../../createItem.js";
-import { openModal } from "../abrirYCerrarModal.js"; // ajusta ruta si es necesario
 
 export function modificarArticulo(datos_articulo) {
-  document.getElementById("modify-btn")?.addEventListener("click", async () => {
+  const btn = document.getElementById("modify-btn");
+  if (!btn) return;
+
+  btn.addEventListener("click", async () => {
     try {
-      const db_name = await recuperarNombreBaseDatos();
-      const response = await fetch(`/createItem`);
-      const html = await response.text();
+      // 1) Cargar el HTML del formulario de añadir
+      const res  = await fetch("/createItem");
+      const html = await res.text();
 
+      // 2) Parsear y rellenar en documento virtual
       const parser = new DOMParser();
-      const doc = parser.parseFromString(html, "text/html");
-      const bodyContent = doc.body.innerHTML;
-      openModal(bodyContent);
+      const doc    = parser.parseFromString(html, "text/html");
+      const form   = doc.getElementById("createProductForm");
+      if (!form) throw new Error("Formulario no encontrado en addItem.html");
 
+      // Rellenar campos estáticos
+      form.querySelector("#product-id").value    = datos_articulo.id           || "";
+      form.querySelector("#product-name").value  = datos_articulo.name         || "";
+      form.querySelector("#description").value   = datos_articulo.description  || "";
+      form.querySelector("#price").value         = datos_articulo.price        || 0;
+      form.querySelector("#discount").value      = datos_articulo.discount     || 0;
+
+      // Categoría
+      const catSel  = form.querySelector("#primary-category");
+      const catName = datos_articulo.category?.name || "";
+      if (catName && ![...catSel.options].some(o => o.value === catName)) {
+        catSel.insertAdjacentHTML("beforeend",
+            `<option value="${catName}">${catName}</option>`);
+      }
+      catSel.value = catName;
+
+      // Tallas dinámicas
+      const addBtn = form.querySelector("#add-size-b");
+      datos_articulo.sizes?.forEach((s, i) => {
+        if (i > 0) addBtn.click();
+        const sizeEls = form.querySelectorAll("input[name='newSize[]']");
+        const qtyEls  = form.querySelectorAll("input[name='newQuantity[]']");
+        sizeEls[i].value = s.name     || "";
+        qtyEls[i].value  = s.quantity || 0;
+      });
+
+      // 3) Inyectar el HTML completo ya rellenado
+      openModal(doc.body.innerHTML);
+
+      // 4) Configurar botón guardar para modo edición
       setTimeout(() => {
-        const product_name = document.getElementById("product-name");
-        const descripcion = document.getElementById("description");
-        const product_id = document.getElementById("product-id");
-        const price = document.getElementById("price");
+        const oldSave = document.getElementById("save-changes-btn");
+        const newSave = oldSave.cloneNode(true);
+        oldSave.replaceWith(newSave);
+        newSave.addEventListener("click", () =>
+            agregarProducto({ isEdit: true, originalId: datos_articulo.id })
+        );
+      }, 0);
 
-        if (!product_name) return;
-
-        product_name.value = datos_articulo.name;
-        descripcion.textContent = datos_articulo.description;
-        product_id.value = datos_articulo.product_id;
-        price.value = datos_articulo.price;
-      }, 50);
-
-      document.getElementById("save-changes-btn")?.addEventListener("click", agregarProducto);
     } catch (err) {
-      console.error("Error al cargar el modal:", err);
+      console.error("Error al abrir modal de edición:", err);
     }
   });
 }

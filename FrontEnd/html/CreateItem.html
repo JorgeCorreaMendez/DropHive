@@ -23,12 +23,12 @@
 
             <div class="product-name-wrapper">
               <label for="product-name" class="product-name-label">Nombre del Producto:</label>
-              <input type="text" id="product-name" placeholder="Escribe el nombre aquí" required class="input-grey">
+              <input type="text" id="product-name" name="product-name" placeholder="Escribe el nombre aquí" required class="input-grey">
             </div>
 
             <div class="id-container">
               <label for="product-id" class="product-id-label">Product ID:</label>
-              <input type="text" id="product-id" placeholder="Ej: 1234" required class="input-grey">
+              <input type="text" id="product-id" name="product-id" placeholder="Ej: 1234" required class="input-grey">
             </div>
           </div>
 
@@ -36,7 +36,7 @@
           <div class="category-container">
             <label for="primary-category" class="category-label">Primary Category:</label>
             <div class="category-row flex items-center gap-4">
-              <select id="primary-category" class="category-input border border-gray-300 rounded px-2 py-1" required>
+              <select id="primary-category" name="primary-category" class="category-input border border-gray-300 rounded px-2 py-1" required>
                 <option value="" disabled selected>Selecciona una categoría</option>
               </select>
               <button class="category-btn bg-blue-500 text-white px-3 py-1 rounded"
@@ -59,7 +59,7 @@
     <!-- DESCRIPTION -->
     <div class="description-container">
       <label for="description" class="description-label">Description:</label>
-      <textarea id="description" placeholder="Add Description..."></textarea>
+      <textarea id="description" name="description" placeholder="Add Description..."></textarea>
     </div>
 
     <main class="container mx-auto p-6 bg-[#EDEDED] m-2 mt-6 rounded-lg">
@@ -77,7 +77,7 @@
           <tr class="bg-transparent">
             <td class="px-4 py-2 align-top">
               <div class="flex flex-col md:flex-row gap-2">
-                <input id="new-size"
+                <input id="new-size-0"  name="newSize[]"
                        class="w-full md:w-40 bg-gray-100 rounded-full outline-none px-2 py-1 text-sm"
                        placeholder="Ej: S, M, L">
               </div>
@@ -85,7 +85,7 @@
             </td>
             <td class="px-4 py-2 align-top">
               <div class="flex flex-col md:flex-row gap-2">
-                <input id="new-quantity"
+                <input id="new-quantity-0"   name="newQuantity[]"
                        class="w-full md:w-40 bg-gray-100 rounded-full outline-none px-2 py-1 text-sm"
                        placeholder="Ej: 10">
               </div>
@@ -93,14 +93,14 @@
             </td>
             <td class="px-4 py-2 align-top">
               <div class="flex flex-col md:flex-row gap-2">
-                <input id="price"
+                <input id="price" name="price"
                        class="w-full md:w-40 bg-gray-100 rounded-full outline-none px-2 py-1 text-sm"
                        placeholder="€0.00">
               </div>
             </td>
             <td class="px-4 py-2 align-top">
               <div class="flex flex-col gap-2">
-                <input id="discount"
+                <input id="discount" name="discount"
                        class="w-full md:w-40 bg-gray-100 rounded-full outline-none px-2 py-1 text-sm"
                        placeholder="%">
               </div>
