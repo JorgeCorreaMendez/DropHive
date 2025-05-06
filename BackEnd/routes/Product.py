@@ -96,6 +96,7 @@ def modify_product():
 def delete_product():
     try:
         id_product = request.args.get('id')
+        print("Estamos borrando el articulo", id_product)
         with get_db_session(session["db.name"]) as db_session:
             product = db_session.query(Product).filter_by(id=id_product).first()
             if not product:

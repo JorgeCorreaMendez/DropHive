@@ -61,13 +61,17 @@ export async function addInformacionFilaProducto(item) {
     categoryCell.classList.add('p-2', 'rounded-[5px]');
     categoryCell.textContent = category_name;
 
-    const purchaseCell = document.createElement('td');
-    purchaseCell.classList.add('p-2', 'rounded-[5px]');
-    purchaseCell.textContent = item.price + " €";
-
     const sellCell = document.createElement('td');
     sellCell.classList.add('p-2', 'rounded-[5px]');
     sellCell.textContent = item.price + " €";
+
+    const discountCell = document.createElement('td');
+    discountCell.classList.add('p-2', 'rounded-[5px]');
+    discountCell.textContent = item.discount + "%";
+
+    const discountedCell = document.createElement('td');
+    discountedCell.classList.add('p-2', 'rounded-[5px]');
+    discountedCell.textContent = (item.price*(1-(item.discount/100))) + " €";
 
     const quantityCell = document.createElement('td');
     quantityCell.classList.add('p-2', 'rounded-[5px]');
@@ -77,8 +81,9 @@ export async function addInformacionFilaProducto(item) {
     row.appendChild(idCell);
     row.appendChild(nameCell);
     row.appendChild(categoryCell);
-    row.appendChild(purchaseCell);
     row.appendChild(sellCell);
+    row.appendChild(discountCell);
+    row.appendChild(discountedCell);
     row.appendChild(quantityCell);
 
     return row;
@@ -99,7 +104,7 @@ export async function localizarCategoria(id) {
 }
 
 export async function modificarCabeceraTablaProductos() {
-    const cabeceras = ["ID", "Name", "Category", "Buying Price", "Selling Price", "Quantity"];
+    const cabeceras = ["ID", "Name", "Category", "Selling Price", "Discount", "Discounted Price", "Quantity"];
     const filaCabecera = document.getElementById("cabecera-tabla");
 
     filaCabecera.innerHTML = '';

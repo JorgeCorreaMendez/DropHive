@@ -17,7 +17,9 @@ export function eliminarArticulo() {
                 reverseButtons: true  // Revertimos el orden de los botones
             }).then((result) => {
                 if (result.isConfirmed) {
-                    fetch(`/delete_product?id=${id}`);
+                    fetch(`http://127.0.0.1:4000/delete_product?id=${id}`, {
+                      method: 'DELETE',
+                    });
                     location.reload();
                 }
             });
