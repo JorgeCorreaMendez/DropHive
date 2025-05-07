@@ -17,13 +17,6 @@ export function modificarArticulo(datos_articulo) {
       const form   = doc.getElementById("createProductForm");
       if (!form) throw new Error("Formulario no encontrado en addItem.html");
 
-      // Rellenar campos estáticos
-      form.querySelector("#product-id").value    = datos_articulo.id           || "";
-      form.querySelector("#product-name").value  = datos_articulo.name         || "";
-      form.querySelector("#description").value   = datos_articulo.description  || "";
-      form.querySelector("#price").value         = datos_articulo.price        || 0;
-      form.querySelector("#discount").value      = datos_articulo.discount     || 0;
-
       // Categoría
       const catSel  = form.querySelector("#primary-category");
       const catName = datos_articulo.category?.name || "";
@@ -45,6 +38,23 @@ export function modificarArticulo(datos_articulo) {
 
       // 3) Inyectar el HTML completo ya rellenado
       openModal(doc.body.innerHTML);
+      setTimeout(() => {
+        const modalForm = document.getElementById("createProductForm");
+        if (!modalForm) return;
+        modalForm.querySelector("#product-id").value    = datos_articulo.id;
+        modalForm.querySelector("#product-name").value  = datos_articulo.name;
+        modalForm.querySelector("#description").value   = datos_articulo.description;
+        modalForm.querySelector("#price").value         = datos_articulo.price;
+        modalForm.querySelector("#discount").value      = datos_articulo.discount;
+
+        const catSel  = modalForm.querySelector("#primary-category");
+        const catName = datos_articulo.category?.name || "";
+        if (catName && ![...catSel.options].some(o => o.value === catName)) {
+          catSel.insertAdjacentHTML("beforeend",
+              `<option value="${catName}">${catName}</option>`);
+        }
+        catSel.value = catName;
+      }, 0);
 
       // 4) Configurar botón guardar para modo edición
       setTimeout(() => {
