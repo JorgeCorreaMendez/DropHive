@@ -57,7 +57,6 @@ export function modificarArticulo(datos_articulo) {
         modalForm.querySelector("#discount").value = datos_articulo.discount;
 
         // --- Pre–llenado de tallas y cantidades ---
-        // Se asume que la propiedad con los datos de tallas se llama "size" (array)
         if (datos_articulo.size && Array.isArray(datos_articulo.size)) {
           // Primero, obtenemos los inputs existentes ya creados en el formulario.
           let existingSizeInputs = modalForm.querySelectorAll("input[name='newSize[]']");
