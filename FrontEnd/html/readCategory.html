@@ -1,34 +1,39 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>View Category</title>
-    <script src="/FrontEnd/readCategory.js" type="module" defer></script>
-    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
-</head>
-<body class="bg-gray-100">
+<!-- Modal -->
+<div class="bg-gray-300 rounded-lg w-full p-1 relative">
 
-<main class="p-4">
-    <h1 class="text-3xl font-bold mb-6 text-center">Category</h1>
+    <!-- Contenido principal -->
+    <div class="flex justify-between items-start bg-gray-200 rounded-lg p-4 m-4">
+      <!-- Izquierda: Icono y datos -->
+      <div class="flex gap-4 items-start">
+        <!-- Icono de categoría (opcional) -->
+        <div class="w-20 h-20 rounded-lg bg-white border border-gray-300 flex items-center justify-center text-2xl font-bold text-gray-500">
+          🗂️
+        </div>
 
-    <!-- Bottone per aggiungere nuova categoria -->
-    <div class="text-center mb-6">
-        <a href="/FrontEnd/addAndModifyCategory.html" class="bg-green-500 hover:bg-green-600 text-white px-6 py-2 rounded">
-            Add Category
-        </a>
-        <button class="bg-blue-500 hover:bg-blue-600 text-white px-6 py-2 rounded">
-            Modify Category
-        </button>
-        <button class="bg-red-500 hover:bg-red-600 text-white px-6 py-2 rounded">
-            Delete Category
-        </button>
+        <!-- Información de la categoría -->
+        <div>
+          <!-- ID y nombre -->
+          <h2 class="text-lg font-semibold">
+            <span id="categoria-id">1</span> - <span id="categoria-nombre">Ropa Deportiva</span>
+          </h2>
+
+          <!-- Descripción -->
+          <p id="categoria-descripcion" class="mt-2 text-gray-800">
+            Prendas diseñadas para actividades deportivas y de alto rendimiento.
+          </p>
+        </div>
+      </div>
+
     </div>
 
-    <!-- Contenitore delle categorie -->
-    <div id="categories-container" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        <!-- Qui verranno caricate le categorie -->
+    <!-- Lista de productos -->
+    <div class="bg-gray-200 rounded-lg p-4 m-4">
+      <h3 class="text-lg font-semibold mb-2">Productos en esta categoría</h3>
+      <ul class="space-y-2 list-disc list-inside text-gray-800" id="lista-productos-categoria">
+        <li>Camiseta Técnica</li>
+        <li>Pantalón de Running</li>
+        <li>Sudadera Transpirable</li>
+      </ul>
     </div>
-</main>
 
-</body>
-</html>
+  </div>

@@ -16,7 +16,7 @@ export async function addInformacionFilaCategoria(item) {
 
 
     row.id = "list-article"
-    row.setAttribute('data-product-id', item.id);
+    row.setAttribute('data-category-id', item.id);
 
     console.log(item)
     // A partir de aquí se muestran los elementos de las columnas
