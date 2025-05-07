@@ -80,7 +80,7 @@ export async function loadCategories() {
         return;
     }
 
-    // Se reinicia el contenido del select y se agrega el placeholder
+    // Reiniciar contenido y agregar placeholder
     select.innerHTML = `<option value="" disabled selected>Selecciona una categoría</option>`;
     console.log("Select encontrado, placeholder agregado.");
 
@@ -95,23 +95,29 @@ export async function loadCategories() {
             console.warn("No se encontraron categorías en la respuesta.");
         }
 
+        // Creamos (o reiniciamos) el mapa global
+        window.categoriesMapping = {};
+
         cats.forEach((cat) => {
             if (!cat.name) {
                 console.warn("La categoría no tiene propiedad 'name':", cat);
-                // Si lo prefieres, puedes asignar un valor predeterminado en lugar de omitirla:
-                // cat.name = "Categoría sin nombre";
                 return;
             }
             const opt = document.createElement("option");
-            opt.value = cat.name; // O usa cat.id según necesites
+            // Usamos el nombre como value (esto es lo que se muestra en el select)
+            opt.value = cat.name;
             opt.textContent = cat.name;
             select.append(opt);
+
+            // Creamos el mapeo id => name
+            window.categoriesMapping[cat.id] = cat.name;
         });
         console.log("Categorías agregadas al desplegable.");
     } catch (e) {
         console.error("No se pudieron cargar las categorías:", e);
     }
 }
+
 
 // ========================================================================
 // Delegado para manejar el clic en el botón de añadir inputs para Size y Quantity
