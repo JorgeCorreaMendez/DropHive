@@ -29,7 +29,7 @@ document.addEventListener('DOMContentLoaded', async function () {
 });
 
 export const agregarCategoria = async () => {
-    const categoryId = document.getElementById('category-id').value;
+    const categoryId = document.getElementById('category-id')?.value;
     const name = document.getElementById('category-name').value;
     const description = document.getElementById('category-description').value;
 
@@ -40,8 +40,9 @@ export const agregarCategoria = async () => {
 
     try {
         const payload = {
-            name,
-            description
+            "id": categoryId,
+            "name": name,
+            "description": description
         };
 
         const url = categoryId ? '/modify_category' : '/add_category';
