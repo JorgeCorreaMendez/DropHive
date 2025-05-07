@@ -18,9 +18,10 @@ export function initializeRowClickHandlerCategory() {
 
     try {
       let response = await fetch(`get_category?id=${id_category}`);
+      console.log(`get_category?id=${id_category}`)
       const object = await response.json();
 
-      console.log("El objeto es:", object[0])
+      console.log("El objeto es:", object)
 
       response = await fetch(`readCategory`);
       const html = await response.text();
@@ -30,7 +31,7 @@ export function initializeRowClickHandlerCategory() {
       const bodyContent = doc.body.innerHTML;
 
       openModal(bodyContent);
-      await cargarDatosCategoria(object[0]);
+      await cargarDatosCategoria(object);
     } catch (err) {
       console.error("Error al cargar el modal:", err);
       Swal.fire({

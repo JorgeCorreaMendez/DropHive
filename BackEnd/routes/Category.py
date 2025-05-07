@@ -108,6 +108,7 @@ def search_category_by_id():
             category = db.query(Category).filter(Category.id == category_id).first()
             if category is None:
                 return jsonify({"message": "Categoría no encontrada"}), 404
+            print(category.serialize())
             return jsonify(category.serialize()), 200
     except SQLAlchemyError:
         print("Error, al cambiar la contraseña")
