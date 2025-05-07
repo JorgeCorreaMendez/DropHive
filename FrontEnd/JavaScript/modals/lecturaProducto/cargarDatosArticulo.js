@@ -11,10 +11,7 @@ export async function cargarDatosArticulo(datos_articulo) {
   const main_category = document.getElementById("main-category");
   const price = document.getElementById("price");
   const descripcion = document.getElementById("descripcion");
-  const tabla_tallas = document.getElementById("table-body-producto");
-  tabla_tallas.innerHTML = ''
-  const tabla_productos_similares  = document.getElementById("tabla-productos-similares");
-  tabla_productos_similares.innerHTML = ''
+
   const response_productos_similares = await fetch(`http://127.0.0.1:4000/similar_products/${datos_articulo.id}`)
   const productos_similares = await response_productos_similares.json();
 

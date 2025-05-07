@@ -2,6 +2,7 @@ import { recuperarNombreBaseDatos } from "../recursos.js";
 import { openModal } from "./abrirYCerrarModal.js";
 import { agregarProducto } from "../createItem.js";
 import { initializeRowClickHandler } from "./lecturaProducto/productRowClick.js"
+import { initializeRowClickHandlerCategory } from "./lecturaCategoria/productRowClick.js"
 import { cargarModalCrearProducto } from "../home/productos.js";
 
 export function setupEventListeners() {
@@ -20,4 +21,5 @@ export function setupEventListeners() {
   });
 
   initializeRowClickHandler();
+  initializeRowClickHandlerCategory()
 }

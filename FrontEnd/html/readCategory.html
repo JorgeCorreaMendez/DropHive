@@ -1,34 +1,15 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>View Category</title>
-    <script src="/FrontEnd/readCategory.js" type="module" defer></script>
-    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
-</head>
-<body class="bg-gray-100">
-
-<main class="p-4">
-    <h1 class="text-3xl font-bold mb-6 text-center">Category</h1>
-
-    <!-- Bottone per aggiungere nuova categoria -->
-    <div class="text-center mb-6">
-        <a href="/FrontEnd/addAndModifyCategory.html" class="bg-green-500 hover:bg-green-600 text-white px-6 py-2 rounded">
-            Add Category
-        </a>
-        <button class="bg-blue-500 hover:bg-blue-600 text-white px-6 py-2 rounded">
-            Modify Category
-        </button>
-        <button class="bg-red-500 hover:bg-red-600 text-white px-6 py-2 rounded">
-            Delete Category
-        </button>
-    </div>
-
-    <!-- Contenitore delle categorie -->
-    <div id="categories-container" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        <!-- Qui verranno caricate le categorie -->
-    </div>
-</main>
-
-</body>
-</html>
+<!-- Contenido del modal -->
+<h2 class="text-2xl font-bold mb-4">Información de la Categoría</h2>
+<div class="space-y-2">
+  <p><span class="font-semibold">ID:</span> 1</p>
+  <p><span class="font-semibold">Nombre:</span> Electrónica</p>
+  <p><span class="font-semibold">Descripción:</span> Dispositivos y componentes electrónicos.</p>
+  <div>
+    <span class="font-semibold">Productos:</span>
+    <ul class="list-disc list-inside mt-1">
+      <li>Smartphone</li>
+      <li>Tablet</li>
+      <li>Portátil</li>
+    </ul>
+  </div>
+</div>
