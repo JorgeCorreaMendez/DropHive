@@ -30,7 +30,6 @@ async function inicializarVista() {
     let total_productos = await recuperarProductos();
     await modificarCabeceraTablaProductos();
     await actualizarOpcionesCategoria();
-    await initPagination(total_productos); // Ejecuta la paginación después de obtener los datos de la API
 }
 
 function registrarEventos() {

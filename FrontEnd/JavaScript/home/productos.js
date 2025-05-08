@@ -15,12 +15,14 @@ export async function recuperarProductos() {
 
         // Espera la respuesta JSON
         const respuesta_json = await response.json();
+        const productos = respuesta_json.productos
+        const total = respuesta_json.total
 
         console.log("El objeto es:", respuesta_json);
 
         // Aquí puedes trabajar con los datos obtenidos de la API
-        await cargarDatosEnTabla(respuesta_json);
-        await initPagination(respuesta_json.length);
+        await cargarDatosEnTabla(productos);
+        await initPagination(total);
 
         return respuesta_json.length;
 

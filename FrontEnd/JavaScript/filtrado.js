@@ -50,7 +50,7 @@ export async function aplicarFiltros(tipo) {
         fetch(url)
             .then(res => res.json())
             .then(data => {
-                cargarDatosEnTabla(data);
+                cargarDatosEnTabla(data.productos);
             })
             .catch(err => console.error("Error cargando productos", err))
     } else {

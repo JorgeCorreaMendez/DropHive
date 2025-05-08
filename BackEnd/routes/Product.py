@@ -174,6 +174,7 @@ def filter_products():
         offset = int(request.args.get('offset', 0))
         with (get_db_session(session["db.name"]) as db_session):
             query = db_session.query(Product).join(Category)
+            total = db_session.query(Product).count()
             if category_name:
                 query = query.filter(Category.name == category_name)
             if min_price:
@@ -185,8 +186,8 @@ def filter_products():
                 query = query.join(query_quantity, Product.id == query_quantity.c.id)
                 query = query.filter(query_quantity.c.quantity <= int(max_quantity))
             query = query.limit(limit).offset(offset)
-            print([product.serialize() for product in query.all()])
-            return jsonify([product.serialize() for product in query.all()]), 200
+            print({"productos": [product.serialize() for product in query.all()], "total": total})
+            return jsonify({"productos": [product.serialize() for product in query.all()], "total": total}), 200
     except SQLAlchemyError:
         print("Error, filtrando los productos")
         traceback.print_exc()
