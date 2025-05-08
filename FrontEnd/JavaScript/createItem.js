@@ -1,110 +1,54 @@
 // ========================================================================
 // Helper para obtener el valor de un elemento por su id
-const getInputValue = (id) => {
-    const el = document.getElementById(id);
-    return el ? el.value : "";
-};
 
-// ========================================================================
-// Función para agregar un producto
-export const agregarProducto = async () => {
-    // Leer campos estáticos
-    const id  = getInputValue("product-id").trim();
-    const name        = getInputValue("product-name").trim();
-    const description = getInputValue("description").trim();
-    const priceRaw    = getInputValue("price").trim();
-    const discountRaw = getInputValue("discount").trim();
 
-    // Validaciones básicas
-    if (!id) {
-        return Swal.fire({ icon: 'error', title: 'Error', text: 'El ID es obligatorio.' });
-    }
-    if (!name) {
-        return Swal.fire({ icon: 'error', title: 'Error', text: 'El nombre del producto es obligatorio.' });
-    }
-    if (priceRaw === '') {
-        return Swal.fire({ icon: 'error', title: 'Error', text: 'El precio es obligatorio.' });
-    }
-    const price    = parseFloat(priceRaw);
-    const discount = parseFloat(discountRaw) || 0;
-    if (isNaN(price) || price < 0) {
-        return Swal.fire({ icon: 'error', title: 'Error', text: 'El precio debe ser un número positivo.' });
-    }
-    if (isNaN(discount) || discount < 0) {
-        return Swal.fire({ icon: 'error', title: 'Error', text: 'El descuento debe ser un número positivo.' });
-    }
+export const agregarProducto = async ({ isEdit = false, originalId = null } = {}) => {
+    // Leer valores básicos
+    const id          = document.getElementById("product-id").value.trim();
+    const name        = document.getElementById("product-name").value.trim();
+    const description = document.getElementById("description").value.trim();
+    const price       = parseFloat(document.getElementById("price").value)   || 0;
+    const discount    = parseFloat(document.getElementById("discount").value)|| 0;
+    const category    = { name: document.getElementById("primary-category").value.trim() };
 
-    // Leer categoría
-    const categoryEl = document.getElementById("primary-category");
-    const category   = categoryEl ? { name: categoryEl.value.trim() } : { name: '' };
+    // Ahora recoge TODOS los inputs con name="newSize[]"
+    const sizeEls    = Array.from(document.querySelectorAll("input[name='newSize[]']"));
+    const qtyEls     = Array.from(document.querySelectorAll("input[name='newQuantity[]']"));
+    const sizes      = sizeEls.map((el, i) => ({
+        name:     el.value.trim(),
+        quantity: parseInt(qtyEls[i].value, 10) || 0
+    })).filter(s => s.name);
 
-    // 1) Primer tamaño/cantidad
-    const initialSize = getInputValue("new-size").trim();
-    const initialQty  = parseInt(getInputValue("new-quantity"), 10);
+    // Validaciones
+    if (!id)      return Swal.fire("Error", "El ID es obligatorio.", "error");
+    if (!name)    return Swal.fire("Error", "El nombre es obligatorio.", "error");
+    if (isNaN(price)   || price < 0)    return Swal.fire("Error", "Precio inválido.", "error");
+    if (isNaN(discount)|| discount < 0) return Swal.fire("Error", "Descuento inválido.", "error");
 
-    if (initialSize && (isNaN(initialQty) || initialQty < 0)) {
-        return Swal.fire({ icon: 'error', title: 'Error', text: 'La cantidad inicial no es válida.' });
-    }
-
-    // 2) Inputs dinámicos
-    const sizeInputs = Array.from(document.querySelectorAll("input[name='newSize[]']"));
-    const qtyInputs  = Array.from(document.querySelectorAll("input[name='newQuantity[]']"));
-
-    // 3) Construir array de tallas
-    const sizes = [];
-    if (initialSize) {
-        sizes.push({ name: initialSize, quantity: initialQty || 0 });
-    }
-    sizeInputs.forEach((input, i) => {
-        const name = input.value.trim();
-        const qty  = parseInt(qtyInputs[i].value, 10);
-        if (name && (!isNaN(qty) && qty >= 0)) {
-            sizes.push({ name, quantity: qty });
-        } else if (name) {
-            // Nombre sí, pero cantidad inválida
-            return Swal.fire({
-                icon: 'error',
-                title: 'Error',
-                text: `Cantidad no válida para la talla "${name}".`
-            });
-        }
-    });
+    const url    = isEdit ? `/modify_product/${originalId}` : "/add_product";
+    const method = isEdit ? "PUT" : "POST";
 
     try {
-        const response = await fetch("/add_product", {
-            method:  "POST",
+        const res = await fetch(url, {
+            method,
             headers: { "Content-Type": "application/json" },
             body:    JSON.stringify({ id, name, description, price, discount, category, sizes })
         });
 
-        if (response.ok) {
+        if (res.ok) {
             Swal.fire({
-                icon: 'success',
-                title: '¡Éxito!',
-                text: 'Producto añadido correctamente.',
-                confirmButtonText: 'Ir al inicio'
-            }).then(() => {
-                window.location.href = "/home";
-            });
+                icon: isEdit ? "success" : "success",
+                title: isEdit ? "Producto modificado" : "Producto añadido",
+                timer: 1500, showConfirmButton: false
+            }).then(() => window.location.reload());
         } else {
-            const msg = await response.text();
-            console.error("Error servidor:", msg);
-            Swal.fire({
-                icon: 'error',
-                title: 'Error al añadir',
-                text: `Servidor respondió: ${msg}`
-            });
+            const msg = await res.text();
+            Swal.fire("Error", msg, "error");
         }
     } catch (err) {
-        console.error("Error envío datos:", err);
-        Swal.fire({
-            icon: 'error',
-            title: 'Error inesperado',
-            text: 'No se pudo conectar con el servidor. Revisa tu conexión.'
-        });
+        Swal.fire("Error inesperado", err.message, "error");
     }
 };
-
 // ========================================================================
 // Manejador para actualizar la imagen cuando se seleccione un nuevo archivo
 const handleImageInputChange = (e) => {
@@ -136,7 +80,7 @@ export async function loadCategories() {
         return;
     }
 
-    // Se reinicia el contenido del select y se agrega el placeholder
+    // Reiniciar contenido y agregar placeholder
     select.innerHTML = `<option value="" disabled selected>Selecciona una categoría</option>`;
     console.log("Select encontrado, placeholder agregado.");
 
@@ -151,23 +95,29 @@ export async function loadCategories() {
             console.warn("No se encontraron categorías en la respuesta.");
         }
 
+        // Creamos (o reiniciamos) el mapa global
+        window.categoriesMapping = {};
+
         cats.forEach((cat) => {
             if (!cat.name) {
                 console.warn("La categoría no tiene propiedad 'name':", cat);
-                // Si lo prefieres, puedes asignar un valor predeterminado en lugar de omitirla:
-                // cat.name = "Categoría sin nombre";
                 return;
             }
             const opt = document.createElement("option");
-            opt.value = cat.name; // O usa cat.id según necesites
+            // Usamos el nombre como value (esto es lo que se muestra en el select)
+            opt.value = cat.name;
             opt.textContent = cat.name;
             select.append(opt);
+
+            // Creamos el mapeo id => name
+            window.categoriesMapping[cat.id] = cat.name;
         });
         console.log("Categorías agregadas al desplegable.");
     } catch (e) {
         console.error("No se pudieron cargar las categorías:", e);
     }
 }
+
 
 // ========================================================================
 // Delegado para manejar el clic en el botón de añadir inputs para Size y Quantity
