@@ -65,6 +65,15 @@ export class AlertMessage extends HTMLElement {
         shadow.appendChild(this.wrapper);
     }
 
+    attributeChangedCallback(name, oldValue, newValue) {
+        if (name === 'type' && this.wrapper) {
+            this.wrapper.classList.remove('success', 'error');
+            if (newValue) {
+                this.wrapper.classList.add(newValue);
+            }
+        }
+    }
+
     setMessage(msg) {
         this.messageElement.innerHTML = msg;
     }
