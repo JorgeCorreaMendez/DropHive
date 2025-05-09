@@ -8,9 +8,6 @@ export async function cargarDatosEnTablaPerfil(data) {
     tableBody.innerHTML = '';
     const vistaActual = document.body.dataset.vista;
 
-    console.log(`Vista actual: ${vistaActual}`);
-    console.log("Datos recibidos:", data);
-
     for (const item of data) {
         const row = await addInformacionFilaEmpleado(item);
         await tableBody.appendChild(row);

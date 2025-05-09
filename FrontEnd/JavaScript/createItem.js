@@ -82,14 +82,11 @@ export async function loadCategories() {
 
     // Reiniciar contenido y agregar placeholder
     select.innerHTML = `<option value="" disabled selected>Selecciona una categoría</option>`;
-    console.log("Select encontrado, placeholder agregado.");
-
     try {
         const res = await fetch("/categories");
         if (!res.ok) throw new Error(`HTTP ${res.status}`);
 
         const cats = await res.json();
-        console.log("Datos recibidos del endpoint /categories:", cats);
 
         if (!Array.isArray(cats) || cats.length === 0) {
             console.warn("No se encontraron categorías en la respuesta.");
@@ -112,7 +109,6 @@ export async function loadCategories() {
             // Creamos el mapeo id => name
             window.categoriesMapping[cat.id] = cat.name;
         });
-        console.log("Categorías agregadas al desplegable.");
     } catch (e) {
         console.error("No se pudieron cargar las categorías:", e);
     }
@@ -123,8 +119,6 @@ export async function loadCategories() {
 // Delegado para manejar el clic en el botón de añadir inputs para Size y Quantity
 function handleModalDelegatedClick(event) {
     if (event.target && event.target.matches("#add-size-b")) {
-        console.log("Botón pulsado para añadir inputs de Size y Quantity");
-
         const modalContent = document.getElementById("modal-content");
         if (!modalContent) {
             console.error("Elemento con id 'modal-content' no encontrado.");
@@ -176,8 +170,6 @@ function handleModalDelegatedClick(event) {
         );
         wrapperQuantity.appendChild(inputQuantity);
         divQuantity.appendChild(wrapperQuantity);
-
-        console.log("Nuevos inputs añadidos para tallas y cantidades");
     }
 }
 
@@ -187,7 +179,6 @@ document.addEventListener("DOMContentLoaded", () => {
     // Si el formulario de creación se muestra de forma estática, se cargan las categorías
     const select = document.getElementById("primary-category");
     if (select) {
-        console.log("Formulario de creación detectado, cargando categorías...");
         loadCategories();
     } else {
         console.warn("El select 'primary-category' no se encontró en el DOM. Verifica la vista o si el formulario se carga dinámicamente.");

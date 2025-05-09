@@ -19,7 +19,7 @@ export async function cargarDatosArticulo(datos_articulo) {
   const productos_similares = await response_productos_similares.json();
 
   if (!product_name || !img) {
-    console.log("No se ha encontrado algún elemento.");
+    console.alert("No se ha encontrado algún elemento.");
     return;
   }
 
@@ -34,7 +34,6 @@ export async function cargarDatosArticulo(datos_articulo) {
   descripcion.textContent = datos_articulo.description;
 
   datos_articulo.size.forEach(size => {
-    console.log("Estoo", size);
     const fila = document.createElement('tr');
     fila.className = 'text-center';
     fila.innerHTML = `
