@@ -1,71 +1,63 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Product Management</title>
-  <link rel="stylesheet" href="{{ url_for('static', filename='CSS/Read_Article.css') }}">
-  <script src="{{ url_for('static', filename='JavaScript/header.js') }}"></script>
-</head>
-<body>
-<header>
-  {% include 'header.html' %}
-</header>
+<main class="bg-gray-300 rounded-lg p-1">
+  <div class="flex justify-between items-start bg-gray-200 rounded-lg p-4 m-4">
+    <!-- Izquierda: Imagen + Info -->
+    <div class="flex gap-4 items-start">
+      <!-- Imagen -->
+      <img src="" alt="Samba OG" class="w-20 h-20 rounded-lg border border-gray-300" id="imagen"/>
 
-<!-- Top Buttons -->
-<div class="top-buttons">
-  <button class="modify">Modify Item</button>
-  <button class="delete">Delete Item</button>
-  <button class="shortcut" disabled>Add new shortcut</button>
-  <button id="notification-btn"> 🔔 Notifications</button>
-</div>
+      <!-- Información -->
+      <div>
+        <!-- ID y nombre -->
+        <h2 class="text-lg font-semibold">
+          <span id="id"></span> - <span id="product-name"></span>
+        </h2>
 
-<!-- Main Content -->
-<div class="content">
-  <!-- Product Info -->
-  <div class="box product-info">
-    <img src="shoe.png" alt="Samba OG">
-    <div class="details">
-      <h2>Samba OG</h2>
-      <p>Adidas</p>
-      <span class="category">Streetwear</span>
-      <span class="price">Price: $99.99</span>
+        <!-- Categorías -->
+        <div id="lista-categorias" class="flex gap-2 mt-1 flex-wrap">
+          <p id="main-category"></p>
+        </div>
+
+        <!-- Precio -->
+        <p class="font-bold mt-2 text-gray-800">Price: <span id="price"></span>€</p>
+      </div>
+    </div>
+
+    <!-- Derecha: Botones -->
+    <div class="flex gap-2">
+      <button class="bg-gray-300 hover:bg-gray-400 text-black px-4 py-2 rounded" id="modify-btn">Modify Item</button>
+      <button class="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded" id="delete-btn">Delete Item</button>
     </div>
   </div>
 
-  <!-- Description -->
-  <div class="box description">
-    <h3>Description:</h3>
-    <textarea></textarea>
+  <!-- Descripción -->
+  <div class="bg-gray-200 rounded-lg p-4 m-4">
+    <h3 class="text-lg font-semibold mb-2">Description:</h3>
+    <p id="descripcion" class="text-gray-800"></p>
   </div>
 
-  <!-- Size & Quantity -->
-  <div class="box size-quantity">
-    <h3>0002</h3>
-    <div class="table">
-      <div class="row"><span>Size</span><span>Quantity</span></div>
-      <div class="row"><span>0001</span><span class="green">10</span></div>
-      <div class="row"><span>0001</span><span class="green">20</span></div>
-      <div class="row"><span>0001</span><span class="red">0 <small>out of stock</small></span></div>
-      <div class="row"><span>0001</span><span class="yellow">2 <small>3 items left</small></span></div>
-      <div class="row"><span>0001</span><span class="yellow">1 <small>2 items left</small></span></div>
+  <!-- Zona Inferior -->
+  <div class="flex gap-4 m-4">
+    <!-- Tabla -->
+    <div class="w-1/2 bg-gray-200 rounded-lg p-4">
+      <table class="w-full rounded border-separate border-spacing-y-[10px] border-spacing-x-[5px]">
+        <thead class="no-background thead-line">
+          <tr id="cabecera-tabla">
+            <th class="text-center">Talla</th>
+            <th class="text-center">Cantidad</th>
+          </tr>
+        </thead>
+        <tbody id="table-body-producto">
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Lista de Artículos Similares -->
+    <div class="w-1/2 bg-gray-200 rounded-lg p-4">
+      <h3 class="text-lg font-semibold mb-2">Artículos Similares</h3>
+      <ul class="space-y-2" id="tabla-productos-similares">
+        <li class="bg-white rounded p-2 shadow">Ultraboost 22</li>
+        <!-- Aquí se pueden añadir más elementos dinámicamente -->
+      </ul>
     </div>
   </div>
-
-  <!-- Information -->
-  <div class="box information">
-    <h3>Information:</h3>
-    <p>Shoes combine materials like <b>leather</b> for durability, <b>suede</b> for softness, <b>mesh</b> for breathability, <b>rubber</b> for grip, and <b>EVA</b> for cushioning.</p>
-  </div>
-
-  <!-- Similar Items -->
-  <div class="box similar-items">
-    <h3>Similar Item:</h3>
-    <input type="text" value="Ultraboost 22">
-    <input type="text" value="Super Star">
-  </div>
-
-</div>
-
-</body>
-</html>
+</main>

@@ -66,12 +66,32 @@ button {
 
 /* ----- Contenedor Principal ----- */
 .main-container {
+    margin: 30px auto;
     display: flex;
     background-color: #d3d3d3;
-    min-height: calc(100vh - 60px);
-    padding: 20px;
+    height: 70vh;
+    width: 90%;
+    padding: 40px;
     gap: 20px;
+    border-radius: 20px;
+
 }
+
+.btn-logout {
+    background-color: #ededed;
+    color: #000;
+    padding: 8px 15px;
+    border-radius: 5px;
+    border: none;
+    cursor: pointer;
+    height: fit-content;
+    transition: transform 0.3s ease;
+}
+.btn-logout:hover {
+    transform: scale(1.05);
+    transition: transform 0.3s ease;
+}
+
 
 /* ----- Sección Izquierda (Tienda y Empleados) ----- */
 .store-section {
@@ -80,6 +100,7 @@ button {
     border-radius: 10px;
     padding: 20px;
     box-shadow: 0 0 5px rgba(0,0,0,0.1);
+    min-width: 80%;
 }
 
 /* Header de la tienda (imagen + info) */
@@ -96,7 +117,12 @@ button {
     object-fit: cover;
     border: 2px solid #ccc;
 }
-
+.store-info-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    width: 100%;
+}
 .store-info {
     display: flex;
     flex-direction: column;
@@ -117,7 +143,10 @@ button {
     line-height: 1.4;
     max-width: 400px;
 }
-
+.image-container{
+    width: 100px;
+    height: 120px;
+}
 /* Empleados */
 .employees-section {
     margin-top: 20px;
@@ -143,86 +172,68 @@ button {
 }
 
 .employee-buttons {
+    background-color: #ededed ;
     display: flex;
+    flex-direction: column;
     gap: 10px;
-    margin-bottom: 10px;
+    padding: 10px;
+    margin: 10px;
+    border-radius: 10px;
 }
 
 .btn-add {
     background-color: #28a745;
     color: #fff;
+    transition: transform 0.3s ease;
+}
+.btn-add:hover {
+    transform: scale(1.05);
+    transition: transform 0.3s ease;
 }
 
 .btn-modify {
     background-color: #007bff;
     color: #fff;
+    transition: transform 0.3s ease;
 }
-
-.btn-outline {
-    background-color: transparent;
-    border: 2px dashed #ccc;
-    color: #555;
-    margin-top: 5px;
-}
-
-/* ----- Sección Derecha (Panel de Notificaciones) ----- */
-.notifications-panel {
-    flex: 1;
-    background-color: #fff;
-    border-radius: 10px;
-    box-shadow: 0 0 5px rgba(0,0,0,0.1);
-    padding: 20px;
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
-}
-
-/* Cabecera del panel de notificaciones */
-.notifications-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-}
-
-.notifications-header h3 {
-    font-size: 1.2em;
-}
-
-.bell-icon {
-    font-size: 1.2em;
-}
-
-/* Cada tarjeta de notificación */
-.notification-card {
-    background-color: #f5f5f5;
-    border-radius: 8px;
-    padding: 10px;
-}
-
-.notification-card h4 {
-    margin-bottom: 5px;
-    display: flex;
-    align-items: center;
-    gap: 5px;
-}
-
-.dot-indicator {
-    display: inline-block;
-    width: 8px;
-    height: 8px;
-    background-color: orange;
-    border-radius: 50%;
-}
-
-/* Texto de notificación */
-.notification-card p {
-    font-size: 0.9em;
-    line-height: 1.4;
+.btn-modify:hover {
+    transform: scale(1.05);
+    transition: transform 0.3s ease;
 }
 
 /* Botón para ver acciones de empleados */
-.btn-view-actions {
-    align-self: flex-start;
-    background-color: #eee;
-    color: #333;
+.notifications-wrapper {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    height: 50%; /* Asegura que intente ocupar tod el alto disponible */
+    max-width: 12vw;
 }
+
+
+.employee-details-panel {
+    display: flex;
+    justify-content: center;  /* Esto centra el contenido horizontalmente */
+    align-self: center;
+    background-color: #ededed;
+    padding: 10px;
+    max-width: 12vw;
+    border-radius: 10px;
+}
+
+.btn-view-actions {
+    background-color: #d9d9d9;
+    color: #333;
+    padding: 10px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: transform 0.3s ease;
+}
+.btn-view-actions:hover {
+    transform: scale(1.05); /* Aumenta el tamaño en un 5% */
+    transition: transform 0.3s ease; /* Transición suave */
+}
+
+.w
+
+

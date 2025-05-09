@@ -3,64 +3,67 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Historial de Cambios</title>
+    <title>Change History</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='CSS/log.css') }}">
-    <script src="{{ url_for('static', filename='JavaScript/header.js') }}"></script>
-    <script src="{{ url_for('static', filename='JavaScript/redirect.js') }}"></script>
-    <script src="{{ url_for('static', filename='JavaScript/log.js') }}"></script>
+    <script type="module" src="{{ url_for('static', filename='JavaScript/header.js') }}"></script>
+    <script type="module" src="{{ url_for('static', filename='JavaScript/log.js') }}"></script>
+    <script type="module" src="{{ url_for('static', filename='JavaScript/recursos/paginado.js') }}"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script type="module" src="{{ url_for('static', filename='JavaScript/mostrarModal.js') }}"></script>
+    <script type="module" src="{{ url_for('static', filename='JavaScript/modals/mainModal.js') }}"></script>
+    <link rel="stylesheet" href="{{ url_for('static', filename='CSS/notifications.css') }}">
 </head>
 <body>
 <header>
     {% include 'header.html' %}
 </header>
-<div class="log-sidebar">
-    <button id="notification-btn"> 🔔 Notifications</button>
-    <div class="filters">
-        <label>Nombre: <select><option>Todos</option></select></label>
-        <label>Categoría: <select><option>Todos</option></select></label>
-        <label>Fecha de compra: <select><option>Todos</option></select></label>
-    </div>
-</div>
-
+<div class="total-wrapper2">
 <div class="log-container">
+    <div class="total-wrapper">
+        <div class="table-wrapper">
     <table>
         <thead>
         <tr>
-            <th>Nombre de la compañía</th>
-            <th>Nombre del ítem</th>
-            <th>Acción realizada</th>
+            <th>ID</th>
+            <th>Name of Company</th>
+            <th>Name of Item</th>
+            <th>Done Action</th>
         </tr>
         </thead>
         <tbody>
-        <tr>
-            <td>Nike</td>
-            <td>Dunk Low</td>
-            <td>Añadir ítem</td>
-        </tr>
-        <tr>
-            <td>Adidas</td>
-            <td>Samba OG</td>
-            <td>Añadir ítem</td>
-        </tr>
-        <tr>
-            <td>New Balance</td>
-            <td>New Balance 550</td>
-            <td>Añadir ítem</td>
-        </tr>
-        <tr>
-            <td>Jordan</td>
-            <td>Air Jordan 1</td>
-            <td>Eliminar</td>
-        </tr>
-        <tr>
-            <td>Carhartt</td>
-            <td>Chore Coat</td>
-            <td>Modificar ítem</td>
+        <tr><td><div class="cell">001</div></td>
+            <td><div class="cell">Nike</div></td>
+            <td><div class="cell">Dunk Low</div></td>
+            <td><div class="cell">Añadir ítem</div></td>
         </tr>
         </tbody>
     </table>
+            <div class="pagination-controls">
+                <button id="prev-button" disabled><-</button>
+                <span id="page-number">1</span>
+                <button id="next-button">-></button>
+            </div>
+</div>
+</div>
+    <div class="sidebar">
+        <div class="button-wrapper notification-wrapper">
+            <button id="notification-btn">🔔 Notifications</button>
+        </div>
+        <div class="button-wrapper filters">
+            <label>Name: <select><option>All</option></select></label>
+            <label>Category: <select><option>All</option></select></label>
+            <label>Purchase Date: <select><option>All</option></select></label>
+        </div>
+    </div>
+</div>
 </div>
 </body>
 
 </html>
+
+<div id="modal-container" class="fixed inset-0 z-50 hidden bg-black bg-opacity-50 flex items-center justify-center">
+    <div id="modal-content"
+         class="bg-white w-11/12 md:w-2/3 max-h-[90vh] overflow-y-auto rounded-xl p-6 relative transform scale-95 opacity-0 transition-all duration-5 00">
+    </div>
+</div>
 

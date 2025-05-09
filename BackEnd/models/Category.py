@@ -3,6 +3,7 @@ from sqlalchemy.orm import relationship
 from BackEnd.models import Base
 
 
+# TODO. eliminar categoryid name como primary key
 class Category(Base):
     __tablename__ = 'categories'
 

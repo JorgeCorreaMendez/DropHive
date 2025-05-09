@@ -1,41 +1,48 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
     <meta charset="UTF-8">
-    <title>DropHive - Add Company</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='CSS/AddAndModifyCategory.css') }}">
-    <script src="{{ url_for('static', filename='JavaScript/header.js') }}"></script>
-    <script src="{{ url_for('static', filename='JavaScript/redirect.js') }}"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Crear Categoria</title>
+    <link rel="stylesheet" href="styles.css">
 </head>
-<body>
-<header>
-    {% include 'header.html' %}
-</header>
-<main>
-    <!-- Caja exterior gris (contenedor externo) -->
-    <div class="main-container">
-        <!-- Caja interna que sobresale del contenedor -->
-        <div class="category-form">
-            <div class="category-header">
-                <img class="image-container" src="/FrontEnd/Images/sinFoto.png" alt="Company Image">
-                <button id="save-btn1" class="btn-add">Save Changes</button>
-                <input type="file" accept="image/*" class="company-image-input">
+<!-- TODO. cambiar fuente de los inputs -->
+<body class="bg-gray-100">
+<div class="outer-container bg-gray-300 p-6 m-6 rounded-lg">
+    <main class="container mx-auto p-6 bg-white rounded-[20px]">
+        <main class="container mx-auto p-6 bg-[#EDEDED] m-[10px] mt-[25px] rounded-[20px]">
+          <form id="category-form">
+            <div class="mt-6 md:mt-0 flex justify-end">
             </div>
-
-
-
-            <div class="category-info">
-                <input type="text" placeholder="Add Category Name" class="input-field">
+            <div class="company-info flex flex-col flex-1">
+                <label for="category-name" class="font-semibold text-lg mb-2">Nombre de la Categoria:</label>
+                <input
+                        type="text"
+                        id="category-name"
+                        placeholder="Añade el nombre de la categoría"
+                        class="w-full bg-gray-100 rounded-full px-4 py-2 outline-none text-sm"
+                        required
+                >
             </div>
-
-            <div class="category-description">
-                <label>Description:</label>
-                <textarea placeholder="Add Description..." class="textarea-field"></textarea>
+            <div class="company-description mt-6">
+                <label for="category-description" class="font-semibold text-lg mb-2 block">Descripción:</label>
+                <textarea
+                        id="category-description"
+                        placeholder="Añade una descripción..."
+                        class="w-full bg-gray-100 rounded-lg px-4 py-2 outline-none text-sm"
+                        rows="4" required
+                ></textarea>
             </div>
+            <div class="mt-6 w-full">
+                <button type="submit" id="save-btn1" class="w-full bg-amber-600 text-white px-6 py-2 rounded font-bold">
+                    Save Changes
+                </button>
+            </div>
+          </form>
+        </main>
+    </main>
+</div>
 
-
-        </div>
-    </div>
-</main>
+<script type="module" src="/FrontEnd/JavaScript/category/addAndModifyCategory.js" defer></script>
 </body>
 </html>

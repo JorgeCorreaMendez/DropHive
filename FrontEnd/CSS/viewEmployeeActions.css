@@ -5,40 +5,28 @@
     font-family: Arial, sans-serif;
 }
 
-/* Barra superior */
-.top-bar {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    background-color: #fff;
-    padding: 10px 20px;
-    box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
-}
-
-.logo-section {
-    display: flex;
-    align-items: center;
-}
-
-.logo-img {
-    width: 100px;
+.total-wrapper2 {
+    background-color: white;
     height: auto;
-    margin-right: 10px;
+    box-sizing: border-box;
 }
 
-.logo-section h1 {
-    font-size: 1.8em;
-    margin: 0;
+.total-wrapper {
+    background-color: #ccc;
+    border-radius: 10px;
+    padding: 16px;
+    box-shadow: 0 0 12px rgba(0, 0, 0, 0.07);
+    overflow-x: auto;
+    width: 100%;
+    max-width: 735px;
 }
 
-.search-bar input {
-    padding: 0.5rem;
-    border: 1px solid #ccc;
-    border-radius: 4px;
+.search-id input {
+    background-color: #ccc;
 }
 
 .user-actions a {
-    margin-left: 1rem;
+    margin-left: 16px;
     text-decoration: none;
     color: #333;
     font-weight: 500;
@@ -48,52 +36,113 @@
     text-decoration: underline;
 }
 
-/* Contenedor principal */
 main {
-    display: flex;
+    display: flex; /* usamos flex para centrar contenido */
     justify-content: center;
-    padding: 2rem;
-    background-color: #fafafa;
+    padding: 0;
+    margin: 50px auto;
+    flex-wrap: wrap;
 }
 
-/* Sección de Employee Actions */
+.total-wrapper,
+.employee-actions,
+.actions-performed {
+    margin: 20px auto;
+}
+
 .employee-actions {
-    background-color: #fff;
-    padding: 2rem;
-    width: 600px;
+    background-color: #f0f0f0;
+    padding: 32px;
+    width: 700px;
     border: 1px solid #ddd;
-    border-radius: 6px;
+    border-radius: 10px;
 }
 
-/* Título */
 .employee-actions h2 {
-    margin-bottom: 1rem;
-    font-size: 1.25rem;
+    margin-bottom: 16px;
+    font-size: 20px;
 }
 
-/* Búsqueda de ID */
 .search-id {
-    margin-bottom: 1.5rem;
+    margin-bottom: 24px;
 }
 
 .search-id label {
     display: block;
-    margin-bottom: 0.5rem;
+    margin-bottom: 8px;
     font-weight: 600;
+}
+
+.field p {
+    text-align: center !important;
+}
+
+.button-wrapper {
+    background-color: #ccc;
+    padding: 8px;
+    border-radius: 12px;
+    display: inline-flex;
+    justify-content: center;
+    box-shadow: 0 0 6px rgba(0, 0, 0, 0.06);
+    width: auto;
+    margin: 16px auto;
+
+}
+
+.delete_button button {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 8px;
+    padding: 8px 16px;
+    background-color: #f0f0f0;
+    border: 1px solid #aaa;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.modify_button button {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 8px;
+    padding: 8px 16px;
+    background-color: #f0f0f0;
+    border: 1px solid #aaa;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+
+
+.delete_button button:hover {
+    background-color: #e0e0e0;
+}
+
+.modify_button button:hover {
+    background-color: #e0e0e0;
+}
+
+.icon {
+    width: 14px;
+    height: 14px;
 }
 
 .search-id input {
     width: 100%;
-    padding: 0.5rem;
+    padding: 8px;
     border: 1px solid #ccc;
-    border-radius: 4px;
+    border-radius: 10px;
+    text-decoration: underline;
+    text-decoration-color: #ccc;
 }
 
-/* Datos del empleado */
 .employee-data {
     display: flex;
-    gap: 1rem;
-    margin-bottom: 2rem;
+    gap: 16px;
+    margin-bottom: 32px;
 }
 
 .employee-data .field {
@@ -104,19 +153,56 @@ main {
 
 .employee-data label {
     font-weight: 600;
-    margin-bottom: 0.3rem;
+    margin-bottom: 5px;
 }
 
 .employee-data input {
     padding: 5px;
     border: 1px solid #ccc;
-    border-radius: 4px;
+    border-radius: 10px;
 }
 
-/* Acciones realizadas */
+.field label {
+    text-decoration: underline;
+    text-align: center !important;
+}
+
+.field input {
+    background-color: #ccc;
+}
+
+.button-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    max-width: 700px;
+    margin: 20px auto;
+    gap: 10px;
+}
+
+/* Asegura que los botones no se rompan en pantallas pequeñas */
+.button-row > div {
+    flex: 1;
+    display: flex;
+}
+
+
+.actions-performed {
+    background-color: #ccc;
+    border-radius: 10px;
+    padding: 16px;
+    box-shadow: 0 0 12px rgba(0, 0, 0, 0.07);
+    overflow-x: auto;
+    width: 100%;
+    max-width: 535px;
+    margin-bottom: 25px;
+    margin-left: 50px;
+}
+
 .actions-performed h3 {
-    margin-bottom: 1rem;
-    font-size: 1.1rem;
+    margin-bottom: 16px;
+    font-size: 18px;
 }
 
 .actions-performed table {
@@ -125,19 +211,174 @@ main {
 }
 
 .actions-performed thead {
-    background-color: #f0f0f0;
+    background-color: #ccc;
+}
+
+th, td {
+    text-align: center !important;
+    vertical-align: middle;
+}
+
+th {
+    text-decoration: underline;
 }
 
 .actions-performed th,
 .actions-performed td {
     text-align: left;
-    padding: 0.75rem;
-    border: 1px solid #ddd;
+    padding: 12px;
 }
 
 .actions-performed input {
     width: 95%;
-    padding: 0.3rem;
+    padding: 5px;
     border: 1px solid #ccc;
-    border-radius: 4px;
+    border-radius: 10px;
 }
+
+/* Responsive: Tablets */
+@media (max-width: 1024px) {
+    .logo-img {
+        width: 80px;
+    }
+
+    .logo-section h1 {
+        font-size: 20px;
+    }
+
+    .employee-actions {
+        padding: 16px;
+        width: 100%;
+    }
+
+    .actions-performed table,
+    .actions-performed th,
+    .actions-performed td {
+        font-size: 13px;
+        padding: 8px;
+    }
+
+    .actions-performed {
+        margin: 16px;
+        width: 100%;
+    }
+
+    .total-wrapper {
+        margin: 16px;
+        max-width: 100%;
+    }
+
+    .button-wrapper {
+        flex-direction: column;
+        margin: 0 auto;
+    }
+    .total-wrapper,
+    .employee-actions,
+    .actions-performed {
+        max-width: 90%;
+    }
+
+}
+
+/* Responsive: Tablets/Phablets */
+@media (max-width: 768px) {
+    .top-bar {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .logo-section h1 {
+        font-size: 24px;
+    }
+
+    .employee-data {
+        flex-direction: column;
+    }
+
+    .total-wrapper,
+    .employee-actions,
+    .actions-performed {
+        margin: 20px;
+        width: 90%;
+        max-width: 90%;
+    }
+
+    .top-bar {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .employee-data {
+        flex-direction: column;
+    }
+
+    .button-wrapper {
+        flex-direction: column;
+        margin: 16px auto;
+    }
+
+    main {
+        margin-left: 20px;
+        margin-right: 20px;
+    }
+
+    .button-wrapper {
+        margin-left: 0;
+        margin-top: 16px;
+    }
+}
+
+/* Responsive: Móviles */
+@media (max-width: 480px) {
+    .logo-img {
+        width: 80px;
+    }
+
+    .logo-section h1 {
+        font-size: 20px;
+    }
+
+    .employee-actions {
+        padding: 16px;
+        width: 100%;
+    }
+
+    .actions-performed table,
+    .actions-performed th,
+    .actions-performed td {
+        font-size: 13px;
+        padding: 8px;
+    }
+
+    .actions-performed {
+        margin: 16px;
+        width: 100%;
+    }
+
+    .total-wrapper {
+        margin: 16px;
+        max-width: 100%;
+    }
+
+    .button-wrapper {
+        flex-direction: column;
+        margin: 0 auto;
+    }
+
+    .employee-actions {
+        padding: 16px;
+        width: 100%;
+    }
+
+    .actions-performed {
+        margin: 16px auto;
+        width: 100%;
+    }
+
+    .total-wrapper {
+        margin: 16px auto;
+        max-width: 100%;
+    }
+}
+
+

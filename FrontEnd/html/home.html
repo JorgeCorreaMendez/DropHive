@@ -6,10 +6,15 @@
     <title>DropHive</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="icon" href="{{ url_for('static', filename='Images/LogoSoloCaja.ico') }}" type="image/x-icon">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script type="module" src="{{ url_for('static', filename='JavaScript/home.js') }}"></script>
     <script type="module" src="{{ url_for('static', filename='JavaScript/header.js') }}"></script>
+    <script type="module" src="{{ url_for('static', filename='JavaScript/filtrado.js') }}"></script>
+    <script type="module" src="{{ url_for('static', filename='JavaScript/modals/mainModal.js') }}"></script>
+    <script type="module" src="{{ url_for('static', filename='JavaScript/cambiarVistaHome.js') }}"></script>
+    <script type="module" src="{{ url_for('static', filename='JavaScript/home/productos.js') }}"></script>
 </head>
-<body class="bg-white">
+<body class="bg-white" data-vista="productos">
     <!-- Header -->
     {% include 'header.html' %}
 
@@ -18,7 +23,7 @@
         <!-- Aside izquierdo (Filtros) -->
         <aside class="w-1/6 p-4 m-[10px] mt-[25px] flex flex-col gap-[50px]">
             <div class="bg-[#EDEDED] flex justify-center items-center bg-gray-100 rounded-[20px] p-5">
-                <button class="mt-2 w-full bg-[#D9D9D9] text-black p-2 rounded flex justify-center items-center gap-[5px]">
+                <button id="supplier-btn" class="mt-2 w-full bg-[#D9D9D9] text-black p-2 rounded flex justify-center items-center gap-[5px]">
                   Supplier
                 </button>
             </div>
@@ -32,42 +37,47 @@
                         <option value="20">20</option>
                     </select>
                 </label>
-                <label class="block mt-5 w-full">Category:
-                    <select id="select-categoria" class="mt-1 p-2 w-full bg-transparent border-0 border-b-2 border-gray-400 focus:outline-none focus:border-black rounded-none text-xs">
-                        <option value="all">All</option>
-                    </select>
-                </label>
-                <label class="block mt-5 w-full">Supplier:
-                    <select id="select-proveedor" class="mt-1 p-2 w-full bg-transparent border-0 border-b-2 border-gray-400 focus:outline-none focus:border-black rounded-none text-xs">
-                        <option value="all">All</option>
-                    </select>
-                </label>
+                <div id="filtro-productos">
+                    <label class="block mt-5 w-full">Category:
+                        <select id="select-categoria" class="mt-1 p-2 w-full bg-transparent border-0 border-b-2 border-gray-400 focus:outline-none focus:border-black rounded-none text-xs">
+                            <option value="all">All</option>
+                        </select>
+                    </label>
+                    <label class="block mt-5 w-full">Supplier:
+                        <select id="select-proveedor" class="mt-1 p-2 w-full bg-transparent border-0 border-b-2 border-gray-400 focus:outline-none focus:border-black rounded-none text-xs">
+                            <option value="all">All</option>
+                        </select>
+                    </label>
 
 
-                <label class="block mt-5">Minimum Price
-                <input
-                  type="text"
-                  placeholder="Write Here"
-                  class="mt-1 p-2 w-full bg-transparent border-0 border-b-2 border-gray-400 focus:outline-none focus:border-black rounded-none"
-                />
-                </label>
+                    <label class="block mt-5">Minimum Price
+                    <input
+                      type="text"
+                      placeholder="Write Here"
+                      class="mt-1 p-2 w-full bg-transparent border-0 border-b-2 border-gray-400 focus:outline-none focus:border-black rounded-none"
+                      id="min-price"
+                    />
+                    </label>
 
-                <label class="block mt-5">Maximum Price
-                <input
-                  type="text"
-                  placeholder="Write Here"
-                  class="mt-1 p-2 w-full bg-transparent border-0 border-b-2 border-gray-400 focus:outline-none focus:border-black rounded-none"
-                />
-                </label>
+                    <label class="block mt-5">Maximum Price
+                    <input
+                      type="text"
+                      placeholder="Write Here"
+                      class="mt-1 p-2 w-full bg-transparent border-0 border-b-2 border-gray-400 focus:outline-none focus:border-black rounded-none"
+                      id="max-price"
+                    />
+                    </label>
 
 
-                <label class="block mt-5">Max Quantity Available
-                <input
-                  type="text"
-                  placeholder="Write Here"
-                  class="mt-1 p-2 w-full bg-transparent border-0 border-b-2 border-gray-400 focus:outline-none focus:border-black rounded-none"
-                />
-                </label>
+                    <label class="block mt-5">Max Quantity Available
+                    <input
+                      type="text"
+                      placeholder="Write Here"
+                      class="mt-1 p-2 w-full bg-transparent border-0 border-b-2 border-gray-400 focus:outline-none focus:border-black rounded-none"
+                      id="max-quantity"
+                    />
+                    </label>
+                </div>
             </div>
         </aside>
 
@@ -75,13 +85,8 @@
         <main class="w-2/3 p-4 bg-[#EDEDED] m-[10px] mt-[25px] rounded-[20px]">
             <table class="w-full rounded border-separate border-spacing-y-[10px] border-spacing-x-[5px]">
                 <thead class="no-background thead-line">
-                    <tr>
-                        <th class="p-2 rounded-[5px]">ID</th>
-                        <th class="p-2 rounded-[5px]">Name</th>
-                        <th class="p-2 rounded-[5px]">Category</th>
-                        <th class="p-2 rounded-[5px]">Buying Price</th>
-                        <th class="p-2 rounded-[5px]">Selling Price</th>
-                        <th class="p-2 rounded-[5px]">Amount</th>
+                    <tr id="cabecera-tabla">
+                        <!-- Aquí va la cabecera de la tabla -->
                     </tr>
                 </thead>
                 <tbody id="table-body">
@@ -109,16 +114,16 @@
         <!-- Aside derecho (Navegación) -->
         <aside class="w-1/6 p-4 m-[10px] mt-[25px] flex flex-col gap-[50px]">
           <div class="bg-[#EDEDED] flex justify-center items-center bg-gray-100 rounded-[20px] p-5">
-            <button class="mt-2 w-full bg-[#D9D9D9] text-black p-2 rounded flex justify-center items-center gap-[5px]">
+            <button id="notification-btn" class="mt-2 w-full bg-[#D9D9D9] text-black p-2 rounded flex justify-center items-center gap-[5px]">
               Notifications
               <img class="h-[15px] fill-white" src="{{ url_for('static', filename='Images/Campana.svg') }}" alt="Imagen de reinicio"/>
             </button>
           </div>
           <div class="bg-[#EDEDED] flex flex-col justify-center items-center bg-gray-100 rounded-[20px] p-5">
             <h2 class="text-lg font-semibold">Navigation</h2>
-            <button class="mt-2 w-full bg-[#8DC96A] text-black p-2 rounded">Add Item</button>
-            <button class="mt-2 w-full bg-[#8DC96A] text-black p-2 rounded">Add Company</button>
-            <button class="mt-2 w-full bg-[#D9D9D9] text-black p-2 rounded">Show All Category</button>
+            <button id="add-item-btn" class="mt-2 w-full bg-[#8DC96A] text-black p-2 rounded">Add Item</button>
+            <button id="add-company-btn" class="mt-2 w-full bg-[#8DC96A] text-black p-2 rounded">Add Company</button>
+            <button id="category-btn" class="mt-2 w-full bg-[#D9D9D9] text-black p-2 rounded">Show All Category</button>
             <button class="mt-2 w-full bg-[#D9D9D9] text-black p-2 rounded flex justify-center items-center gap-[10px]">History
               <img class="h-[20px] fill-white" src="{{ url_for('static', filename='Images/Lupa.svg') }}" alt="Imagen de reinicio"/>
             </button>
@@ -128,8 +133,23 @@
 </body>
 </html>
 
+<!-- Modal genérico para cargar contenido dinámico -->
+<div id="modal-container" class="fixed inset-0 z-50 hidden bg-black bg-opacity-50 flex items-center justify-center">
+  <div id="modal-content"
+       class="bg-white w-11/12 md:w-2/3 max-h-[90vh] overflow-y-auto rounded-xl p-6 relative transform scale-95 opacity-0 transition-all duration-5 00">
+    <!-- Aquí se inyectará el contenido HTML -->
+  </div>
+</div>
+
 <style>
   .thead-line {
     box-shadow: 0 1px 0 0 black;
   }
 </style>
+
+<link rel="stylesheet" href="{{ url_for('static', filename='CSS/CreateItem.css') }}">
+<script type="module" src="{{ url_for('static', filename='JavaScript/createItem.js') }}"></script>
+<link rel="stylesheet" href="{{ url_for('static', filename='CSS/AddAndModifyCompany.css') }}">
+<link rel="stylesheet" href="{{ url_for('static', filename='CSS/notifications.css') }}">
+<link rel="stylesheet" href="{{ url_for('static', filename='CSS/Read_Article.css') }}">
+<script type="module" src="/FrontEnd/JavaScript/category/addAndModifyCategory.js"></script>

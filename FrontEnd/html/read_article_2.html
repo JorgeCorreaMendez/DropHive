@@ -1,0 +1,67 @@
+<main class="bg-gray-300 rounded-lg p-1">
+  <div class="flex justify-between items-start bg-gray-200 rounded-lg p-4 m-4">
+    <!-- Izquierda: Imagen + Info -->
+    <div class="flex gap-4 items-start">
+      <!-- Imagen -->
+      <img src="" alt="Samba OG" class="w-20 h-20 rounded-lg border border-gray-300" />
+
+      <!-- Información -->
+      <div>
+        <!-- ID y nombre -->
+        <h2 class="text-lg font-semibold">
+          <span id="id">0002</span> - <span id="product-name">Samba OG</span>
+        </h2>
+
+        <!-- Categorías -->
+        <div id="lista-categorias" class="flex gap-2 mt-1 flex-wrap">
+          <!-- Aquí irán las categorías -->
+        </div>
+
+        <!-- Precio -->
+        <p class="font-bold mt-2 text-gray-800" id="price">Price: $99.99</p>
+      </div>
+    </div>
+
+    <!-- Derecha: Botones -->
+    <div class="flex gap-2">
+      <button class="bg-gray-300 hover:bg-gray-400 text-black px-4 py-2 rounded">Modify Item</button>
+      <button class="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded">Delete Item</button>
+    </div>
+  </div>
+
+  <!-- Descripción -->
+  <div class="bg-gray-200 rounded-lg p-4 m-4">
+    <h3 class="text-lg font-semibold mb-2">Description:</h3>
+    <p id="descripcion" class="text-gray-800">Aquí va la descripción del producto.</p>
+  </div>
+
+  <!-- Zona Inferior -->
+  <div class="flex gap-4 m-4">
+    <!-- Tabla -->
+    <div class="w-1/2 bg-gray-200 rounded-lg p-4">
+      <table class="w-full rounded border-separate border-spacing-y-[10px] border-spacing-x-[5px]">
+        <thead class="no-background thead-line">
+          <tr id="cabecera-tabla">
+            <th class="text-center">Talla</th>
+            <th class="text-center">Cantidad</th>
+          </tr>
+        </thead>
+        <tbody id="table-body">
+          <tr class="text-center">
+            <td>12</td>
+            <td>20</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Lista de Artículos Similares -->
+    <div class="w-1/2 bg-gray-200 rounded-lg p-4">
+      <h3 class="text-lg font-semibold mb-2">Artículos Similares</h3>
+      <ul class="space-y-2">
+        <li class="bg-white rounded p-2 shadow">Ultraboost 22</li>
+        <!-- Aquí se pueden añadir más elementos dinámicamente -->
+      </ul>
+    </div>
+  </div>
+</main>

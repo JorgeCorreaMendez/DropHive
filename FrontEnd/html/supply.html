@@ -4,70 +4,65 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Supply Management</title>
-  <link rel="stylesheet" href="{{ url_for('static', filename='CSS/Style.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='CSS/supply.css') }}">
   <script src="{{ url_for('static', filename='JavaScript/header.js') }}"></script>
-  <script src="{{ url_for('static', filename='JavaScript/redirect.js') }}"></script>
+  <script src="{{ url_for('static', filename='JavaScript/recursos/paginado.js') }}"></script>
+  <script type="module" src="{{ url_for('static', filename='JavaScript/modals/mainModal.js') }}"></script>
 </head>
 <body>
 <header>
   {% include 'header.html' %}
 </header>
-<div class="supply-sidebar">
-  <button id="notification-btn">🔔 Notifications</button>
-  <div class="delete_button">
-    <button>🗑️ Delete supplier</button>
-  </div>
-</div>
-
+<div class="total-wrapper2">
 <div class="supply-container">
+  <div class="total-wrapper">
+  <div class="table-wrapper">
   <table>
     <thead>
     <tr>
-      <th>Casilla de borrado</th>
-      <th>Nombre del proveedor</th>
-      <th>Nombre de la compañía</th>
+      <th></th>
+      <th>ID</th>
+      <th>Supplier name</th>
+      <th>Company name</th>
       <th>Email</th>
-      <th>Número de teléfono</th>
+      <th>Phone number</th>
     </tr>
     </thead>
     <tbody>
     <tr>
-      <td><input type="checkbox" class="select-item"></td>
-      <td>Nike</td>
-      <td>Dunk Low</td>
-      <td>juanitoPalotes@gmail.com</td>
-      <td>123456789</td>
+      <td><input type="checkbox"></td>
+      <td><div class="cell">001</div></td>
+      <td><div class="cell">Nike</div></td>
+      <td><div class="cell">Dunk Low</div></td>
+      <td><div class="cell">juanito@gmail.com</div></td>
+      <td><div class="cell">3938938733</div></td>
     </tr>
-    <tr>
-      <td><input type="checkbox" class="select-item"></td>
-      <td>Adidas</td>
-      <td>Samba OG</td>
-      <td>juanitoPalotes@gmail.com</td>
-      <td>123456789</td>
-    </tr>
-    <tr>
-      <td><input type="checkbox" class="select-item"></td>
-      <td>New Balance</td>
-      <td>New Balance 550</td>
-      <td>juanitoPalotes@gmail.com</td>
-      <td>123456789</td>
-    </tr>
-    <tr>
-      <td><input type="checkbox" class="select-item"></td>
-      <td>Jordan</td>
-      <td>Air Jordan 1</td>
-      <td>juanitoPalotes@gmail.com</td>
-      <td>123456789</td>
-    </tr>
-    <tr>
-      <td><input type="checkbox" class="select-item"></td>
-      <td>Carhartt</td>
-      <td>Chore Coat</td>
-      <td>juanitoPalotes@gmail.com</td>
-      <td>123456789</td>
-    </tr>
-    </tbody>
   </table>
+    <div class="pagination-controls">
+      <button id="prev-button" disabled><-</button>
+      <span id="page-number">1</span>
+      <button id="next-button">-></button>
+    </div>
+  </div>
+  </div>
+  <div class="sidebar">
+    <div class="button-wrapper notification-wrapper">
+      <button id="notification-btn">🔔 Notifications</button>
+    </div>
+    <div class="button-wrapper delete_button">
+      <button>🗑️ Delete supplier</button>
+    </div>
+  </div>
+  </div>
+</div>
 </div>
 </body>
 </html>
+
+<div id="modal-container" class="fixed inset-0 z-50 hidden bg-black bg-opacity-50 flex items-center justify-center">
+  <div id="modal-content"
+       class="bg-white w-11/12 md:w-2/3 max-h-[90vh] overflow-y-auto rounded-xl p-6 relative transform scale-95 opacity-0 transition-all duration-5 00">
+  </div>
+</div>
+
+<link rel="stylesheet" href="{{ url_for('static', filename='CSS/notifications.css') }}">
