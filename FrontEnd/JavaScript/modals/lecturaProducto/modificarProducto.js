@@ -43,9 +43,6 @@ export function modificarArticulo(datos_articulo) {
         const modalForm = document.getElementById("createProductForm");
         if (!modalForm) return;
 
-        // Mostrar en consola los datos recibidos para depuración
-        console.log("Datos del artículo recibidos:", datos_articulo);
-
         // --- Campos básicos ---
         const idInput = modalForm.querySelector("#product-id");
         idInput.value = datos_articulo.id;
@@ -61,7 +58,6 @@ export function modificarArticulo(datos_articulo) {
           // Primero, obtenemos los inputs existentes ya creados en el formulario.
           let existingSizeInputs = modalForm.querySelectorAll("input[name='newSize[]']");
           let existingQtyInputs  = modalForm.querySelectorAll("input[name='newQuantity[]']");
-          console.log("Cantidad de inputs 'newSize[]' existentes:", existingSizeInputs.length);
 
           datos_articulo.size.forEach((s, index) => {
             if (index < existingSizeInputs.length) {

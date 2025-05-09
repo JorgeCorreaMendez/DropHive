@@ -13,8 +13,6 @@ const tableBody = document.getElementById("table-body");
     const clickedRow = event.target.closest("tr[data-product-id]");
     if (!clickedRow) return; // Click fuera de un producto válido
 
-    console.log("Ha pasado")
-
     const id_product = clickedRow.getAttribute("data-product-id");
     if (!id_product) return;
 
@@ -58,7 +56,7 @@ const tableBody = document.getElementById("table-body");
     const descripcion = document.getElementById("descripcion");
 
     if (!product_name || !img) {
-      console.log("No se ha encontrado algún elemento.");
+      console.alert("No se ha encontrado algún elemento.");
       return;
     }
     id.textContent = datos_articulo.product_id;
@@ -103,7 +101,7 @@ const tableBody = document.getElementById("table-body");
           const price = document.getElementById("price");
 
           if (!product_name) {
-            console.log("No se ha encontrado.");
+            console.alert("No se ha encontrado.");
             return;
           }
 

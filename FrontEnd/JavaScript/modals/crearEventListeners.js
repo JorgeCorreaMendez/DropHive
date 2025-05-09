@@ -3,7 +3,7 @@ import { openModal } from "./abrirYCerrarModal.js";
 import { agregarProducto } from "../createItem.js";
 import { initializeRowClickHandler } from "./lecturaProducto/productRowClick.js"
 import { cargarModalCrearProducto } from "../home/productos.js";
-import {initializeRowClickHandlerCategory} from "./lecturaCategoria/productRowClickCategory.js";
+import {initializeRowClickHandlerCategory} from "../category/productRowClickCategory.js";
 
 export function setupEventListeners() {
   document.getElementById("add-item-btn")?.addEventListener("click", cargarModalCrearProducto);

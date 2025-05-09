@@ -2,10 +2,8 @@ import {recuperarNombreBaseDatos} from "./recursos.js";
 
 function initializeLogoutButton() {
     const logoutButton = document.getElementById("log-out");
-    console.log("Se entra aquí");
 
     if (logoutButton) {
-        console.log("2Se entra aquí2");
         logoutButton.addEventListener("click", () => {
             // Usamos SweetAlert para la confirmación
             Swal.fire({

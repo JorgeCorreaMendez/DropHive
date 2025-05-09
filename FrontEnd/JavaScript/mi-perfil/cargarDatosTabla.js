@@ -12,8 +12,6 @@ export async function recuperarCuentas() {
         // Espera la respuesta JSON
         const respuesta_json = await response.json();
 
-        console.log(respuesta_json);
-
         // Aquí puedes trabajar con los datos obtenidos de la API
         await cargarDatosEnTablaPerfil(respuesta_json);
         //await initPagination(respuesta_json.length);
@@ -79,6 +77,6 @@ export async function localizarPrivilegio(id) {
         const data = await response.json();
         return data.name
     } catch (e) {
-        console.log(e)
+        console.error(e)
     }
 }

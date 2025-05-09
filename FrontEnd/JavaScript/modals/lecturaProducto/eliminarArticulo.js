@@ -6,7 +6,6 @@ export function eliminarArticulo() {
   document.getElementById("delete-btn")?.addEventListener("click", async () => {
     try {
         const id = document.getElementById("id").textContent;
-        console.log(id);
         Swal.fire({
                 title: 'Are you sure you want to delete this product? ',
                 text: 'Changes cannot be rollbacked.',

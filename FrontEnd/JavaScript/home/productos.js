@@ -16,8 +16,6 @@ export async function recuperarProductos() {
         // Espera la respuesta JSON
         const respuesta_json = await response.json();
 
-        console.log("El objeto es:", respuesta_json);
-
         // Aquí puedes trabajar con los datos obtenidos de la API
         await cargarDatosEnTabla(respuesta_json);
         await initPagination(respuesta_json.length);
@@ -99,7 +97,7 @@ export async function localizarCategoria(id) {
         const data = await response.json();
         return data.name
     } catch (e) {
-        console.log(e)
+        console.error(e)
     }
 }
 

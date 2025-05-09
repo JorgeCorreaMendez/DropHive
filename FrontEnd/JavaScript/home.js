@@ -11,12 +11,8 @@ export async function cargarDatosEnTabla(data) {
     tableBody.innerHTML = '';
     const vistaActual = document.body.dataset.vista;
 
-    console.log(`Vista actual: ${vistaActual}`);
-    console.log("Datos recibidos:", data);
-
     for (const item of data) {
         let row;
-        console.log("Este es el row", item)
         if (vistaActual === "productos") {
             row = await addInformacionFilaProducto(item);
         } else {
@@ -51,7 +47,6 @@ async function redirigirASupply() {
 
 async function manejarCambioPagina() {
     const vistaActual = document.body.dataset.vista;
-    console.log("En manejar Cambio Pagina:", vistaActual);
     await aplicarFiltros(vistaActual);
 }
 

@@ -9,7 +9,6 @@ document.getElementById("category-btn").addEventListener("click", async () => {
 async function cambiar_filtros() {
     const vistaActual = document.body.dataset.vista;
 
-    console.log("En cambiar filtro:", vistaActual);
     if(vistaActual === "productos") {
         document.getElementById("filtro-productos").classList.add("hidden");
 

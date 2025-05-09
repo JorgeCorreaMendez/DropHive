@@ -11,9 +11,6 @@ export async function actualizarOpcionesCategoria() {
         }
 
         const data = await response.json()
-
-        console.log(data);
-
         for (let i = 0; i < data.length; i++) {
             const option = document.createElement('option');
             option.value = data[i].name; // O cambia por otro campo si necesitas otro valor
