@@ -170,6 +170,22 @@ def search_account_by_id():
         traceback.print_exc()
         return jsonify({"Error, al buscar la cuenta"}), 500
 
+@accounts_bp.route('/filter_account_by_mail', methods=["GET"])
+@login_required
+def search_account_by_mail():
+    try:
+        mail = request.args.get('mail')
+        with get_db_session(session["db.name"]) as db_session:
+            accounts = db_session.query(Account).filter(mail == Account.mail).all()
+            if accounts:
+                return jsonify([account.serialize() for account in accounts]), 200
+            else:
+                return jsonify({"message": "No se encontraron productos con ese ID."}), 404
+    except SQLAlchemyError:
+        print("Error, al buscar la cuenta")
+        traceback.print_exc()
+        return jsonify({"Error, al buscar la cuenta"}), 500
+
 @accounts_bp.route('/check_first_login', methods=["GET"])
 @login_required
 def check_first_login():

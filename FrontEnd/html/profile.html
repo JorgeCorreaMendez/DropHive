@@ -19,22 +19,39 @@
     <!-- Fila superior -->
     <div class="flex gap-6">
       <!-- Arriba izquierda: Perfil tienda -->
-      <aside class="w-1/2 bg-[#EDEDED] p-6 rounded-[20px] flex flex-col items-center">
-        <!-- Imagen de la tienda -->
-        <img class="w-[150px] h-[150px] rounded-full object-cover" src="/FrontEnd/Images/sinFoto.png" alt="Store Image">
-
-        <!-- Información de la tienda -->
-        <div class="mt-4 text-center">
-          <h2 class="text-2xl font-bold" id="store-name"></h2>
-          <p class="mt-2 font-semibold">Description:</p>
-          <p class="mt-1 text-gray-700 text-sm" id="description"></p>
+      <aside class="w-1/2 bg-[#EDEDED] p-6 rounded-[20px] flex flex-col items-start">
+        <!-- Imagen y nombre de la tienda centrados -->
+        <div class="w-full flex flex-col items-center">
+          <img class="w-[150px] h-[150px] rounded-full object-cover" src="/FrontEnd/Images/sinFoto.png" alt="Store Image">
+          <h2 class="text-2xl font-bold mt-4" id="store-name"></h2>
         </div>
 
-        <!-- Botón de logout -->
-        <button class="mt-6 bg-red-400 hover:bg-red-500 text-white font-bold py-2 px-6 rounded">
-          Log Out
-        </button>
+        <!-- Información de la tienda alineada a la izquierda -->
+        <div class="mt-6 text-left w-full">
+          <p class="mt-2 font-semibold">Name:</p>
+          <p class="mt-1 text-gray-700 text-sm" id="user-name"></p>
+
+          <p class="mt-2 font-semibold">Mail:</p>
+          <p class="mt-1 text-gray-700 text-sm" id="user-mail"></p>
+
+          <p class="mt-2 font-semibold">Privilege:</p>
+          <p class="mt-1 text-gray-700 text-sm" id="user-privilege"></p>
+
+          <p class="mt-2 font-semibold">Phone:</p>
+          <p class="mt-1 text-gray-700 text-sm" id="user-phone"></p>
+        </div>
+
+        <!-- Botón de modificar centrado -->
+        <div class="w-full flex justify-center">
+          <button class="mt-6 bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-6 rounded">
+            Modify
+          </button>
+        </div>
       </aside>
+
+
+
+
 
       <!-- Arriba derecha: Estadísticas -->
       <section class="w-1/2 bg-[#EDEDED] p-6 rounded-[20px] grid grid-cols-2 gap-4">

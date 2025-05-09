@@ -14,13 +14,19 @@ export async function cargarDatosEnTablaPerfil(data) {
     for (const item of data) {
         const row = await addInformacionFilaEmpleado(item);
         await tableBody.appendChild(row);
-        cargarDatosEmpresa(item.name, item.description);
+        cargarDatosEmpresa(item.mail);
     }
 }
 
-function cargarDatosEmpresa(nombre, descripcion) {
-    document.getElementById("store-name").textContent = nombre;
-    document.getElementById("description").textContent = descripcion;
+async function cargarDatosEmpresa(mail) {
+    const response = await fetch(`http://127.0.0.1:4000/filter_account_by_mail?mail=${mail}`)
+    const datos = await response.json()
+    console.log("Hay que coger la compañia", datos.company);
+    document.getElementById("store-name").textContent = datos[0].company.name;
+    document.getElementById("user-name").textContent = datos[0].name;
+    document.getElementById("user-mail").textContent = datos[0].mail;
+    document.getElementById("user-privilege").textContent = datos[0].privileges.name;
+    document.getElementById("user-phone").textContent = datos[0].phone ?? "Not declared";
 }
 
 // Ejecutar cuando el DOM esté cargado
