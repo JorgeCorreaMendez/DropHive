@@ -19,8 +19,8 @@ export function openModal(htmlContent) {
 
   setTimeout(() => {
     if (document.getElementById("primary-category")) {
-      console.log("Se encontró el select 'primary-category' en el modal, cargando categorías...");
       loadCategories();
+
     } else {
       console.warn("El select 'primary-category' no se encontró dentro del modal.");
     }

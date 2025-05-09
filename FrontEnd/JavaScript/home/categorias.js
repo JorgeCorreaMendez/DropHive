@@ -1,5 +1,5 @@
 import {openModal} from "../modals/abrirYCerrarModal.js";
-import {agregarCategoria} from "../addAndModifyCategory.js";
+import {agregarCategoria} from "../category/addAndModifyCategory.js";
 
 export async function addInformacionFilaCategoria(item) {
     const row = document.createElement('tr');
@@ -18,7 +18,6 @@ export async function addInformacionFilaCategoria(item) {
     row.id = "list-article"
     row.setAttribute('data-category-id', item.id);
 
-    console.log(item)
     // A partir de aquí se muestran los elementos de las columnas
     const idCell = document.createElement('td');
     idCell.classList.add('p-2', 'rounded-[5px]');

@@ -50,5 +50,4 @@ function updatePage(currentPage, totalPages, pageElement, prevBtn, nextBtn) {
     pageElement.textContent = currentPage;
     prevBtn.disabled = currentPage === 1;
     nextBtn.disabled = currentPage === totalPages;
-    console.log(`Página actual: ${currentPage} de ${totalPages}`);
 }

@@ -33,8 +33,6 @@ async function crearCuentaEmpleado() {
             password: password
         };
 
-    console.log(newUserData)
-
     try {
         modal.classList.remove('hidden');
         const response = await fetch('http://127.0.0.1:4000/create_account', {

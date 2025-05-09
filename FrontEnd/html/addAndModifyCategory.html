@@ -6,17 +6,13 @@
     <title>Crear Categoria</title>
     <link rel="stylesheet" href="styles.css">
 </head>
+<!-- TODO. cambiar fuente de los inputs -->
 <body class="bg-gray-100">
 <div class="outer-container bg-gray-300 p-6 m-6 rounded-lg">
     <main class="container mx-auto p-6 bg-white rounded-[20px]">
         <main class="container mx-auto p-6 bg-[#EDEDED] m-[10px] mt-[25px] rounded-[20px]">
+          <form id="category-form">
             <div class="mt-6 md:mt-0 flex justify-end">
-                <button
-                        id="save-btn1"
-                        class="bg-amber-600 text-white px-6 py-2 rounded font-bold"
-                >
-                    Save Changes
-                </button>
             </div>
             <div class="company-info flex flex-col flex-1">
                 <label for="category-name" class="font-semibold text-lg mb-2">Nombre de la Categoria:</label>
@@ -37,10 +33,16 @@
                         rows="4" required
                 ></textarea>
             </div>
+            <div class="mt-6 w-full">
+                <button type="submit" id="save-btn1" class="w-full bg-amber-600 text-white px-6 py-2 rounded font-bold">
+                    Save Changes
+                </button>
+            </div>
+          </form>
         </main>
     </main>
 </div>
 
-<script type="module" src="/FrontEnd/JavaScript/addAndModifyCategory.js" defer></script>
+<script type="module" src="/FrontEnd/JavaScript/category/addAndModifyCategory.js" defer></script>
 </body>
 </html>
