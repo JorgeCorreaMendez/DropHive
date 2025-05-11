@@ -106,7 +106,7 @@ document.addEventListener("DOMContentLoaded", () => {
             }
         }
     });
-    document.getElementById('VolverLogIn').addEventListener('click', (e) => {
+    document.getElementById('VolverLogin').addEventListener('click', (e) => {
         e.preventDefault();
         window.location.href = `${BASE_URL}/login`;
     });

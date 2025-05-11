@@ -15,7 +15,7 @@ def index():
 
 @pages_bp.route("/register")
 def register():
-    return render_template('register.html')
+    return render_template('login/register.html')
 
 
 @pages_bp.route("/home")
@@ -26,22 +26,22 @@ def home():
 
 @pages_bp.route("/login")
 def login():
-    return render_template("Login.html")
+    return render_template("login/Login.html")
 
 
 @pages_bp.route("/forgotten_password")
 def forgotten_password():
-    return render_template("send_mail_for_password.html")
+    return render_template("login/send_mail_for_password.html")
 
 
 @pages_bp.route("/change_password")
 def change_password():
-    return render_template("change_password.html")
+    return render_template("login/change_password.html")
 
 
 @pages_bp.route("/verification_code")
 def verification_code():
-    return render_template("verificationCode.html")
+    return render_template("login/verificationCode.html")
 
 
 @pages_bp.route("/addAndModifyCategory")
