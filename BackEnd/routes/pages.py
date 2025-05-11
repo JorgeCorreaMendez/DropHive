@@ -31,12 +31,12 @@ def login():
 
 @pages_bp.route("/forgotten_password")
 def forgotten_password():
-    return render_template("login/send_mail_for_password.html")
+    return render_template("login/changePassword.html")
 
 
 @pages_bp.route("/change_password")
 def change_password():
-    return render_template("login/change_password.html")
+    return render_template("login/changePassword.html")
 
 
 @pages_bp.route("/verification_code")

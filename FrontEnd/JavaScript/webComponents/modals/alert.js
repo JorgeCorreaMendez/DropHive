@@ -4,7 +4,7 @@ const styles = `
     top: 20px;
     right: 20px;
     display: none;
-    z-index: 1000;
+    z-index: 2000;
     max-width: 300px;
   }
 

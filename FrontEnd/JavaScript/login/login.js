@@ -1,3 +1,4 @@
+// TODO. cambiar sin SWAL
 document.addEventListener("DOMContentLoaded", function () {
     document.getElementById('LoginForm').addEventListener('submit', async function (event) {
         event.preventDefault();
