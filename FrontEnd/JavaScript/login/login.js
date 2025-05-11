@@ -1,28 +1,21 @@
 document.addEventListener("DOMContentLoaded", function () {
     document.getElementById('LoginForm').addEventListener('submit', async function (event) {
         event.preventDefault();
-
         const mail = document.getElementById('mail').value;
         const password = document.getElementById('password').value;
-
-        const loginData = { mail, password };
-
+        const alert = document.getElementById('alert-error');
         try {
             const response = await fetch('http://127.0.0.1:4000/login', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(loginData)
+                body: JSON.stringify({ mail, password })
             });
 
             if (response.ok) {
-                const data = await response.json();
-
-                // Consultamos si es el primer inicio de sesión
                 const firstLoginRes = await fetch(`http://127.0.0.1:4000/check_first_login?mail=${mail}`);
                 const firstLoginData = await firstLoginRes.json();
 
                 if (firstLoginRes.ok && (firstLoginData.first_login === true || firstLoginData.first_login === 1)) {
-                    // Mostrar modal para cambiar contraseña
                     const { value: formValues } = await Swal.fire({
                         title: 'Cambia tu contraseña',
                         html:
@@ -55,35 +48,24 @@ document.addEventListener("DOMContentLoaded", function () {
                             Swal.fire({
                                 icon: 'error',
                                 title: "Error durante el cambio de contraseña.",
-                                html: error.message || "Ocurrió un error desconocido",
+                                html: error.error || "Ocurrió un error desconocido",
                                 timer: 2500,
                                 showConfirmButton: false
                             });
                         }
                     }
                 } else {
-                    // Si no es primer login, redirige directamente
                     window.location.href = `http://127.0.0.1:4000/home`;
                 }
 
             } else {
-                const error = await response.json();
-                Swal.fire({
-                    icon: 'error',
-                    title: "Error durante el inicio de sesión.",
-                    html: error.message || "Ocurrió un error desconocido",
-                    timer: 2500,
-                    showConfirmButton: false
-                });
+                const json = await response.json();
+                alert.setMessage(json.error);
+                alert.show(2000);
             }
         } catch (error) {
-            Swal.fire({
-                icon: 'error',
-                title: "Error en el servidor.",
-                html: "Ocurrió un error en la solicitud",
-                timer: 2500,
-                showConfirmButton: false
-            });
+            alert.setMessage("Error, Ocurrió un error en la solicitud");
+            alert.show(2000);
         }
     });
 });
@@ -118,7 +100,7 @@ document.addEventListener("DOMContentLoaded", function() {
         window.location.href = 'http://127.0.0.1:4000/register';
     })
 
-    document.getElementById('need-help').addEventListener('click', function() {
+    document.getElementById('change-password').addEventListener('click', function() {
         window.location.href = 'http://127.0.0.1:4000/forgotten_password';
     })
 })
