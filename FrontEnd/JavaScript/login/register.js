@@ -16,17 +16,17 @@ async function isValidForm(data) {
     const errorText = [];
     const verifyCompanyResponse = await fetch(`${BASE_URL}/check_company?name=${data.name}`);
     if (verifyCompanyResponse.ok) {
-        errorText.push("Ya existe una empresa registrada con ese nombre.");
+        errorText.push("A company with that name already exists.");
     }
     const verifyEmailResponse = await fetch(`${BASE_URL}/check_mail?mail=${data.mail}`);
     if (verifyEmailResponse.ok) {
-        errorText.push("Ya existe una cuenta asociada a este correo.");
+        errorText.push("An account with this email already exists.");
     }
     if (data.password.length < 8) {
-        errorText.push("La contraseña debe tener al menos 8 caracteres.");
+        errorText.push("Password must be at least 8 characters long.");
     }
     if (data.password !== data.confirm_password) {
-        errorText.push("Ambas contraseñas deben coincidir.");
+        errorText.push("Passwords do not match.");
     }
     if (errorText.length > 0) {
         const alert = document.getElementById('alert-error');
@@ -51,15 +51,15 @@ document.addEventListener("DOMContentLoaded", () => {
                 if (!sendResponse.ok) {
                     loader.hide();
                     const alert = document.getElementById('alert-error');
-                    alert.setMessage("No se pudo enviar el código de verificación.");
-                    alert.show(2000);
+                    alert.setMessage("Verification code could not be sent.");
+                    alert.show(4000);
                     return;
                 }
                 const prompt = document.getElementById('prompt-modal');
                 const code = await prompt.show({
-                    title: 'Verificación para crear la cuenta',
-                    text: 'El código se ha enviado a tu correo',
-                    placeholder: 'Código de verificación'
+                    title: 'Account verification',
+                    text: 'The code has been sent to your email',
+                    placeholder: 'Verification code'
                 });
 
                 if (code) {
@@ -75,15 +75,13 @@ document.addEventListener("DOMContentLoaded", () => {
                             headers: { 'Content-Type': 'application/json' },
                             body: JSON.stringify(registerData)
                         });
-
                         const result = await response.json();
-
                         if (response.ok) {
-                            const alert = document.getElementById('alert-success');
-                            alert.setMessage("Tu cuenta ha sido creada correctamente.");
-                            alert.show(2000);
-                            loader.hide();
-                            window.location.href = `${BASE_URL}/home`;
+                            const successModal = document.getElementById('success-modal');
+                            successModal.show('Successful registration');
+                            setTimeout(() => {
+                              window.location.href = `${BASE_URL}/home`;
+                            }, 2000);
                         } else {
                             loader.hide();
                             const alert = document.getElementById('alert-error');
@@ -93,7 +91,7 @@ document.addEventListener("DOMContentLoaded", () => {
                     } else {
                         loader.hide();
                         const alert = document.getElementById('alert-error');
-                        alert.setMessage("El código de verificación no es válido.");
+                        alert.setMessage("The verification code is invalid.");
                         alert.show(2000);
                     }
                 } else {
