@@ -7,19 +7,22 @@
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
 <body class="bg-gray-100">
+<form id="company-form">
 <div class="outer-container bg-gray-300 p-6 m-6 rounded-lg">
     <main class="container mx-auto p-6 bg-white rounded-[20px]">
-        <form id="category-form">
+            <input type="hidden" id="company-id" value="">
         <div class="company-header">
             <div class="container mx-auto p-6 bg-[#EDEDED] m-[10px] mt-[25px] rounded-[20px]">
                 <div class="mt-6 md:mt-0 flex justify-end">
                     <button
                             id="save-btn1"
+                            type="submit"
                             class="bg-amber-600 text-white px-6 py-2 rounded font-bold"
                     >
                         Save Changes
                     </button>
                 </div>
+</form>
                 <div class="flex flex-col md:flex-row md:items-center md:gap-6">
 
                     <div class="image-upload-wrapper relative w-32 h-32">
@@ -37,10 +40,10 @@
                     </div>
 
                     <div class="company-info flex flex-col flex-1">
-                        <label for="new-category" class="font-semibold text-lg mb-2">Nombre de la Compañia:</label>
+                        <label for="company-name" class="font-semibold text-lg mb-2">Nombre de la Compañia:</label>
                         <input
                                 type="text"
-                                id="new-category"
+                                id="company-name"
                                 placeholder="Añade el nombre de la categoría"
                                 class="w-full bg-gray-100 rounded-full px-4 py-2 outline-none text-sm"
                                 required
@@ -67,4 +70,4 @@
 </body>
 </html>
 
-<script type="module" src="/FrontEnd/JavaScript/Company/modifyCompany.js"></script>
+<script type="module" src="/FrontEnd/JavaScript/Company/AddAndModifyCompany.js" defer></script>

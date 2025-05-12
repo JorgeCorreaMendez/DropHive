@@ -13,7 +13,6 @@ export async function addInformacionFilaCompany(item) {
         'duration-200',
     );
 
-
     row.id = "list-article"
     row.setAttribute('data-company-id', item.id);
 
@@ -53,13 +52,15 @@ export async function modificarCabeceraTablaCompany() {
 }
 
 export async function cargarModalCrearCompany() {
-    const response = await fetch(`/addAndModifyCompany`);
+    const response = await fetch(`/modifyCompany`);
     const html = await response.text();
     openModal(html);
-    /*
+
     setTimeout(() => {
-      document.getElementById("save-btn1")?.addEventListener("click", agregarCategoria);
-    }, 50);
-     */
+        const form = document.getElementById("company-form");
+        if (form) {
+            form.addEventListener("submit", agregarCompañia);
+        }
+    }, 100);
 }
 
