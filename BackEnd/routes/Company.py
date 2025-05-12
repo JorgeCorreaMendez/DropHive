@@ -98,3 +98,22 @@ def delete_company():
         print("Error, eliminando la empresa")
         traceback.print_exc()
         return jsonify({"Error:": "eliminando la empresa"}), 500
+
+@companies_bp.route("/get_company", methods=["GET"])
+@login_required
+def search_category_by_id():
+    company_id = request.args.get('id')
+    if not company_id:
+        print("Error, Se tiene que añadir un id")
+        return jsonify({"error": "Se tiene que añadir un id"}), 400
+    try:
+        with get_db_session(session["db.name"]) as db:
+            company = db.query(Company).filter(Company.id == company_id).first()
+            if company is None:
+                return jsonify({"message": "Compañia no encontrada"}), 404
+            print(company.serialize())
+            return jsonify(company.serialize()), 200
+    except SQLAlchemyError:
+        print("Error, al cambiar la contraseña")
+        traceback.print_exc()
+        return jsonify({"Error, al cambiar la contraseña"}), 500

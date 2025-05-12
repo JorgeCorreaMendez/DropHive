@@ -13,14 +13,18 @@ export function initializeRowClickHandlerCompany() {
     if (!clickedRow) return;
 
 
-    const id_category = clickedRow.getAttribute("data-company-id");
-    console.log("Se ha clicado", id_category)
+    const id_company= clickedRow.getAttribute("data-company-id");
+    console.log("Se ha clicado", id_company)
 
-    if (!id_category) return;
+    if (!id_company) return;
 
     try {
+      let response = await fetch(`get_company?id=${id_company}`);
+      const object = await response.json();
 
-      const response = await fetch(`readCompany`);
+      console.log(object)
+
+      response = await fetch(`readCompany`);
       const html = await response.text();
 
       const parser = new DOMParser();
