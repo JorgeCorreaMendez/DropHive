@@ -5,6 +5,7 @@ import {recuperarProductos, addInformacionFilaProducto, modificarCabeceraTablaPr
 import {addInformacionFilaCategoria} from "./home/categorias.js";
 import { initPagination } from "./recursos/paginado.js";
 import { actualizarOpcionesCategoria } from "./desplegables/desplegable.categorias.js";
+import {addInformacionFilaCompany} from "./home/company.js";
 
 export async function cargarDatosEnTabla(data) {
     const tableBody = document.getElementById("table-body");
@@ -15,8 +16,10 @@ export async function cargarDatosEnTabla(data) {
         let row;
         if (vistaActual === "productos") {
             row = await addInformacionFilaProducto(item);
-        } else {
+        } else if (vistaActual === "categorias") {
             row = await addInformacionFilaCategoria(item);
+        } else if (vistaActual === "company") {
+            row = await addInformacionFilaCompany(item);
         }
         tableBody.appendChild(row);
     }
