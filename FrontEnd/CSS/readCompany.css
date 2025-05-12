@@ -78,9 +78,8 @@
 }
 
 /* Contenedor principal */
-.main-container {
+.main_container {
     background-color: #d3d3d3;
-    min-height: 100vh;
     padding: 20px;
     overflow-x: hidden;
 }
