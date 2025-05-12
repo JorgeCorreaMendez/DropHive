@@ -1,5 +1,4 @@
 import {openModal} from "../modals/abrirYCerrarModal.js";
-import {agregarCategoria} from "../category/addAndModifyCategory.js";
 
 export async function addInformacionFilaCompany(item) {
     const row = document.createElement('tr');
@@ -63,3 +62,4 @@ export async function cargarModalCrearCompany() {
     }, 50);
      */
 }
+
