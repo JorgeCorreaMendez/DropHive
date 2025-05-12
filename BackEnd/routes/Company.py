@@ -23,6 +23,23 @@ def get_companies():
         traceback.print_exc()
         return jsonify({"error": "obteniendo las empresas"}), 500
 
+@companies_bp.route('/filter_company', methods=["GET"])
+@login_required
+def filter_company():
+    try:
+        limit = int(request.args.get('limit', 5))
+        offset = int(request.args.get('offset', 0))
+        with (get_db_session(session["db.name"]) as db_session):
+            query = db_session.query(Company)
+            query = query.filter(Company.id != 1)
+            query = query.limit(limit).offset(offset)
+            print([company.serialize() for company in query.all()])
+            return jsonify([company.serialize() for company in query.all()]), 200
+    except SQLAlchemyError:
+        print("Error, filtrando la compañia")
+        traceback.print_exc()
+        return jsonify({"Error, while searching Companies"}), 500
+
 
 @companies_bp.route("/modify_company", methods=["POST"])
 @login_required
