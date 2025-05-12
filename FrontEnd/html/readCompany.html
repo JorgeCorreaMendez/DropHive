@@ -7,21 +7,12 @@
     <script src="{{ url_for('static', filename='JavaScript/header.js') }}"></script>
 
 </head>
-<body>
-
-<header>
-    {% include 'header.html' %}
-</header>
 <!-- Contenedor principal (pantalla gris) -->
 <main class="main-container">
     <!-- Barra de botones superiores -->
     <nav class="action-bar">
-        <button class="btn-default">Modify Company</button>
-        <button class="btn-danger">Delete Company</button>
-        <button class="btn-outline">Add new shortcut</button>
-        <button class="btn-default">Notifications🔔</button>
-
-
+        <button id="modify-company-btn" class="mt-2 w-full bg-[#8DC96A] text-black p-2 rounded">Modify Company</button>
+        <button id="delete-company-btn" class="mt-2 w-full bg-[#8DC96A] text-black p-2 rounded">Delete Company</button>
     </nav>
 
     <!-- Sección de detalles de la compañía -->
@@ -33,7 +24,6 @@
             </div>
             <div class="info-text">
                 <h2>Carhartt, Inc</h2>
-                <p>Nationality: USA <span class="flag">🇺🇸</span></p>
             </div>
         </div>
 
@@ -75,5 +65,4 @@
         </div>
     </section>
 </main>
-</body>
 </html>
