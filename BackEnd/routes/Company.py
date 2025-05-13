@@ -71,23 +71,43 @@ def modify_company():
 @login_required
 def delete_company():
     try:
+        # Obtener el ID de la empresa desde los parámetros de la URL
         company_id = request.args.get('id')
         if not company_id:
+            print("No se proporcionó el ID de la empresa")
             return jsonify({"error": "Debe proporcionar un ID de empresa"}), 400
+
+        # Debug: Verificar que estamos recibiendo el ID correctamente
+        print(f"Intentando eliminar la empresa con ID: {company_id}")
+
         with (get_db_session("Users") as users_db,
               get_db_session(session["db.name"]) as client_db):
+
+            # Buscar la empresa con el ID proporcionado
             company = client_db.query(Company).filter_by(id=company_id).first()
-            users_to_delete = users_db.query(User).filter_by(db_name=company.name).all()
-            if not company or not users_to_delete:
-                print("Error, Empresa o encontrada")
+            if not company:
+                print(f"Empresa no encontrada con ID: {company_id}")
                 return jsonify({"error": "Empresa no encontrada"}), 404
+
+            # Obtener los usuarios relacionados con esta empresa
+            users_to_delete = users_db.query(User).filter_by(db_name=company.name).all()
+            if not users_to_delete:
+                print(f"No se encontraron usuarios asociados a la empresa: {company.name}")
+
+            # Eliminar la empresa y los usuarios relacionados
             client_db.delete(company)
             for user in users_to_delete:
                 users_db.delete(user)
+
             client_db.commit()
             users_db.commit()
+
+        # Respuesta de éxito
         return '', 204
-    except SQLAlchemyError:
+
+    except SQLAlchemyError as e:
+        # Si ocurre un error, vamos a imprimir más detalles
+        print(f"Error SQLAlchemy: {str(e)}")
         try:
             if client_db:
                 client_db.rollback()
@@ -100,7 +120,7 @@ def delete_company():
             pass
         print("Error, eliminando la empresa")
         traceback.print_exc()
-        return jsonify({"Error:": "eliminando la empresa"}), 500
+        return jsonify({"error": "Error eliminando la empresa"}), 500
 
 
 # TDOO. mirar

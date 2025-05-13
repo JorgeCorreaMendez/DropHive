@@ -56,24 +56,32 @@ export function initializeRowClickHandlerCompany() {
               confirmButtonText: 'Yes, delete it!'
             }).then(async (result) => {
               if (result.isConfirmed) {
-                try {
-                  const response = await fetch('/delete_company', {
-                    method: 'DELETE',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ id: currentCompanyId })
-                  });
-                  if (response.ok) {
-                    Swal.fire('Deleted!', 'The company has been deleted.', 'success');
-                    closeModal();
-                    location.reload();
-                  } else {
-                    const errorText = await response.text();  // útil para depurar
-                    throw new Error(`Error deleting company: ${errorText}`);
-                  }
-                } catch (err) {
-                  Swal.fire('Error', err.message || 'Something went wrong.', 'error');
-                }
-              }
+  try {
+    const users = object.users || [];
+    const idsToExclude = users.length > 0 ? [users[0].id] : [];
+
+    // Cambié el método de POST a DELETE y pasé el ID en la URL
+    const response = await fetch(`/delete_company?id=${currentCompanyId}`, {
+      method: 'DELETE',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        exclude_user_ids: idsToExclude
+      })
+    });
+
+    if (response.status === 204) {
+      Swal.fire('Deleted!', 'The company has been deleted.', 'success');
+      closeModal();
+      location.reload();
+    } else {
+      const resultData = await response.json();
+      throw new Error(resultData.message || "Error eliminando la empresa");
+    }
+  } catch (err) {
+    Swal.fire('Error', err.message || 'Something went wrong.', 'error');
+  }
+}
+
             });
           }
         });
