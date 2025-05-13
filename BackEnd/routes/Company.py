@@ -23,6 +23,7 @@ def get_companies():
         traceback.print_exc()
         return jsonify({"error": "obteniendo las empresas"}), 500
 
+
 @companies_bp.route('/filter_company', methods=["GET"])
 @login_required
 def filter_company():
@@ -70,11 +71,13 @@ def modify_company():
 @login_required
 def delete_company():
     try:
-        company_name = session["db.name"]
-        with (get_db_session(company_name) as client_db,
-              get_db_session("Users") as users_db):
-            company = client_db.query(Company).filter_by(name=company_name).first()
-            users_to_delete = users_db.query(User).filter_by(db_name=company_name).all()
+        company_id = request.args.get('id')
+        if not company_id:
+            return jsonify({"error": "Debe proporcionar un ID de empresa"}), 400
+        with (get_db_session("Users") as users_db,
+              get_db_session(session["db.name"]) as client_db):
+            company = client_db.query(Company).filter_by(id=company_id).first()
+            users_to_delete = users_db.query(User).filter_by(db_name=company.name).all()
             if not company or not users_to_delete:
                 print("Error, Empresa o encontrada")
                 return jsonify({"error": "Empresa no encontrada"}), 404
@@ -99,6 +102,8 @@ def delete_company():
         traceback.print_exc()
         return jsonify({"Error:": "eliminando la empresa"}), 500
 
+
+# TDOO. mirar
 @companies_bp.route("/get_company", methods=["GET"])
 @login_required
 def search_category_by_id():
