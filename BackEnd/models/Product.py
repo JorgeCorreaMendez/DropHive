@@ -1,6 +1,7 @@
 from sqlalchemy import Integer, String, Text, Float, ForeignKey, Column
 from sqlalchemy.orm import relationship
 from BackEnd.models.Size import Size
+from BackEnd.models.Subcategory import product_secondary_categories
 
 from BackEnd.models import Base
 
@@ -16,6 +17,11 @@ class Product(Base):
     category_id = Column(Integer, ForeignKey('categories.id'))
     category = relationship("Category", back_populates="products")
     sizes = relationship("Size", back_populates="product", cascade="all, delete-orphan")
+    secondary_categories = relationship(
+        "Category",
+        secondary=product_secondary_categories,
+        back_populates="products_as_secondary"
+    )
 
     @property
     def quantity(self):
@@ -33,7 +39,10 @@ class Product(Base):
             "category_id": self.category_id,
             "discount": self.discount,
             "quantity": self.quantity,
-            "size": [size.serialize() for size in self.sizes]
+            "size": [size.serialize() for size in self.sizes],
+            "secondary_categories": [
+                {"id": cat.id, "name": cat.name} for cat in self.secondary_categories
+            ]
         }
 
     def get_total_quantity(self):
