@@ -7,8 +7,8 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 });
 
-export const agregarCompañia = async (event) => {
-    event.preventDefault();
+export const agregarCompañia = async (e) => {
+    e.preventDefault();
 
     const companyId = document.getElementById('company-id')?.value;
     const name = document.getElementById('company-name')?.value.trim();
@@ -26,7 +26,7 @@ export const agregarCompañia = async (event) => {
     };
 
     const endpoint = companyId ? "/modify_company" : "/add_company";
-    const method = companyId ? "PUT" : "POST";
+    const method = "POST";
 
     try {
         const response = await fetch(endpoint, {

@@ -46,9 +46,10 @@ def filter_company():
 def modify_company():
     try:
         data = request.get_json()
+        company_id = data.get("id")
         company_name = session["db.name"]
         db_session = get_db_session(company_name)
-        company = db_session.query(Company).filter_by(name=company_name).first()
+        company = db_session.query(Company).filter_by(id=company_id).first()
         if not company:
             print("Error, Empresa no encontrada")
             return jsonify({"error": "Empresa no encontrada"}), 404
