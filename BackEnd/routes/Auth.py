@@ -28,9 +28,9 @@ def login():
             account = account_session.query(Account).filter_by(mail=mail).first()
             if not verify_hash(password, account.password):
                 return jsonify({"error": "Incorrect credentials"}), 401
-            logger.info(f"{account.name} has logged into {user.db_name}")
             session["user"] = account.name
             session["db.name"] = user.db_name
+            logger.info(f"{account.name} has logged into {user.db_name}")
             return jsonify({
                 "message": f"Welcome, {account.name}",
                 "db_name": f"{user.db_name}"

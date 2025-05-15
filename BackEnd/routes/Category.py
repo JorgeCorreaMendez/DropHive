@@ -105,7 +105,6 @@ def search_category_by_id():
             category = db.query(Category).filter(Category.id == category_id).first()
             if category is None:
                 return jsonify({"error": "Category not found"}), 404
-            logger.info(f"Category retrieved successfully: {category.name}")
             return jsonify(category.serialize()), 200
     except SQLAlchemyError:
         logger.error("An error occurred while retrieving category by ID")
