@@ -2,7 +2,9 @@ import traceback
 
 from flask import request, jsonify, Blueprint, session
 from sqlalchemy.exc import SQLAlchemyError
+from sqlalchemy import or_
 
+from BackEnd.utils.logger import logger
 from BackEnd.models.Category import Category
 from BackEnd.models.Product import Product
 from BackEnd.models.Size import Size
@@ -20,7 +22,7 @@ def get_products():
         return jsonify(get_all_values_from(Product, session["db.name"])), 200, {
             'Content-Type': 'application/json; charset=utf-8'}
     except SQLAlchemyError:
-        print("Error, obteniendo los productos")
+        logger.error("An error occurred while retrieving products")
         traceback.print_exc()
         return jsonify({"error": "obteniendo los productos"}), 500
 
@@ -36,7 +38,6 @@ def add_product():
                 category = Category(name=data["category"]["name"])
                 db_session.add(category)
                 db_session.flush()
-
             new_product = Product(
                 id=data["id"],
                 name=data["name"],
@@ -54,7 +55,6 @@ def add_product():
                         name=size["name"],
                         quantity=size["quantity"]
                     ))
-
             if "secondary_categories" in data:
                 secondary_categories = []
                 for name in data["secondary_categories"]:
@@ -62,93 +62,77 @@ def add_product():
                     if cat:
                         secondary_categories.append(cat)
                 new_product.secondary_categories = secondary_categories
-
             db_session.commit()
-        return jsonify({"message": "Producto añadido correctamente"}), 201
+            logger.info(f"Product '{data['name']}' created")
+        return jsonify({"message": "Product successfully added"}), 201
     except SQLAlchemyError:
-        print("Error, añadiendo un nuevo producto")
+        logger.error("An error occurred while adding a new product")
         traceback.print_exc()
-        return jsonify({"error": "añadiendo un nuevo producto"}), 500
+        return jsonify({"error": "Error adding new product"}), 500
 
 
+# TODO. Cambiar parametros
 @products_bp.route("/modify_product/<string:product_id>", methods=["PUT"])
 @login_required
 def modify_product(product_id):
-    """
-    Actualiza un producto existente:
-      - name, description, price, discount
-      - categoría (busca o crea)
-      - tallas (borra las previas y añade las nuevas)
-    Devuelve el producto completo con tallas al front-end.
-    """
     try:
-        data = request.get_json(force=True)
-        with get_db_session(session["db.name"]) as db_session:
-            # 1) Buscar el producto
-            product = db_session.query(Product).filter_by(id=product_id).first()
-            if not product:
-                return jsonify({"error": "Producto no encontrado"}), 404
-
-            # 2) Actualizar campos simples
-            for field in ("name", "description", "price", "discount"):
-                if field in data:
-                    setattr(product, field, data[field])
-
-            # 3) Actualizar categoría (crear si no existe)
-            if data.get("category", {}).get("name"):
-                cat_name = data["category"]["name"]
-                category = db_session.query(Category).filter_by(name=cat_name).first()
-                if not category:
-                    category = Category(name=cat_name)
-                    db_session.add(category)
-                    db_session.flush()
-                product.category_id = category.id
-
-            # 4) Reemplazar tallas: borrar las antiguas y añadir las nuevas
-            if "sizes" in data:
-                db_session.query(Size).filter_by(product_id=product.id).delete()
-                for sz in data["sizes"]:
-                    db_session.add(Size(
-                        product_id=product.id,
-                        name=sz["name"],
-                        quantity=sz["quantity"]
-                    ))
-
-            db_session.commit()
-
-            # 5) Serializar salida con tallas
-            result = product.serialize()
-            result["sizes"] = [
-                {"name": s.name, "quantity": s.quantity}
-                for s in db_session.query(Size).filter_by(product_id=product.id)
-            ]
-        return jsonify(result), 200
-
+        data = request.get_json()
+        db_session = get_db_session(session["db.name"])
+        product = db_session.query(Product).filter_by(id=product_id).first()
+        if not product:
+            return jsonify({"error": "Product not found"}), 404
+        if "name" in data:
+            product.name = data["name"]
+        if "description" in data:
+            product.description = data["description"]
+        if "price" in data:
+            product.price = data["price"]
+        if "discount" in data:
+            product.discount = data["discount"]
+        if data.get("category", {}).get("name"):
+            category_name = data["category"]["name"]
+            category = db_session.query(Category).filter_by(name=category_name).first()
+            if not category:
+                category = Category(name=category_name)
+                db_session.add(category)
+                db_session.flush()
+            product.category_id = category.id
+        if "sizes" in data:
+            db_session.query(Size).filter_by(product_id=product.id).delete()
+            for sz in data["sizes"]:
+                db_session.add(Size(
+                    product_id=product.id,
+                    name=sz["name"],
+                    quantity=sz["quantity"]
+                ))
+        db_session.commit()
+        logger.info(f"Product '{product.name}' modified.")
+        return jsonify({"message": "Product successfully modified"}), 200
     except SQLAlchemyError:
+        logger.error("An error occurred while modifying the product")
         traceback.print_exc()
-        return jsonify({"error": "Error modificando productos"}), 500
-    except Exception:
-        traceback.print_exc()
-        return jsonify({"error": "Error inesperado"}), 500
+        return jsonify({"error": "modifying the product"}), 500
+
 
 @products_bp.route("/delete_product", methods=["DELETE"])
 @login_required
 def delete_product():
     try:
         id_product = request.args.get('id')
-        print("Estamos borrando el articulo", id_product)
+        logger.info(f"Attempting to delete product with ID: {id_product}")
         with get_db_session(session["db.name"]) as db_session:
             product = db_session.query(Product).filter_by(id=id_product).first()
             if not product:
-                print("Error, producto no encontrado")
-                return jsonify({"error": "Producto no encontrado"}), 404
+                logger.error(f"Product not found with ID: {id_product}")
+                return jsonify({"error": "Product not found"}), 404
             db_session.delete(product)
             db_session.commit()
-        return jsonify({"message": "Producto eliminado correctamente"}), 200
+            logger.info(f"Product '{product.name}' deleted")
+        return jsonify({"message": "Product successfully deleted"}), 200
     except SQLAlchemyError:
-        print("Error, eliminando el producto")
+        logger.error(f"An error occurred while deleting product")
         traceback.print_exc()
-        return jsonify({"error": "eliminando el producto"}), 500
+        return jsonify({"error": "Error deleting product"}), 500
 
 
 # TODO. cambiar ruta en front
@@ -163,14 +147,13 @@ def search_product_by_id():
             if products:
                 return jsonify([product.serialize() for product in products]), 200
             else:
-                return jsonify({"message": "No se encontraron productos con ese ID."}), 404
+                return jsonify({"message": "No products found with that ID."}), 404
     except SQLAlchemyError:
-        print("Error, buscando el producto")
+        logger.error("An error occurred while searching product by ID")
         traceback.print_exc()
-        return jsonify({"error": "buscando el producto"}), 500
+        return jsonify({"error": "Error searching for product"}), 500
 
 
-# TODO: Cambiar category_id en la DB
 @products_bp.route('/filter_products', methods=["GET"])
 @login_required
 def filter_products():
@@ -195,15 +178,14 @@ def filter_products():
                 query = query.join(query_quantity, Product.id == query_quantity.c.id)
                 query = query.filter(query_quantity.c.quantity <= int(max_quantity))
             query = query.limit(limit).offset(offset)
-            print({"productos": [product.serialize() for product in query.all()], "total": total})
             return jsonify({"productos": [product.serialize() for product in query.all()], "total": total}), 200
     except SQLAlchemyError:
-        print("Error, filtrando los productos")
+        logger.error("An error occurred while filtering products")
         traceback.print_exc()
-        return jsonify({"error": "filtrando los productos"}), 500
+        return jsonify({"error": "Error filtering products"}), 500
 
-from sqlalchemy import or_
 
+# TODO. Cambiar nombre de ruta y ruta
 @products_bp.route('/similar_products/<string:product_id>', methods=["GET"])
 @login_required
 def get_similar_products(product_id):
@@ -211,27 +193,19 @@ def get_similar_products(product_id):
         with get_db_session(session["db.name"]) as db_session:
             original = db_session.query(Product).get(product_id)
             if not original:
-                return jsonify({"error": "Producto no encontrado"}), 404
-
-            print(original)
-            # Dividir el nombre original en palabras clave
+                return jsonify({"error": "Product not found"}), 404
             search_terms = original.name.split()
             name_filters = [Product.name.ilike(f"%{term}%") for term in search_terms]
-
-            # Buscar productos similares
-            similares = (
+            similar = (
                 db_session.query(Product)
                 .filter(Product.id != product_id)
                 .filter(Product.category_id == original.category_id)
+                .filter(or_(*name_filters))
                 .limit(5)
                 .all()
             )
-
-            print("Similares encontrados:", [p.name for p in similares])
-
-            return jsonify([p.serialize() for p in similares]), 200
-
+            return jsonify([p.serialize() for p in similar]), 200
     except SQLAlchemyError:
+        logger.error("An error occurred while retrieving similar products")
         traceback.print_exc()
-        return jsonify({"error": "Error buscando productos similares"}), 500
-
+        return jsonify({"error": "Error retrieving similar products"}), 500
