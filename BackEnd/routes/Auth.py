@@ -36,7 +36,7 @@ def login():
                 "db_name": f"{user.db_name}"
             }), 200
     except Exception as e:
-        logger.error("An error occurred during login:")
+        logger.error("An error occurred during login")
         traceback.print_exc()
         return jsonify({"error": str(e)}), 500
 
@@ -48,6 +48,7 @@ def logout():
     return jsonify({"message": "Session successfully closed"}), 200
 
 
+# TODO. se ejecuta siempre?
 # TODO. change
 @auth_bp.route("/aceptar_primer_login", methods=["POST"])
 def accept_first_login():
@@ -64,7 +65,7 @@ def accept_first_login():
             logger.info(f"First login accepted for user {mail}")
             return jsonify({"message": "Password change accepted."}), 200
     except Exception as e:
-        logger.error("An error occurred while accepting the first login:")
+        logger.error("An error occurred while accepting the first login")
         traceback.print_exc()
         return jsonify({"error": str(e)}), 500
 

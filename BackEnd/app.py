@@ -1,5 +1,4 @@
 import os
-import atexit
 
 from flask import Flask
 from BackEnd.routes.Account import accounts_bp
@@ -31,14 +30,6 @@ app.json.ensure_ascii = False
 
 init_user_db()
 mail = init_mail(app)
-
-logger.info("Aplicación Flask iniciada")
-
-
-@atexit.register
-def shutdown_logging():
-    logger.info("Aplicación Flask cerrada")
-
 
 if __name__ == "__main__":
     app.run(debug=True, port=4000)
