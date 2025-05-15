@@ -9,6 +9,7 @@ export async function cargarDatosArticulo(datos_articulo) {
   const product_name = document.getElementById("product-name");
   const img = document.getElementById("imagen");
   const main_category = document.getElementById("main-category");
+  const secondary_categories = document.getElementById("secondary-categories");
   const price = document.getElementById("price");
   const descripcion = document.getElementById("descripcion");
   const tabla_tallas = document.getElementById("table-body-producto");
@@ -29,6 +30,12 @@ export async function cargarDatosArticulo(datos_articulo) {
   // img.src = datos_articulo.imagen;
 
   main_category.textContent = await localizarCategoria(datos_articulo.category_id);
+
+  datos_articulo.secondary_categories.forEach((category) => {
+    const categoryElement = document.createElement('p');
+    categoryElement.textContent = category.name;
+    secondary_categories.appendChild(categoryElement);
+  })
 
   price.textContent = datos_articulo.price;
   descripcion.textContent = datos_articulo.description;
