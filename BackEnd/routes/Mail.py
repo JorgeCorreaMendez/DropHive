@@ -8,6 +8,7 @@ from flask import Blueprint, session, jsonify, request
 from BackEnd.routes.Account import accounts_bp
 from BackEnd.services.user_service import get_user_by
 from BackEnd.utils.flask_mail_methods import send_email
+from BackEnd.utils.logger import logger
 
 email_bp = Blueprint('email_bp', __name__)
 
@@ -25,12 +26,12 @@ def send_verification_code():
         session["verification_code"] = verification_code
         return jsonify({"message": "Código de verificación enviado correctamente."}), 200
     except SMTPException:
-        print("Error, enviando el codigo de verificación")
+        logger.error(f"Failed to send verification code")
         traceback.print_exc()
         return jsonify({"error": "enviando el codigo de verificación"}), 500
 
 
-# TODO
+# TODO. cambiar nombre, generar contraseña aqui
 @email_bp.route("/new_account_registered", methods=["GET"])
 def new_account_registered():
     try:
@@ -43,7 +44,7 @@ def new_account_registered():
         send_email(subject, sender, recipients, body)
         return jsonify({"message": "El correo se ha enviado correctamente."}), 200
     except SMTPException:
-        print("Error, enviando la contraseña a la nueva cuenta")
+        logger.error(f"Failed to send new account password")
         traceback.print_exc()
         return jsonify({"error": "enviando la contraseña a la nueva cuenta"}), 500
 
@@ -58,7 +59,7 @@ def check_mail():
         else:
             return jsonify({"error": "Correo no encontrado"}), 404
     except SMTPException:
-        print("Error, comprobando el correo")
+        logger.error(f"Error occurred while checking email {mail}")
         traceback.print_exc()
         return jsonify({"error": "comprobando el correo"}), 500
 
