@@ -57,11 +57,10 @@ def create_account():
         return jsonify({"error": "Error while creating the account"}), 500
 
 
-# TODO. PUT DE MANUAL
-@accounts_bp.route("/modify_account", methods=["POST"])
+@accounts_bp.route("/modify_account", methods=["PUT"])
 @login_required
 def modify_account():
-    account_id = request.args.get("id", type=int)
+    account_id = request.args.get("id")
     data = request.get_json()
     if not account_id:
         return jsonify({"error": "Missing account ID"}), 400
@@ -184,7 +183,6 @@ def check_first_login():
         with get_db_session("Users") as user_session:
             user = user_session.query(User).filter(mail == User.mail).first()
             if user:
-                logger.info(f"Checked first login status for {mail}.")
                 return jsonify(user.serialize()), 200
             else:
                 return jsonify({"message": "No user found with that email."}), 404
@@ -193,8 +191,7 @@ def check_first_login():
         return jsonify({"error": "Error while checking first login"}), 500
 
 
-# TODO. PUT
-@accounts_bp.route('/change_first_login', methods=["GET"])
+@accounts_bp.route('/change_first_login', methods=["PUT"])
 @login_required
 def change_first_login():
     try:

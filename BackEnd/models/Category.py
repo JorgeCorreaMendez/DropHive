@@ -10,11 +10,11 @@ class Category(Base):
     id = Column(Integer, primary_key=True, autoincrement=True)
     name = Column(String, nullable=False, unique=True)
     description = Column(Text)
-
-    # Productos donde esta categoría es la principal
-    products = relationship("Product", back_populates="category")
-
-    # Productos donde esta categoría es secundaria (tabla intermedia)
+    products = relationship(
+        "Product",
+        back_populates="category",
+        cascade="all, delete-orphan"
+    )
     products_as_secondary = relationship(
         "Product",
         secondary=product_secondary_categories,

@@ -93,7 +93,7 @@ export async function addInformacionFilaProducto(item) {
 
 export async function localizarCategoria(id) {
     try {
-        const response = await fetch(`http://127.0.0.1:4000/get_category?id=${id}`)
+        const response = await fetch(`http://127.0.0.1:4000/search_category_by_id?id=${id}`)
 
         if (!response.ok) {
             throw new Error(`Error en la solicitud: ${response.statusText}`);

@@ -17,7 +17,7 @@ email_bp = Blueprint('email_bp', __name__)
 def send_verification_code():
     try:
         mail = request.args.get('mail')
-        verification_code = ''.join([str(random.randint(0, 9)) for _ in range(6)])
+        verification_code = generate_numeric_code()
         subject = "Código de Verificación - DropHive"
         sender = os.getenv("MAIL_USERNAME")
         recipients = [mail]
@@ -31,12 +31,16 @@ def send_verification_code():
         return jsonify({"error": "enviando el codigo de verificación"}), 500
 
 
-# TODO. cambiar nombre, generar contraseña aqui
-@email_bp.route("/new_account_registered", methods=["GET"])
-def new_account_registered():
+def generate_numeric_code():
+    return ''.join([str(random.randint(0, 9)) for _ in range(6)])
+
+
+# TODO. comprobar en sprint_2 que funciona
+@email_bp.route("/send_password_to_new_user", methods=["GET"])
+def send_password_to_new_user():
     try:
         mail = request.args.get('mail')
-        password = request.args.get('password')
+        password = generate_numeric_code()
         subject = "Added to a project"
         sender = os.getenv("MAIL_USERNAME")
         recipients = [mail]

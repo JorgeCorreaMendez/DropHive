@@ -93,8 +93,7 @@ def delete_category():
         return jsonify({"error": "Error deleting category"}), 500
 
 
-# TODO. cambiar ruta en el front
-@categories_bp.route("/get_category", methods=["GET"])
+@categories_bp.route("/search_category_by_id", methods=["GET"])
 @login_required
 def search_category_by_id():
     category_id = request.args.get('id')

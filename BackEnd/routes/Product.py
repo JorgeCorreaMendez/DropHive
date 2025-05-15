@@ -33,6 +33,8 @@ def add_product():
     try:
         data = request.get_json()
         with get_db_session(session["db.name"]) as db_session:
+            if db_session.query(Product).filter_by(id=data["id"]).first():
+                return jsonify({"error": "Product with that ID already exists"}), 409
             category = db_session.query(Category).filter_by(name=data["category"]["name"]).first()
             if not category:
                 category = Category(name=data["category"]["name"])
@@ -71,11 +73,11 @@ def add_product():
         return jsonify({"error": "Error adding new product"}), 500
 
 
-# TODO. Cambiar parametros
-@products_bp.route("/modify_product/<string:product_id>", methods=["PUT"])
+@products_bp.route("/modify_product", methods=["PUT"])
 @login_required
-def modify_product(product_id):
+def modify_product():
     try:
+        product_id = request.args.get("id")
         data = request.get_json()
         db_session = get_db_session(session["db.name"])
         product = db_session.query(Product).filter_by(id=product_id).first()
@@ -84,7 +86,7 @@ def modify_product(product_id):
         if "name" in data:
             product.name = data["name"]
         if "description" in data:
-            product.description = data["description"]
+            product. description = data["description"]
         if "price" in data:
             product.price = data["price"]
         if "discount" in data:
@@ -111,7 +113,7 @@ def modify_product(product_id):
     except SQLAlchemyError:
         logger.error("An error occurred while modifying the product")
         traceback.print_exc()
-        return jsonify({"error": "modifying the product"}), 500
+        return jsonify({"error": "Error modifying product"}), 500
 
 
 @products_bp.route("/delete_product", methods=["DELETE"])
@@ -135,8 +137,6 @@ def delete_product():
         return jsonify({"error": "Error deleting product"}), 500
 
 
-# TODO. cambiar ruta en front
-# TODO. crear servicio para filtrar por ID
 @products_bp.route('/filter_product_by_id', methods=["GET"])
 @login_required
 def search_product_by_id():
@@ -185,10 +185,10 @@ def filter_products():
         return jsonify({"error": "Error filtering products"}), 500
 
 
-# TODO. Cambiar nombre de ruta y ruta
-@products_bp.route('/similar_products/<string:product_id>', methods=["GET"])
+@products_bp.route('/similar_products', methods=["GET"])
 @login_required
-def get_similar_products(product_id):
+def get_similar_products():
+    product_id = request.args.get("id")
     try:
         with get_db_session(session["db.name"]) as db_session:
             original = db_session.query(Product).get(product_id)

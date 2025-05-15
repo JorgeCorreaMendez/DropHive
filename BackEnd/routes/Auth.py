@@ -48,8 +48,7 @@ def logout():
     return jsonify({"message": "Session successfully closed"}), 200
 
 
-# TODO. se ejecuta siempre?
-# TODO. change
+# TODO. cambiar loggin, se usa ???
 @auth_bp.route("/aceptar_primer_login", methods=["POST"])
 def accept_first_login():
     mail = request.args.get("mail")

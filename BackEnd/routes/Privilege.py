@@ -24,8 +24,7 @@ def get_privileges():
         return jsonify({"error": "Error retrieving privileges"}), 500
 
 
-# TODO: update route in frontend
-@privileges_bp.route("/get_privilege", methods=["GET"])
+@privileges_bp.route("/search_privilege_by_id", methods=["GET"])
 @login_required
 def search_privilege_by_id():
     privilege_id = request.args.get('id')

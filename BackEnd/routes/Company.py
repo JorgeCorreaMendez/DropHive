@@ -26,8 +26,7 @@ def get_companies():
         return jsonify({"error": "retrieving companies"}), 500
 
 
-# TODO. PUT DE MANUAL
-@companies_bp.route("/modify_company", methods=["POST"])
+@companies_bp.route("/modify_company", methods=["PUT"])
 @login_required
 def modify_company():
     try:

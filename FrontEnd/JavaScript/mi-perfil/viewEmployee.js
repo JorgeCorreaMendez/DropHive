@@ -2,7 +2,7 @@ export async function cargarDatosUsuario(data) {
     document.getElementById('id').textContent = data.id;
     document.getElementById('mail').textContent = data.mail;
 
-    const response = await fetch(`get_privilege?id=${data.privilege_id}`);
+    const response = await fetch(`search_privilege_by_id?id=${data.privilege_id}`);
     const object = await response.json();
 
     document.getElementById('role').textContent = object.name;

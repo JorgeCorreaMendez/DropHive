@@ -25,7 +25,7 @@ export const agregarProducto = async ({ isEdit = false, originalId = null } = {}
     if (isNaN(price)   || price < 0)    return Swal.fire("Error", "Precio inválido.", "error");
     if (isNaN(discount)|| discount < 0) return Swal.fire("Error", "Descuento inválido.", "error");
 
-    const url    = isEdit ? `/modify_product/${originalId}` : "/add_product";
+    const url = isEdit ? `/modify_product?id=${originalId}` : "/add_product";
     const method = isEdit ? "PUT" : "POST";
 
     try {
