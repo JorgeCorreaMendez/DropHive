@@ -1,5 +1,7 @@
 import traceback
 
+from BackEnd.utils.logger import logger
+
 from flask import Blueprint, jsonify, session, request
 from sqlalchemy.exc import SQLAlchemyError
 
@@ -19,9 +21,73 @@ def get_companies():
         return jsonify(get_all_values_from(Company, session["db.name"])), 200, {
             'Content-Type': 'application/json; charset=utf-8'}
     except SQLAlchemyError:
-        print("Error, obteniendo las empresas")
+        logger.error("An error occurred while retrieving companies")
         traceback.print_exc()
-        return jsonify({"error": "obteniendo las empresas"}), 500
+        return jsonify({"error": "retrieving companies"}), 500
+
+
+# TODO. PUT DE MANUAL
+@companies_bp.route("/modify_company", methods=["POST"])
+@login_required
+def modify_company():
+    try:
+        data = request.get_json()
+        company_id = data.get("id")
+        company_name = session["db.name"]
+        db_session = get_db_session(company_name)
+        company = db_session.query(Company).filter_by(id=company_id).first()
+        if not company:
+            return jsonify({"error": "Company not found"}), 404
+        if "name" in data:
+            company.name = data["name"]
+        if "description" in data:
+            company.description = data["description"]
+        if "profile_picture" in data:
+            company.profile_picture = data["profile_picture"]
+        db_session.commit()
+        logger.info(f"Company '{company.name}' successfully modified.")
+        return jsonify({"message": "Company successfully modified"}), 200
+    except SQLAlchemyError:
+        logger.error("An error occurred while modifying the company")
+        traceback.print_exc()
+        return jsonify({"error": "modifying the company"}), 500
+
+
+@companies_bp.route("/delete_company", methods=["DELETE"])
+@login_required
+def delete_company():
+    try:
+        company_id = request.args.get('id')
+        if not company_id:
+            return jsonify({"error": "Company ID is required"}), 400
+        with (get_db_session("Users") as users_db,
+              get_db_session(session["db.name"]) as client_db):
+            company = client_db.query(Company).filter_by(id=company_id).first()
+            if not company:
+                return jsonify({"error": "Company not found"}), 404
+            users_to_delete = users_db.query(User).filter_by(db_name=company.name).all()
+            client_db.delete(company)
+            for user in users_to_delete:
+                users_db.delete(user)
+            client_db.commit()
+            users_db.commit()
+            logger.info(f"Company '{company.name}' and its users deleted successfully.")
+        return jsonify({"message": f"Company '{company.name}' and its users deleted successfully."}), 200
+    except SQLAlchemyError as e:
+        logger.error(f"SQLAlchemy error: {str(e)}")
+        try:
+            if client_db:
+                client_db.rollback()
+        except SQLAlchemyError:
+            pass
+        try:
+            if users_db:
+                users_db.rollback()
+        except SQLAlchemyError:
+            pass
+        logger.error("An error occurred while deleting the company")
+        traceback.print_exc()
+        return jsonify({"error": "Error deleting the company"}), 500
 
 
 @companies_bp.route('/filter_company', methods=["GET"])
@@ -34,112 +100,29 @@ def filter_company():
             query = db_session.query(Company)
             query = query.filter(Company.id != 1)
             query = query.limit(limit).offset(offset)
-            print([company.serialize() for company in query.all()])
             return jsonify([company.serialize() for company in query.all()]), 200
     except SQLAlchemyError:
-        print("Error, filtrando la compañia")
+        logger.error("An error occurred while filtering companies")
         traceback.print_exc()
         return jsonify({"Error, while searching Companies"}), 500
 
 
-@companies_bp.route("/modify_company", methods=["POST"])
-@login_required
-def modify_company():
-    try:
-        data = request.get_json()
-        company_id = data.get("id")
-        company_name = session["db.name"]
-        db_session = get_db_session(company_name)
-        company = db_session.query(Company).filter_by(id=company_id).first()
-        if not company:
-            print("Error, Empresa no encontrada")
-            return jsonify({"error": "Empresa no encontrada"}), 404
-        if "name" in data:
-            company.name = data["name"]
-        if "description" in data:
-            company.description = data["description"]
-        if "profile_picture" in data:
-            company.profile_picture = data["profile_picture"]
-        db_session.commit()
-        return jsonify({"message": "Empresa modificada correctamente"}), 200
-    except SQLAlchemyError:
-        print("Error, modificando la empresa")
-        traceback.print_exc()
-        return jsonify({"error": "modificando la empresa"}), 500
-
-
-@companies_bp.route("/delete_company", methods=["DELETE"])
-@login_required
-def delete_company():
-    try:
-        # Obtener el ID de la empresa desde los parámetros de la URL
-        company_id = request.args.get('id')
-        if not company_id:
-            print("No se proporcionó el ID de la empresa")
-            return jsonify({"error": "Debe proporcionar un ID de empresa"}), 400
-
-        # Debug: Verificar que estamos recibiendo el ID correctamente
-        print(f"Intentando eliminar la empresa con ID: {company_id}")
-
-        with (get_db_session("Users") as users_db,
-              get_db_session(session["db.name"]) as client_db):
-
-            # Buscar la empresa con el ID proporcionado
-            company = client_db.query(Company).filter_by(id=company_id).first()
-            if not company:
-                print(f"Empresa no encontrada con ID: {company_id}")
-                return jsonify({"error": "Empresa no encontrada"}), 404
-
-            # Obtener los usuarios relacionados con esta empresa
-            users_to_delete = users_db.query(User).filter_by(db_name=company.name).all()
-            if not users_to_delete:
-                print(f"No se encontraron usuarios asociados a la empresa: {company.name}")
-
-            # Eliminar la empresa y los usuarios relacionados
-            client_db.delete(company)
-            for user in users_to_delete:
-                users_db.delete(user)
-
-            client_db.commit()
-            users_db.commit()
-
-        # Respuesta de éxito
-        return '', 204
-
-    except SQLAlchemyError as e:
-        # Si ocurre un error, vamos a imprimir más detalles
-        print(f"Error SQLAlchemy: {str(e)}")
-        try:
-            if client_db:
-                client_db.rollback()
-        except SQLAlchemyError:
-            pass
-        try:
-            if users_db:
-                users_db.rollback()
-        except SQLAlchemyError:
-            pass
-        print("Error, eliminando la empresa")
-        traceback.print_exc()
-        return jsonify({"error": "Error eliminando la empresa"}), 500
-
-
-# TDOO. mirar
+# TDOO. cambiar ruta en front
 @companies_bp.route("/get_company", methods=["GET"])
 @login_required
 def search_category_by_id():
     company_id = request.args.get('id')
     if not company_id:
-        print("Error, Se tiene que añadir un id")
-        return jsonify({"error": "Se tiene que añadir un id"}), 400
+        logger.error("Company ID is required")
+        return jsonify({"error": "Company ID is required"}), 400
     try:
         with get_db_session(session["db.name"]) as db:
             company = db.query(Company).filter(Company.id == company_id).first()
             if company is None:
-                return jsonify({"message": "Compañia no encontrada"}), 404
-            print(company.serialize())
+                return jsonify({"message": "Company not found"}), 404
+            logger.info(f"Company retrieved: {company.serialize()}")
             return jsonify(company.serialize()), 200
     except SQLAlchemyError:
-        print("Error, al cambiar la contraseña")
+        logger.error("An error occurred while retrieving company by ID")
         traceback.print_exc()
-        return jsonify({"Error, al cambiar la contraseña"}), 500
+        return jsonify({"error": "Error retrieving company by ID"}), 500
