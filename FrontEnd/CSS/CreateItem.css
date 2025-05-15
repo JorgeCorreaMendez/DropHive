@@ -131,8 +131,24 @@
   cursor: pointer;
   transition: background-color 0.3s, transform 0.2s;
 }
+
+.add-category-btn{
+  background-color: orange;
+  color: white;
+  border: none;
+  padding: 0.63em 0.94em;    /* ~10px 15px */
+  border-radius: 0.3125em;    /* 5px */
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.3s, transform 0.2s;
+}
 .category-btn:hover {
   background-color: #0056b3;
+  transform: scale(1.05);
+}
+
+.add-category-btn:hover {
+  background-color: darkorange;
   transform: scale(1.05);
 }
 

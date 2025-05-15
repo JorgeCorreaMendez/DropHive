@@ -1,6 +1,6 @@
 // ========================================================================
 // Helper para obtener el valor de un elemento por su id
-
+import { openModal } from "./modals/abrirYCerrarModal.js"; // Verifica la ruta según tu estructura
 export const agregarProducto = async ({ isEdit = false, originalId = null } = {}) => {
     // 1) Leer valores básicos y convertir a número donde haga falta
     const id          = document.getElementById("product-id").value.trim();
@@ -60,7 +60,7 @@ export const agregarProducto = async ({ isEdit = false, originalId = null } = {}
         if (res.ok) {
             Swal.fire({
                 icon: "success",
-                title: isEdit ? "Producto modificado" : "Producto añadido",
+                title: isEdit ? "Modified product" : "Product added",
                 timer: 1500,
                 showConfirmButton: false
             }).then(() => window.location.reload());
@@ -254,3 +254,64 @@ document.addEventListener("DOMContentLoaded", () => {
     console.log("Modal content encontrado:", modalContent);
     if (modalContent) modalContent.addEventListener("click", handleModalDelegatedClick);
 });
+
+    document.body.addEventListener("click", async (e) => {
+        const btn = e.target.closest("#add-category-btn");
+        if (btn) {
+            e.preventDefault();
+
+            try {
+                const response = await fetch("/addAndModifyCategory");
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                const htmlText = await response.text();
+                const parser = new DOMParser();
+                const parsedDoc = parser.parseFromString(htmlText, "text/html");
+                const fragmento = parsedDoc.body.innerHTML;
+                openModal(fragmento);
+            } catch (error) {
+                console.error("Error al cargar el contenido para la categoría:", error);
+            }
+        }
+    });
+
+    // --- Listener por delegación para el botón "Save Changes" dentro del modal ---
+    document.getElementById("modal-container").addEventListener("click", async (e) => {
+        const saveBtn = e.target.closest("#save-btn1");
+        if (saveBtn) {
+            e.preventDefault();
+            await agregarCategoria();
+        }
+    });
+
+    // --- Función para agregar la categoría (ya existe en tu código) ---
+    export const agregarCategoria = async () => {
+        const categoryId = document.getElementById('category-id')?.value;
+        const name = document.getElementById('category-name').value;
+        const description = document.getElementById('category-description').value;
+
+        if (!name) {
+            alert("El nombre es obligatorio");
+            return;
+        }
+
+        try {
+            const payload = { id: categoryId, name, description };
+
+            const response = await fetch("/add_category", {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(payload)
+            });
+
+            if (response.ok) {
+                window.location.href = '/home';
+            } else {
+                const errorMessage = await response.text();
+                console.error("Error en el servidor:", errorMessage);
+            }
+        } catch (error) {
+            console.error("Error en la petición:", error);
+        }
+    };
