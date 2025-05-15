@@ -1,29 +1,51 @@
 // ========================================================================
 // Helper para obtener el valor de un elemento por su id
 
-
 export const agregarProducto = async ({ isEdit = false, originalId = null } = {}) => {
-    // Leer valores básicos
+    // 1) Leer valores básicos y convertir a número donde haga falta
     const id          = document.getElementById("product-id").value.trim();
     const name        = document.getElementById("product-name").value.trim();
     const description = document.getElementById("description").value.trim();
-    const price       = parseFloat(document.getElementById("price").value)   || 0;
-    const discount    = parseFloat(document.getElementById("discount").value)|| 0;
-    const category    = { name: document.getElementById("primary-category").value.trim() };
+    const price       = parseFloat(document.getElementById("price").value)    || 0;
+    const discount    = parseFloat(document.getElementById("discount").value) || 0;
+    const categoryId  = parseInt(document.getElementById("primary-category").value, 10);
 
-    // Ahora recoge TODOS los inputs con name="newSize[]"
-    const sizeEls    = Array.from(document.querySelectorAll("input[name='newSize[]']"));
-    const qtyEls     = Array.from(document.querySelectorAll("input[name='newQuantity[]']"));
-    const sizes      = sizeEls.map((el, i) => ({
+    // 2) Recoger secundarios como números
+    const secEls = Array.from(document.querySelectorAll("select[name='secondary-category[]']"));
+    const secondary_categories = secEls
+        .map(el => {
+            // el.value es el ID, pero el texto de la opción es el name que busca el backend
+            const txt = el.options[el.selectedIndex]?.text.trim();
+            return txt;
+        })
+        .filter(name => name);  // descartamos selects vacíos
+
+    // 3) Recoger tallas
+    const sizeEls = Array.from(document.querySelectorAll("input[name='newSize[]']"));
+    const qtyEls  = Array.from(document.querySelectorAll("input[name='newQuantity[]']"));
+    const sizes   = sizeEls.map((el, i) => ({
         name:     el.value.trim(),
         quantity: parseInt(qtyEls[i].value, 10) || 0
     })).filter(s => s.name);
 
-    // Validaciones
-    if (!id)      return Swal.fire("Error", "El ID es obligatorio.", "error");
-    if (!name)    return Swal.fire("Error", "El nombre es obligatorio.", "error");
-    if (isNaN(price)   || price < 0)    return Swal.fire("Error", "Precio inválido.", "error");
-    if (isNaN(discount)|| discount < 0) return Swal.fire("Error", "Descuento inválido.", "error");
+    // 4) Validaciones básicas
+    if (!id)     return Swal.fire("Error", "El ID es obligatorio.", "error");
+    if (!name)   return Swal.fire("Error", "El nombre es obligatorio.", "error");
+    if (price < 0 || isNaN(price))       return Swal.fire("Error", "Precio inválido.", "error");
+    if (discount < 0 || isNaN(discount)) return Swal.fire("Error", "Descuento inválido.", "error");
+    if (isNaN(categoryId))               return Swal.fire("Error", "Debe seleccionar categoría.", "error");
+
+    // 5) Construir payload
+    const payload = {
+        id,
+        name,
+        description,
+        price,
+        discount,
+        category: { id: categoryId },
+        secondary_categories,  // [2, 5, 8]
+        sizes                  // [{ name:"S",quantity:10 },…]
+    };
 
     const url    = isEdit ? `/modify_product/${originalId}` : "/add_product";
     const method = isEdit ? "PUT" : "POST";
@@ -32,14 +54,15 @@ export const agregarProducto = async ({ isEdit = false, originalId = null } = {}
         const res = await fetch(url, {
             method,
             headers: { "Content-Type": "application/json" },
-            body:    JSON.stringify({ id, name, description, price, discount, category, sizes })
+            body:    JSON.stringify(payload)
         });
 
         if (res.ok) {
             Swal.fire({
-                icon: isEdit ? "success" : "success",
+                icon: "success",
                 title: isEdit ? "Producto modificado" : "Producto añadido",
-                timer: 1500, showConfirmButton: false
+                timer: 1500,
+                showConfirmButton: false
             }).then(() => window.location.reload());
         } else {
             const msg = await res.text();
@@ -49,6 +72,7 @@ export const agregarProducto = async ({ isEdit = false, originalId = null } = {}
         Swal.fire("Error inesperado", err.message, "error");
     }
 };
+
 // ========================================================================
 // Manejador para actualizar la imagen cuando se seleccione un nuevo archivo
 const handleImageInputChange = (e) => {
@@ -62,7 +86,6 @@ const handleImageInputChange = (e) => {
     const file = inputFile.files[0];
     if (!file) return;
 
-    // Creamos y asignamos una URL temporal para mostrar la imagen
     const objectURL = URL.createObjectURL(file);
     img.src = objectURL;
     img.onload = () => URL.revokeObjectURL(objectURL);
@@ -80,40 +103,75 @@ export async function loadCategories() {
         return;
     }
 
-    // Reiniciar contenido y agregar placeholder
     select.innerHTML = `<option value="" disabled selected>Selecciona una categoría</option>`;
     try {
         const res = await fetch("/categories");
         if (!res.ok) throw new Error(`HTTP ${res.status}`);
 
         const cats = await res.json();
-
-        if (!Array.isArray(cats) || cats.length === 0) {
-            console.warn("No se encontraron categorías en la respuesta.");
+        if (!Array.isArray(cats)) {
+            console.warn("La respuesta no es un array de categorías:", cats);
+            window.allCategories = [];
+            return;
         }
 
-        // Creamos (o reiniciamos) el mapa global
-        window.categoriesMapping = {};
+        // Guardar todas las categorías para secundarios
+        window.allCategories = cats.filter(c => c.id && c.name);
 
-        cats.forEach((cat) => {
-            if (!cat.name) {
-                console.warn("La categoría no tiene propiedad 'name':", cat);
-                return;
-            }
+        // Poblamos el select primario
+        window.allCategories.forEach(cat => {
             const opt = document.createElement("option");
-            // Usamos el nombre como value (esto es lo que se muestra en el select)
-            opt.value = cat.name;
+            opt.value = cat.id;
             opt.textContent = cat.name;
             select.append(opt);
-
-            // Creamos el mapeo id => name
-            window.categoriesMapping[cat.id] = cat.name;
         });
     } catch (e) {
         console.error("No se pudieron cargar las categorías:", e);
+        window.allCategories = [];
     }
 }
 
+// ========================================================================
+// Función para manejar clic en Secondary Category
+function handleSecondaryClick() {
+    const container = document.getElementById("added-categories");
+    if (!container) {
+        console.error("#added-categories no encontrado");
+        return;
+    }
+
+    const wrapper = document.createElement("div");
+    wrapper.classList.add("flex", "items-center", "gap-2", "mt-1");
+
+    const select = document.createElement("select");
+    select.name = "secondary-category[]";
+    select.required = true;
+    select.classList.add("category-input", "border", "border-gray-300", "rounded", "px-2", "py-1");
+
+    const ph = document.createElement("option");
+    ph.value = "";
+    ph.disabled = true;
+    ph.selected = true;
+    ph.textContent = "Selecciona subcategoría";
+    select.appendChild(ph);
+
+    (window.allCategories || []).forEach(cat => {
+        const o = document.createElement("option");
+        o.value = cat.id;
+        o.textContent = cat.name;
+        select.appendChild(o);
+    });
+
+    const removeBtn = document.createElement("button");
+    removeBtn.type = "button";
+    removeBtn.textContent = "×";
+    removeBtn.classList.add("text-red-500", "font-bold", "px-2");
+    removeBtn.addEventListener("click", () => wrapper.remove());
+
+    wrapper.appendChild(select);
+    wrapper.appendChild(removeBtn);
+    container.appendChild(wrapper);
+}
 
 // ========================================================================
 // Delegado para manejar el clic en el botón de añadir inputs para Size y Quantity
@@ -140,7 +198,7 @@ function handleModalDelegatedClick(event) {
         inputSize.name = "newSize[]";
         inputSize.placeholder = "Ej: S, M, L";
         inputSize.classList.add(
-            "w-40",               // mismo ancho
+            "w-40",
             "bg-gray-100",
             "rounded-full",
             "outline-none",
@@ -160,7 +218,7 @@ function handleModalDelegatedClick(event) {
         inputQuantity.placeholder = "Ej: 10";
         inputQuantity.min = "0";
         inputQuantity.classList.add(
-            "w-40",               // aquí igualamos el ancho
+            "w-40",
             "bg-gray-100",
             "rounded-full",
             "outline-none",
@@ -174,21 +232,25 @@ function handleModalDelegatedClick(event) {
 }
 
 // ========================================================================
+// ========================================================================
 // Document Ready: Configuración de eventos cuando el DOM está listo
+// ========================================================================
 document.addEventListener("DOMContentLoaded", () => {
-    // Si el formulario de creación se muestra de forma estática, se cargan las categorías
-    const select = document.getElementById("primary-category");
-    if (select) {
-        loadCategories();
-    } else {
-        console.warn("El select 'primary-category' no se encontró en el DOM. Verifica la vista o si el formulario se carga dinámicamente.");
-    }
+    console.log("🟢 DOM listo — el script se está ejecutando");
 
-    // Delegar el evento de clic para añadir inputs en el contenido del modal
+    // 1) Cargar categorías
+    loadCategories();
+
+    // 2) Delegated listener para el botón secundarias (funciona aunque el botón se inserte dinámicamente)
+    document.body.addEventListener("click", event => {
+        if (event.target && event.target.matches("#secondary-category-btn")) {
+            console.log("🔽 Click delegado en Secondary Category detectado");
+            handleSecondaryClick();
+        }
+    });
+
+    // 3) Delegar evento para tallas y cantidades
     const modalContent = document.getElementById("modal-content");
-    if (modalContent) {
-        modalContent.addEventListener("click", handleModalDelegatedClick);
-    } else {
-        console.warn('Elemento con id "modal-content" no encontrado en el DOM.');
-    }
+    console.log("Modal content encontrado:", modalContent);
+    if (modalContent) modalContent.addEventListener("click", handleModalDelegatedClick);
 });
