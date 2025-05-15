@@ -64,6 +64,7 @@ def create_account():
         traceback.print_exc()
         return jsonify({"Error, al crear la cuenta"}), 500
 
+
 @accounts_bp.route("/modify_account", methods=["POST"])
 @login_required
 def modify_account():
@@ -170,6 +171,7 @@ def search_account_by_id():
         traceback.print_exc()
         return jsonify({"Error, al buscar la cuenta"}), 500
 
+
 @accounts_bp.route('/filter_account_by_mail', methods=["GET"])
 @login_required
 def search_account_by_mail():
@@ -186,6 +188,7 @@ def search_account_by_mail():
         traceback.print_exc()
         return jsonify({"Error, al buscar la cuenta"}), 500
 
+
 @accounts_bp.route('/check_first_login', methods=["GET"])
 @login_required
 def check_first_login():
@@ -201,6 +204,7 @@ def check_first_login():
         print("Error, al buscar la cuenta")
         traceback.print_exc()
         return jsonify({"Error, al buscar la cuenta"}), 500
+
 
 @accounts_bp.route('/change_first_login', methods=["GET"])
 @login_required
