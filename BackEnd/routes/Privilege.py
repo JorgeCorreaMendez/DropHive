@@ -7,6 +7,7 @@ from BackEnd.models.Privilege import Privilege
 from BackEnd.routes.Auth import login_required
 from BackEnd.utils.sqlalchemy_methods import get_db_session
 from BackEnd.services.models_service import get_all_values_from
+from BackEnd.utils.logger import logger
 
 privileges_bp = Blueprint("privileges", __name__)
 
@@ -18,26 +19,25 @@ def get_privileges():
         return jsonify(get_all_values_from(Privilege, session["db.name"])), 200, {
             'Content-Type': 'application/json; charset=utf-8'}
     except SQLAlchemyError:
-        print("Error, obteniendo los privilegios")
+        logger.error("An error occurred while retrieving privileges")
         traceback.print_exc()
-        return jsonify({"error": "obteniendo los privilegios"}), 500
+        return jsonify({"error": "Error retrieving privileges"}), 500
 
 
-# TODO. cambiar ruta en front
+# TODO: update route in frontend
 @privileges_bp.route("/get_privilege", methods=["GET"])
 @login_required
 def search_privilege_by_id():
-    category_id = request.args.get('id')
-    if not category_id:
-        print("Error, Se tiene que añadir un id")
-        return jsonify({"error": "Se tiene que añadir un id"}), 400
+    privilege_id = request.args.get('id')
+    if not privilege_id:
+        return jsonify({"error": "Privilege ID is required"}), 400
     try:
         with get_db_session(session["db.name"]) as db:
-            category = db.query(Privilege).filter(Privilege.id == category_id).first()
+            category = db.query(Privilege).filter(Privilege.id == privilege_id).first()
             if category is None:
-                return jsonify({"message": "Privilegio no encontrado"}), 404
+                return jsonify({"message": "Privilege not found"}), 404
             return jsonify(category.serialize()), 200
     except SQLAlchemyError:
-        print("Error, buscando el privilegio")
+        logger.error("An error occurred while searching for the privilege")
         traceback.print_exc()
-        return jsonify({"error": "buscando el privilegio"}), 500
+        return jsonify({"error": "Error retrieving the privilege"}), 500
