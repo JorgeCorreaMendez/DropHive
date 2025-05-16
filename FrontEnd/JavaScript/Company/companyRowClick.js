@@ -36,6 +36,39 @@ export function initializeRowClickHandlerCompany() {
 
         if (nameEl) nameEl.textContent = companyData.name || '';
         if (descEl) descEl.innerHTML = (companyData.description || '').replace(/\n/g, '<br>');
+        const itemsContainer = document.getElementById("company-items");
+        const noItemsMessage = document.getElementById("no-items-message");
+
+        if (itemsContainer) {
+          itemsContainer.innerHTML = '';
+          if (noItemsMessage) noItemsMessage.textContent = '';
+
+          if (companyData.items && companyData.items.length > 0) {
+            companyData.items.forEach(item => {
+              const itemDiv = document.createElement("div");
+              itemDiv.classList.add("item-box");
+
+              if (item.status.toLowerCase().includes("out of stock")) {
+                itemDiv.classList.add("red-box");
+              } else {
+                itemDiv.classList.add("yellow-box");
+              }
+
+              itemDiv.innerHTML = `
+                ${item.name}
+                <span class="small-text">${item.status}</span>
+              `;
+
+              itemsContainer.appendChild(itemDiv);
+            });
+          } else {
+            if (noItemsMessage) {
+              noItemsMessage.textContent = 'No hay ítems asociados a esta compañía.';
+            }
+          }
+        }
+
+
 
         // Botón MODIFICAR
         const modifyBtn = document.getElementById("modify-company-btn");
