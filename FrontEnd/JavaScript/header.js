@@ -45,9 +45,10 @@ document.getElementById("retorno-home").addEventListener("click", () => {
     window.location.href = "http://127.0.0.1:4000/home";
 })
 
+function searchBar() {
+    const searchInput = document.getElementById("search-bar");
 
-function initializePage() {
-    initializeLogoutButton(); // Siempre cargamos el header y footer
+    searchInput.addEventListener("input", busquedaAPI);
 }
 
 window.onload = function() {
