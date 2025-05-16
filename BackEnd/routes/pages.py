@@ -63,9 +63,11 @@ def add_employee():
 def category_page():
     return render_template("categoryPage.html")
 
+
 @pages_bp.route("/readCategory")
 def read_category():
     return render_template("readCategory.html")
+
 
 @pages_bp.route("/createItem")
 def create_item():

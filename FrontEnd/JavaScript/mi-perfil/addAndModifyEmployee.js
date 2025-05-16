@@ -12,7 +12,6 @@ async function cargarModalCrearCuenta() {
 async function crearCuentaEmpleado() {
     const id = document.getElementById("id").value;
     const email = document.getElementById("email").value;
-    const password = await generatePassword();
     const role = 1;
     const modal = document.getElementById('loadingModal');
 
@@ -45,7 +44,7 @@ async function crearCuentaEmpleado() {
 
         if (response.ok) {
             modal.classList.add('hidden');
-            fetch(`http://127.0.0.1:4000/new_account_registered?mail=${email}&password=${password}`)
+            await fetch(`http://127.0.0.1:4000/send_password_to_new_user?mail=${email}`)
             Swal.fire({
                 icon: 'success',
                 title: 'New user registered succesfully',
@@ -75,32 +74,6 @@ async function crearCuentaEmpleado() {
             showConfirmButton: false
         });
     }
-}
-
-async function generatePassword(longitud = 8) {
-  const letras = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz';
-  const numeros = '0123456789';
-  const simbolos = '!@#$%^&*()_+-=[]{}|;:,.<>?';
-  const todos = letras + numeros + simbolos;
-
-  if (longitud < 2) {
-    throw new Error('La longitud debe ser al menos 2 para incluir un símbolo.');
-  }
-
-  let contrasena = '';
-
-  // Aseguramos al menos un símbolo
-  contrasena += simbolos[Math.floor(Math.random() * simbolos.length)];
-
-  // El resto de la contraseña
-  for (let i = 1; i < longitud; i++) {
-    contrasena += todos[Math.floor(Math.random() * todos.length)];
-  }
-
-  // Mezclamos los caracteres para que el símbolo no siempre esté primero
-  contrasena = contrasena.split('').sort(() => Math.random() - 0.5).join('');
-
-  return contrasena;
 }
 
 export function addEventListenerAddEmployee() {

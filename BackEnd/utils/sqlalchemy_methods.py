@@ -13,9 +13,9 @@ def get_engine(dbname):
 
 def get_db_session(dbname):
     engine = get_engine(dbname)
-    Session = sessionmaker()
-    Session.configure(bind=engine)
-    return Session()
+    session = sessionmaker()
+    session.configure(bind=engine)
+    return session()
 
 
 def database_exists(dbname):

@@ -17,7 +17,7 @@ export function initializeRowClickHandlerCategory() {
     if (!id_category) return;
 
     try {
-      let response = await fetch(`get_category?id=${id_category}`);
+      let response = await fetch(`search_category_by_id?id=${id_category}`);
       const object = await response.json();
 
       response = await fetch(`readCategory`);

@@ -47,7 +47,7 @@ export const agregarProducto = async ({ isEdit = false, originalId = null } = {}
         sizes                  // [{ name:"S",quantity:10 },…]
     };
 
-    const url    = isEdit ? `/modify_product/${originalId}` : "/add_product";
+    const url = isEdit ? `/modify_product?id=${originalId}` : "/add_product";
     const method = isEdit ? "PUT" : "POST";
 
     try {
