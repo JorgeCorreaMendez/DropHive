@@ -1,4 +1,4 @@
-import {recuperarNombreBaseDatos} from "./recursos.js";
+import {busquedaAPI} from './searchBar/searchBar.js'
 
 function initializeLogoutButton() {
     const logoutButton = document.getElementById("log-out");
@@ -56,4 +56,5 @@ window.onload = function() {
     document.getElementById("logo").addEventListener("click", async () => {
         window.location.href = `http://127.0.0.1:4000/home`;
     })
+    searchBar();
 }

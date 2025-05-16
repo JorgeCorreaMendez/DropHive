@@ -1,4 +1,4 @@
-async function busquedaAPI() {
+export async function busquedaAPI() {
     const resultsBox = document.getElementById("search-results");
 
     const query = this.value.trim();
