@@ -104,7 +104,7 @@ def delete_account():
             users_db.delete(user)
             client_db.commit()
             users_db.commit()
-        logger.info(f"Account {user.name} deleted.")
+        logger.info(f"Account {account.email} deleted.")
         return jsonify({"message": "Account successfully deleted"}), 200
     except SQLAlchemyError:
         try:
@@ -191,9 +191,9 @@ def check_first_login():
         return jsonify({"error": "Error while checking first login"}), 500
 
 
-@accounts_bp.route('/change_first_login', methods=["PUT"])
+@accounts_bp.route('/change_first_login', methods=["GET"])
 @login_required
-def change_first_login():
+def first_login():
     try:
         mail = request.args.get('mail')
         with get_db_session("Users") as user_session:
