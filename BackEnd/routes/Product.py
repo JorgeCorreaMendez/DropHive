@@ -35,7 +35,7 @@ def add_product():
         with get_db_session(session["db.name"]) as db_session:
             if db_session.query(Product).filter_by(id=data["id"]).first():
                 return jsonify({"error": "Product with that ID already exists"}), 409
-            category = db_session.query(Category).filter_by(name=data["category"]["name"]).first()
+            category = db_session.query(Category).filter_by(id=data["category"]["id"]).first()
             if not category:
                 category = Category(name=data["category"]["name"])
                 db_session.add(category)
