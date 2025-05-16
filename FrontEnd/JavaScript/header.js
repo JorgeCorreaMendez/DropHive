@@ -51,6 +51,14 @@ function searchBar() {
     searchInput.addEventListener("input", busquedaAPI);
 }
 
+document.addEventListener("click", function(event) {
+    const searchBar = document.getElementById("searchbar");
+    const resultsBox = document.getElementById("search-results");
+
+
+    resultsBox.classList.add("hidden");
+});
+
 window.onload = function() {
     initializeLogoutButton(); // Cargar header, footer y body específico según la página
     document.getElementById("logo").addEventListener("click", async () => {
