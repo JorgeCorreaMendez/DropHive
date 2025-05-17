@@ -26,6 +26,31 @@ def get_companies():
         return jsonify({"error": "retrieving companies"}), 500
 
 
+@companies_bp.route("/add_company", methods=["POST"])
+@login_required
+def add_company():
+    try:
+        data = request.get_json()
+        name = data.get("name")
+        description = data.get("description")
+        profile_picture = data.get("profile_picture")
+        if not name:
+            return jsonify({"error": "Company name is required"}), 400
+        with get_db_session(session["db.name"]) as db_session:
+            existing = db_session.query(Company).filter_by(name=name).first()
+            if existing:
+                return jsonify({"error": "A company with that name already exists"}), 409
+            new_company = Company(name=name, description=description, profile_picture=profile_picture)
+            db_session.add(new_company)
+            db_session.commit()
+            logger.info(f"Company '{new_company.name}' created successfully.")
+            return jsonify({"message": f"Company '{new_company.name}' created successfully."}), 201
+    except SQLAlchemyError:
+        logger.error("An error occurred while creating the company")
+        traceback.print_exc()
+        return jsonify({"error": "Error creating the company"}), 500
+
+
 @companies_bp.route("/modify_company", methods=["PUT"])
 @login_required
 def modify_company():
