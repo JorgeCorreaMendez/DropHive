@@ -1,3 +1,7 @@
+import {mostrarReadArticulo} from "../modals/lecturaProducto/productRowClick.js";
+import {mostrarReadCompany} from "../Company/companyRowClick.js";
+import {mostrarReadCategory} from "../category/productRowClickCategory.js";
+
 export async function busquedaAPI() {
     const resultsBox = document.getElementById("search-results");
 
@@ -38,6 +42,7 @@ export async function busquedaAPI() {
 
                 if(tipo === "products") {
                     mostrarReadArticulo(id);
+
                 } else if (tipo === "categories") {
                     mostrarReadCategory(id);
                 } else if (tipo === "companies") {

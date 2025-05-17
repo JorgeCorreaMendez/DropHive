@@ -1,4 +1,3 @@
-import { recuperarNombreBaseDatos } from "../../recursos.js";
 import { cargarDatosArticulo } from "./cargarDatosArticulo.js";
 import { modificarArticulo } from "./modificarProducto.js";
 import { openModal } from "../abrirYCerrarModal.js";
@@ -20,22 +19,9 @@ export function initializeRowClickHandler() {
     if (!id_product) return;
 
     try {
-      const db_name = await recuperarNombreBaseDatos();
+      mostrarReadArticulo(id_product);
 
-      let response = await fetch(`filter_product_by_id?id=${id_product}`);
-      const object = await response.json();
 
-      response = await fetch(`readArticle`);
-      const html = await response.text();
-
-      const parser = new DOMParser();
-      const doc = parser.parseFromString(html, "text/html");
-      const bodyContent = doc.body.innerHTML;
-
-      openModal(bodyContent);
-      await cargarDatosArticulo(object[0]);
-      await modificarArticulo(object[0]);
-      await eliminarArticulo();
     } catch (err) {
       console.error("Error al cargar el modal:", err);
       Swal.fire({
@@ -47,4 +33,21 @@ export function initializeRowClickHandler() {
       });
     }
   });
+}
+
+export async function mostrarReadArticulo(id_product) {
+  let response = await fetch(`filter_product_by_id?id=${id_product}`);
+  const object = await response.json();
+
+  response = await fetch(`readArticle`);
+  const html = await response.text();
+
+  const parser = new DOMParser();
+  const doc = parser.parseFromString(html, "text/html");
+  const bodyContent = doc.body.innerHTML;
+
+  openModal(bodyContent);
+  await cargarDatosArticulo(object[0]);
+  await modificarArticulo(object[0]);
+  await eliminarArticulo();
 }

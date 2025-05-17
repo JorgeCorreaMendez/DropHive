@@ -17,7 +17,22 @@ export function initializeRowClickHandlerCategory() {
     if (!id_category) return;
 
     try {
-      let response = await fetch(`search_category_by_id?id=${id_category}`);
+
+    } catch (err) {
+      console.error("Error al cargar el modal:", err);
+      Swal.fire({
+        icon: 'error',
+        title: "Error al cargar el modal",
+        html: err.message || "Ocurrió un error inesperado.",
+        timer: 2500,
+        showConfirmButton: false
+      });
+    }
+  });
+}
+
+export async function mostrarReadCategory(id_category) {
+  let response = await fetch(`search_category_by_id?id=${id_category}`);
       const object = await response.json();
 
       response = await fetch(`readCategory`);
@@ -106,15 +121,4 @@ export function initializeRowClickHandlerCategory() {
         }
 
       }, 50);
-    } catch (err) {
-      console.error("Error al cargar el modal:", err);
-      Swal.fire({
-        icon: 'error',
-        title: "Error al cargar el modal",
-        html: err.message || "Ocurrió un error inesperado.",
-        timer: 2500,
-        showConfirmButton: false
-      });
-    }
-  });
 }

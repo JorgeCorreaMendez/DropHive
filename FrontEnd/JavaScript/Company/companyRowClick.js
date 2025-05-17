@@ -17,7 +17,22 @@ export function initializeRowClickHandlerCompany() {
     if (!id_company) return;
 
     try {
-      let response = await fetch(`get_company?id=${id_company}`);
+
+    } catch (err) {
+      console.error("Error al cargar el modal:", err);
+      Swal.fire({
+        icon: 'error',
+        title: "Error al cargar el modal",
+        html: err.message || "Ocurrió un error inesperado.",
+        timer: 2500,
+        showConfirmButton: false
+      });
+    }
+  });
+}
+
+export async function mostrarReadCompany(id_company) {
+  let response = await fetch(`get_company?id=${id_company}`);
       const companyData = await response.json();
 
       response = await fetch(`readCompany`);
@@ -114,15 +129,4 @@ export function initializeRowClickHandlerCompany() {
           });
         }
       }, 100);
-    } catch (err) {
-      console.error("Error al cargar el modal:", err);
-      Swal.fire({
-        icon: 'error',
-        title: "Error al cargar el modal",
-        html: err.message || "Ocurrió un error inesperado.",
-        timer: 2500,
-        showConfirmButton: false
-      });
-    }
-  });
 }

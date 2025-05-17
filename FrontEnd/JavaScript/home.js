@@ -3,7 +3,6 @@ import {recuperarNombreBaseDatos} from "./recursos.js";
 import {aplicarFiltros} from "./filtrado.js";
 import {recuperarProductos, addInformacionFilaProducto, modificarCabeceraTablaProductos} from "./home/productos.js";
 import {addInformacionFilaCategoria} from "./home/categorias.js";
-import { initPagination } from "./recursos/paginado.js";
 import { actualizarOpcionesCategoria } from "./desplegables/desplegable.categorias.js";
 import {addInformacionFilaCompany} from "./home/company.js";
 

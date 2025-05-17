@@ -13,6 +13,7 @@ const filtros = {
 };
 
 Object.values(filtros).forEach((elemento) => {
+    if(!elemento) return;
     const eventType = elemento.tagName === 'SELECT' ? 'change' : 'input';
 
     // Usamos el debounce para aplicar la función con un retraso de 1 segundo
