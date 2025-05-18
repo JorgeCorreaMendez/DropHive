@@ -1,4 +1,5 @@
 import {openModal} from "../modals/abrirYCerrarModal.js";
+import {agregarEmpresa} from "../Company/AddAndModifyCompany.js";
 
 export async function addInformacionFilaCompany(item) {
     const row = document.createElement('tr');
@@ -51,16 +52,26 @@ export async function modificarCabeceraTablaCompany() {
     });
 }
 
+
 export async function cargarModalCrearCompany() {
-    const response = await fetch(`/modifyCompany`);
-    const html = await response.text();
-    openModal(html);
+    try {
+        const response = await fetch(`/addAndModifyCompany`);
+        const html = await response.text();
+        openModal(html);
 
-    setTimeout(() => {
-        const form = document.getElementById("company-form");
-        if (form) {
-            form.addEventListener("submit", agregarCompañia);
-        }
-    }, 100);
+        // Esperamos a que el modal se haya insertado en el DOM.
+        setTimeout(() => {
+            const form = document.getElementById("company-form");
+            if (form) {
+                form.addEventListener("submit", (e) => {
+                    e.preventDefault();
+                    agregarEmpresa(); // Llama a la función importada
+                });
+            } else {
+                console.error("Error: No se encontró el formulario con id 'company-form'");
+            }
+        }, 300); // Ajusta este timeout según sea necesario.
+    } catch (error) {
+        console.error("Error al cargar el modal:", error);
+    }
 }
-

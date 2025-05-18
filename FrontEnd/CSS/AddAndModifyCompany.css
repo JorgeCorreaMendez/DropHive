@@ -91,7 +91,7 @@ body {
 
 
 }
-#save-btn1 {
+#save-btn2 {
     background-color: #28a745; /* Verde brillante */
     color: white;
     padding: 10px 20px;
@@ -103,7 +103,7 @@ body {
 }
 
 /* Efecto hover en el botón de guardar */
-#save-btn1:hover {
+#save-btn2:hover {
     background-color: #34d058; /* Color claro al pasar */
     transform: scale(1.05); /* Efecto de agrandado */
 }

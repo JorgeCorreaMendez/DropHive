@@ -2,60 +2,47 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Drophive</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='CSS/readCompany.css') }}">
-    <script src="{{ url_for('static', filename='JavaScript/header.js') }}"></script>
-
+    <title>Company Details - Drophive</title>
+    <!-- Carga de Tailwind CSS desde CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<!-- Contenedor principal (pantalla gris) -->
-<main class="main_container">
-    <!-- Barra de botones superiores -->
-    <nav class="action-bar">
-        <button id="modify-company-btn" class="mt-2 w-full bg-[#8DC96A] text-black p-2 rounded">Modify Company</button>
-        <button id="delete-company-btn" class="mt-2 w-full bg-[#8DC96A] text-black p-2 rounded">Delete Company</button>
-    </nav>
+<body class="bg-gray-300">
+<main class="bg-gray-300 rounded-lg p-1">
+    <!-- Sección Superior: Imagen, Información y Botones -->
+    <div class="flex justify-between items-start bg-gray-200 rounded-lg p-4 m-4">
+        <!-- Izquierda: Imagen + Info -->
+        <div class="flex gap-4 items-start">
+            <!-- Imagen: Logo de la compañía -->
+            <img src="/FrontEnd/Images/sinFoto.png" alt="Company Image" class="w-20 h-20 rounded-full object-cover">
 
-    <!-- Sección de detalles de la compañía -->
-    <section class="company-details">
-        <div class="company-info">
-            <div class="info-text">
-                <h2 id="company-name"></h2>
-            </div>
 
-<!-- Descripción -->
-            <div class="company-description">
-                <h3>Description:</h3>
-                    <p id="company-description"></p>
+            <!-- Información: ID y Nombre, y opcionalmente Email -->
+            <div>
+                <h2 class="text-lg font-semibold">
+                    <span id="company-id"></span> Name: <span id="company-name"></span>
+                </h2>
+                <p id="company-email" class="mt-1 text-sm text-gray-700"></p>
             </div>
         </div>
-    </section>
 
-    <!-- Sección de Items e Información -->
-    <section class="extra-details">
-        <!-- Bloque de Items en almacén -->
-        <div class="items-storage">
-            <h3>Item in the Storage:</h3>
-            <div class="item-box yellow-box">
-                Detroit Jacket
-                <span class="small-text">2 more item</span>
-            </div>
-            <div class="item-box red-box">
-                Chore Coat
-                <span class="small-text">out of stock</span>
-            </div>
-            <!-- Más items si lo deseas -->
+        <!-- Derecha: Botones para modificar y eliminar, más pequeños -->
+        <div class="flex gap-2">
+            <button id="modify-company-btn" class="bg-gray-500 hover:bg-gray-600 text-white font-medium py-1 px-3 rounded">
+                Modify Company
+            </button>
+            <button id="delete-company-btn" class="bg-red-500 hover:bg-red-600 text-white text-sm px-2 py-1 rounded">
+                Delete Company
+            </button>
         </div>
+    </div>
 
-        <!-- Bloque de Información -->
-        <div class="info-card">
-            <h3>Information:</h3>
-            <ul>
-                <li><strong>Email:</strong> <a id="company-email" href="mailto:carhartt.org@gmail.com">carhartt.org@gmail.com</a></li>
-                <li><strong>Contact Number:</strong> <span id="company-phone">+34 623 24 25 67</span></li>
-                <li><strong>Address:</strong> <span id="company-address">Road 12, Dearborn</span></li>
-                <li><strong>Contact person:</strong> <span id="company-contact">John Marston</span></li>
-            </ul>
-        </div>
-    </section>
+    <!-- Sección de Descripción -->
+    <div class="bg-gray-200 rounded-lg p-4 m-4">
+        <h3 class="text-lg font-semibold mb-2">Description:</h3>
+        <p id="company-description" class="text-gray-800"></p>
+    </div>
+
+
 </main>
+</body>
 </html>
