@@ -1,22 +1,23 @@
-// AddAndModifyCompany.js
 export const agregarEmpresa = async ({ isEdit = false, originalId = null } = {}) => {
     // 1) Leer los valores básicos del formulario
     const name = document.getElementById("company-name")?.value.trim();
     const description = document.getElementById("company-description")?.value.trim();
 
-    // 2) Validación: se requiere el nombre
+    // 2) Validación: se requiere el nombre y la descripción
     if (!name) {
         return Swal.fire("Error", "El nombre es obligatorio.", "error");
     }
-
     if (!description) {
         return Swal.fire("Error", "La descripcion es obligatoria.", "error");
     }
-    // 3) Construir el payload
-    const payload = {name, description };
 
-    // 4) Seleccionar URL y método HTTP según corresponda
-    const url = isEdit ? `/modify_company?id=${originalId}` : "/add_company";
+    // 3) Construir el payload (incluyendo el id en modo edición)
+    const payload = isEdit
+        ? { id: originalId, name, description }
+        : { name, description };
+
+    // 4) Seleccionar URL y método HTTP según corresponda (sin el id en el query string)
+    const url = isEdit ? `/modify_company` : "/add_company";
     const method = isEdit ? "PUT" : "POST";
 
     // 5) Enviar la solicitud al backend
