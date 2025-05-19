@@ -22,21 +22,22 @@
     <div class="total-wrapper">
         <div class="table-wrapper">
     <table>
-        <thead>
+      <thead>
         <tr>
-            <th>ID</th>
-            <th>Name of Company</th>
-            <th>Name of Item</th>
-            <th>Done Action</th>
+          <th>Date</th>
+          <th>Time</th>
+          <th>User</th>
+          <th>Action</th>
         </tr>
-        </thead>
-        <tbody>
-        <tr><td><div class="cell">001</div></td>
-            <td><div class="cell">Nike</div></td>
-            <td><div class="cell">Dunk Low</div></td>
-            <td><div class="cell">Añadir ítem</div></td>
+      </thead>
+      <tbody>
+        <tr>
+          <td><div class="cell">2025-05-15</div></td>
+          <td><div class="cell">21:14:31</div></td>
+          <td><div class="cell">Admin</div></td>
+          <td><div class="cell">Checked first login status for jorgecorreamen@gmail.com.</div></td>
         </tr>
-        </tbody>
+      </tbody>
     </table>
             <div class="pagination-controls">
                 <button id="prev-button" disabled><-</button>
@@ -46,24 +47,12 @@
 </div>
 </div>
     <div class="sidebar">
-        <div class="button-wrapper notification-wrapper">
-            <button id="notification-btn">🔔 Notifications</button>
-        </div>
         <div class="button-wrapper filters">
-            <label>Name: <select><option>All</option></select></label>
-            <label>Category: <select><option>All</option></select></label>
-            <label>Purchase Date: <select><option>All</option></select></label>
+            <label>User: <select><option>All</option></select></label>
+            <label>Date: <select><option>All</option></select></label>
         </div>
     </div>
 </div>
 </div>
 </body>
-
 </html>
-
-<div id="modal-container" class="fixed inset-0 z-50 hidden bg-black bg-opacity-50 flex items-center justify-center">
-    <div id="modal-content"
-         class="bg-white w-11/12 md:w-2/3 max-h-[90vh] overflow-y-auto rounded-xl p-6 relative transform scale-95 opacity-0 transition-all duration-5 00">
-    </div>
-</div>
-
