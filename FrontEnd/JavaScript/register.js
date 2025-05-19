@@ -12,13 +12,13 @@ function getFormData() {
     };
 }
 
-///TODO. Reutilizar modales, crear nuevos modelos
+// TODO: Reuse modals, create new models
 function showErrorAlert(title, errors) {
     return Swal.fire({
         icon: 'error',
         title: title,
         html: Array.isArray(errors) ? errors.join('<br>') : errors,
-        confirmButtonText: 'Entendido'
+        confirmButtonText: 'Understood'
     });
 }
 
@@ -27,33 +27,33 @@ function showOkAlert(title, text) {
         icon: 'success',
         title: title,
         html: Array.isArray(text) ? text.join('<br>') : text,
-        confirmButtonText: 'Entendido'
+        confirmButtonText: 'Understood'
     });
 }
 
-// TODO. comprobar si existe la empresa
+// TODO: Check if the company already exists
 async function isValidForm(data) {
     const errorText = [];
     const verifyEmailResponse = await fetch(`${BASE_URL}/check_mail?mail=${data.mail}`);
     if (verifyEmailResponse.ok) {
-        errorText.push("Ya existe una cuenta asociada a este correo.");
+        errorText.push("An account with this email already exists.");
     }
     if (data.password.length < 8) {
-        errorText.push("La contraseña debe tener al menos 8 caracteres");
+        errorText.push("Password must be at least 8 characters long.");
     }
     if (data.password !== data.confirm_password) {
-        errorText.push("Ambas contraseñas deben coincidir.");
+        errorText.push("Passwords must match.");
     }
     if (errorText.length > 0) {
-        showErrorAlert('Error en el formulario', errorText);
+        showErrorAlert('Form Error', errorText);
         return false;
     }
     return true;
 }
 
-/// TODO. Añadir aviso de que se esta creando la cuenta. NO AÑADIR, rompe CSS
+// TODO: Add message indicating account is being created. DO NOT ADD — breaks CSS
 document.addEventListener("DOMContentLoaded", () => {
-    const form = document.getElementById('registrationForm')
+    const form = document.getElementById('registrationForm');
     form.addEventListener('submit', async (event) => {
         event.preventDefault();
         const registerData = getFormData();
@@ -61,20 +61,20 @@ document.addEventListener("DOMContentLoaded", () => {
             try {
                 const sendResponse = await fetch(`${BASE_URL}/send_verification_code?mail=${encodeURIComponent(registerData.mail)}`);
                 if (!sendResponse.ok) {
-                    showErrorAlert("Error", "No se pudo enviar el código de verificación.");
+                    showErrorAlert("Error", "Failed to send verification code.");
                     return;
                 }
                 Swal.fire({
-                    title: 'Verificación para crear la cuenta',
+                    title: 'Account Creation Verification',
                     input: 'text',
-                    inputLabel: 'El código se ha enviado a tu correo',
-                    inputPlaceholder: 'Código de verificación',
-                    confirmButtonText: 'Verificar',
+                    inputLabel: 'The code has been sent to your email',
+                    inputPlaceholder: 'Verification code',
+                    confirmButtonText: 'Verify',
                     showCancelButton: true,
-                    cancelButtonText: 'Salir',
+                    cancelButtonText: 'Cancel',
                     preConfirm: (code) => {
                         if (!code) {
-                            Swal.showValidationMessage('Debes introducir un código');
+                            Swal.showValidationMessage('You must enter a code.');
                         }
                         return code;
                     }
@@ -83,35 +83,36 @@ document.addEventListener("DOMContentLoaded", () => {
                         const code = result.value;
                         const checkResponse = await fetch(`${BASE_URL}/check_verification_code`, {
                             method: 'POST',
-                            headers: {'Content-Type': 'application/json'},
+                            headers: { 'Content-Type': 'application/json' },
                             body: JSON.stringify({ code })
                         });
                         if (checkResponse.ok) {
                             const response = await fetch(`${BASE_URL}/register`, {
                                 method: 'POST',
-                                headers: {'Content-Type': 'application/json'},
+                                headers: { 'Content-Type': 'application/json' },
                                 body: JSON.stringify(registerData)
                             });
                             const result = await response.json();
                             if (response.ok) {
-                                showOkAlert("¡Cuenta creada!", "Tu cuenta ha sido creada correctamente.")
+                                showOkAlert("Account Created!", "Your account has been successfully created.")
                                     .then(() => {
-                                        window.location.href = `${BASE_URL}/home`
+                                        window.location.href = `${BASE_URL}/home`;
                                     });
                             } else {
-                                showErrorAlert("Error al crear la cuenta.", result.message);
+                                showErrorAlert("Account Creation Failed", result.message);
                             }
                         } else {
-                            showErrorAlert("Código incorrecto", "El código de verificación no es válido.");
+                            showErrorAlert("Invalid Code", "The verification code is not valid.");
                         }
                     }
                 });
             } catch (error) {
-                showErrorAlert("Error de red", "No se pudo conectar con el servidor.");
+                showErrorAlert("Network Error", "Could not connect to the server.");
                 console.error("Error:", error);
             }
         }
     });
+
     document.getElementById('VolverLogIn').addEventListener('click', (e) => {
         e.preventDefault();
         window.location.href = `${BASE_URL}/login`;

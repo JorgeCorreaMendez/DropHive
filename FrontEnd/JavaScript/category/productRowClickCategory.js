@@ -5,7 +5,7 @@ export function initializeRowClickHandlerCategory() {
   const tableBody = document.getElementById("table-body");
 
   if (!tableBody) {
-    console.error("No se encontró el tbody con ID table-body");
+    console.error("The tbody with ID table-body was not found");
     return;
   }
 
@@ -36,14 +36,14 @@ export function initializeRowClickHandlerCategory() {
           deleteBtn.addEventListener("click", () => {
             const categoryId = document.getElementById("categoria-id")?.textContent.trim();
             if (!categoryId) return;
-            if (confirm("¿Estás seguro de que deseas borrar esta categoría?")) {
+            if (confirm("Are you sure you want to delete this category?")) {
               fetch(`/delete_category?id=${categoryId}`, {method: "DELETE"})
                   .then(res => {
                     if (res.ok) {
-                      alert("Categoría eliminada.");
+                      alert("Category deleted.");
                       window.location.href = "/home";
                     } else {
-                      alert("Error al borrar.");
+                      alert("Error while deleting.");
                     }
                   });
             }
@@ -78,7 +78,7 @@ export function initializeRowClickHandlerCategory() {
 
                     const description = descInput?.value.trim();
                     if (!description) {
-                      alert("La descripción no puede estar vacía.");
+                      alert("Description cannot be empty.");
                       return;
                     }
 
@@ -95,7 +95,7 @@ export function initializeRowClickHandlerCategory() {
                       if (res.ok) {
                         window.location.href = "/home";
                       } else {
-                        alert("Error al modificar la categoría.");
+                        alert("Error while updating the category.");
                       }
                     });
                   });
@@ -107,11 +107,11 @@ export function initializeRowClickHandlerCategory() {
 
       }, 50);
     } catch (err) {
-      console.error("Error al cargar el modal:", err);
+      console.error("Error while loading modal:", err);
       Swal.fire({
         icon: 'error',
-        title: "Error al cargar el modal",
-        html: err.message || "Ocurrió un error inesperado.",
+        title: "Error loading modal",
+        html: err.message || "An unexpected error occurred.",
         timer: 2500,
         showConfirmButton: false
       });

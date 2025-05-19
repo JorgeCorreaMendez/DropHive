@@ -1,27 +1,27 @@
 export async function solicitarNuevaContrasena() {
   const { value } = await Swal.fire({
-    title: 'Cambia tu contraseña',
+    title: 'Change your password',
     html:
-      '<input id="swal-password" type="password" class="swal2-input" placeholder="Nueva contraseña">' +
-      '<input id="swal-confirm" type="password" class="swal2-input" placeholder="Confirmar contraseña">',
+      '<input id="swal-password" type="password" class="swal2-input" placeholder="New password">' +
+      '<input id="swal-confirm" type="password" class="swal2-input" placeholder="Confirm password">',
     focusConfirm: false,
     allowOutsideClick: false,
     allowEscapeKey: false,
-    confirmButtonText: 'Guardar',
+    confirmButtonText: 'Save',
     preConfirm: () => {
       const password = document.getElementById('swal-password').value;
       const confirm = document.getElementById('swal-confirm').value;
 
       if (!password || !confirm) {
-        Swal.showValidationMessage('Ambos campos son obligatorios');
+        Swal.showValidationMessage('Both fields are required');
         return false;
       }
       if (password !== confirm) {
-        Swal.showValidationMessage('Las contraseñas no coinciden');
+        Swal.showValidationMessage('Passwords do not match');
         return false;
       }
       if (password.length < 8) {
-        Swal.showValidationMessage('La contraseña debe tener al menos 8 caracteres');
+        Swal.showValidationMessage('Password must be at least 8 characters long');
         return false;
       }
       return { password };
@@ -37,5 +37,5 @@ export async function cambiarContrasena(email, password, apiBase) {
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({ mail: email, password })
   });
-  if (!res.ok) throw new Error("No se pudo cambiar la contraseña");
+  if (!res.ok) throw new Error("Password could not be changed");
 }

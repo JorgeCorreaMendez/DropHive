@@ -19,9 +19,9 @@ export async function mandarCorreo() {
     if (!data) {
       await Swal.fire({
         icon: 'error',
-        title: 'Correo no encontrado',
-        text: 'Te redirigiremos para registrarte.',
-        confirmButtonText: 'Aceptar'
+        title: 'Email not found',
+        text: 'You will be redirected to register.',
+        confirmButtonText: 'Accept'
       });
       window.location.href = `${apiBase}/register`;
       return;
@@ -43,8 +43,8 @@ export async function mandarCorreo() {
 
     await Swal.fire({
       icon: 'success',
-      title: 'Contraseña actualizada',
-      text: 'Ya puedes iniciar sesión con tu nueva contraseña.',
+      title: 'Password updated',
+      text: 'You can now log in with your new password.',
       timer: 3000,
       showConfirmButton: false
     });
@@ -56,7 +56,7 @@ export async function mandarCorreo() {
     Swal.fire({
       icon: 'error',
       title: 'Error',
-      text: e.message || 'Inténtalo de nuevo más tarde.'
+      text: e.message || 'Please try again later.'
     });
   }
 }
@@ -65,7 +65,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const btn = document.getElementById('enviarCorreoBtn');
   if (btn) {
     btn.addEventListener('click', (e) => {
-      e.preventDefault(); // Evita el envío del formulario si está dentro de uno
+      e.preventDefault(); // Prevent form submission if the button is inside a form
       mandarCorreo();
     });
   }

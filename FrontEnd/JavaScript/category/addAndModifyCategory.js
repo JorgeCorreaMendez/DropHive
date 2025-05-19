@@ -1,10 +1,9 @@
-
 document.addEventListener('DOMContentLoaded', async function () {
     const saveButton = document.getElementById("save-btn1");
     if (saveButton) {
         saveButton.addEventListener("click", agregarCategoria);
     } else {
-        console.warn("No se ha encontrado el boton");
+        console.warn("Button not found");
     }
 });
 
@@ -14,7 +13,7 @@ export const agregarCategoria = async () => {
     const description = document.getElementById('category-description').value;
 
     if (!name) {
-        alert("El mombre es obligatorio");
+        alert("Name is required");
         return;
     }
 
@@ -37,9 +36,9 @@ export const agregarCategoria = async () => {
             window.location.href = '/home';
         } else {
             const errorMessage = await response.text();
-            console.error("Error en el servidor:", errorMessage);
+            console.error("Server error:", errorMessage);
         }
     } catch (error) {
-        console.error("Errore nella richiesta:", error);
+        console.error("Error in the request:", error);
     }
 };
