@@ -9,6 +9,7 @@ export const agregarProducto = async ({ isEdit = false, originalId = null } = {}
     const price       = parseFloat(document.getElementById("price").value)    || 0;
     const discount    = parseFloat(document.getElementById("discount").value) || 0;
     const categoryId  = parseInt(document.getElementById("primary-category").value, 10);
+    const companyId = parseInt(document.getElementById("primary-company").value, 10);
 
     // 2) Recoger secundarios como números
     const secEls = Array.from(document.querySelectorAll("select[name='secondary-category[]']"));
@@ -43,6 +44,7 @@ export const agregarProducto = async ({ isEdit = false, originalId = null } = {}
         price,
         discount,
         category: { id: categoryId },
+        company: { id: companyId },
         secondary_categories,  // [2, 5, 8]
         sizes                  // [{ name:"S",quantity:10 },…]
     };
@@ -130,6 +132,38 @@ export async function loadCategories() {
         window.allCategories = [];
     }
 }
+
+// ========================================================================
+
+export async function loadCompanies() {
+    const select = document.getElementById("primary-company");
+    if (!select) {
+        console.error('No se encontró el elemento con id "select-company" en el DOM.');
+        return;
+    }
+
+    select.innerHTML = `<option value="" disabled selected>Selecciona una compañia</option>`;
+    try {
+        const res = await fetch("/companies");
+        if (!res.ok) throw new Error(`HTTP ${res.status}`);
+
+        const companies = await res.json();
+        if (!Array.isArray(companies)) {
+            console.warn("La respuesta no es un array de compañías:", companies);
+            return;
+        }
+
+        companies.filter(c => c.id && c.name).forEach(company => {
+            const opt = document.createElement("option");
+            opt.value = company.id;
+            opt.textContent = company.name;
+            select.append(opt);
+        });
+    } catch (e) {
+        console.error("No se pudieron cargar las compañías:", e);
+    }
+}
+
 
 // ========================================================================
 // Función para manejar clic en Secondary Category
@@ -235,11 +269,12 @@ function handleModalDelegatedClick(event) {
 // ========================================================================
 // Document Ready: Configuración de eventos cuando el DOM está listo
 // ========================================================================
-document.addEventListener("DOMContentLoaded", () => {
+document.addEventListener("DOMContentLoaded", async () => {
     console.log("🟢 DOM listo — el script se está ejecutando");
 
     // 1) Cargar categorías
-    loadCategories();
+    await loadCategories();
+    await loadCompanies();
 
     // 2) Delegated listener para el botón secundarias (funciona aunque el botón se inserte dinámicamente)
     document.body.addEventListener("click", event => {
