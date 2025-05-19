@@ -30,13 +30,30 @@
           <th>Action</th>
         </tr>
       </thead>
+      <tbody id="log-table-body"></tbody>
     </table>
 </div>
 </div>
     <div class="sidebar">
+        <div class="button-wrapper sort-control">
+            <label>Sort by:
+                <select id="sort-log">
+                    <option value="desc">Newest First</option>
+                    <option value="asc">Oldest First</option>
+                </select>
+            </label>
+        </div>
         <div class="button-wrapper filters">
-            <label>User: <select><option>All</option></select></label>
-            <label>Date: <select><option>All</option></select></label>
+            <label>User:
+                <select id="filter-user">
+                    <option value="All">All</option>
+                </select>
+            </label>
+            <label>Date:
+                <select id="filter-date">
+                    <option value="All">All</option>
+                </select>
+            </label>
         </div>
     </div>
 </div>
