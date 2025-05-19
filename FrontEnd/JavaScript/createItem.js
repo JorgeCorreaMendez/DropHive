@@ -136,22 +136,21 @@ export async function loadCategories() {
 }
 
 // ========================================================================
-
 export async function loadCompanies() {
     const select = document.getElementById("primary-company");
     if (!select) {
-        console.error('No se encontró el elemento con id "select-company" en el DOM.');
+        console.error('Element with id "select-company" not found in the DOM.');
         return;
     }
 
-    select.innerHTML = `<option value="" disabled selected>Selecciona una compañia</option>`;
+    select.innerHTML = `<option value="" disabled selected>Select a company</option>`;
     try {
         const res = await fetch("/companies");
         if (!res.ok) throw new Error(`HTTP ${res.status}`);
 
         const companies = await res.json();
         if (!Array.isArray(companies)) {
-            console.warn("La respuesta no es un array de compañías:", companies);
+            console.warn("The response is not an array of companies:", companies);
             return;
         }
 
@@ -162,9 +161,10 @@ export async function loadCompanies() {
             select.append(opt);
         });
     } catch (e) {
-        console.error("No se pudieron cargar las compañías:", e);
+        console.error("Failed to load companies:", e);
     }
 }
+
 
 
 // ========================================================================
