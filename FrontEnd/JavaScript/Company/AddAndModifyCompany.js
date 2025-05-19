@@ -1,48 +1,45 @@
-// noinspection JSNonASCIINames,NonAsciiCharacters
+export const agregarEmpresa = async ({ isEdit = false, originalId = null } = {}) => {
+    // 1) Leer los valores básicos del formulario
+    const name = document.getElementById("company-name")?.value.trim();
+    const description = document.getElementById("company-description")?.value.trim();
 
-document.addEventListener('DOMContentLoaded', () => {
-    const form = document.getElementById("company-form");
-    if (form) {
-        form.addEventListener("submit", agregarCompañia);
-    }
-});
-
-export const agregarCompañia = async (e) => {
-    e.preventDefault();
-
-    const companyId = document.getElementById('company-id')?.value;
-    const name = document.getElementById('company-name')?.value.trim();
-    const description = document.getElementById('company-description')?.value.trim();
-
+    // 2) Validación: se requiere el nombre y la descripción
     if (!name) {
-        alert("El nombre es obligatorio.");
-        return;
+        return Swal.fire("Error", "El nombre es obligatorio.", "error");
+    }
+    if (!description) {
+        return Swal.fire("Error", "La descripcion es obligatoria.", "error");
     }
 
-    const payload = {
-        id: companyId || null,
-        name,
-        description
-    };
+    // 3) Construir el payload (incluyendo el id en modo edición)
+    const payload = isEdit
+        ? { id: originalId, name, description }
+        : { name, description };
 
-    const endpoint = companyId ? "/modify_company" : "/add_company";
-    const method = "POST";
+    // 4) Seleccionar URL y método HTTP según corresponda (sin el id en el query string)
+    const url = isEdit ? `/modify_company` : "/add_company";
+    const method = isEdit ? "PUT" : "POST";
 
+    // 5) Enviar la solicitud al backend
     try {
-        const response = await fetch(endpoint, {
+        const res = await fetch(url, {
             method,
-            headers: { 'Content-Type': 'application/json' },
+            headers: { "Content-Type": "application/json" },
             body: JSON.stringify(payload)
         });
 
-        if (response.ok) {
-            window.location.href = "/home";
+        if (res.ok) {
+            Swal.fire({
+                icon: "success",
+                title: isEdit ? "Empresa modificada" : "Empresa agregada",
+                timer: 1500,
+                showConfirmButton: false
+            }).then(() => window.location.reload());
         } else {
-            const errorMessage = await response.text();
-            alert("Error del servidor: " + errorMessage);
+            const msg = await res.text();
+            Swal.fire("Error", msg, "error");
         }
-    } catch (error) {
-        console.error("Error en la solicitud:", error);
-        alert("Error en la conexión.");
+    } catch (err) {
+        Swal.fire("Error inesperado", err.message, "error");
     }
 };

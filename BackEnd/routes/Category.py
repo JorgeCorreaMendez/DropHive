@@ -1,4 +1,5 @@
 import traceback
+from BackEnd.utils.logger import logger
 
 from flask import Blueprint, jsonify, session, request
 from sqlalchemy.exc import SQLAlchemyError
@@ -18,9 +19,9 @@ def get_categories():
         return jsonify(get_all_values_from(Category, session["db.name"])), 200, {
             'Content-Type': 'application/json; charset=utf-8'}
     except SQLAlchemyError:
-        print("Error, obteniendo las categorias")
+        logger.error("An error occurred while retrieving categories")
         traceback.print_exc()
-        return jsonify({"Error, obteniendo las categorias"}), 500
+        return jsonify({"error": "Error retrieving categories"}), 500
 
 
 @categories_bp.route("/add_category", methods=["POST"])
@@ -30,47 +31,45 @@ def add_category():
     name = data.get("name")
     description = data.get("description")
     if not name:
-        print("Error, añadiendo la categoría")
-        return jsonify({"error": "El nombre es obligatorio"}), 400
+        return jsonify({"error": "Name is required"}), 400
     try:
         with get_db_session(session["db.name"]) as db:
             new_category = Category(name=name, description=description)
             db.add(new_category)
             db.commit()
-            return jsonify({"message": "Categoría creada exitosamente"}), 201
+            logger.info(f"Category '{name}' created.")
+            return jsonify({"message": "Category created successfully"}), 201
     except SQLAlchemyError:
-        print("Error, añadiendo la categoría")
+        logger.error("An error occurred while adding the category")
         traceback.print_exc()
-        return jsonify({"error": "Error, añadiendo la categoría"}), 500
+        return jsonify({"error": "Error adding category"}), 500
 
 
-# TODO. cambiar rutas para modificar a PUT
 @categories_bp.route("/modify_category", methods=["PUT"])
 @login_required
 def modify_category():
     data = request.get_json()
     category_id = data.get("id")
-    name = data.get("name")
-    description = data.get("description")
     if not category_id:
-        print("El id es obligatorio")
-        return jsonify({"error": "El id es obligatorio"}), 400
+        return jsonify({"error": "ID is required"}), 400
     try:
+        name = data.get("name")
+        description = data.get("description")
         with get_db_session(session["db.name"]) as db:
             category = db.query(Category).filter(Category.id == category_id).first()
             if not category:
-                print("Categoría no encontrada")
-                return jsonify({"error": "Categoría no encontrada"}), 404
+                return jsonify({"error": "Category not found"}), 404
             if name:
                 category.name = name
             if description:
                 category.description = description
             db.commit()
-            return jsonify({"message": "Categoría actualizada exitosamente", "category": category.serialize()}), 200
+            logger.info(f"Category '{category.name}' updated.")
+            return jsonify({"message": "Category updated successfully", "category": category.name}), 200
     except SQLAlchemyError:
-        print("Error, modificando la categoría")
+        logger.error("An error occurred while modifying the category")
         traceback.print_exc()
-        return jsonify({"error": "Error, modificando la categoría"}), 500
+        return jsonify({"error": "Error updating category"}), 500
 
 
 @categories_bp.route("/delete_category", methods=["DELETE"])
@@ -78,42 +77,38 @@ def modify_category():
 def delete_category():
     category_id = request.args.get("id")
     if not category_id:
-        print("Error, el id es obligatorio")
-        return jsonify({"error": "El id es obligatorio"}), 400
+        return jsonify({"error": "ID is required"}), 400
     try:
         with get_db_session(session["db.name"]) as db:
             category = db.query(Category).filter(Category.id == category_id).first()
             if not category:
-                print("Error, categoría no encontrada")
-                return jsonify({"error": "Categoría no encontrada"}), 404
+                return jsonify({"error": "Category not found"}), 404
             db.delete(category)
             db.commit()
-            return jsonify({"message": "Categoría eliminada exitosamente"}), 200
+            logger.info(f"Category '{category.name}' deleted.")
+            return jsonify({"message": "Category deleted successfully"}), 200
     except SQLAlchemyError:
-        print("Error, eliminando la categoría")
+        logger.error("An error occurred while deleting the category")
         traceback.print_exc()
-        return jsonify({"error": "Error, eliminando la categoría"}), 500
+        return jsonify({"error": "Error deleting category"}), 500
 
 
-# TODO. cambiar en el front
-@categories_bp.route("/get_category", methods=["GET"])
+@categories_bp.route("/search_category_by_id", methods=["GET"])
 @login_required
 def search_category_by_id():
     category_id = request.args.get('id')
     if not category_id:
-        print("Error, Se tiene que añadir un id")
-        return jsonify({"error": "Se tiene que añadir un id"}), 400
+        return jsonify({"error": "ID is required"}), 400
     try:
         with get_db_session(session["db.name"]) as db:
             category = db.query(Category).filter(Category.id == category_id).first()
             if category is None:
-                return jsonify({"message": "Categoría no encontrada"}), 404
-            print(category.serialize())
+                return jsonify({"error": "Category not found"}), 404
             return jsonify(category.serialize()), 200
     except SQLAlchemyError:
-        print("Error, al cambiar la contraseña")
+        logger.error("An error occurred while retrieving category by ID")
         traceback.print_exc()
-        return jsonify({"Error, al cambiar la contraseña"}), 500
+        return jsonify({"error": "Error retrieving category by ID"}), 500
 
 
 @categories_bp.route('/filter_category', methods=["GET"])
@@ -127,6 +122,6 @@ def filter_category():
             query = query.limit(limit).offset(offset)
             return jsonify([product.serialize() for product in query.all()]), 200
     except SQLAlchemyError:
-        print("Error, filtrando la categoria")
+        logger.error("An error occurred while filtering categories")
         traceback.print_exc()
-        return jsonify({"Error, filtrando la categoria"}), 500
+        return jsonify({"error": "Error filtering categories"}), 500

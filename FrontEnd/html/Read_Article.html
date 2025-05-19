@@ -3,20 +3,31 @@
     <!-- Izquierda: Imagen + Info -->
     <div class="flex gap-4 items-start">
       <!-- Imagen -->
-      <img src="" alt="Samba OG" class="w-20 h-20 rounded-lg border border-gray-300" id="imagen"/>
+      <img src="/FrontEnd/Images/sinFoto.png" alt="Company Image" class="w-20 h-20 rounded-full object-cover" id="imagen">
 
       <!-- Información -->
       <div>
-        <!-- ID y nombre -->
+        <!-- ID y nombre sin caja extra -->
         <h2 class="text-lg font-semibold">
-          <span id="id"></span> - <span id="product-name"></span>
+          <span id="id"></span> - <span id="product-name" class="text-gray-800"></span>
         </h2>
 
-        <div id="lista-categorias" class="flex flex-col gap-2 mt-1">
-          <div>
-            <p id="main-category" class="inline-block bg-gray-100 px-3 py-1 rounded-md">Categoría principal</p>
+        <!-- Categoría Principal -->
+        <div class="mt-2">
+          <label class="block text-xs text-gray-500 uppercase tracking-wider">Categoría Principal</label>
+          <div class="p-2 bg-blue-100 rounded-md">
+            <span id="main-category" class="text-sm font-medium text-blue-800">Categoría principal</span>
           </div>
-          <div id="secondary-categories" class="flex gap-2 flex-wrap"></div>
+        </div>
+
+        <!-- Categorías Secundarias -->
+        <div class="mt-2">
+          <label class="block text-xs text-gray-500 uppercase tracking-wider">Categorías Secundarias</label>
+          <div id="secondary-categories" class="p-2 bg-green-100 rounded-md flex gap-20  flex-wrap">
+            <!-- Aquí se inyectarán dinámicamente las categorías secundarias, por ejemplo:
+                 <span class="bg-green-200 text-green-800 px-2 py-1 text-xs font-medium rounded-full">Secundaria 1</span>
+            -->
+          </div>
         </div>
 
         <!-- Precio -->
@@ -43,10 +54,10 @@
     <div class="w-1/2 bg-gray-200 rounded-lg p-4">
       <table class="w-full rounded border-separate border-spacing-y-[10px] border-spacing-x-[5px]">
         <thead class="no-background thead-line">
-          <tr id="cabecera-tabla">
-            <th class="text-center">Talla</th>
-            <th class="text-center">Cantidad</th>
-          </tr>
+        <tr id="cabecera-tabla">
+          <th class="text-center">Talla</th>
+          <th class="text-center">Cantidad</th>
+        </tr>
         </thead>
         <tbody id="table-body-producto">
         </tbody>

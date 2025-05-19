@@ -11,6 +11,7 @@ from BackEnd.routes.Product import products_bp
 from BackEnd.routes.Register import registro_bp
 from BackEnd.routes.pages import pages_bp
 from BackEnd.utils.flask_mail_methods import init_mail
+from BackEnd.utils.logger import logger
 from BackEnd.utils.sqlalchemy_methods import init_user_db
 
 app = Flask(__name__, template_folder="../FrontEnd/html", static_folder="../FrontEnd")
@@ -26,6 +27,7 @@ app.register_blueprint(email_bp)
 app.register_blueprint(pages_bp)
 app.config['APPLICATION_ROOT'] = '/'
 app.json.ensure_ascii = False
+
 init_user_db()
 mail = init_mail(app)
 

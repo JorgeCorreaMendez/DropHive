@@ -21,8 +21,7 @@ def register():
         user_data = UserRegisterSchema(**request.get_json())
         db_name = user_data.name
         if database_exists(db_name):
-            print("Error, la empresa ya está registrada.")
-            return jsonify({"error": "La empresa ya está registrada."}), 409
+            return jsonify({"error": "Company is already registered."}), 409
         engine = get_engine(db_name)
         Base.metadata.create_all(engine)
         with (get_db_session(db_name) as client_db,
@@ -68,6 +67,5 @@ def register():
                 users_db.rollback()
         except SQLAlchemyError:
             pass
-        print("Ocurrio un error: ")
         traceback.print_exc()
-        return jsonify({"Ocurrio un error creando la cuenta"}), 500
+        return jsonify({"error": "An error occurred during registration"}), 500

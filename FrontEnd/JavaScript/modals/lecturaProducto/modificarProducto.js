@@ -39,6 +39,8 @@ export function modificarArticulo(datos_articulo) {
 
       // 3) Inyectar el HTML completo ya pre–rellenado
       openModal(doc.body.innerHTML);
+
+// Esperamos un poco más para asegurarnos de que el modal se haya renderizado completamente
       setTimeout(() => {
         const modalForm = document.getElementById("createProductForm");
         if (!modalForm) return;
@@ -53,21 +55,17 @@ export function modificarArticulo(datos_articulo) {
         modalForm.querySelector("#price").value = datos_articulo.price;
         modalForm.querySelector("#discount").value = datos_articulo.discount;
 
-        // --- Pre–llenado de tallas y cantidades ---
+        // --- Pre–llenado de tallas y cantidades (NO TOCAR) ---
         if (datos_articulo.size && Array.isArray(datos_articulo.size)) {
-          // Primero, obtenemos los inputs existentes ya creados en el formulario.
           let existingSizeInputs = modalForm.querySelectorAll("input[name='newSize[]']");
           let existingQtyInputs  = modalForm.querySelectorAll("input[name='newQuantity[]']");
 
           datos_articulo.size.forEach((s, index) => {
             if (index < existingSizeInputs.length) {
-              // Si ya existe el input para ese índice, lo rellenamos
               existingSizeInputs[index].value = s.name || "";
               existingQtyInputs[index].value  = s.quantity || 0;
               console.log(`Asignando tamaño en índice ${index}:`, s);
             } else {
-              // Si no existe, creamos nuevos inputs dinámicamente
-              // Crear input para talla:
               const divSizes = modalForm.querySelector("#div-sizes");
               const sizeWrapper = document.createElement("div");
               sizeWrapper.classList.add("flex", "items-center", "gap-2", "mt-2");
@@ -80,7 +78,6 @@ export function modificarArticulo(datos_articulo) {
               sizeWrapper.appendChild(newSizeInput);
               divSizes.appendChild(sizeWrapper);
 
-              // Crear input para cantidad:
               const divQuantities = modalForm.querySelector("#div-quantity");
               const qtyWrapper = document.createElement("div");
               qtyWrapper.classList.add("flex", "items-center", "gap-2", "mt-2");
@@ -101,32 +98,61 @@ export function modificarArticulo(datos_articulo) {
           console.warn("No se encontraron datos en el array 'size'.");
         }
 
-        // Pre‑llenado de la categoría
+        // --- Pre‑llenado de la categoría principal ---
         const catSelect = modalForm.querySelector("#primary-category");
-        // Si el objeto trae la propiedad category.name, la usamos; en caso contrario, si hay category_id usamos el mapeo
-        let catValue = "";
-        if (datos_articulo.category && datos_articulo.category.name) {
-          catValue = datos_articulo.category.name;
-        } else if (datos_articulo.category_id) {
-          // Usamos el mapa creado por loadCategories para encontrar el nombre correspondiente
-          catValue = window.categoriesMapping && window.categoriesMapping[datos_articulo.category_id]
-              ? window.categoriesMapping[datos_articulo.category_id]
-              : "";
-        }
-        if (catValue) {
-          if (![...catSelect.options].some(opt => opt.value === catValue)) {
+        // Buscamos en window.allCategories el objeto cuya id coincida con datos_articulo.category_id.
+        let catObj = (window.allCategories && Array.isArray(window.allCategories))
+            ? window.allCategories.find(c => c.id == datos_articulo.category_id)
+            : null;
+        let catName = (catObj && catObj.name) ? catObj.name : "";
+
+        if (catName) {
+          // Si no existe una opción con ese nombre, la agregamos.
+          if (![...catSelect.options].some(opt => opt.textContent === catName)) {
             const option = document.createElement("option");
-            option.value = catValue;
-            option.textContent = catValue;
+            option.value = datos_articulo.category_id;
+            option.textContent = catName;
             catSelect.appendChild(option);
             console.warn("Opción de categoría no encontrada, se agregó una opción temporal.");
           }
-          catSelect.value = catValue;
-          console.log("Categoría asignada:", catSelect.value);
+          // Asignamos el select usando el valor (id) para que se muestre la opción cuyo texto es el nombre de la categoría.
+          catSelect.value = datos_articulo.category_id;
+          console.log("Categoría primaria asignada. ID:", catSelect.value, "Nombre:", catName);
         } else {
-          console.warn("No se encontró valor para la categoría.");
+          console.warn("No se encontró valor para la categoría primaria.");
         }
-      }, 0);
+
+        // --- Prellenado de categorías secundarias con desplegable ---
+        const secCatContainer = modalForm.querySelector("#added-categories");
+        secCatContainer.innerHTML = "";
+        if (datos_articulo.secondary_categories && Array.isArray(datos_articulo.secondary_categories)) {
+          datos_articulo.secondary_categories.forEach(secCat => {
+            const select = document.createElement("select");
+            select.name = "secondary-category[]";
+            select.classList.add("category-input", "border", "border-gray-300", "rounded", "px-2", "py-1");
+
+            // Llenamos el select con las mismas opciones que tiene window.allCategories
+            if (window.allCategories && Array.isArray(window.allCategories)) {
+              window.allCategories.forEach(cat => {
+                const option = document.createElement("option");
+                option.value = cat.id;
+                option.textContent = cat.name;
+                select.appendChild(option);
+              });
+            } else {
+              console.warn("No se han cargado correctamente las categorías globales.");
+            }
+
+            // Establecemos el valor del select de acuerdo a la categoría secundaria.
+            select.value = secCat.id;
+            secCatContainer.appendChild(select);
+          });
+        } else {
+          console.warn("No se encontraron categorías secundarias.");
+        }
+      }, 200);  // Usamos un retraso mayor para asegurarnos de que el modal esté renderizado
+
+
 
 
       // 5) Configurar botón guardar para modo edición
