@@ -4,6 +4,7 @@ from flask import request, jsonify, Blueprint, session
 from sqlalchemy.exc import SQLAlchemyError
 from sqlalchemy import or_
 
+from BackEnd.models.Company import Company
 from BackEnd.utils.logger import logger
 from BackEnd.models.Category import Category
 from BackEnd.models.Product import Product
@@ -36,6 +37,7 @@ def add_product():
             if db_session.query(Product).filter_by(id=data["id"]).first():
                 return jsonify({"error": "Product with that ID already exists"}), 409
             category = db_session.query(Category).filter_by(id=data["category"]["id"]).first()
+            company = db_session.query(Company).filter_by(id=data["company"]["id"]).first()
             if not category:
                 category = Category(name=data["category"]["name"])
                 db_session.add(category)
@@ -47,6 +49,7 @@ def add_product():
                 description=data["description"],
                 price=data["price"],
                 discount=data["discount"],
+                company_id=company
             )
             db_session.add(new_product)
             db_session.flush()
