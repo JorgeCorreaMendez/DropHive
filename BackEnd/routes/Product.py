@@ -33,11 +33,14 @@ def get_products():
 def add_product():
     try:
         data = request.get_json()
+        print(data)
         with get_db_session(session["db.name"]) as db_session:
             if db_session.query(Product).filter_by(id=data["id"]).first():
                 return jsonify({"error": "Product with that ID already exists"}), 409
             category = db_session.query(Category).filter_by(id=data["category"]["id"]).first()
             company = db_session.query(Company).filter_by(id=data["company"]["id"]).first()
+            print(company)
+            print(category)
             if not category:
                 category = Category(name=data["category"]["name"])
                 db_session.add(category)
@@ -49,7 +52,7 @@ def add_product():
                 description=data["description"],
                 price=data["price"],
                 discount=data["discount"],
-                company_id=company
+                company_id=company.id
             )
             db_session.add(new_product)
             db_session.flush()
