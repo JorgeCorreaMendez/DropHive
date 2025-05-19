@@ -32,8 +32,8 @@ async function inicializarVista() {
 }
 
 function registrarEventos() {
-    const supplierBtn = document.getElementById("supplier-btn");
-    supplierBtn.addEventListener("click", redirigirASupply);
+    const logBtn = document.getElementById("log-btn");
+    logBtn.addEventListener("click", redirigirALog);
 
     const prevBtn = document.getElementById("prev-button");
     const nextBtn = document.getElementById("next-button");
@@ -42,9 +42,9 @@ function registrarEventos() {
     nextBtn.addEventListener("click", manejarCambioPagina);
 }
 
-async function redirigirASupply() {
+async function redirigirALog() {
     const dbName = await recuperarNombreBaseDatos();
-    window.location.href = `http://127.0.0.1:4000/supply`;
+    window.location.href = `http://127.0.0.1:4000/log`;
 }
 
 async function manejarCambioPagina() {
