@@ -1,4 +1,4 @@
-import { loadCategories } from "../createItem.js";
+import { loadCategories, loadCompanies } from "../createItem.js";
 
 const modalContainer = document.getElementById("modal-container");
 const modalContent = document.getElementById("modal-content");
@@ -20,9 +20,14 @@ export function openModal(htmlContent) {
   setTimeout(() => {
     if (document.getElementById("primary-category")) {
       loadCategories();
-
     } else {
       console.warn("El select 'primary-category' no se encontró dentro del modal.");
+    }
+
+    if (document.getElementById("primary-company")) {
+      loadCompanies();
+    } else {
+      console.warn("El select 'primary-company' no se encontró dentro del modal.");
     }
   }, 0);
 }

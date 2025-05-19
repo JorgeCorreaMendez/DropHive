@@ -79,6 +79,10 @@ export async function addInformacionFilaProducto(item) {
     quantityCell.classList.add('p-2', 'rounded-[5px]');
     quantityCell.textContent = item.quantity;
 
+    const companyCell = document.createElement('td');
+    companyCell.classList.add('p-2', 'rounded-[5px]');
+    companyCell.textContent = item.company;
+
     //Agregamos las celdas a la fila
     row.appendChild(idCell);
     row.appendChild(nameCell);
@@ -87,6 +91,7 @@ export async function addInformacionFilaProducto(item) {
     row.appendChild(discountCell);
     row.appendChild(discountedCell);
     row.appendChild(quantityCell);
+    row.appendChild(companyCell);
 
     return row;
 }
@@ -106,7 +111,7 @@ export async function localizarCategoria(id) {
 }
 
 export async function modificarCabeceraTablaProductos() {
-    const cabeceras = ["ID", "Name", "Category", "Selling Price", "Discount", "Discounted Price", "Quantity"];
+    const cabeceras = ["ID", "Name", "Category", "Selling Price", "Discount", "Discounted Price", "Quantity", "Company"];
     const filaCabecera = document.getElementById("cabecera-tabla");
 
     filaCabecera.innerHTML = '';
