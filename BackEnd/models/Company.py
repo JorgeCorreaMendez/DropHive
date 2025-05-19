@@ -12,6 +12,7 @@ class Company(Base):
     description = Column(String)
     profile_picture = Column(String(255))
     accounts = relationship('Account', back_populates='company')
+    products = relationship("Product", back_populates="company", uselist=False)
 
     def __str__(self):
         return "{}, {}, {}, {}".format(self.id, self.name, self.description, self.profile_picture)

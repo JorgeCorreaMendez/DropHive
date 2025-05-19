@@ -22,6 +22,8 @@ class Product(Base):
         secondary=product_secondary_categories,
         back_populates="products_as_secondary"
     )
+    company_id = Column(Integer, ForeignKey('companies.id'))
+    company = relationship("Company", back_populates="products")
 
     @property
     def quantity(self):
@@ -42,7 +44,8 @@ class Product(Base):
             "size": [size.serialize() for size in self.sizes],
             "secondary_categories": [
                 {"id": cat.id, "name": cat.name} for cat in self.secondary_categories
-            ]
+            ],
+            "company": self.company.serialize() if self.company else None
         }
 
     def get_total_quantity(self):
