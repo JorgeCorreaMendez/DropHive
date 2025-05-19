@@ -2,13 +2,13 @@ import { recuperarNombreBaseDatos } from "../../recursos.js";
 import { cargarDatosArticulo } from "./cargarDatosArticulo.js";
 import { modificarArticulo } from "./modificarProducto.js";
 import { openModal } from "../abrirYCerrarModal.js";
-import {eliminarArticulo} from "./eliminarArticulo.js"; // ajusta según tu ruta
+import { eliminarArticulo } from "./eliminarArticulo.js"; // adjust path if necessary
 
 export function initializeRowClickHandler() {
   const tableBody = document.getElementById("table-body");
 
   if (!tableBody) {
-    console.error("No se encontró el tbody con ID table-body");
+    console.error("Could not find tbody with ID table-body");
     return;
   }
 
@@ -37,11 +37,11 @@ export function initializeRowClickHandler() {
       await modificarArticulo(object[0]);
       await eliminarArticulo();
     } catch (err) {
-      console.error("Error al cargar el modal:", err);
+      console.error("Error loading modal:", err);
       Swal.fire({
         icon: 'error',
-        title: "Error al cargar el modal",
-        html: err.message || "Ocurrió un error inesperado.",
+        title: "Error loading modal",
+        html: err.message || "An unexpected error occurred.",
         timer: 2500,
         showConfirmButton: false
       });

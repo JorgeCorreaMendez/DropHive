@@ -1,10 +1,10 @@
 // ========================================================================
-// Helper para obtener el valor de un elemento por su id
+// Helper to get the value of an element by its id
 import { openModal } from "./modals/abrirYCerrarModal.js";
-import {agregarCategoria} from "./category/addAndModifyCategory.js"; // Verifica la ruta según tu estructura
+import { agregarCategoria } from "./category/addAndModifyCategory.js"; // Check the path based on your structure
 
 export const agregarProducto = async ({ isEdit = false, originalId = null } = {}) => {
-    // 1) Leer valores básicos y convertir a número donde haga falta
+    // 1) Read basic values and convert to number where needed
     const id          = document.getElementById("product-id").value.trim();
     const name        = document.getElementById("product-name").value.trim();
     const description = document.getElementById("description").value.trim();
@@ -12,17 +12,16 @@ export const agregarProducto = async ({ isEdit = false, originalId = null } = {}
     const discount    = parseFloat(document.getElementById("discount").value) || 0;
     const categoryId  = parseInt(document.getElementById("primary-category").value, 10);
 
-    // 2) Recoger secundarios como números
+    // 2) Get secondary categories as text (name expected by backend)
     const secEls = Array.from(document.querySelectorAll("select[name='secondary-category[]']"));
     const secondary_categories = secEls
         .map(el => {
-            // el.value es el ID, pero el texto de la opción es el name que busca el backend
             const txt = el.options[el.selectedIndex]?.text.trim();
             return txt;
         })
-        .filter(name => name);  // descartamos selects vacíos
+        .filter(name => name);  // ignore empty selects
 
-    // 3) Recoger tallas
+    // 3) Get sizes
     const sizeEls = Array.from(document.querySelectorAll("input[name='newSize[]']"));
     const qtyEls  = Array.from(document.querySelectorAll("input[name='newQuantity[]']"));
     const sizes   = sizeEls.map((el, i) => ({
@@ -30,14 +29,14 @@ export const agregarProducto = async ({ isEdit = false, originalId = null } = {}
         quantity: parseInt(qtyEls[i].value, 10) || 0
     })).filter(s => s.name);
 
-    // 4) Validaciones básicas
-    if (!id)     return Swal.fire("Error", "El ID es obligatorio.", "error");
-    if (!name)   return Swal.fire("Error", "El nombre es obligatorio.", "error");
-    if (price < 0 || isNaN(price))       return Swal.fire("Error", "Precio inválido.", "error");
-    if (discount < 0 || isNaN(discount)) return Swal.fire("Error", "Descuento inválido.", "error");
-    if (isNaN(categoryId))               return Swal.fire("Error", "Debe seleccionar categoría.", "error");
+    // 4) Basic validations
+    if (!id)     return Swal.fire("Error", "ID is required.", "error");
+    if (!name)   return Swal.fire("Error", "Name is required.", "error");
+    if (price < 0 || isNaN(price))       return Swal.fire("Error", "Invalid price.", "error");
+    if (discount < 0 || isNaN(discount)) return Swal.fire("Error", "Invalid discount.", "error");
+    if (isNaN(categoryId))               return Swal.fire("Error", "You must select a category.", "error");
 
-    // 5) Construir payload
+    // 5) Build payload
     const payload = {
         id,
         name,
@@ -46,7 +45,7 @@ export const agregarProducto = async ({ isEdit = false, originalId = null } = {}
         discount,
         category: { id: categoryId },
         secondary_categories,  // [2, 5, 8]
-        sizes                  // [{ name:"S",quantity:10 },…]
+        sizes                  // [{ name:"S", quantity:10 },…]
     };
 
     const url = isEdit ? `/modify_product?id=${originalId}` : "/add_product";
@@ -71,12 +70,12 @@ export const agregarProducto = async ({ isEdit = false, originalId = null } = {}
             Swal.fire("Error", msg, "error");
         }
     } catch (err) {
-        Swal.fire("Error inesperado", err.message, "error");
+        Swal.fire("Unexpected error", err.message, "error");
     }
 };
 
 // ========================================================================
-// Manejador para actualizar la imagen cuando se seleccione un nuevo archivo
+// Handler to update image when a new file is selected
 const handleImageInputChange = (e) => {
     if (!e.target.matches(".company-image-input")) return;
 
@@ -97,30 +96,30 @@ const handleImageInputChange = (e) => {
 document.addEventListener("change", handleImageInputChange);
 
 // ========================================================================
-// Función para cargar las categorías en el desplegable
+// Function to load categories into the dropdown
 export async function loadCategories() {
     const select = document.getElementById("primary-category");
     if (!select) {
-        console.error('No se encontró el elemento con id "primary-category" en el DOM.');
+        console.error('Element with id "primary-category" not found in the DOM.');
         return;
     }
 
-    select.innerHTML = `<option value="" disabled selected>Selecciona una categoría</option>`;
+    select.innerHTML = `<option value="" disabled selected>Select a category</option>`;
     try {
         const res = await fetch("/categories");
         if (!res.ok) throw new Error(`HTTP ${res.status}`);
 
         const cats = await res.json();
         if (!Array.isArray(cats)) {
-            console.warn("La respuesta no es un array de categorías:", cats);
+            console.warn("Response is not a category array:", cats);
             window.allCategories = [];
             return;
         }
 
-        // Guardar todas las categorías para secundarios
+        // Store all categories for secondary use
         window.allCategories = cats.filter(c => c.id && c.name);
 
-        // Poblamos el select primario
+        // Populate primary select
         window.allCategories.forEach(cat => {
             const opt = document.createElement("option");
             opt.value = cat.id;
@@ -128,17 +127,17 @@ export async function loadCategories() {
             select.append(opt);
         });
     } catch (e) {
-        console.error("No se pudieron cargar las categorías:", e);
+        console.error("Failed to load categories:", e);
         window.allCategories = [];
     }
 }
 
 // ========================================================================
-// Función para manejar clic en Secondary Category
+// Function to handle click on Secondary Category button
 function handleSecondaryClick() {
     const container = document.getElementById("added-categories");
     if (!container) {
-        console.error("#added-categories no encontrado");
+        console.error("#added-categories not found");
         return;
     }
 
@@ -154,7 +153,7 @@ function handleSecondaryClick() {
     ph.value = "";
     ph.disabled = true;
     ph.selected = true;
-    ph.textContent = "Selecciona subcategoría";
+    ph.textContent = "Select subcategory";
     select.appendChild(ph);
 
     (window.allCategories || []).forEach(cat => {
@@ -176,29 +175,29 @@ function handleSecondaryClick() {
 }
 
 // ========================================================================
-// Delegado para manejar el clic en el botón de añadir inputs para Size y Quantity
+// Delegated handler to add Size and Quantity inputs dynamically
 function handleModalDelegatedClick(event) {
     if (event.target && event.target.matches("#add-size-b")) {
         const modalContent = document.getElementById("modal-content");
         if (!modalContent) {
-            console.error("Elemento con id 'modal-content' no encontrado.");
+            console.error("Element with id 'modal-content' not found.");
             return;
         }
 
         const divSizes = modalContent.querySelector("#div-sizes");
         const divQuantity = modalContent.querySelector("#div-quantity");
         if (!divSizes || !divQuantity) {
-            console.error("Contenedores de tallas o cantidades no encontrados.");
+            console.error("Size or quantity containers not found.");
             return;
         }
 
-        // Crear input de Size dinámico
+        // Create Size input
         const wrapperSize = document.createElement("div");
         wrapperSize.classList.add("flex", "items-center", "gap-2", "mt-2");
         const inputSize = document.createElement("input");
         inputSize.type = "text";
         inputSize.name = "newSize[]";
-        inputSize.placeholder = "Ej: S, M, L";
+        inputSize.placeholder = "E.g. S, M, L";
         inputSize.classList.add(
             "w-40",
             "bg-gray-100",
@@ -211,13 +210,13 @@ function handleModalDelegatedClick(event) {
         wrapperSize.appendChild(inputSize);
         divSizes.appendChild(wrapperSize);
 
-        // Crear input de Quantity dinámico
+        // Create Quantity input
         const wrapperQuantity = document.createElement("div");
         wrapperQuantity.classList.add("flex", "items-center", "gap-2", "mt-2");
         const inputQuantity = document.createElement("input");
         inputQuantity.type = "number";
         inputQuantity.name = "newQuantity[]";
-        inputQuantity.placeholder = "Ej: 10";
+        inputQuantity.placeholder = "E.g. 10";
         inputQuantity.min = "0";
         inputQuantity.classList.add(
             "w-40",
@@ -235,55 +234,55 @@ function handleModalDelegatedClick(event) {
 
 // ========================================================================
 // ========================================================================
-// Document Ready: Configuración de eventos cuando el DOM está listo
+// Document Ready: Set up events when the DOM is ready
 // ========================================================================
 document.addEventListener("DOMContentLoaded", () => {
-    console.log("🟢 DOM listo — el script se está ejecutando");
+    console.log("🟢 DOM ready — script is running");
 
-    // 1) Cargar categorías
+    // 1) Load categories
     loadCategories();
 
-    // 2) Delegated listener para el botón secundarias (funciona aunque el botón se inserte dinámicamente)
+    // 2) Delegated listener for secondary category button
     document.body.addEventListener("click", event => {
         if (event.target && event.target.matches("#secondary-category-btn")) {
-            console.log("🔽 Click delegado en Secondary Category detectado");
+            console.log("🔽 Delegated click detected for Secondary Category");
             handleSecondaryClick();
         }
     });
 
-    // 3) Delegar evento para tallas y cantidades
+    // 3) Delegate event for size and quantity inputs
     const modalContent = document.getElementById("modal-content");
-    console.log("Modal content encontrado:", modalContent);
+    console.log("Modal content found:", modalContent);
     if (modalContent) modalContent.addEventListener("click", handleModalDelegatedClick);
 });
 
-    document.body.addEventListener("click", async (e) => {
-        const btn = e.target.closest("#add-category-btn");
-        if (btn) {
-            e.preventDefault();
+// Delegated listener for Add Category button
+document.body.addEventListener("click", async (e) => {
+    const btn = e.target.closest("#add-category-btn");
+    if (btn) {
+        e.preventDefault();
 
-            try {
-                const response = await fetch("/addAndModifyCategory");
-                if (!response.ok) {
-                    throw new Error(`HTTP error! status: ${response.status}`);
-                }
-                const htmlText = await response.text();
-                const parser = new DOMParser();
-                const parsedDoc = parser.parseFromString(htmlText, "text/html");
-                const fragmento = parsedDoc.body.innerHTML;
-                openModal(fragmento);
-            } catch (error) {
-                console.error("Error al cargar el contenido para la categoría:", error);
+        try {
+            const response = await fetch("/addAndModifyCategory");
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
             }
+            const htmlText = await response.text();
+            const parser = new DOMParser();
+            const parsedDoc = parser.parseFromString(htmlText, "text/html");
+            const fragmento = parsedDoc.body.innerHTML;
+            openModal(fragmento);
+        } catch (error) {
+            console.error("Error loading category content:", error);
         }
-    });
+    }
+});
 
-    // --- Listener por delegación para el botón "Save Changes" dentro del modal ---
-    document.getElementById("modal-container").addEventListener("click", async (e) => {
-        const saveBtn = e.target.closest("#save-btn1");
-        if (saveBtn) {
-            e.preventDefault();
-            await agregarCategoria();
-        }
-    });
-
+// Delegated listener for the "Save Changes" button inside the modal
+document.getElementById("modal-container").addEventListener("click", async (e) => {
+    const saveBtn = e.target.closest("#save-btn1");
+    if (saveBtn) {
+        e.preventDefault();
+        await agregarCategoria();
+    }
+});

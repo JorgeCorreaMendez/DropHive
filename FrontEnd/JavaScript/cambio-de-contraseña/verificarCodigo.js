@@ -1,16 +1,16 @@
 export async function pedirCodigoVerificacion(apiBase) {
   const { value: code } = await Swal.fire({
-    title: 'Código de verificación',
+    title: 'Verification code',
     input: 'text',
-    inputLabel: 'Introduce el código enviado a tu correo',
-    inputPlaceholder: 'Código',
+    inputLabel: 'Enter the code sent to your email',
+    inputPlaceholder: 'Code',
     showCancelButton: true,
-    confirmButtonText: 'Verificar',
+    confirmButtonText: 'Verify',
     allowOutsideClick: false,
     allowEscapeKey: false,
     preConfirm: async (code) => {
       if (!code) {
-        Swal.showValidationMessage('Debes ingresar un código');
+        Swal.showValidationMessage('You must enter a code');
         return false;
       }
       try {
@@ -20,12 +20,12 @@ export async function pedirCodigoVerificacion(apiBase) {
           body: JSON.stringify({ code })
         });
         if (!res.ok) {
-          Swal.showValidationMessage('Código incorrecto');
+          Swal.showValidationMessage('Incorrect code');
           return false;
         }
         return code;
       } catch {
-        Swal.showValidationMessage('Error al verificar el código');
+        Swal.showValidationMessage('Error verifying the code');
         return false;
       }
     }

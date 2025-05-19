@@ -1,26 +1,26 @@
 export const agregarEmpresa = async ({ isEdit = false, originalId = null } = {}) => {
-    // 1) Leer los valores básicos del formulario
+    // 1) Read basic form values
     const name = document.getElementById("company-name")?.value.trim();
     const description = document.getElementById("company-description")?.value.trim();
 
-    // 2) Validación: se requiere el nombre y la descripción
+    // 2) Validation: name and description are required
     if (!name) {
-        return Swal.fire("Error", "El nombre es obligatorio.", "error");
+        return Swal.fire("Error", "Name is required.", "error");
     }
     if (!description) {
-        return Swal.fire("Error", "La descripcion es obligatoria.", "error");
+        return Swal.fire("Error", "Description is required.", "error");
     }
 
-    // 3) Construir el payload (incluyendo el id en modo edición)
+    // 3) Build the payload (including id in edit mode)
     const payload = isEdit
         ? { id: originalId, name, description }
         : { name, description };
 
-    // 4) Seleccionar URL y método HTTP según corresponda (sin el id en el query string)
+    // 4) Select the correct URL and HTTP method (without id in query string)
     const url = isEdit ? `/modify_company` : "/add_company";
     const method = isEdit ? "PUT" : "POST";
 
-    // 5) Enviar la solicitud al backend
+    // 5) Send request to backend
     try {
         const res = await fetch(url, {
             method,
@@ -31,7 +31,7 @@ export const agregarEmpresa = async ({ isEdit = false, originalId = null } = {})
         if (res.ok) {
             Swal.fire({
                 icon: "success",
-                title: isEdit ? "Empresa modificada" : "Empresa agregada",
+                title: isEdit ? "Company modified" : "Company added",
                 timer: 1500,
                 showConfirmButton: false
             }).then(() => window.location.reload());
@@ -40,6 +40,6 @@ export const agregarEmpresa = async ({ isEdit = false, originalId = null } = {})
             Swal.fire("Error", msg, "error");
         }
     } catch (err) {
-        Swal.fire("Error inesperado", err.message, "error");
+        Swal.fire("Unexpected error", err.message, "error");
     }
 };

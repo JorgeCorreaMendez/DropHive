@@ -1,18 +1,18 @@
 document.addEventListener("DOMContentLoaded", async () => {
-    await cargarCategorias();
+    await loadCategories();
 });
 
-const cargarCategorias = async () => {
+const loadCategories = async () => {
     try {
         const response = await fetch("/get_all_categories");
-        if (!response.ok) throw new Error("Error al recuperar categorías");
+        if (!response.ok) throw new Error("Error retrieving categories");
 
         const categories = await response.json();
         const container = document.getElementById("categories-container");
         container.innerHTML = "";
 
         if (!Array.isArray(categories) || categories.length === 0) {
-            container.innerHTML = "<p>Nessuna categoria trovata.</p>";
+            container.innerHTML = "<p>No categories found.</p>";
             return;
         }
 
@@ -36,20 +36,20 @@ const cargarCategorias = async () => {
                 window.location.href = "/addAndModifyCategory";
             });
 
-            // Pulsante Elimina
+            // Delete button
             const deleteBtn = document.createElement("button");
             deleteBtn.textContent = "Delete";
             deleteBtn.className = "bg-red-500 text-white px-4 py-1 rounded mt-2 block mx-auto";
             deleteBtn.addEventListener("click", async () => {
-                if (confirm(`¿Estás seguro que deseas eliminar la categoría? "${category.name}"?`)) {
+                if (confirm(`Are you sure you want to delete the category "${category.name}"?`)) {
                     try {
                         const deleteResponse = await fetch(`/delete_category?id=${category.id}`, {
                             method: "DELETE"
                         });
-                        if (!deleteResponse.ok) throw new Error("Error al eliminar");
-                        await cargarCategorias(); // Ricarica la lista
+                        if (!deleteResponse.ok) throw new Error("Error deleting category");
+                        await loadCategories(); // Reload the list
                     } catch (err) {
-                        alert("Error al eliminar la categoría.");
+                        alert("Error deleting category.");
                         console.error(err);
                     }
                 }
@@ -63,12 +63,9 @@ const cargarCategorias = async () => {
             container.appendChild(card);
         });
 
-
-
-
     } catch (error) {
-        console.error("Error al cargar categorías:", error);
+        console.error("Error loading categories:", error);
         const container = document.getElementById("category-container");
-        container.innerHTML = "<p>Error al cargar categorías.</p>";
+        container.innerHTML = "<p>Error loading categories.</p>";
     }
 };

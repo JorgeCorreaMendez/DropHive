@@ -1,58 +1,57 @@
-import {recuperarNombreBaseDatos} from "./recursos.js";
+import { recuperarNombreBaseDatos } from "./recursos.js";
 
 function initializeLogoutButton() {
     const logoutButton = document.getElementById("log-out");
 
     if (logoutButton) {
         logoutButton.addEventListener("click", () => {
-            // Usamos SweetAlert para la confirmación
+            // Use SweetAlert for confirmation
             Swal.fire({
-                title: '¿Estás seguro de que deseas cerrar sesión?',
-                text: 'Esta acción no se puede deshacer.',
+                title: 'Are you sure you want to log out?',
+                text: 'This action cannot be undone.',
                 icon: 'warning',
-                showCancelButton: true,  // Mostramos el botón "Cancelar"
-                confirmButtonText: 'Sí, cerrar sesión',  // Texto del botón de confirmación
-                cancelButtonText: 'No, cancelar',  // Texto del botón de cancelación
-                reverseButtons: true  // Revertimos el orden de los botones
+                showCancelButton: true,       // Show "Cancel" button
+                confirmButtonText: 'Yes, log out',  // Confirm button text
+                cancelButtonText: 'No, cancel',     // Cancel button text
+                reverseButtons: true          // Reverse button order
             }).then((result) => {
                 if (result.isConfirmed) {
-                    // Si el usuario confirma, se ejecuta el logout
+                    // If confirmed, execute logout
                     fetch("/logout", { method: "GET" })
                         .then(response => {
                             if (response.ok) {
                                 window.location.href = "/";
                             } else {
-                                Swal.fire("Error", "Hubo un problema al cerrar sesión.", "error");
+                                Swal.fire("Error", "There was a problem logging out.", "error");
                             }
                         })
                         .catch(error => {
                             console.error("Error:", error);
-                            Swal.fire("Error", "Hubo un problema al cerrar sesión.", "error");
+                            Swal.fire("Error", "There was a problem logging out.", "error");
                         });
                 }
             });
         });
     } else {
-        console.error("No se encontró el botón con id 'log-out' después de cargar el header.");
+        console.error("Could not find the button with id 'log-out' after loading the header.");
     }
 }
 
 document.getElementById("mi-perfil").addEventListener("click", async () => {
     window.location.href = "http://127.0.0.1:4000/profile";
-})
+});
 
 document.getElementById("retorno-home").addEventListener("click", () => {
     window.location.href = "http://127.0.0.1:4000/home";
-})
-
+});
 
 function initializePage() {
-    initializeLogoutButton(); // Siempre cargamos el header y footer
+    initializeLogoutButton(); // Always load header and footer
 }
 
-window.onload = function() {
-    initializeLogoutButton(); // Cargar header, footer y body específico según la página
+window.onload = function () {
+    initializeLogoutButton(); // Load header, footer, and page-specific body
     document.getElementById("logo").addEventListener("click", async () => {
         window.location.href = `http://127.0.0.1:4000/home`;
-    })
+    });
 }

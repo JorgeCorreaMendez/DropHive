@@ -1,11 +1,11 @@
 import { openModal } from "../abrirYCerrarModal.js";
-import {cargarDatosUsuario} from "../../mi-perfil/viewEmployee.js";
+import { cargarDatosUsuario } from "../../mi-perfil/viewEmployee.js";
 
 export function initializeRowClickHandler() {
   const tableBody = document.getElementById("table-body");
 
   if (!tableBody) {
-    console.error("No se encontró el tbody con ID table-body");
+    console.error("Could not find tbody with ID 'table-body'");
     return;
   }
 
@@ -17,7 +17,6 @@ export function initializeRowClickHandler() {
     if (!id_account) return;
 
     try {
-
       let response = await fetch(`filter_account_by_id?id=${id_account}`);
       const object = await response.json();
 
@@ -31,11 +30,11 @@ export function initializeRowClickHandler() {
       openModal(bodyContent);
       await cargarDatosUsuario(object[0]);
     } catch (err) {
-      console.error("Error al cargar el modal:", err);
+      console.error("Error loading modal:", err);
       Swal.fire({
         icon: 'error',
-        title: "Error al cargar el modal",
-        html: err.message || "Ocurrió un error inesperado.",
+        title: "Error loading modal",
+        html: err.message || "An unexpected error occurred.",
         timer: 2500,
         showConfirmButton: false
       });

@@ -4,7 +4,7 @@ import { agregarEmpresa } from "./AddAndModifyCompany.js";
 export function initializeRowClickHandlerCompany() {
   const tableBody = document.getElementById("table-body");
   if (!tableBody) {
-    console.error("No se encontró el tbody con ID table-body");
+    console.error("Could not find tbody with ID table-body");
     return;
   }
 
@@ -16,32 +16,31 @@ export function initializeRowClickHandlerCompany() {
     if (!id_company) return;
 
     try {
-      // Obtener los datos de la empresa desde el backend.
+      // Fetch company data from the backend
       let response = await fetch(`get_company?id=${id_company}`);
-      if (!response.ok) throw new Error("Error al obtener datos de la empresa");
+      if (!response.ok) throw new Error("Failed to fetch company data");
       const companyData = await response.json();
 
-      // Cargar la vista de la empresa (modo lectura)
+      // Load the read-only company view
       response = await fetch(`readCompany`);
-      if (!response.ok) throw new Error("Error al cargar la vista de la empresa");
+      if (!response.ok) throw new Error("Failed to load company view");
       const html = await response.text();
 
       const parser = new DOMParser();
       const doc = parser.parseFromString(html, "text/html");
       const bodyContent = doc.body.innerHTML;
 
-      // Abrir el modal con la vista de lectura de la empresa
+      // Open modal with the read-only view
       openModal(bodyContent);
 
-      // Espera a que el modal se renderice (idealmente se usaría una promesa en openModal)
+      // Wait for the modal to render
       setTimeout(() => {
-        // Actualización de la información en el modal (modo lectura)
+        // Populate modal fields (read-only)
         const nameEl = document.getElementById("company-name");
         const descEl = document.getElementById("company-description");
 
         if (nameEl) nameEl.textContent = companyData.name || "";
         if (descEl) {
-          // Si es un input/textarea usamos value; de lo contrario, innerHTML.
           if (descEl.tagName === "INPUT" || descEl.tagName === "TEXTAREA") {
             descEl.value = companyData.description || "";
           } else {
@@ -49,17 +48,16 @@ export function initializeRowClickHandlerCompany() {
           }
         }
 
-        // Configurar el botón de MODIFICAR
+        // Configure the MODIFY button
         let modifyBtn = document.getElementById("modify-company-btn");
         if (modifyBtn) {
-          // Reemplazar para remover listeners anteriores
           modifyBtn.replaceWith(modifyBtn.cloneNode(true));
           modifyBtn = document.getElementById("modify-company-btn");
           modifyBtn.addEventListener("click", async () => {
             try {
               const modResponse = await fetch(`/addAndModifyCompany`);
               if (!modResponse.ok)
-                throw new Error("Error al cargar el formulario de modificación");
+                throw new Error("Failed to load modification form");
               const modHtml = await modResponse.text();
 
               const modDoc = new DOMParser().parseFromString(modHtml, "text/html");
@@ -69,11 +67,10 @@ export function initializeRowClickHandlerCompany() {
               setTimeout(() => {
                 const form = document.getElementById("company-form");
                 if (!form) {
-                  console.error("No se encontró el formulario de empresa en el modal");
+                  console.error("Company form not found in modal");
                   return;
                 }
 
-                // Prellenar el formulario con la información de la empresa
                 const idInput = document.getElementById("company-id");
                 const nameInput = document.getElementById("company-name");
                 const descInput = document.getElementById("company-description");
@@ -86,38 +83,36 @@ export function initializeRowClickHandlerCompany() {
                   imgPreview.src = companyData.profile_picture;
                 }
 
-                // Al enviar el formulario se invoca la función en modo edición
                 form.addEventListener("submit", (event) => {
                   event.preventDefault();
                   agregarEmpresa({ isEdit: true, originalId: companyData.id });
                 });
               }, 200);
             } catch (modErr) {
-              console.error("Error al modificar la empresa:", modErr);
+              console.error("Error modifying company:", modErr);
               Swal.fire(
-                  "Error",
-                  modErr.message || "Ocurrió un error al cargar el formulario de modificación.",
-                  "error"
+                "Error",
+                modErr.message || "An error occurred while loading the modification form.",
+                "error"
               );
             }
           });
         }
 
-        // Configurar el botón de ELIMINAR
+        // Configure the DELETE button
         let deleteBtn = document.getElementById("delete-company-btn");
         if (deleteBtn) {
-          // Reemplazar para remover listeners anteriores
           deleteBtn.replaceWith(deleteBtn.cloneNode(true));
           deleteBtn = document.getElementById("delete-company-btn");
           deleteBtn.addEventListener("click", async () => {
             Swal.fire({
-              title: "¿Estás seguro?",
-              text: "Esta acción eliminará la empresa permanentemente.",
+              title: "Are you sure?",
+              text: "This action will permanently delete the company.",
               icon: "warning",
               showCancelButton: true,
               confirmButtonColor: "#d33",
               cancelButtonColor: "#8DC96A",
-              confirmButtonText: "Sí, eliminar"
+              confirmButtonText: "Yes, delete it"
             }).then(async (result) => {
               if (result.isConfirmed) {
                 try {
@@ -131,20 +126,18 @@ export function initializeRowClickHandlerCompany() {
                   });
 
                   if (delResponse.ok) {
-                    Swal.fire("Eliminado", "La empresa ha sido eliminada.", "success");
-                    // Buscar y eliminar la fila correspondiente sin recargar la página
+                    Swal.fire("Deleted", "The company has been deleted.", "success");
                     const rowToRemove = document.querySelector(`tr[data-company-id="${id_company}"]`);
                     if (rowToRemove) {
                       rowToRemove.remove();
                     }
                     closeModal();
                   } else {
-                    // Intentar leer texto de error, pero si no hay contenido se usa un mensaje por defecto
                     const errorText = await delResponse.text();
-                    throw new Error(errorText || "Error al eliminar la empresa");
+                    throw new Error(errorText || "Failed to delete the company");
                   }
                 } catch (err) {
-                  Swal.fire("Error", err.message || "Ocurrió un error al eliminar la empresa", "error");
+                  Swal.fire("Error", err.message || "An error occurred while deleting the company", "error");
                 }
               }
             });
@@ -152,11 +145,11 @@ export function initializeRowClickHandlerCompany() {
         }
       }, 200);
     } catch (err) {
-      console.error("Error al cargar el modal:", err);
+      console.error("Error loading modal:", err);
       Swal.fire({
         icon: "error",
-        title: "Error al cargar el modal",
-        html: err.message || "Ocurrió un error inesperado.",
+        title: "Error loading modal",
+        html: err.message || "An unexpected error occurred.",
         timer: 2500,
         showConfirmButton: false
       });

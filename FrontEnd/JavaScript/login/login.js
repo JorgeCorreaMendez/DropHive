@@ -17,21 +17,21 @@ document.addEventListener("DOMContentLoaded", function () {
             if (response.ok) {
                 const data = await response.json();
 
-                // Consultamos si es el primer inicio de sesión
+                // Check if this is the first login
                 const firstLoginRes = await fetch(`http://127.0.0.1:4000/check_first_login?mail=${mail}`);
                 const firstLoginData = await firstLoginRes.json();
 
                 if (firstLoginRes.ok && (firstLoginData.first_login === true || firstLoginData.first_login === 1)) {
-                    // Mostrar modal para cambiar contraseña
+                    // Show modal to change password
                     const { value: formValues } = await Swal.fire({
-                        title: 'Cambia tu contraseña',
+                        title: 'Change your password',
                         html:
-                            '<input id="swal-password" type="password" class="swal2-input" placeholder="Nueva contraseña">' +
-                            '<input id="swal-confirm" type="password" class="swal2-input" placeholder="Confirmar contraseña">',
+                            '<input id="swal-password" type="password" class="swal2-input" placeholder="New password">' +
+                            '<input id="swal-confirm" type="password" class="swal2-input" placeholder="Confirm password">',
                         focusConfirm: false,
                         allowOutsideClick: false,
                         allowEscapeKey: false,
-                        confirmButtonText: 'Guardar',
+                        confirmButtonText: 'Save',
                         preConfirm: validatePassword
                     });
 
@@ -55,15 +55,15 @@ document.addEventListener("DOMContentLoaded", function () {
                             const error = await passChangeRes.json();
                             Swal.fire({
                                 icon: 'error',
-                                title: "Error durante el cambio de contraseña.",
-                                html: error.message || "Ocurrió un error desconocido",
+                                title: "Error while changing the password.",
+                                html: error.message || "An unknown error occurred",
                                 timer: 2500,
                                 showConfirmButton: false
                             });
                         }
                     }
                 } else {
-                    // Si no es primer login, redirige directamente
+                    // If not first login, redirect directly
                     sessionStorage.setItem('correo', mail);
                     window.location.href = `http://127.0.0.1:4000/home`;
                 }
@@ -72,8 +72,8 @@ document.addEventListener("DOMContentLoaded", function () {
                 const error = await response.json();
                 Swal.fire({
                     icon: 'error',
-                    title: "Error durante el inicio de sesión.",
-                    html: error.message || "Ocurrió un error desconocido",
+                    title: "Login error.",
+                    html: error.error || "An unknown error occurred",
                     timer: 2500,
                     showConfirmButton: false
                 });
@@ -81,8 +81,8 @@ document.addEventListener("DOMContentLoaded", function () {
         } catch (error) {
             Swal.fire({
                 icon: 'error',
-                title: "Error en el servidor.",
-                html: "Ocurrió un error en la solicitud",
+                title: "Server error.",
+                html: "An error occurred with the request",
                 timer: 2500,
                 showConfirmButton: false
             });
@@ -90,30 +90,28 @@ document.addEventListener("DOMContentLoaded", function () {
     });
 });
 
-// Validación modular
+// Modular validation
 function validatePassword() {
     const pass = document.getElementById('swal-password').value;
     const confirm = document.getElementById('swal-confirm').value;
 
     if (!pass || !confirm) {
-        Swal.showValidationMessage('Debes completar ambos campos');
+        Swal.showValidationMessage('You must complete both fields');
         return false;
     }
 
     if (pass.length < 8) {
-        Swal.showValidationMessage('La contraseña debe tener al menos 8 caracteres');
+        Swal.showValidationMessage('Password must be at least 8 characters long');
         return false;
     }
 
     if (pass !== confirm) {
-        Swal.showValidationMessage('Las contraseñas no coinciden');
+        Swal.showValidationMessage('Passwords do not match');
         return false;
     }
 
     return { newPassword: pass };
 }
-
-
 
 document.addEventListener("DOMContentLoaded", function() {
     document.getElementById('sign-in').addEventListener('click', function() {
@@ -123,4 +121,4 @@ document.addEventListener("DOMContentLoaded", function() {
     document.getElementById('need-help').addEventListener('click', function() {
         window.location.href = 'http://127.0.0.1:4000/forgotten_password';
     })
-})
+});
