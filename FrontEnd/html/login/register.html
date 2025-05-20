@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>DropHive - Register</title>
+  <script src="/FrontEnd/JavaScript/config.js"></script>
+  <script src="/FrontEnd/JavaScript/login/register.js"></script>
+  <script type="module" src="/FrontEnd/JavaScript/webComponents/modals/loading.js"></script>
+  <script type="module" src="/FrontEnd/JavaScript/webComponents/modals/alert.js"></script>
+  <script type="module" src="/FrontEnd/JavaScript/webComponents/modals/prompt.js"></script>
+  <script type="module" src="/FrontEnd/JavaScript/webComponents/modals/successful.js"></script>
+  <link rel="stylesheet" href="/FrontEnd/CSS/home/register.css">
+</head>
+<body>
+  <loading-modal id="loading"></loading-modal>
+  <alert-message id="alert-success" type="success"></alert-message>
+  <successful-modal id="success-modal"></successful-modal>
+  <prompt-modal id="prompt-modal"></prompt-modal>
+  <div id="contenedor-principal">
+    <div class="image-container">
+      <img src="/FrontEnd/Images/DropHive.png" alt="Logo">
+    </div>
+    <div>
+      <div>
+        <form id="registrationForm">
+          <h3>REGISTER</h3>
+          <div id="contenedor-inputs">
+            <div id="contenedor-izquierda">
+              <input aria-label="Company name" type="text" placeholder="Company*" name="Company" id="company" required>
+              <input aria-label="Email" id="email" type="email" name="email"  placeholder="Email*" required>
+              <input aria-label="Password" type="password" name="password" id="password" placeholder="Password*" required>
+              <input aria-label="Confirm password" type="password" name="confirm-password" id="confirm-password" placeholder="Confirm Password*" required>
+            </div>
+            <div id="linea-separacion"></div>
+            <div id="contenedor-derecha">
+              <input aria-label="Phone" type="tel" name="phone" id="phone" placeholder="Phone (optional)">
+              <input aria-label="Address" type="text" name="direccion" id="direccion" placeholder="Address (optional)">
+              <textarea aria-label="Company description" name="descripcion" id="descripcion" placeholder="Company description (optional)"></textarea>
+            </div>
+          </div>
+
+          <div id="contenedor-botones">
+            <button id="submit" type="submit">Register</button>
+            <button id="VolverLogin">Already have an account? Log in</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

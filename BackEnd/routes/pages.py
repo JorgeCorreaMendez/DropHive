@@ -13,36 +13,29 @@ def index():
         return redirect(url_for("pages.login"))
 
 
+@pages_bp.route("/login")
+def login():
+    return render_template("login/login.html")
+
+
 @pages_bp.route("/register")
 def register():
-    return render_template('register.html')
+    return render_template('login/register.html')
+
+
+@pages_bp.route("/changePassword")
+def change_password():
+    return render_template("login/changePassword.html")
+
+@pages_bp.route("/forgotten_password")
+def forgotten_password():
+    return render_template("login/changePassword.html")
 
 
 @pages_bp.route("/home")
 @login_required
 def home():
     return render_template("home.html")
-
-
-@pages_bp.route("/login")
-def login():
-    return render_template("LogIn.html")
-
-
-@pages_bp.route("/forgotten_password")
-def forgotten_password():
-    return render_template("password-recovery/send_mail_for_password.html")
-
-
-@pages_bp.route("/change_password")
-def change_password():
-    return render_template("change_password.html")
-
-
-@pages_bp.route("/verification_code")
-def verification_code():
-    return render_template("verificationCode.html")
-
 
 @pages_bp.route("/addAndModifyCategory")
 def add_and_modify_category():

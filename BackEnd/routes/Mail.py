@@ -31,11 +31,6 @@ def send_verification_code():
         return jsonify({"error": "enviando el codigo de verificación"}), 500
 
 
-def generate_numeric_code():
-    return ''.join([str(random.randint(0, 9)) for _ in range(6)])
-
-
-# TODO. comprobar en sprint_2 que funciona
 @email_bp.route("/send_password_to_new_user", methods=["GET"])
 def send_password_to_new_user():
     try:
@@ -51,6 +46,10 @@ def send_password_to_new_user():
         logger.error(f"Failed to send new account password")
         traceback.print_exc()
         return jsonify({"error": "enviando la contraseña a la nueva cuenta"}), 500
+
+
+def generate_numeric_code():
+    return ''.join([str(random.randint(0, 9)) for _ in range(6)])
 
 
 @email_bp.route("/check_mail", methods=["GET"])

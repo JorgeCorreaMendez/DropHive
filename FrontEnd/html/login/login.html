@@ -4,11 +4,17 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>DropHive Login</title>
-    <link rel="stylesheet" href="/FrontEnd/CSS/LogIn.css">
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <link rel="stylesheet" href="/FrontEnd/CSS/home/login.css">
     <script src="/FrontEnd/JavaScript/login/login.js"></script>
+    <script type="module" src="/FrontEnd/JavaScript/webComponents/modals/alert.js"></script>
+    <script type="module" src="/FrontEnd/JavaScript/webComponents/modals/changePassword.js"></script>
+    <script type="module" src="/FrontEnd/JavaScript/webComponents/modals/successful.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </head>
 <body>
+<alert-message id="alert-error" type="error"></alert-message>
+<successful-modal id="success-modal"></successful-modal>
+<change-password-modal id="change-password-modal"></change-password-modal>
 <div class="login-container">
     <div class="logo">
         <img src="/FrontEnd/Images/Logo_Drop_Hive.png" alt="Box Logo">
@@ -25,12 +31,11 @@
             </div>
             <div class="login-buttons">
                 <button id="sign-in" type="button">Sign up</button>
-                <button id="need-help" class="help" type="button">Need help?</button>
+                <button id="change-password" type="button">change password</button>
                 <button class="enter" type="submit">Enter</button>
             </div>
         </form>
     </div>
-
     <div id="message"></div>
 </div>
 </body>
