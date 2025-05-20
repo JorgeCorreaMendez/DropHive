@@ -27,15 +27,12 @@ def register():
 def change_password():
     return render_template("login/changePassword.html")
 
-@pages_bp.route("/forgotten_password")
-def forgotten_password():
-    return render_template("login/changePassword.html")
-
 
 @pages_bp.route("/home")
 @login_required
 def home():
-    return render_template("home.html")
+    return render_template("home/home.html")
+
 
 @pages_bp.route("/addAndModifyCategory")
 def add_and_modify_category():
@@ -109,4 +106,4 @@ def view_employee_action():
 
 @pages_bp.route("/home2")
 def home_temporal():
-    return render_template("home-temporal.html")
+    return render_template("login-temporal.html")

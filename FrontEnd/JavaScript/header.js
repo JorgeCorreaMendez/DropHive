@@ -1,36 +1,22 @@
-import { recuperarNombreBaseDatos } from "./recursos.js";
-
 function initializeLogoutButton() {
     const logoutButton = document.getElementById("log-out");
-
     if (logoutButton) {
         logoutButton.addEventListener("click", () => {
-            // Use SweetAlert for confirmation
-            Swal.fire({
-                title: 'Are you sure you want to log out?',
-                text: 'This action cannot be undone.',
-                icon: 'warning',
-                showCancelButton: true,       // Show "Cancel" button
-                confirmButtonText: 'Yes, log out',  // Confirm button text
-                cancelButtonText: 'No, cancel',     // Cancel button text
-                reverseButtons: true          // Reverse button order
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    // If confirmed, execute logout
+            const modal = document.getElementById("confirmation-modal");
+            modal.show("Are you sure you want to log out?")
+                .then(() => {
                     fetch("/logout", { method: "GET" })
                         .then(response => {
                             if (response.ok) {
-                                window.location.href = "/";
+                                window.location.href = "/login";
                             } else {
-                                Swal.fire("Error", "There was a problem logging out.", "error");
+                                console.error("There was a problem logging out.", 3000);
                             }
                         })
                         .catch(error => {
-                            console.error("Error:", error);
-                            Swal.fire("Error", "There was a problem logging out.", "error");
+                            console.error(error, 3000);
                         });
-                }
-            });
+                });
         });
     } else {
         console.error("Could not find the button with id 'log-out' after loading the header.");
@@ -45,12 +31,8 @@ document.getElementById("retorno-home").addEventListener("click", () => {
     window.location.href = "http://127.0.0.1:4000/home";
 });
 
-function initializePage() {
-    initializeLogoutButton(); // Always load header and footer
-}
-
 window.onload = function () {
-    initializeLogoutButton(); // Load header, footer, and page-specific body
+    initializeLogoutButton();
     document.getElementById("logo").addEventListener("click", async () => {
         window.location.href = `http://127.0.0.1:4000/home`;
     });

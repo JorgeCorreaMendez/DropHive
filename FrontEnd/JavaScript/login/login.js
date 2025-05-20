@@ -1,3 +1,4 @@
+/// TODO. sacar logica del primer login
 document.addEventListener("DOMContentLoaded", function () {
     document.getElementById('LoginForm').addEventListener('submit', async function (event) {
         event.preventDefault();
@@ -74,6 +75,6 @@ document.addEventListener("DOMContentLoaded", function() {
     })
 
     document.getElementById('change-password').addEventListener('click', function() {
-        window.location.href = 'http://127.0.0.1:4000/forgotten_password';
+        window.location.href = 'http://127.0.0.1:4000/changePassword';
     })
 })

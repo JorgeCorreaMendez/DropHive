@@ -1,33 +1,34 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>DropHive</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="icon" href="{{ url_for('static', filename='Images/LogoSoloCaja.ico') }}" type="image/x-icon">
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    <script type="module" src="{{ url_for('static', filename='JavaScript/home.js') }}"></script>
-    <script type="module" src="{{ url_for('static', filename='JavaScript/header.js') }}"></script>
-    <script type="module" src="{{ url_for('static', filename='JavaScript/filtrado.js') }}"></script>
-    <script type="module" src="{{ url_for('static', filename='JavaScript/modals/mainModal.js') }}"></script>
-    <script type="module" src="{{ url_for('static', filename='JavaScript/cambiarVistaHome.js') }}"></script>
-    <script type="module" src="{{ url_for('static', filename='JavaScript/home/productos.js') }}"></script>
+    <link rel="icon" href="/FrontEnd/Images/LogoSoloCaja.ico" type="image/x-icon">
+    <link rel="stylesheet" href="/FrontEnd/CSS/CreateItem.css">
+    <link rel="stylesheet" href="/FrontEnd/CSS/AddAndModifyCompany.css">
+    <link rel="stylesheet" href="/FrontEnd/CSS/notifications.css">
+    <link rel="stylesheet" href="/FrontEnd/CSS/Read_Article.css">
+    <link rel="stylesheet" href="/FrontEnd/CSS/readCompany.css">
+    <script type="module" src="/FrontEnd/JavaScript/home.js"></script>
+    <script type="module" src="/FrontEnd/JavaScript/filtrado.js"></script>
+    <script type="module" src="/FrontEnd/JavaScript/modals/mainModal.js"></script>
+    <script type="module" src="/FrontEnd/JavaScript/cambiarVistaHome.js"></script>
+    <script type="module" src="/FrontEnd/JavaScript/home/productos.js"></script>
+    <script type="module" src="/FrontEnd/JavaScript/createItem.js"></script>
+    <script type="module" src="/FrontEnd/JavaScript/category/addAndModifyCategory.js"></script>
 </head>
 <body class="bg-white" data-vista="productos">
-    <!-- Header -->
     {% include 'header.html' %}
-
-    <!-- Contenedor principal -->
     <div class="flex bg-[#D9D9D9] flex-1 gap-[10px] items-start m-[20px] rounded-[50px]">
-        <!-- Aside izquierdo (Filtros) -->
         <aside class="w-1/6 p-4 m-[10px] mt-[25px] flex flex-col gap-[50px]">
             <div class="bg-[#EDEDED] flex justify-center items-center bg-gray-100 rounded-[20px] p-5">
                 <button id="log-btn" class="mt-2 w-full bg-[#D9D9D9] text-black p-2 rounded flex justify-center items-center gap-[5px]">
                   Log
                 </button>
             </div>
-
             <div class="bg-[#EDEDED] flex flex-col justify-center items-center rounded-[20px] p-5">
                 <h2 class="text-lg font-semibold">Filter</h2>
                 <label class="block mt-2 w-full" for="items-per-page">Show:
@@ -48,8 +49,6 @@
                             <option value="all">All</option>
                         </select>
                     </label>
-
-
                     <label class="block mt-5">Minimum Price
                     <input
                       type="text"
@@ -67,8 +66,6 @@
                       id="max-price"
                     />
                     </label>
-
-
                     <label class="block mt-5">Max Quantity Available
                     <input
                       type="text"
@@ -80,38 +77,23 @@
                 </div>
             </div>
         </aside>
-
-        <!-- Contenido principal (Tabla) -->
         <main class="w-2/3 p-4 bg-[#EDEDED] m-[10px] mt-[25px] rounded-[20px]">
             <table class="w-full rounded border-separate border-spacing-y-[10px] border-spacing-x-[5px]">
                 <thead class="no-background thead-line">
-                    <tr id="cabecera-tabla">
-                        <!-- Aquí va la cabecera de la tabla -->
-                    </tr>
+                    <tr id="cabecera-tabla"></tr>
                 </thead>
-                <tbody id="table-body">
-                    <!-- Aquí se añaden los productos -->
-                </tbody>
+                <tbody id="table-body"></tbody>
             </table>
-
             <div id="pagination" class="flex justify-center items-center space-x-2 mt-4">
-              <!-- Botón anterior -->
               <button id="prev-button" class="px-3 py-1 rounded bg-gray-300 hover:bg-gray-400" disabled>
                 ←
               </button>
-
-              <!-- Número de página -->
               <span id="page-number" class="text-lg font-semibold">1</span>
-
-              <!-- Botón siguiente -->
               <button id="next-button" class="px-3 py-1 rounded bg-gray-300 hover:bg-gray-400">
                 →
               </button>
             </div>
-
         </main>
-
-        <!-- Aside derecho (Navegación) -->
         <aside class="w-1/6 p-4 m-[10px] mt-[25px] flex flex-col gap-[50px]">
           <div class="bg-[#EDEDED] flex justify-center items-center bg-gray-100 rounded-[20px] p-5">
             <button id="notification-btn" class="mt-2 w-full bg-[#D9D9D9] text-black p-2 rounded flex justify-center items-center gap-[5px]">
@@ -131,27 +113,10 @@
           </div>
         </aside>
     </div>
+    <div id="modal-container" class="fixed inset-0 z-50 hidden bg-black bg-opacity-50 flex items-center justify-center">
+        <div id="modal-content"
+             class="bg-white w-11/12 md:w-2/3 max-h-[90vh] overflow-y-auto rounded-xl p-6 relative transform scale-95 opacity-0 transition-all duration-5 00">
+        </div>
+    </div>
 </body>
 </html>
-
-<!-- Modal genérico para cargar contenido dinámico -->
-<div id="modal-container" class="fixed inset-0 z-50 hidden bg-black bg-opacity-50 flex items-center justify-center">
-  <div id="modal-content"
-       class="bg-white w-11/12 md:w-2/3 max-h-[90vh] overflow-y-auto rounded-xl p-6 relative transform scale-95 opacity-0 transition-all duration-5 00">
-    <!-- Aquí se inyectará el contenido HTML -->
-  </div>
-</div>
-
-<style>
-  .thead-line {
-    box-shadow: 0 1px 0 0 black;
-  }
-</style>
-
-<link rel="stylesheet" href="{{ url_for('static', filename='CSS/CreateItem.css') }}">
-<script type="module" src="{{ url_for('static', filename='JavaScript/createItem.js') }}"></script>
-<link rel="stylesheet" href="{{ url_for('static', filename='CSS/AddAndModifyCompany.css') }}">
-<link rel="stylesheet" href="{{ url_for('static', filename='CSS/notifications.css') }}">
-<link rel="stylesheet" href="{{ url_for('static', filename='CSS/Read_Article.css') }}">
-<link rel="stylesheet" href="{{ url_for('static', filename='CSS/readCompany.css') }}">
-<script type="module" src="/FrontEnd/JavaScript/category/addAndModifyCategory.js"></script>

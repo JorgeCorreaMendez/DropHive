@@ -70,7 +70,7 @@ class DropHiveHeader extends HTMLElement {
 
     const logoSection = document.createElement("div");
     logoSection.className = "logo-section";
-    logoSection.id = "retorno-home";
+    logoSection.id = "retorno-login";
     logoSection.onclick = () => window.location.href = "http://127.0.0.1:4000/home";
 
     const logoImg = document.createElement("img");
