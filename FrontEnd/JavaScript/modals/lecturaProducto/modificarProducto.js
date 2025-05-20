@@ -1,5 +1,5 @@
 import { openModal } from "../abrirYCerrarModal.js";
-import { agregarProducto } from "../../createItem.js";
+import { addProduct } from "../../createProduct.js";
 
 export function modificarArticulo(datos_articulo) {
   const btn = document.getElementById("modify-btn");
@@ -161,7 +161,7 @@ export function modificarArticulo(datos_articulo) {
         const newSave = oldSave.cloneNode(true);
         oldSave.replaceWith(newSave);
         newSave.addEventListener("click", () =>
-            agregarProducto({ isEdit: true, originalId: datos_articulo.id })
+            addProduct({ isEdit: true, originalId: datos_articulo.id })
         );
       }, 0);
 

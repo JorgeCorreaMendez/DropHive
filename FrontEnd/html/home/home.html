@@ -7,21 +7,23 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <link rel="icon" href="/FrontEnd/Images/LogoSoloCaja.ico" type="image/x-icon">
-    <link rel="stylesheet" href="/FrontEnd/CSS/CreateItem.css">
     <link rel="stylesheet" href="/FrontEnd/CSS/AddAndModifyCompany.css">
     <link rel="stylesheet" href="/FrontEnd/CSS/notifications.css">
     <link rel="stylesheet" href="/FrontEnd/CSS/Read_Article.css">
-    <link rel="stylesheet" href="/FrontEnd/CSS/readCompany.css">
+    <link rel="stylesheet" href="/FrontEnd/CSS/home/createProduct.css">
     <script type="module" src="/FrontEnd/JavaScript/home.js"></script>
     <script type="module" src="/FrontEnd/JavaScript/filtrado.js"></script>
     <script type="module" src="/FrontEnd/JavaScript/modals/mainModal.js"></script>
     <script type="module" src="/FrontEnd/JavaScript/cambiarVistaHome.js"></script>
     <script type="module" src="/FrontEnd/JavaScript/home/productos.js"></script>
-    <script type="module" src="/FrontEnd/JavaScript/createItem.js"></script>
     <script type="module" src="/FrontEnd/JavaScript/category/addAndModifyCategory.js"></script>
+    <script type="module" src="/FrontEnd/JavaScript/webComponents/modals/alert.js"></script>
+    <script type="module" src="/FrontEnd/JavaScript/webComponents/modals/successful.js"></script>
 </head>
 <body class="bg-white" data-vista="productos">
     {% include 'header.html' %}
+    <alert-message id="alert-error" type="error"></alert-message>
+    <successful-modal id="success-modal"></successful-modal>
     <div class="flex bg-[#D9D9D9] flex-1 gap-[10px] items-start m-[20px] rounded-[50px]">
         <aside class="w-1/6 p-4 m-[10px] mt-[25px] flex flex-col gap-[50px]">
             <div class="bg-[#EDEDED] flex justify-center items-center bg-gray-100 rounded-[20px] p-5">

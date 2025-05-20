@@ -1,7 +1,7 @@
 import {cargarDatosEnTabla} from "../home.js";
 import { initPagination } from "../recursos/paginado.js";
 import {openModal} from "../modals/abrirYCerrarModal.js";
-import {agregarProducto} from "../createItem.js";
+import {addProduct} from "../createProduct.js";
 
 
 export async function recuperarProductos() {
@@ -17,8 +17,6 @@ export async function recuperarProductos() {
         const respuesta_json = await response.json();
         const productos = respuesta_json.productos
         const total = respuesta_json.total
-
-        console.log(productos)
 
         // Aquí puedes trabajar con los datos obtenidos de la API
         await cargarDatosEnTabla(productos);
@@ -83,7 +81,6 @@ export async function addInformacionFilaProducto(item) {
     companyCell.classList.add('p-2', 'rounded-[5px]');
     companyCell.textContent = item.company;
 
-    //Agregamos las celdas a la fila
     row.appendChild(idCell);
     row.appendChild(nameCell);
     row.appendChild(categoryCell);
@@ -129,6 +126,6 @@ export async function cargarModalCrearProducto() {
     const html = await response.text();
     openModal(html);
     setTimeout(() => {
-      document.getElementById("save-changes-btn")?.addEventListener("click", agregarProducto);
+      document.getElementById("save-changes-btn")?.addEventListener("click", addProduct);
     }, 50);
 }

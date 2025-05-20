@@ -1,6 +1,6 @@
 import { recuperarNombreBaseDatos } from "../../recursos";
 import { localizarCategoria } from "../../home/productos";
-import { agregarProducto } from "../../createItem";
+import { addProduct } from "../../createProduct";
 
 const tableBody = document.getElementById("table-body");
 
@@ -110,7 +110,7 @@ function modificarArticulo(datos_articulo) {
       }, 50); // 50ms is enough in most cases
 
       // Also make sure to register the button click after loading the modal
-      document.getElementById("save-changes-btn").addEventListener("click", agregarProducto);
+      document.getElementById("save-changes-btn").addEventListener("click", addProduct);
     } catch (err) {
       console.error("Error loading modal:", err);
     }

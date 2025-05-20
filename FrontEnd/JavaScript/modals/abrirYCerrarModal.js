@@ -1,4 +1,4 @@
-import { loadCategories, loadCompanies } from "../createItem.js";
+import { loadCategories, loadCompanies } from "../createProduct.js";
 
 const modalContainer = document.getElementById("modal-container");
 const modalContent = document.getElementById("modal-content");

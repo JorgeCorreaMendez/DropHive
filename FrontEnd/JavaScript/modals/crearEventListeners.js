@@ -1,6 +1,6 @@
 import { recuperarNombreBaseDatos } from "../recursos.js";
 import { openModal } from "./abrirYCerrarModal.js";
-import { agregarProducto } from "../createItem.js";
+import { addProduct } from "../createProduct.js";
 import { initializeRowClickHandler } from "./lecturaProducto/productRowClick.js"
 import { cargarModalCrearProducto } from "../home/productos.js";
 import {initializeRowClickHandlerCategory} from "../category/productRowClickCategory.js";

@@ -34,6 +34,12 @@ def home():
     return render_template("home/home.html")
 
 
+# TODO. cambiar ruta
+@pages_bp.route("/createItem")
+def create_item():
+    return render_template("home/createProduct.html")
+
+
 @pages_bp.route("/addAndModifyCategory")
 def add_and_modify_category():
     return render_template("addAndModifyCategory.html")
@@ -57,11 +63,6 @@ def category_page():
 @pages_bp.route("/readCategory")
 def read_category():
     return render_template("readCategory.html")
-
-
-@pages_bp.route("/createItem")
-def create_item():
-    return render_template("CreateItem.html")
 
 
 @pages_bp.route("/log")

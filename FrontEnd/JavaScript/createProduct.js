@@ -1,10 +1,8 @@
-// ========================================================================
-// Helper to get the value of an element by its id
-import { openModal } from "./modals/abrirYCerrarModal.js";
-import { agregarCategoria } from "./category/addAndModifyCategory.js"; // Check the path based on your structure
+import {openModal} from "./modals/abrirYCerrarModal.js";
+import {agregarCategoria} from "./category/addAndModifyCategory.js";
 
-export const agregarProducto = async ({ isEdit = false, originalId = null } = {}) => {
-    // 1) Read basic values and convert to number where needed
+const alertError = document.getElementById('alert-error');
+export const addProduct = async ({ isEdit = false, originalId = null } = {}) => {
     const id          = document.getElementById("product-id").value.trim();
     const name        = document.getElementById("product-name").value.trim();
     const description = document.getElementById("description").value.trim();
@@ -12,18 +10,12 @@ export const agregarProducto = async ({ isEdit = false, originalId = null } = {}
     const discount    = parseFloat(document.getElementById("discount").value) || 0;
     const categoryId  = parseInt(document.getElementById("primary-category").value, 10);
     const companyId = parseInt(document.getElementById("primary-company").value, 10);
-
-    // 2) Get secondary categories as text (name expected by backend)
     const secEls = Array.from(document.querySelectorAll("select[name='secondary-category[]']"));
     const secondary_categories = secEls
         .map(el => {
-            // el.value es el ID, pero el texto de la opción es el name que busca el backend
-            const txt = el.options[el.selectedIndex]?.text.trim();
-            return txt;
+            return el.options[el.selectedIndex]?.text.trim();
         })
-        .filter(name => name);  // ignore empty selects
-
-    // 3) Get sizes
+        .filter(name => name);
     const sizeEls = Array.from(document.querySelectorAll("input[name='newSize[]']"));
     const qtyEls  = Array.from(document.querySelectorAll("input[name='newQuantity[]']"));
     const sizes   = sizeEls.map((el, i) => ({
@@ -31,14 +23,13 @@ export const agregarProducto = async ({ isEdit = false, originalId = null } = {}
         quantity: parseInt(qtyEls[i].value, 10) || 0
     })).filter(s => s.name);
 
-    // 4) Basic validations
-    if (!id)     return Swal.fire("Error", "ID is required.", "error");
-    if (!name)   return Swal.fire("Error", "Name is required.", "error");
-    if (price < 0 || isNaN(price))       return Swal.fire("Error", "Invalid price.", "error");
-    if (discount < 0 || isNaN(discount)) return Swal.fire("Error", "Invalid discount.", "error");
-    if (isNaN(categoryId))               return Swal.fire("Error", "You must select a category.", "error");
+    if (!id)     return alertError.show("Error, ID is required.", 2000);
+    if (!name)   return alertError.show("Error, Name is required.", 2000);
+    if (price < 0 || isNaN(price))       return alertError.show("Error, Invalid price.", 2000);
+    if (discount < 0 || isNaN(discount)) return alertError.show("Error, Invalid discount.", 2000);
+    if (isNaN(categoryId))               return alertError.show("Error, You must select a category.", 2000);
+    if (isNaN(companyId))                return alertError.show("Error, You must select a company.", 2000);
 
-    // 5) Build payload
     const payload = {
         id,
         name,
@@ -47,13 +38,11 @@ export const agregarProducto = async ({ isEdit = false, originalId = null } = {}
         discount,
         category: { id: categoryId },
         company: { id: companyId },
-        secondary_categories,  // [2, 5, 8]
-        sizes                  // [{ name:"S",quantity:10 },…]
+        secondary_categories,
+        sizes
     };
-
     const url = isEdit ? `/modify_product?id=${originalId}` : "/add_product";
     const method = isEdit ? "PUT" : "POST";
-
     try {
         const res = await fetch(url, {
             method,
@@ -62,23 +51,20 @@ export const agregarProducto = async ({ isEdit = false, originalId = null } = {}
         });
 
         if (res.ok) {
-            Swal.fire({
-                icon: "success",
-                title: isEdit ? "Modified product" : "Product added",
-                timer: 1500,
-                showConfirmButton: false
-            }).then(() => window.location.reload());
+            const successModal = document.getElementById('success-modal');
+            successModal.show(isEdit ? "Product modified" : "Product added", "success");
+            setTimeout(() => {
+                window.location.reload();
+            }, 1500);
         } else {
             const msg = await res.text();
-            Swal.fire("Error", msg, "error");
+            alertError.show(`${msg}`, 2000)
         }
     } catch (err) {
-        Swal.fire("Unexpected error", err.message, "error");
+        alertError.show(`Error, ${error.message}`, 2000)
     }
 };
 
-// ========================================================================
-// Handler to update image when a new file is selected
 const handleImageInputChange = (e) => {
     if (!e.target.matches(".company-image-input")) return;
 
@@ -103,7 +89,6 @@ document.addEventListener("change", handleImageInputChange);
 export async function loadCategories() {
     const select = document.getElementById("primary-category");
     if (!select) {
-        console.error('Element with id "primary-category" not found in the DOM.');
         return;
     }
 
@@ -139,7 +124,6 @@ export async function loadCategories() {
 export async function loadCompanies() {
     const select = document.getElementById("primary-company");
     if (!select) {
-        console.error('Element with id "select-company" not found in the DOM.');
         return;
     }
 
@@ -272,8 +256,6 @@ function handleModalDelegatedClick(event) {
 // Document Ready: Set up events when the DOM is ready
 // ========================================================================
 document.addEventListener("DOMContentLoaded", async () => {
-    console.log("🟢 DOM ready — script is running");
-
     // 1) Cargar categorías
     await loadCategories();
     await loadCompanies();
@@ -281,14 +263,12 @@ document.addEventListener("DOMContentLoaded", async () => {
     // 2) Delegated listener for secondary category button
     document.body.addEventListener("click", event => {
         if (event.target && event.target.matches("#secondary-category-btn")) {
-            console.log("🔽 Delegated click detected for Secondary Category");
             handleSecondaryClick();
         }
     });
 
     // 3) Delegate event for size and quantity inputs
     const modalContent = document.getElementById("modal-content");
-    console.log("Modal content found:", modalContent);
     if (modalContent) modalContent.addEventListener("click", handleModalDelegatedClick);
 });
 

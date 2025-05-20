@@ -4,7 +4,6 @@ import { modificarArticulo } from "./modificarProducto.js";
 import { eliminarArticulo } from "./eliminarArticulo.js";
 
 export async function cargarDatosArticulo(datos_articulo) {
-
   const id = document.getElementById("id");
   const product_name = document.getElementById("product-name");
   const img = document.getElementById("imagen");

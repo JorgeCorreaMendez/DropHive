@@ -15,13 +15,9 @@ export function initializeRowClickHandler() {
   tableBody.addEventListener("click", async (event) => {
     const clickedRow = event.target.closest("tr[data-product-id]");
     if (!clickedRow) return;
-
     const id_product = clickedRow.getAttribute("data-product-id");
     if (!id_product) return;
-
     try {
-      const db_name = await recuperarNombreBaseDatos();
-
       let response = await fetch(`filter_product_by_id?id=${id_product}`);
       const object = await response.json();
 
