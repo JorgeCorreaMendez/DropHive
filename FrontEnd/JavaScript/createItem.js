@@ -107,7 +107,9 @@ export async function loadCategories() {
         return;
     }
 
+    // Limpia y deja solo la opción por defecto
     select.innerHTML = `<option value="" disabled selected>Select a category</option>`;
+
     try {
         const res = await fetch("/categories");
         if (!res.ok) throw new Error(`HTTP ${res.status}`);
@@ -119,31 +121,40 @@ export async function loadCategories() {
             return;
         }
 
-        // Store all categories for secondary use
         window.allCategories = cats.filter(c => c.id && c.name);
 
-        // Populate primary select
         window.allCategories.forEach(cat => {
             const opt = document.createElement("option");
             opt.value = cat.id;
             opt.textContent = cat.name;
             select.append(opt);
         });
+
+        // Activar Select2 después de insertar las opciones
+        $(select).select2({
+            placeholder: "Selecciona una categoría",
+            allowClear: true,
+            width: "100%"
+        });
+
     } catch (e) {
         console.error("Failed to load categories:", e);
         window.allCategories = [];
     }
 }
 
+
 // ========================================================================
 export async function loadCompanies() {
     const select = document.getElementById("primary-company");
     if (!select) {
-        console.error('Element with id "select-company" not found in the DOM.');
+        console.error('Element with id "primary-company" not found in the DOM.');
         return;
     }
 
+    // Limpia y añade la opción por defecto
     select.innerHTML = `<option value="" disabled selected>Select a company</option>`;
+
     try {
         const res = await fetch("/companies");
         if (!res.ok) throw new Error(`HTTP ${res.status}`);
@@ -154,16 +165,29 @@ export async function loadCompanies() {
             return;
         }
 
-        companies.filter(c => c.id && c.name).forEach(company => {
-            const opt = document.createElement("option");
-            opt.value = company.id;
-            opt.textContent = company.name;
-            select.append(opt);
+        companies
+            .filter(c => c.id && c.name)
+            .forEach(company => {
+                if(company.id !== 1) {
+                    const opt = document.createElement("option");
+                    opt.value = company.id;
+                    opt.textContent = company.name;
+                    select.append(opt);
+                }
+            });
+
+        // ✅ Activar Select2
+        $(select).select2({
+            placeholder: "Selecciona una empresa",
+            allowClear: true,
+            width: "100%"
         });
+
     } catch (e) {
         console.error("Failed to load companies:", e);
     }
 }
+
 
 
 
@@ -207,7 +231,15 @@ function handleSecondaryClick() {
     wrapper.appendChild(select);
     wrapper.appendChild(removeBtn);
     container.appendChild(wrapper);
+
+    // ✅ Activar Select2 en este select secundario
+    $(select).select2({
+        placeholder: "Selecciona una subcategoría",
+        allowClear: true,
+        width: "100%"
+    });
 }
+
 
 // ========================================================================
 // Delegated handler to add Size and Quantity inputs dynamically
