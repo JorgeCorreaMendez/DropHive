@@ -140,11 +140,11 @@ export async function loadCategories() {
 export async function loadCompanies() {
     const select = document.getElementById("primary-company");
     if (!select) {
-        console.error('No se encontró el elemento con id "select-company" en el DOM.');
+        console.error('No se encontró el elemento con id "primary-company" en el DOM.');
         return;
     }
 
-    select.innerHTML = `<option value="" disabled selected>Selecciona una compañia</option>`;
+    select.innerHTML = `<option value="" disabled selected>Selecciona una compañía</option>`;
     try {
         const res = await fetch("/companies");
         if (!res.ok) throw new Error(`HTTP ${res.status}`);
@@ -152,10 +152,15 @@ export async function loadCompanies() {
         const companies = await res.json();
         if (!Array.isArray(companies)) {
             console.warn("La respuesta no es un array de compañías:", companies);
+            window.allCompanies = [];
             return;
         }
 
-        companies.filter(c => c.id && c.name).forEach(company => {
+        // Guardar todas las compañías globalmente
+        window.allCompanies = companies.filter(c => c.id && c.name);
+
+        // Poblamos el select
+        window.allCompanies.forEach(company => {
             const opt = document.createElement("option");
             opt.value = company.id;
             opt.textContent = company.name;
@@ -163,8 +168,10 @@ export async function loadCompanies() {
         });
     } catch (e) {
         console.error("No se pudieron cargar las compañías:", e);
+        window.allCompanies = [];
     }
 }
+
 
 
 // ========================================================================

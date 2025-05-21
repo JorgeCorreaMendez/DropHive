@@ -18,6 +18,7 @@ export async function cargarDatosArticulo(datos_articulo) {
   tabla_productos_similares.innerHTML = ''
   const response_productos_similares = await fetch(`http://127.0.0.1:4000/similar_products?id=${datos_articulo.id}`)
   const productos_similares = await response_productos_similares.json();
+  const company = document.getElementById("company");
 
   if (!product_name || !img) {
     console.alert("No se ha encontrado algún elemento.");

@@ -27,6 +27,16 @@ export function modificarArticulo(datos_articulo) {
       }
       catSelPre.value = catNamePre;
 
+      // Prefill compañia en el parser-doc
+      const compSelPre  = form.querySelector("#primary-company");
+      const compNamePre = datos_articulo.company?.name || "";
+      if (compNamePre && ![...compSelPre.options].some(o => o.value === compNamePre)) {
+        compSelPre.insertAdjacentHTML("beforeend",
+            `<option value="${compNamePre}">${compNamePre}</option>`
+        );
+      }
+      compSelPre.value = compNamePre;
+
       // Prefill tallas dinámicas en el parser-doc
       const addBtnPre = form.querySelector("#add-size-b");
       datos_articulo.sizes?.forEach((s, i) => {
@@ -121,6 +131,43 @@ export function modificarArticulo(datos_articulo) {
         } else {
           console.warn("No se encontró valor para la categoría primaria.");
         }
+
+        // --- Pre‑llenado de la compañia principal ---
+        const compSelect = document.querySelector("#primary-company");
+        console.log("datos_articulo:", datos_articulo);
+        console.log("datos_articulo.company_id:", datos_articulo.company.id);
+
+        console.log("Elemento select de compañía:", compSelect);
+
+        console.log("window.allCompanies:", window.allCompanies);
+
+        let compObj = (window.allCompanies && Array.isArray(window.allCompanies))
+            ? window.allCompanies.find(c => c.id == datos_articulo.company.id)
+            : null;
+        console.log("Resultado de búsqueda en allCompanies por ID:", compObj);
+
+        let compName = (compObj && compObj.name) ? compObj.name : "";
+        console.log("Nombre de la compañía encontrada:", compName);
+
+        if (compName) {
+          const yaExiste = [...compSelect.options].some(opt => opt.textContent === compName);
+          console.log("¿La opción ya existía en el select?", yaExiste);
+
+          if (!yaExiste) {
+            const option = document.createElement("option");
+            option.value = datos_articulo.company.id;
+            option.textContent = compName;
+            compSelect.appendChild(option);
+            console.warn("Opción de compañía no encontrada, se agregó una opción temporal.");
+          }
+
+          compSelect.value = datos_articulo.company.id;
+          console.log("Compañía primaria asignada. ID:", compSelect.value, "Nombre:", compName);
+        } else {
+          console.warn("No se encontró valor para la compañía primaria. ID buscada:", datos_articulo.company_id);
+        }
+
+
 
         // --- Prellenado de categorías secundarias con desplegable ---
         const secCatContainer = modalForm.querySelector("#added-categories");
