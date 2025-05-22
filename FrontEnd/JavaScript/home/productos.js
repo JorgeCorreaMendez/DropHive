@@ -79,7 +79,7 @@ export async function addInformacionFilaProducto(item) {
 
     const companyCell = document.createElement('td');
     companyCell.classList.add('p-2', 'rounded-[5px]');
-    companyCell.textContent = item.company;
+    companyCell.textContent = item.company.name;
 
     row.appendChild(idCell);
     row.appendChild(nameCell);

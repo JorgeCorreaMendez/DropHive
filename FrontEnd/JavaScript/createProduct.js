@@ -114,6 +114,12 @@ export async function loadCategories() {
             opt.textContent = cat.name;
             select.append(opt);
         });
+        $(select).select2({
+            placeholder: "Selecciona una categoría",
+            allowClear: true,
+            width: "100%"
+        });
+
     } catch (e) {
         console.error("Failed to load categories:", e);
         window.allCategories = [];
@@ -138,11 +144,20 @@ export async function loadCompanies() {
             return;
         }
 
-        companies.filter(c => c.id && c.name).forEach(company => {
-            const opt = document.createElement("option");
-            opt.value = company.id;
-            opt.textContent = company.name;
-            select.append(opt);
+        companies
+            .filter(c => c.id && c.name)
+            .forEach(company => {
+                if(company.id !== 1) {
+                    const opt = document.createElement("option");
+                    opt.value = company.id;
+                    opt.textContent = company.name;
+                    select.append(opt);
+                }
+            });
+        $(select).select2({
+            placeholder: "Selecciona una empresa",
+            allowClear: true,
+            width: "100%"
         });
     } catch (e) {
         console.error("Failed to load companies:", e);
@@ -191,6 +206,13 @@ function handleSecondaryClick() {
     wrapper.appendChild(select);
     wrapper.appendChild(removeBtn);
     container.appendChild(wrapper);
+
+    // ✅ Activar Select2 en este select secundario
+    $(select).select2({
+        placeholder: "Selecciona una subcategoría",
+        allowClear: true,
+        width: "100%"
+    });
 }
 
 // ========================================================================
