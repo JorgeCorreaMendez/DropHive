@@ -2,7 +2,7 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8" />
-  <title>Detalle de Categoría</title>
+  <title>Category detail</title>
   <link rel="stylesheet" href="/FrontEnd/CSS/Read_Article.css" />
 </head>
 <body>
@@ -13,25 +13,25 @@
           🗂️
         </div>
         <dl>
-          <dt class="sr-only">ID y Nombre</dt>
+          <dt class="sr-only">ID and Nombre</dt>
           <dd class="font-semibold">
             <span id="categoria-id"></span> - <span id="categoria-nombre"></span>
           </dd>
-          <dt class="sr-only">Descripción</dt>
+          <dt class="sr-only">Description</dt>
           <dd id="categoria-descripcion" class="mt-2 text-gray-800"></dd>
         </dl>
       </div>
       <div class="ml-auto flex gap-2">
         <button id="btnModifyCategory" class="bg-gray-500 hover:bg-gray-600 text-white font-medium py-1 px-3 rounded">
-          Modificar
+          Modify
         </button>
         <button id="btnDeleteCategory" class="bg-red-500 hover:bg-red-600 text-white font-medium py-1 px-3 rounded">
-          Borrar
+          Delete
         </button>
       </div>
     </article>
     <div aria-label="Detalles de categoría" class="bg-gray-200 rounded-lg p-4 m-4">
-      <h3 class="text-lg font-semibold mb-4">Productos en esta categoría</h3>
+      <h3 class="text-lg font-semibold mb-4">Product in this category</h3>
       <div id="lista-productos-categoria" class="space-y-4 w-full"></div>
     </div>
 </section>
