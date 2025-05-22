@@ -1,5 +1,5 @@
 import {openModal} from "./modals/abrirYCerrarModal.js";
-import {agregarCategoria} from "./category/addAndModifyCategory.js";
+import {addOrModifyCategory} from "./category/addAndModifyCategory.js";
 
 const alertError = document.getElementById('alert-error');
 export const addProduct = async ({ isEdit = false, originalId = null } = {}) => {
@@ -294,12 +294,11 @@ document.body.addEventListener("click", async (e) => {
     }
 });
 
-// Delegated listener for the "Save Changes" button inside the modal
 document.getElementById("modal-container").addEventListener("click", async (e) => {
     const saveBtn = e.target.closest("#save-btn1");
     if (saveBtn) {
         e.preventDefault();
-        await agregarCategoria();
+        await addOrModifyCategory();
     }
 });
 

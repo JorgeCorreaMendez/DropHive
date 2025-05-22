@@ -34,6 +34,9 @@ def add_category():
         return jsonify({"error": "Name is required"}), 400
     try:
         with get_db_session(session["db.name"]) as db:
+            existing_category = db.query(Category).filter(Category.name == name).first()
+            if existing_category:
+                return jsonify({"error": "A category with this name already exists."}), 409
             new_category = Category(name=name, description=description)
             db.add(new_category)
             db.commit()

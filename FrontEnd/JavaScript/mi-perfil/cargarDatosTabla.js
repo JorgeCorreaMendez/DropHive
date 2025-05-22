@@ -63,10 +63,6 @@ export async function addInformacionFilaEmpleado(item) {
     return row;
 }
 
-/*
-TODO:
-Crear función en el backend para buscar privilegios por id.
- */
 export async function localizarPrivilegio(id) {
     try {
         const response = await fetch(`http://127.0.0.1:4000/search_privilege_by_id?id=${id}`)
