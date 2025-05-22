@@ -10,29 +10,24 @@ async function cargarModalCrearCuenta() {
 }
 
 async function crearCuentaEmpleado() {
-    const id = document.getElementById("id").value;
-    const email = document.getElementById("email").value;
-    const role = 1;
+    const alertError = document.querySelector("alert-modal");
+    const successfulModal = document.querySelector("successful-modal");
+
+    const id = document.getElementById("id").value.trim();
+    const email = document.getElementById("email").value.trim();
     const modal = document.getElementById('loadingModal');
 
-    if(password.length < 8) {
-        Swal.fire({
-                icon: 'error',
-                title: "Password Error",
-                html: "Password must have at least 8 characters",
-                timer: 2500,
-                showConfirmButton: false
-            });
-        return;
+    if (!id || !email) {
+        return alertError.show("Both ID and email are required.", 2000);
     }
 
     const newUserData = {
-            user_id: id,
-            mail: email,
-            password: password
-        };
+        user_id: id,
+        mail: email
+    };
 
     try {
+        /// TODO. Crear contraseña aquii
         modal.classList.remove('hidden');
         const response = await fetch('http://127.0.0.1:4000/create_account', {
                 method: 'POST',
@@ -45,34 +40,15 @@ async function crearCuentaEmpleado() {
         if (response.ok) {
             modal.classList.add('hidden');
             await fetch(`http://127.0.0.1:4000/send_password_to_new_user?mail=${email}`)
-            Swal.fire({
-                icon: 'success',
-                title: 'New user registered succesfully',
-                text: 'An email will be sent to the new user',
-                timer: 2500,
-                showConfirmButton: false
-            }).then(() => {
-                window.location.reload();
-            })
+            await successfulModal.show("New user registered successfully. An email will be sent.");
+            window.location.reload();
         } else {
             modal.classList.add('hidden');
             const error = await response.json();
-            Swal.fire({
-                icon: 'error',
-                title: "Error durante el inicio de sesión.",
-                html: error.message || "Ocurrió un error desconocido",
-                timer: 2500,
-                showConfirmButton: false
-            });
+            alertError.show(error.message || "An unknown error occurred.", 2500);
         }
     } catch (error) {
-        Swal.fire({
-            icon: 'error',
-            title: "Error en el servidor.",
-            html: "Ocuririó un error en la solicitud",
-            timer: 2500,
-            showConfirmButton: false
-        });
+        alertError.show(error.message || "An unknown error occurred.", 2500);
     }
 }
 
