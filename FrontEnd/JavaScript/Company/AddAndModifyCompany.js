@@ -1,45 +1,32 @@
-export const agregarEmpresa = async ({ isEdit = false, originalId = null } = {}) => {
-    // 1) Read basic form values
+export const addCompany = async ({ isEdit = false, originalId = null } = {}) => {
+    const alertError = document.getElementById("alert-error");
+    const successfulModal = document.getElementById("success-modal");
     const name = document.getElementById("company-name")?.value.trim();
     const description = document.getElementById("company-description")?.value.trim();
-
-    // 2) Validation: name and description are required
     if (!name) {
-        return Swal.fire("Error", "Name is required.", "error");
+        return alertError.show("Name is required.", 2000);
     }
-    if (!description) {
-        return Swal.fire("Error", "Description is required.", "error");
-    }
-
-    // 3) Build the payload (including id in edit mode)
+    const url = isEdit ? `/modify_company` : "/add_company";
+    const method = isEdit ? "PUT" : "POST";
     const payload = isEdit
         ? { id: originalId, name, description }
         : { name, description };
-
-    // 4) Select the correct URL and HTTP method (without id in query string)
-    const url = isEdit ? `/modify_company` : "/add_company";
-    const method = isEdit ? "PUT" : "POST";
-
-    // 5) Send request to backend
     try {
         const res = await fetch(url, {
             method,
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify(payload)
         });
-
         if (res.ok) {
-            Swal.fire({
-                icon: "success",
-                title: isEdit ? "Company modified" : "Company added",
-                timer: 1500,
-                showConfirmButton: false
-            }).then(() => window.location.reload());
+            successfulModal.show(isEdit ? "Company modified" : "Company added", "success");
+            setTimeout(() => {
+                window.location.reload();
+            }, 1500);
         } else {
             const msg = await res.text();
-            Swal.fire("Error", msg, "error");
+            alertError.show(msg, 2000);
         }
     } catch (err) {
-        Swal.fire("Unexpected error", err.message, "error");
+        alertError.show(err.message || "Unexpected error", 2000);
     }
 };

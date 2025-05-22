@@ -2,6 +2,7 @@ import {openModal} from "./modals/abrirYCerrarModal.js";
 import {addOrModifyCategory} from "./category/addAndModifyCategory.js";
 
 const alertError = document.getElementById('alert-error');
+const successModal = document.getElementById('success-modal');
 export const addProduct = async ({ isEdit = false, originalId = null } = {}) => {
     const id          = document.getElementById("product-id").value.trim();
     const name        = document.getElementById("product-name").value.trim();
@@ -51,7 +52,6 @@ export const addProduct = async ({ isEdit = false, originalId = null } = {}) => 
         });
 
         if (res.ok) {
-            const successModal = document.getElementById('success-modal');
             successModal.show(isEdit ? "Product modified" : "Product added", "success");
             setTimeout(() => {
                 window.location.reload();

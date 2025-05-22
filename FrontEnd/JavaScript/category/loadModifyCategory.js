@@ -2,7 +2,6 @@ import {openModal} from "../modals/abrirYCerrarModal.js";
 import {addOrModifyCategory} from "./addAndModifyCategory.js";
 
 export async function loadModifyCategory(categoryData) {
-    const alertError = document.getElementById("alert-error");
     try {
         const response = await fetch(`/addAndModifyCategory`);
         if (!response.ok) return console.error("Failed to load modification form");
@@ -36,6 +35,5 @@ export async function loadModifyCategory(categoryData) {
         }
     } catch (modErr) {
         console.error("Error modifying category:", modErr);
-        alertError.show(modErr.message || "An error occurred while loading the modification form.", 2500);
     }
 }

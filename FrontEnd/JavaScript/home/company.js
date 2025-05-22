@@ -1,5 +1,5 @@
 import {openModal} from "../modals/abrirYCerrarModal.js";
-import {agregarEmpresa} from "../Company/AddAndModifyCompany.js";
+import {addCompany} from "../company/AddAndModifyCompany.js";
 
 export async function addInformacionFilaCompany(item) {
     const row = document.createElement('tr');
@@ -65,7 +65,7 @@ export async function cargarModalCrearCompany() {
             if (form) {
                 form.addEventListener("submit", (e) => {
                     e.preventDefault();
-                    agregarEmpresa(); // Llama a la función importada
+                    addCompany(); // Llama a la función importada
                 });
             } else {
                 console.error("Error: No se encontró el formulario con id 'company-form'");

@@ -4,7 +4,7 @@ import { addProduct } from "../createProduct.js";
 import { initializeRowClickHandler } from "./lecturaProducto/productRowClick.js"
 import { cargarModalCrearProducto } from "../home/productos.js";
 import {initializeRowClickHandlerCategory} from "../category/productRowClickCategory.js";
-import {initializeRowClickHandlerCompany} from "../Company/companyRowClick.js";
+import {initializeRowClickHandlerCompany} from "../company/companyRowClick.js";
 
 export function setupEventListeners() {
   document.getElementById("add-item-btn")?.addEventListener("click", cargarModalCrearProducto);

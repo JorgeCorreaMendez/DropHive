@@ -61,7 +61,7 @@ async function cambiar_filtros(new_vista) {
         document.getElementById("category-btn").textContent = "Show All Category";
         document.getElementById("add-item-btn").textContent = "Add Item";
 
-        modificarBotonAdd("add-item-btn", "Add Company", cargarModalCrearCompany);
+        modificarBotonAdd("add-item-btn", "Add company", cargarModalCrearCompany);
 
         await modificarCabeceraTablaCompany();
     }
