@@ -1,4 +1,5 @@
 import logging
+import os
 
 from flask import has_request_context, session
 
@@ -9,10 +10,8 @@ logger.propagate = False
 
 class MultiCompanyFileHandler(logging.Handler):
     def emit(self, record):
-        if has_request_context() and "db.name" in session:
-            db_log = f"../log/{session['db.name']}.log"
-        else:
-            db_log = "../log/DropHive.log"
+        db_log = f"../../log/{session['db.name']}.log"
+        os.makedirs(os.path.dirname(db_log), exist_ok=True)
         log_entry = self.format(record)
         with open(db_log, "a", encoding="utf-8") as f:
             f.write(log_entry + "\n")
