@@ -166,7 +166,6 @@ def search_account_by_mail():
         with get_db_session(session["db.name"]) as db_session:
             accounts = db_session.query(Account).filter(mail == Account.mail).all()
             if accounts:
-                logger.info(f"Account(s) found with email {mail}.")
                 return jsonify([account.serialize() for account in accounts]), 200
             else:
                 return jsonify({"message": "No account found with that email."}), 404

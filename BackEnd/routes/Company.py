@@ -144,7 +144,6 @@ def search_category_by_id():
             company = db.query(Company).filter(Company.id == company_id).first()
             if company is None:
                 return jsonify({"message": "Company not found"}), 404
-            logger.info(f"Company retrieved: {company.serialize()}")
             return jsonify(company.serialize()), 200
     except SQLAlchemyError:
         logger.error("An error occurred while retrieving company by ID")
