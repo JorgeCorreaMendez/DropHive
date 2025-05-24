@@ -10,7 +10,7 @@ logger.propagate = False
 
 class MultiCompanyFileHandler(logging.Handler):
     def emit(self, record):
-        db_log = f"../../log/{session['db.name']}.log"
+        db_log = f"../log/{session['db.name']}.log"
         os.makedirs(os.path.dirname(db_log), exist_ok=True)
         log_entry = self.format(record)
         with open(db_log, "a", encoding="utf-8") as f:

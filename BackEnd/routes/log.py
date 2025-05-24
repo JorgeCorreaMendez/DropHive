@@ -11,7 +11,7 @@ log_bp = Blueprint('log_bp', __name__)
 @login_required
 def get_log_file():
     db_name = session["db.name"]
-    log_path = os.path.join("../../log", f"{db_name}.log")
+    log_path = os.path.join("../log", f"{db_name}.log")
     if not os.path.exists(log_path):
         return "Log file not found", 404
     with open(log_path, "r") as f:
