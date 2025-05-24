@@ -1,5 +1,5 @@
 import {openModal} from "../modals/abrirYCerrarModal.js";
-import {addCompany} from "./AddAndModifyCompany.js";
+import {addCompany} from "./addAndModifyCompany.js";
 
 export async function loadModifyCompany(companyData) {
     try {

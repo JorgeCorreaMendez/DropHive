@@ -1,5 +1,5 @@
 import {openModal} from "../modals/abrirYCerrarModal.js";
-import {addCompany} from "../company/AddAndModifyCompany.js";
+import {addCompany} from "../Company/addAndModifyCompany.js";
 
 export async function addInformacionFilaCompany(item) {
     const row = document.createElement('tr');

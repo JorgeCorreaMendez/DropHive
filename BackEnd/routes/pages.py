@@ -47,7 +47,7 @@ def add_and_modify_category():
 
 @pages_bp.route("/addAndModifyCompany")
 def add_and_modify_company():
-    return render_template("AddAndModifyCompany.html")
+    return render_template("addAndModifyCompany.html")
 
 
 @pages_bp.route("/addEmployee")
@@ -87,7 +87,7 @@ def profile():
 
 @pages_bp.route("/readArticle")
 def read_article():
-    return render_template("Read_Article.html")
+    return render_template("readArticle.html")
 
 
 @pages_bp.route("/readCompany")
@@ -102,7 +102,7 @@ def supply():
 
 @pages_bp.route("/viewEmployeeAction")
 def view_employee_action():
-    return render_template("ViewEmployeeAction.html")
+    return render_template("viewEmployeeAction.html")
 
 
 @pages_bp.route("/home2")
