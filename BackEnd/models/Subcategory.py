@@ -1,5 +1,3 @@
-# BackEnd/models/product_secondary_categories.py
-
 from sqlalchemy import Table, Column, ForeignKey, String, Integer
 from BackEnd.models import Base
 

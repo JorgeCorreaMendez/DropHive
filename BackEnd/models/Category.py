@@ -1,8 +1,7 @@
 from sqlalchemy import Integer, String, Text, Column
 from sqlalchemy.orm import relationship
 from BackEnd.models import Base
-from BackEnd.models.Subcategory import product_secondary_categories  # importa la tabla intermedia
-
+from BackEnd.models.Subcategory import product_secondary_categories
 
 class Category(Base):
     __tablename__ = 'categories'

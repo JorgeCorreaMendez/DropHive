@@ -10,8 +10,8 @@ from BackEnd.routes.Mail import email_bp
 from BackEnd.routes.Privilege import privileges_bp
 from BackEnd.routes.Product import products_bp
 from BackEnd.routes.Register import registro_bp
-from BackEnd.routes.log import log_bp
-from BackEnd.routes.pages import pages_bp
+from BackEnd.routes.Log import log_bp
+from BackEnd.routes.Pages import pages_bp
 from BackEnd.utils.flask_mail_methods import init_mail
 from BackEnd.utils.sqlalchemy_methods import init_user_db
 

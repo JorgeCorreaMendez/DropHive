@@ -89,7 +89,7 @@ def modify_product():
         if "name" in data:
             product.name = data["name"]
         if "description" in data:
-            product. description = data["description"]
+            product.description = data["description"]
         if "price" in data:
             product.price = data["price"]
         if "discount" in data:

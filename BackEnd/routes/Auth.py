@@ -48,27 +48,6 @@ def logout():
     return jsonify({"message": "Session successfully closed"}), 200
 
 
-# TODO. cambiar loggin, se usa ???
-@auth_bp.route("/aceptar_primer_login", methods=["POST"])
-def accept_first_login():
-    mail = request.args.get("mail")
-    if not mail:
-        return jsonify({"error": "Email parameter is required."}), 400
-    try:
-        with get_db_session("Users") as user_session:
-            user = user_session.query(User).filter_by(mail=mail).first()
-            if not user:
-                return jsonify({"error": f"User with email {mail} not found."}), 404
-            user.first_login = False
-            user_session.commit()
-            logger.info(f"First login accepted for user {mail}")
-            return jsonify({"message": "Password change accepted."}), 200
-    except Exception as e:
-        logger.error("An error occurred while accepting the first login")
-        traceback.print_exc()
-        return jsonify({"error": str(e)}), 500
-
-
 def login_required(route_function):
     @wraps(route_function)
     def decorated_function(*args, **kwargs):

@@ -35,7 +35,7 @@ def register():
             client_db.flush()
             new_privilege = Privilege(
                 id=1,
-                name="Administrador"
+                name="Admin"
             )
             new_account = Account(
                 name="Admin",
