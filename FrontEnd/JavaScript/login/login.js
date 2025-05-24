@@ -8,8 +8,8 @@ document.addEventListener("DOMContentLoaded", function () {
         try {
             const response = await fetch('http://127.0.0.1:4000/login', {
                 method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ mail, password })
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify({mail, password})
             });
             if (response.ok) {
                 const firstLoginRes = await fetch(`http://127.0.0.1:4000/check_first_login?mail=${mail}`);
@@ -69,12 +69,12 @@ document.addEventListener("DOMContentLoaded", function () {
         }
     });
 });
-document.addEventListener("DOMContentLoaded", function() {
-    document.getElementById('sign-in').addEventListener('click', function() {
+document.addEventListener("DOMContentLoaded", function () {
+    document.getElementById('sign-in').addEventListener('click', function () {
         window.location.href = 'http://127.0.0.1:4000/register';
     })
 
-    document.getElementById('change-password').addEventListener('click', function() {
+    document.getElementById('change-password').addEventListener('click', function () {
         window.location.href = 'http://127.0.0.1:4000/changePassword';
     })
 })

@@ -57,7 +57,7 @@ header button {
     order: 1;
 }
 
-.total-wrapper{
+.total-wrapper {
     background-color: white;
     border-radius: 0.75rem;
     padding: 1rem;
@@ -70,7 +70,8 @@ header button {
     margin-bottom: 1rem;
 
 }
-.total-wrapper2{
+
+.total-wrapper2 {
     background-color: white;
     padding: 1rem;
     width: 100%;
@@ -90,7 +91,7 @@ header button {
     margin: 0.5rem 0;
 }
 
-#notification-btn:hover{
+#notification-btn:hover {
     background-color: #999 !important;
 }
 
@@ -211,7 +212,7 @@ input[type="checkbox"] {
 
 .pagination-controls #page-info {
     font-size: 1.125rem; /* similar a text-lg */
-    font-weight: 600;    /* similar a font-semibold */
+    font-weight: 600; /* similar a font-semibold */
 }
 
 
@@ -226,7 +227,7 @@ input[type="checkbox"] {
     .sidebar {
         width: 100%;
         margin-left: 0;
-        order:unset;
+        order: unset;
         margin-top: 1.5rem;
     }
 

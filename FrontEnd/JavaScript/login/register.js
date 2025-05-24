@@ -60,14 +60,14 @@ document.addEventListener("DOMContentLoaded", () => {
                 if (code) {
                     const checkResponse = await fetch(`${BASE_URL}/check_verification_code`, {
                         method: 'POST',
-                        headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify({ code })
+                        headers: {'Content-Type': 'application/json'},
+                        body: JSON.stringify({code})
                     });
 
                     if (checkResponse.ok) {
                         const response = await fetch(`${BASE_URL}/register`, {
                             method: 'POST',
-                            headers: { 'Content-Type': 'application/json' },
+                            headers: {'Content-Type': 'application/json'},
                             body: JSON.stringify(registerData)
                         });
                         const result = await response.json();
@@ -75,7 +75,7 @@ document.addEventListener("DOMContentLoaded", () => {
                             const successModal = document.getElementById('success-modal');
                             successModal.show('Successful registration');
                             setTimeout(() => {
-                              window.location.href = `${BASE_URL}/home`;
+                                window.location.href = `${BASE_URL}/home`;
                             }, 1500);
                         } else {
                             alert.show(result.message, 2000);

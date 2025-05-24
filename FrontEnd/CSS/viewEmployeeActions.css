@@ -116,7 +116,6 @@ main {
 }
 
 
-
 .delete_button button:hover {
     background-color: #e0e0e0;
 }
@@ -272,6 +271,7 @@ th {
         flex-direction: column;
         margin: 0 auto;
     }
+
     .total-wrapper,
     .employee-actions,
     .actions-performed {

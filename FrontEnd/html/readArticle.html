@@ -1,76 +1,79 @@
 <main class="bg-gray-300 rounded-lg p-1">
-  <div class="flex justify-between items-start bg-gray-200 rounded-lg p-4 m-4">
-    <!-- Izquierda: Imagen + Info -->
-    <div class="flex gap-4 items-start">
-      <!-- Imagen -->
-      <img src="/FrontEnd/Images/sinFoto.png" alt="Company Image" class="w-20 h-20 rounded-full object-cover" id="imagen">
+    <div class="flex justify-between items-start bg-gray-200 rounded-lg p-4 m-4">
+        <!-- Izquierda: Imagen + Info -->
+        <div class="flex gap-4 items-start">
+            <!-- Imagen -->
+            <img src="/FrontEnd/Images/sinFoto.png" alt="Company Image" class="w-20 h-20 rounded-full object-cover"
+                 id="imagen">
 
-      <!-- Información -->
-      <div>
-        <!-- ID y nombre sin caja extra -->
-        <h2 class="text-lg font-semibold">
-          <span id="id"></span> - <span id="product-name" class="text-gray-800"></span>
-        </h2>
+            <!-- Información -->
+            <div>
+                <!-- ID y nombre sin caja extra -->
+                <h2 class="text-lg font-semibold">
+                    <span id="id"></span> - <span id="product-name" class="text-gray-800"></span>
+                </h2>
 
-        <!-- Categoría Principal -->
-        <div class="mt-2">
-          <label class="block text-xs text-gray-500 uppercase tracking-wider">Principal Category</label>
-          <div class="p-2 bg-blue-100 rounded-md">
-            <span id="main-category" class="text-sm font-medium text-blue-800">Principal category</span>
-          </div>
+                <!-- Categoría Principal -->
+                <div class="mt-2">
+                    <label class="block text-xs text-gray-500 uppercase tracking-wider">Principal Category</label>
+                    <div class="p-2 bg-blue-100 rounded-md">
+                        <span id="main-category" class="text-sm font-medium text-blue-800">Principal category</span>
+                    </div>
+                </div>
+
+                <!-- Categorías Secundarias -->
+                <div class="mt-2">
+                    <label class="block text-xs text-gray-500 uppercase tracking-wider">Secondary Categories</label>
+                    <div id="secondary-categories" class="p-2 bg-green-100 rounded-md flex gap-20  flex-wrap">
+                        <!-- Aquí se inyectarán dinámicamente las categorías secundarias, por ejemplo:
+                             <span class="bg-green-200 text-green-800 px-2 py-1 text-xs font-medium rounded-full">Secundaria 1</span>
+                        -->
+                    </div>
+                </div>
+
+                <!-- Precio -->
+                <p class="font-bold mt-2 text-gray-800">Price: <span id="price"></span>€</p>
+            </div>
         </div>
 
-        <!-- Categorías Secundarias -->
-        <div class="mt-2">
-          <label class="block text-xs text-gray-500 uppercase tracking-wider">Secondary Categories</label>
-          <div id="secondary-categories" class="p-2 bg-green-100 rounded-md flex gap-20  flex-wrap">
-            <!-- Aquí se inyectarán dinámicamente las categorías secundarias, por ejemplo:
-                 <span class="bg-green-200 text-green-800 px-2 py-1 text-xs font-medium rounded-full">Secundaria 1</span>
-            -->
-          </div>
+        <!-- Derecha: Botones -->
+        <div class="flex gap-2">
+            <button class="bg-gray-300 hover:bg-gray-400 text-black px-4 py-2 rounded" id="modify-btn">Modify Item
+            </button>
+            <button class="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded" id="delete-btn">Delete Item
+            </button>
+        </div>
+    </div>
+
+    <!-- Descripción -->
+    <div class="bg-gray-200 rounded-lg p-4 m-4">
+        <h3 class="text-lg font-semibold mb-2">Description:</h3>
+        <p id="descripcion" class="text-gray-800"></p>
+    </div>
+
+    <!-- Zona Inferior -->
+    <div class="flex gap-4 m-4">
+        <!-- Tabla -->
+        <div class="w-1/2 bg-gray-200 rounded-lg p-4">
+            <table class="w-full rounded border-separate border-spacing-y-[10px] border-spacing-x-[5px]">
+                <thead class="no-background thead-line">
+                <tr id="cabecera-tabla">
+                    <th class="text-center">Size</th>
+                    <th class="text-center">Quantity</th>
+                </tr>
+                </thead>
+                <tbody id="table-body-producto">
+                </tbody>
+            </table>
         </div>
 
-        <!-- Precio -->
-        <p class="font-bold mt-2 text-gray-800">Price: <span id="price"></span>€</p>
-      </div>
+        <!-- Lista de Artículos Similares -->
+        <div class="w-1/2 bg-gray-200 rounded-lg p-4">
+            <h3 class="text-lg font-semibold mb-2">Similar articles</h3>
+            <ul class="space-y-2" id="tabla-productos-similares">
+                <li class="bg-white rounded p-2 shadow">Ultraboost 22</li>
+                <!-- Aquí se pueden añadir más elementos dinámicamente -->
+            </ul>
+        </div>
     </div>
-
-    <!-- Derecha: Botones -->
-    <div class="flex gap-2">
-      <button class="bg-gray-300 hover:bg-gray-400 text-black px-4 py-2 rounded" id="modify-btn">Modify Item</button>
-      <button class="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded" id="delete-btn">Delete Item</button>
-    </div>
-  </div>
-
-  <!-- Descripción -->
-  <div class="bg-gray-200 rounded-lg p-4 m-4">
-    <h3 class="text-lg font-semibold mb-2">Description:</h3>
-    <p id="descripcion" class="text-gray-800"></p>
-  </div>
-
-  <!-- Zona Inferior -->
-  <div class="flex gap-4 m-4">
-    <!-- Tabla -->
-    <div class="w-1/2 bg-gray-200 rounded-lg p-4">
-      <table class="w-full rounded border-separate border-spacing-y-[10px] border-spacing-x-[5px]">
-        <thead class="no-background thead-line">
-        <tr id="cabecera-tabla">
-          <th class="text-center">Size</th>
-          <th class="text-center">Quantity</th>
-        </tr>
-        </thead>
-        <tbody id="table-body-producto">
-        </tbody>
-      </table>
-    </div>
-
-    <!-- Lista de Artículos Similares -->
-    <div class="w-1/2 bg-gray-200 rounded-lg p-4">
-      <h3 class="text-lg font-semibold mb-2">Similar articles</h3>
-      <ul class="space-y-2" id="tabla-productos-similares">
-        <li class="bg-white rounded p-2 shadow">Ultraboost 22</li>
-        <!-- Aquí se pueden añadir más elementos dinámicamente -->
-      </ul>
-    </div>
-  </div>
 </main>

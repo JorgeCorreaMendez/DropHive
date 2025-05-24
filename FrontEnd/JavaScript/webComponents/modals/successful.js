@@ -1,53 +1,53 @@
-class SuccessModal extends HTMLElement {
+const styles = `
+    :host {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    align-items: center;
+    justify-content: center;
+    background-color: rgba(0, 0, 0, 0.4);
+    z-index: 1000;
+    font-family: Arial, sans-serif;
+    }
+    
+    .modal {
+    background: white;
+    padding: 2rem;
+    border-radius: 12px;
+    max-width: 400px;
+    text-align: center;
+    box-shadow: 0 4px 16px rgba(0,0,0,0.2);
+    }
+    
+    h2 {
+    font-size: 1.5rem;
+    margin-bottom: 0.5rem;
+    }
+    
+    .checkmark-circle {
+    width: 100px;
+    height: 100px;
+    background-color: #00a88e;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0 auto;
+    margin-bottom: 1.5rem;
+    }
+    
+    .checkmark {
+    color: white;
+    font-size: 50px;
+    }
+ `;
+
+export class SuccessModal extends HTMLElement {
     constructor() {
         super();
-        this.attachShadow({ mode: 'open' });
-
-        const styles = `
-          :host {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100vw;
-            height: 100vh;
-            align-items: center;
-            justify-content: center;
-            background-color: rgba(0, 0, 0, 0.4);
-            z-index: 1000;
-            font-family: Arial, sans-serif;
-          }
-
-          .modal {
-            background: white;
-            padding: 2rem;
-            border-radius: 12px;
-            max-width: 400px;
-            text-align: center;
-            box-shadow: 0 4px 16px rgba(0,0,0,0.2);
-          }
-
-          h2 {
-            font-size: 1.5rem;
-            margin-bottom: 0.5rem;
-          }
-
-          .checkmark-circle {
-            width: 100px;
-            height: 100px;
-            background-color: #00a88e;
-            border-radius: 50%;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            margin: 0 auto;
-            margin-bottom: 1.5rem;
-          }
-
-          .checkmark {
-            color: white;
-            font-size: 50px;
-          }
-        `;
+        this.attachShadow({mode: 'open'});
 
         const style = document.createElement('style');
         style.textContent = styles;

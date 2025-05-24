@@ -28,6 +28,7 @@ body {
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
     margin-top: 20px;
 }
+
 input {
     width: 100%;
     padding: 10px;
@@ -66,6 +67,7 @@ input {
     justify-content: space-between;
     margin-top: 10px;
 }
+
 button {
     padding: 10px 20px;
     margin: 5px;
@@ -81,6 +83,7 @@ button:hover {
 .sign-in {
     background: #ccc;
 }
+
 .enter {
     background: blue;
     color: white;

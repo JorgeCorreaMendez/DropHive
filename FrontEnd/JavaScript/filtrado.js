@@ -23,7 +23,6 @@ Object.values(filtros).forEach((elemento) => {
 });
 
 
-
 export async function aplicarFiltros(tipo) {
     const params = new URLSearchParams();
     const numero_de_pagina = parseInt(document.getElementById("page-number").textContent);
@@ -32,13 +31,13 @@ export async function aplicarFiltros(tipo) {
 
     params.set("offset", offset.toString());
 
-    if(filtros.limite.value) params.set("limit", filtros.limite.value);
+    if (filtros.limite.value) params.set("limit", filtros.limite.value);
 
-    if(tipo === "productos") {
-        if(filtros.categoria.value !== "all") params.set("category", filtros.categoria.value);
-        if(filtros.min_precio.value) params.set("min_price", obtenerValorPrecio(filtros.min_precio.value)); // Aparece un error pero no hay problema
-        if(filtros.max_precio.value) params.set("max_price", obtenerValorPrecio(filtros.max_precio.value)); // ya que no puede devolver un valor null
-        if(filtros.cantidad.value) params.set("max_quantity", filtros.cantidad.value);
+    if (tipo === "productos") {
+        if (filtros.categoria.value !== "all") params.set("category", filtros.categoria.value);
+        if (filtros.min_precio.value) params.set("min_price", obtenerValorPrecio(filtros.min_precio.value)); // Aparece un error pero no hay problema
+        if (filtros.max_precio.value) params.set("max_price", obtenerValorPrecio(filtros.max_precio.value)); // ya que no puede devolver un valor null
+        if (filtros.cantidad.value) params.set("max_quantity", filtros.cantidad.value);
 
         const url = `http://127.0.0.1:4000/filter_products?${params.toString()}`
 

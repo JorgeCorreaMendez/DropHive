@@ -1,4 +1,4 @@
-export const addCompany = async ({ isEdit = false, originalId = null } = {}) => {
+export const addCompany = async ({isEdit = false, originalId = null} = {}) => {
     const alertError = document.getElementById("alert-error");
     const successfulModal = document.getElementById("success-modal");
     const name = document.getElementById("company-name")?.value.trim();
@@ -9,12 +9,12 @@ export const addCompany = async ({ isEdit = false, originalId = null } = {}) => 
     const url = isEdit ? `/modify_company` : "/add_company";
     const method = isEdit ? "PUT" : "POST";
     const payload = isEdit
-        ? { id: originalId, name, description }
-        : { name, description };
+        ? {id: originalId, name, description}
+        : {name, description};
     try {
         const res = await fetch(url, {
             method,
-            headers: { "Content-Type": "application/json" },
+            headers: {"Content-Type": "application/json"},
             body: JSON.stringify(payload)
         });
         if (res.ok) {

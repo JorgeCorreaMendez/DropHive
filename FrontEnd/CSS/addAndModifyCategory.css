@@ -14,10 +14,10 @@ body {
 /* --- Caja exterior: contenedor gris --- */
 .main-container {
     background-color: #e0e0e0; /* Gris */
-    padding: 4px;            /* Espaciado interno */
-    border-radius: 50px;      /* Esquinas redondeadas */
-    width: 50%;               /* Ajusta el tamaño */
-    margin: 4px auto;        /* Centrada en la página */
+    padding: 4px; /* Espaciado interno */
+    border-radius: 50px; /* Esquinas redondeadas */
+    width: 50%; /* Ajusta el tamaño */
+    margin: 4px auto; /* Centrada en la página */
 }
 
 /* --- Caja blanca interior (formulario) --- */
@@ -27,9 +27,9 @@ body {
     background-color: white;
     border-radius: 50px;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
-    width: 90%;               /* Hacerla un poco más pequeña */
+    width: 90%; /* Hacerla un poco más pequeña */
     max-width: 600px;
-    margin: 20px auto;       /* Centrado */
+    margin: 20px auto; /* Centrado */
     padding: 30px;
     transition: transform 0.3s ease; /* Transición suave al hacer hover */
 }
@@ -69,7 +69,7 @@ body {
 }
 
 /* --- Estilo para los botones --- */
-.category-image-input{
+.category-image-input {
     width: 100%;
     height: 100%;
     padding: 10px;
@@ -79,6 +79,7 @@ body {
 
 
 }
+
 #save-btn1 {
     background-color: #28a745; /* Verde brillante */
     color: white;

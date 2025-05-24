@@ -1,4 +1,4 @@
-export const addOrModifyCategory = async ({ isEdit = false, originalId = null } = {}) => {
+export const addOrModifyCategory = async ({isEdit = false, originalId = null} = {}) => {
     const name = document.getElementById("category-name")?.value.trim();
     const description = document.getElementById("category-description")?.value.trim();
     const alertError = document.getElementById("alert-error");
@@ -8,8 +8,8 @@ export const addOrModifyCategory = async ({ isEdit = false, originalId = null } 
         return alertError.show("Name is required.", 2000);
     }
     const payload = isEdit
-        ? { id: originalId, name, description }
-        : { name, description };
+        ? {id: originalId, name, description}
+        : {name, description};
 
     const url = isEdit ? `/modify_category` : "/add_category";
     const method = isEdit ? "PUT" : "POST";
@@ -17,7 +17,7 @@ export const addOrModifyCategory = async ({ isEdit = false, originalId = null } 
     try {
         const res = await fetch(url, {
             method,
-            headers: { "Content-Type": "application/json" },
+            headers: {"Content-Type": "application/json"},
             body: JSON.stringify(payload)
         });
         if (res.ok) {

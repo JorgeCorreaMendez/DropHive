@@ -2,13 +2,13 @@ import {openModal} from "./modals/abrirYCerrarModal.js";
 
 const alertError = document.getElementById('alert-error');
 const successModal = document.getElementById('success-modal');
-export const addProduct = async ({ isEdit = false, originalId = null } = {}) => {
-    const id          = document.getElementById("product-id").value.trim();
-    const name        = document.getElementById("product-name").value.trim();
+export const addProduct = async ({isEdit = false, originalId = null} = {}) => {
+    const id = document.getElementById("product-id").value.trim();
+    const name = document.getElementById("product-name").value.trim();
     const description = document.getElementById("description").value.trim();
-    const price       = parseFloat(document.getElementById("price").value)    || 0;
-    const discount    = parseFloat(document.getElementById("discount").value) || 0;
-    const categoryId  = parseInt(document.getElementById("primary-category").value, 10);
+    const price = parseFloat(document.getElementById("price").value) || 0;
+    const discount = parseFloat(document.getElementById("discount").value) || 0;
+    const categoryId = parseInt(document.getElementById("primary-category").value, 10);
     const companyId = parseInt(document.getElementById("primary-company").value, 10);
     const secEls = Array.from(document.querySelectorAll("select[name='secondary-category[]']"));
     const secondary_categories = secEls
@@ -17,18 +17,18 @@ export const addProduct = async ({ isEdit = false, originalId = null } = {}) => 
         })
         .filter(name => name);
     const sizeEls = Array.from(document.querySelectorAll("input[name='newSize[]']"));
-    const qtyEls  = Array.from(document.querySelectorAll("input[name='newQuantity[]']"));
-    const sizes   = sizeEls.map((el, i) => ({
-        name:     el.value.trim(),
+    const qtyEls = Array.from(document.querySelectorAll("input[name='newQuantity[]']"));
+    const sizes = sizeEls.map((el, i) => ({
+        name: el.value.trim(),
         quantity: parseInt(qtyEls[i].value, 10) || 0
     })).filter(s => s.name);
 
-    if (!id)     return alertError.show("Error, ID is required.", 2000);
-    if (!name)   return alertError.show("Error, Name is required.", 2000);
-    if (price < 0 || isNaN(price))       return alertError.show("Error, Invalid price.", 2000);
+    if (!id) return alertError.show("Error, ID is required.", 2000);
+    if (!name) return alertError.show("Error, Name is required.", 2000);
+    if (price < 0 || isNaN(price)) return alertError.show("Error, Invalid price.", 2000);
     if (discount < 0 || isNaN(discount)) return alertError.show("Error, Invalid discount.", 2000);
-    if (isNaN(categoryId))               return alertError.show("Error, You must select a category.", 2000);
-    if (isNaN(companyId))                return alertError.show("Error, You must select a company.", 2000);
+    if (isNaN(categoryId)) return alertError.show("Error, You must select a category.", 2000);
+    if (isNaN(companyId)) return alertError.show("Error, You must select a company.", 2000);
 
     const payload = {
         id,
@@ -36,8 +36,8 @@ export const addProduct = async ({ isEdit = false, originalId = null } = {}) => 
         description,
         price,
         discount,
-        category: { id: categoryId },
-        company: { id: companyId },
+        category: {id: categoryId},
+        company: {id: companyId},
         secondary_categories,
         sizes
     };
@@ -46,8 +46,8 @@ export const addProduct = async ({ isEdit = false, originalId = null } = {}) => 
     try {
         const res = await fetch(url, {
             method,
-            headers: { "Content-Type": "application/json" },
-            body:    JSON.stringify(payload)
+            headers: {"Content-Type": "application/json"},
+            body: JSON.stringify(payload)
         });
 
         if (res.ok) {
@@ -146,7 +146,7 @@ export async function loadCompanies() {
         companies
             .filter(c => c.id && c.name)
             .forEach(company => {
-                if(company.id !== 1) {
+                if (company.id !== 1) {
                     const opt = document.createElement("option");
                     opt.value = company.id;
                     opt.textContent = company.name;
@@ -162,7 +162,6 @@ export async function loadCompanies() {
         console.error("Failed to load companies:", e);
     }
 }
-
 
 
 // ========================================================================

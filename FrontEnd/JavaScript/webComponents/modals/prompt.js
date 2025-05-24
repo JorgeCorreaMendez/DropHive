@@ -70,81 +70,81 @@ const styles = `
 `;
 
 export class PromptModal extends HTMLElement {
-  constructor() {
-    super();
-    this.attachShadow({ mode: 'open' });
+    constructor() {
+        super();
+        this.attachShadow({mode: 'open'});
 
-    const style = document.createElement('style');
-    style.textContent = styles;
+        const style = document.createElement('style');
+        style.textContent = styles;
 
-    this.wrapper = document.createElement('div');
-    this.wrapper.classList.add('modal');
+        this.wrapper = document.createElement('div');
+        this.wrapper.classList.add('modal');
 
-    this.titleEl = document.createElement('h2');
-    this.textEl = document.createElement('p');
-    this.inputEl = document.createElement('input');
-    this.inputEl.setAttribute('placeholder', 'Introduce un valor');
-    this.inputEl.addEventListener('keydown', (e) => {
-      if (e.key === 'Enter') {
-        e.preventDefault();
-        this.resolve(this.inputEl.value);
-        this.hide();
-      }
-    });
-    this.inputEl.addEventListener('keydown', (e) => {
-      if (e.key === 'Escape') {
-        e.preventDefault();
-        this.resolve(null);
-        this.hide();
-      }
-    });
-    const actions = document.createElement('div');
-    actions.classList.add('actions');
-    const confirmBtn = document.createElement('button');
-    confirmBtn.classList.add('confirm');
-    confirmBtn.textContent = 'Aceptar';
-    confirmBtn.addEventListener('click', () => {
-      this.resolve(this.inputEl.value);
-      this.hide();
-    });
-    const cancelBtn = document.createElement('button');
-    cancelBtn.classList.add('cancel');
-    cancelBtn.textContent = 'Cancelar';
-    cancelBtn.addEventListener('click', () => {
-      this.resolve(null);
-      this.hide();
-    });
+        this.titleEl = document.createElement('h2');
+        this.textEl = document.createElement('p');
+        this.inputEl = document.createElement('input');
+        this.inputEl.setAttribute('placeholder', 'Introduce un valor');
+        this.inputEl.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter') {
+                e.preventDefault();
+                this.resolve(this.inputEl.value);
+                this.hide();
+            }
+        });
+        this.inputEl.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') {
+                e.preventDefault();
+                this.resolve(null);
+                this.hide();
+            }
+        });
+        const actions = document.createElement('div');
+        actions.classList.add('actions');
+        const confirmBtn = document.createElement('button');
+        confirmBtn.classList.add('confirm');
+        confirmBtn.textContent = 'Aceptar';
+        confirmBtn.addEventListener('click', () => {
+            this.resolve(this.inputEl.value);
+            this.hide();
+        });
+        const cancelBtn = document.createElement('button');
+        cancelBtn.classList.add('cancel');
+        cancelBtn.textContent = 'Cancelar';
+        cancelBtn.addEventListener('click', () => {
+            this.resolve(null);
+            this.hide();
+        });
 
-    actions.appendChild(confirmBtn);
-    actions.appendChild(cancelBtn);
+        actions.appendChild(confirmBtn);
+        actions.appendChild(cancelBtn);
 
-    this.wrapper.appendChild(this.titleEl);
-    this.wrapper.appendChild(this.textEl);
-    this.wrapper.appendChild(this.inputEl);
-    this.wrapper.appendChild(actions);
+        this.wrapper.appendChild(this.titleEl);
+        this.wrapper.appendChild(this.textEl);
+        this.wrapper.appendChild(this.inputEl);
+        this.wrapper.appendChild(actions);
 
-    this.shadowRoot.append(style, this.wrapper);
-  }
+        this.shadowRoot.append(style, this.wrapper);
+    }
 
-  show({ title = '', text = '', placeholder = '' }) {
-    this.titleEl.textContent = title;
-    this.textEl.textContent = text;
-    this.inputEl.placeholder = placeholder;
-    this.style.display = 'flex';
+    show({title = '', text = '', placeholder = ''}) {
+        this.titleEl.textContent = title;
+        this.textEl.textContent = text;
+        this.inputEl.placeholder = placeholder;
+        this.style.display = 'flex';
 
-    requestAnimationFrame(() => {
-      this.inputEl.focus();
-    });
+        requestAnimationFrame(() => {
+            this.inputEl.focus();
+        });
 
-    return new Promise(resolve => {
-      this.resolve = resolve;
-    });
-  }
+        return new Promise(resolve => {
+            this.resolve = resolve;
+        });
+    }
 
-  hide() {
-    this.style.display = 'none';
-    this.inputEl.value = '';
-  }
+    hide() {
+        this.style.display = 'none';
+        this.inputEl.value = '';
+    }
 }
 
 customElements.define('prompt-modal', PromptModal);

@@ -5,7 +5,7 @@ async function cargarModalCrearCuenta() {
     const html = await response.text();
     openModal(html);
     setTimeout(() => {
-      document.getElementById("save-changes-btn")?.addEventListener("click", crearCuentaEmpleado);
+        document.getElementById("save-changes-btn")?.addEventListener("click", crearCuentaEmpleado);
     }, 50);
 }
 
@@ -30,12 +30,12 @@ async function crearCuentaEmpleado() {
         /// TODO. Crear contraseña aquii
         modal.classList.remove('hidden');
         const response = await fetch('http://127.0.0.1:4000/create_account', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(newUserData)
-            });
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(newUserData)
+        });
 
         if (response.ok) {
             modal.classList.add('hidden');

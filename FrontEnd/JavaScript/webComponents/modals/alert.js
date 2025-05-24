@@ -52,7 +52,7 @@ export class AlertMessage extends HTMLElement {
 
     constructor() {
         super();
-        const shadow = this.attachShadow({ mode: 'open' });
+        const shadow = this.attachShadow({mode: 'open'});
         const style = document.createElement('style');
         style.textContent = styles;
         this.wrapper = document.createElement('div');
@@ -88,4 +88,5 @@ export class AlertMessage extends HTMLElement {
         this.style.display = 'none';
     }
 }
+
 customElements.define('alert-message', AlertMessage);

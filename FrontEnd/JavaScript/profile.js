@@ -16,10 +16,11 @@ function loadDefaultTemplates() {
     loadTemplate("profile", 'header-container');
 
 }
+
 function initializePage() {
     loadDefaultTemplates(); // Siempre cargamos el header y footer}
 }
 
-window.onload = function() {
+window.onload = function () {
     initializePage(); // Cargar header, footer y body específico según la página
 };

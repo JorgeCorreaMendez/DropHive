@@ -160,7 +160,7 @@ button {
 
 .pagination-controls #page-info {
     font-size: 1.125rem; /* similar a text-lg */
-    font-weight: 600;    /* similar a font-semibold */
+    font-weight: 600; /* similar a font-semibold */
 }
 
 .filters {
@@ -184,7 +184,7 @@ button {
     margin-left: 5px;
 }
 
-#notification-btn:hover{
+#notification-btn:hover {
     background-color: #999 !important;
 }
 

@@ -145,9 +145,17 @@ body {
     margin-right: 5px;
 }
 
-.red { background-color: red; }
-.blue { background-color: blue; }
-.orange { background-color: orange; }
+.red {
+    background-color: red;
+}
+
+.blue {
+    background-color: blue;
+}
+
+.orange {
+    background-color: orange;
+}
 
 .actions {
     display: flex;
@@ -178,6 +186,7 @@ footer {
     .right-sidebar, .left-sidebar {
         width: 180px;
     }
+
     .product-table {
         max-width: 90%;
     }

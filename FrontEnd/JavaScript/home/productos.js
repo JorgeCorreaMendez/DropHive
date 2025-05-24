@@ -1,5 +1,5 @@
 import {cargarDatosEnTabla} from "../home.js";
-import { initPagination } from "../recursos/paginado.js";
+import {initPagination} from "../recursos/paginado.js";
 import {openModal} from "../modals/abrirYCerrarModal.js";
 import {addProduct} from "../createProduct.js";
 
@@ -71,7 +71,7 @@ export async function addInformacionFilaProducto(item) {
 
     const discountedCell = document.createElement('td');
     discountedCell.classList.add('p-2', 'rounded-[5px]');
-    discountedCell.textContent = (item.price*(1-(item.discount/100))) + " €";
+    discountedCell.textContent = (item.price * (1 - (item.discount / 100))) + " €";
 
     const quantityCell = document.createElement('td');
     quantityCell.classList.add('p-2', 'rounded-[5px]');
@@ -114,10 +114,10 @@ export async function modificarCabeceraTablaProductos() {
     filaCabecera.innerHTML = '';
 
     cabeceras.forEach(texto => {
-      const th = document.createElement("th");
-      th.textContent = texto;
-      th.className = "p-2 rounded-[5px]"; // Tailwind classes
-      filaCabecera.appendChild(th);
+        const th = document.createElement("th");
+        th.textContent = texto;
+        th.className = "p-2 rounded-[5px]"; // Tailwind classes
+        filaCabecera.appendChild(th);
     });
 }
 
@@ -126,6 +126,6 @@ export async function cargarModalCrearProducto() {
     const html = await response.text();
     openModal(html);
     setTimeout(() => {
-      document.getElementById("save-changes-btn")?.addEventListener("click", addProduct);
+        document.getElementById("save-changes-btn")?.addEventListener("click", addProduct);
     }, 50);
 }

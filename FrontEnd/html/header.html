@@ -11,23 +11,25 @@
 </head>
 <body>
 <confirmation-modal id="confirmation-modal"></confirmation-modal>
-    <header class="header">
-        <div class="logo-section" id="retorno-home">
-            <img src="/FrontEnd/Images/Logo_Drop_Hive.svg" alt="DropHive Logo" class="logo-img" id="logo"/>
+<header class="header">
+    <div class="logo-section" id="retorno-home">
+        <img src="/FrontEnd/Images/Logo_Drop_Hive.svg" alt="DropHive Logo" class="logo-img" id="logo"/>
+    </div>
+    <div class="search-section">
+        <input aria-label="" type="text" placeholder="Search" class="search-input"/>
+        <img class="h-[20px] fill-white" src="{{ url_for('static', filename='Images/Lupa.svg') }}"
+             alt="Imagen de reinicio"/>
+    </div>
+    <div class="user-section">
+        <div class="flex flex-col justify-end">
+            <button type="submit" class="mb-0" id="mi-perfil">Your Store</button>
+            <div class="border-t border-black my-0.5"></div>
+            <button type="submit" class="mb-0 text-sm" id="log-out">Log out</button>
         </div>
-        <div class="search-section">
-            <input aria-label="" type="text" placeholder="Search" class="search-input" />
-            <img class="h-[20px] fill-white" src="{{ url_for('static', filename='Images/Lupa.svg') }}" alt="Imagen de reinicio"/>
+        <div class="user-icon">
+            <img class="h-[30px] fill-black" src="{{ url_for('static', filename='Images/avatar.svg') }}"
+                 alt="Avatar de perfil"/>
         </div>
-        <div class="user-section">
-            <div class="flex flex-col justify-end">
-                <button type="submit" class="mb-0" id="mi-perfil">Your Store</button>
-                <div class="border-t border-black my-0.5"></div>
-                <button type="submit" class="mb-0 text-sm" id="log-out">Log out</button>
-            </div>
-            <div class="user-icon">
-                <img class="h-[30px] fill-black" src="{{ url_for('static', filename='Images/avatar.svg') }}" alt="Avatar de perfil"/>
-            </div>
-        </div>
-    </header>
+    </div>
+</header>
 </body>

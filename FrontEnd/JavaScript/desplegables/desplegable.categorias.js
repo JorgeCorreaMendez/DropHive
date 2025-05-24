@@ -3,7 +3,7 @@ export async function actualizarOpcionesCategoria() {
     select.innerHTML = '<option value="all">All</option>';
     try {
         const response = await fetch(`http://127.0.0.1:4000/categories`);
-        if(!response.ok) {
+        if (!response.ok) {
             throw new Error(`Error en la solicitud: ${response.statusText}`);
         }
         const data = await response.json()

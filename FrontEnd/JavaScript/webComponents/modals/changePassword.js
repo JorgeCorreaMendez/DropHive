@@ -84,16 +84,16 @@ const styles = `
 `;
 
 class ChangePasswordModal extends HTMLElement {
-  constructor() {
-    super();
-    this.attachShadow({ mode: 'open' });
+    constructor() {
+        super();
+        this.attachShadow({mode: 'open'});
 
-    const style = document.createElement('style');
-    style.textContent = styles;
+        const style = document.createElement('style');
+        style.textContent = styles;
 
-    const container = document.createElement('div');
-    container.className = 'modal';
-    container.innerHTML = `
+        const container = document.createElement('div');
+        container.className = 'modal';
+        container.innerHTML = `
       <h3>Confirm your new password</h3>
       <p>Enter and repeat your new password</p>
       <input id="input1" type="password" placeholder="New password" />
@@ -104,67 +104,67 @@ class ChangePasswordModal extends HTMLElement {
       </div>
     `;
 
-    this.shadowRoot.appendChild(style);
-    this.shadowRoot.appendChild(container);
+        this.shadowRoot.appendChild(style);
+        this.shadowRoot.appendChild(container);
 
-    this.input1 = this.shadowRoot.querySelector('#input1');
-    this.input2 = this.shadowRoot.querySelector('#input2');
-    this.confirmButton = this.shadowRoot.querySelector('#confirm');
+        this.input1 = this.shadowRoot.querySelector('#input1');
+        this.input2 = this.shadowRoot.querySelector('#input2');
+        this.confirmButton = this.shadowRoot.querySelector('#confirm');
 
-    this.confirmButton.addEventListener('click', () => {
-      const val1 = this.input1.value.trim();
-      const val2 = this.input2.value.trim();
+        this.confirmButton.addEventListener('click', () => {
+            const val1 = this.input1.value.trim();
+            const val2 = this.input2.value.trim();
 
-      if (val1 === '' || val2 === '') {
-        this._reject('empty');
-      } else if (val1.length < 8 || val2.length < 8) {
-        this._reject('too_short');
-      } else if (val1 !== val2) {
-        this._reject('mismatch');
-      } else {
-        this.hide();
-        this._resolve(val1);
-      }
-    });
+            if (val1 === '' || val2 === '') {
+                this._reject('empty');
+            } else if (val1.length < 8 || val2.length < 8) {
+                this._reject('too_short');
+            } else if (val1 !== val2) {
+                this._reject('mismatch');
+            } else {
+                this.hide();
+                this._resolve(val1);
+            }
+        });
 
-    this.cancelButton = this.shadowRoot.querySelector('#cancel');
-    this.cancelButton.addEventListener('click', () => {
-      this.hide();
-      this._reject('cancel');
-    });
-  }
+        this.cancelButton = this.shadowRoot.querySelector('#cancel');
+        this.cancelButton.addEventListener('click', () => {
+            this.hide();
+            this._reject('cancel');
+        });
+    }
 
-  show() {
-    this.style.display = 'flex';
-    this.input1.value = '';
-    this.input2.value = '';
+    show() {
+        this.style.display = 'flex';
+        this.input1.value = '';
+        this.input2.value = '';
 
-    requestAnimationFrame(() => {
-      this.input1.focus();
-    });
+        requestAnimationFrame(() => {
+            this.input1.focus();
+        });
 
-    const handleKeydown = (e) => {
-      if (e.key === 'Enter') {
-        e.preventDefault();
-        this.confirmButton.click();
-      } else if (e.key === 'Escape') {
-        e.preventDefault();
-        this.cancelButton.click();
-      }
-    };
+        const handleKeydown = (e) => {
+            if (e.key === 'Enter') {
+                e.preventDefault();
+                this.confirmButton.click();
+            } else if (e.key === 'Escape') {
+                e.preventDefault();
+                this.cancelButton.click();
+            }
+        };
 
-    this.input1.addEventListener('keydown', handleKeydown);
-    this.input2.addEventListener('keydown', handleKeydown);
+        this.input1.addEventListener('keydown', handleKeydown);
+        this.input2.addEventListener('keydown', handleKeydown);
 
-    return new Promise((resolve, reject) => {
-      this._resolve = resolve;
-      this._reject = reject;
-    });
-  }
+        return new Promise((resolve, reject) => {
+            this._resolve = resolve;
+            this._reject = reject;
+        });
+    }
 
-  hide() {
-    this.style.display = 'none';
-  }
+    hide() {
+        this.style.display = 'none';
+    }
 }
 
 customElements.define('change-password-modal', ChangePasswordModal);

@@ -5,7 +5,7 @@ function initializeLogoutButton() {
             const modal = document.getElementById("confirmation-modal");
             modal.show("Are you sure you want to log out?")
                 .then(() => {
-                    fetch("/logout", { method: "GET" })
+                    fetch("/logout", {method: "GET"})
                         .then(response => {
                             if (response.ok) {
                                 window.location.href = "/login";

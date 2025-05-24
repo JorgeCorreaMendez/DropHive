@@ -18,45 +18,45 @@
     {% include 'header.html' %}
 </header>
 <div class="total-wrapper2">
-<div class="log-container">
-    <div class="total-wrapper">
-        <div class="table-wrapper">
-    <table id="log-table">
-      <thead>
-        <tr>
-          <th>Date</th>
-          <th>Time</th>
-          <th>User</th>
-          <th>Action</th>
-        </tr>
-      </thead>
-      <tbody id="log-table-body"></tbody>
-    </table>
-</div>
-</div>
-    <div class="sidebar">
-        <div class="button-wrapper sort-control">
-            <label>Sort by:
-                <select id="sort-log">
-                    <option value="desc">Newest First</option>
-                    <option value="asc">Oldest First</option>
-                </select>
-            </label>
+    <div class="log-container">
+        <div class="total-wrapper">
+            <div class="table-wrapper">
+                <table id="log-table">
+                    <thead>
+                    <tr>
+                        <th>Date</th>
+                        <th>Time</th>
+                        <th>User</th>
+                        <th>Action</th>
+                    </tr>
+                    </thead>
+                    <tbody id="log-table-body"></tbody>
+                </table>
+            </div>
         </div>
-        <div class="button-wrapper filters">
-            <label>User:
-                <select id="filter-user">
-                    <option value="All">All</option>
-                </select>
-            </label>
-            <label>Date:
-                <select id="filter-date">
-                    <option value="All">All</option>
-                </select>
-            </label>
+        <div class="sidebar">
+            <div class="button-wrapper sort-control">
+                <label>Sort by:
+                    <select id="sort-log">
+                        <option value="desc">Newest First</option>
+                        <option value="asc">Oldest First</option>
+                    </select>
+                </label>
+            </div>
+            <div class="button-wrapper filters">
+                <label>User:
+                    <select id="filter-user">
+                        <option value="All">All</option>
+                    </select>
+                </label>
+                <label>Date:
+                    <select id="filter-date">
+                        <option value="All">All</option>
+                    </select>
+                </label>
+            </div>
         </div>
     </div>
-</div>
 </div>
 </body>
 </html>

@@ -1,53 +1,53 @@
-import { loadCategories, loadCompanies } from "../createProduct.js";
+import {loadCategories, loadCompanies} from "../createProduct.js";
 
 const modalContainer = document.getElementById("modal-container");
 const modalContent = document.getElementById("modal-content");
 
 export function openModal(htmlContent) {
-  modalContent.innerHTML = `
+    modalContent.innerHTML = `
     <button id="close-modal" class="absolute top-4 right-4 text-2xl font-bold text-gray-600 hover:text-black">&times;</button>
     ${htmlContent}
   `;
 
-  modalContainer.classList.remove("hidden");
-  void modalContent.offsetWidth;
-  modalContent.classList.remove("scale-95", "opacity-0");
-  modalContent.classList.add("scale-100", "opacity-100");
+    modalContainer.classList.remove("hidden");
+    void modalContent.offsetWidth;
+    modalContent.classList.remove("scale-95", "opacity-0");
+    modalContent.classList.add("scale-100", "opacity-100");
 
-  modalContent.querySelector("#close-modal").addEventListener("click", closeModal);
+    modalContent.querySelector("#close-modal").addEventListener("click", closeModal);
 
 
-  setTimeout(() => {
-    if (document.getElementById("primary-category")) {
-      loadCategories();
-    } else {
-      console.warn("El select 'primary-category' no se encontró dentro del modal.");
-    }
+    setTimeout(() => {
+        if (document.getElementById("primary-category")) {
+            loadCategories();
+        } else {
+            console.warn("El select 'primary-category' no se encontró dentro del modal.");
+        }
 
-    if (document.getElementById("primary-company")) {
-      loadCompanies();
-    } else {
-      console.warn("El select 'primary-company' no se encontró dentro del modal.");
-    }
-  }, 0);
+        if (document.getElementById("primary-company")) {
+            loadCompanies();
+        } else {
+            console.warn("El select 'primary-company' no se encontró dentro del modal.");
+        }
+    }, 0);
 }
 
 export function closeModal() {
-  const modalContainer = document.getElementById("modal-container");
-  const modalContent = document.getElementById("modal-content");
+    const modalContainer = document.getElementById("modal-container");
+    const modalContent = document.getElementById("modal-content");
 
-  modalContent.classList.remove("scale-100", "opacity-100");
-  modalContent.classList.add("scale-95", "opacity-0");
+    modalContent.classList.remove("scale-100", "opacity-100");
+    modalContent.classList.add("scale-95", "opacity-0");
 
-  setTimeout(() => {
-    modalContainer.classList.add("hidden");
-  }, 300);
+    setTimeout(() => {
+        modalContainer.classList.add("hidden");
+    }, 300);
 }
 
 export function initializeModalEvents() {
-  modalContainer.addEventListener("click", (event) => {
-    if (event.target === modalContainer) {
-      closeModal();
-    }
-  });
+    modalContainer.addEventListener("click", (event) => {
+        if (event.target === modalContainer) {
+            closeModal();
+        }
+    });
 }

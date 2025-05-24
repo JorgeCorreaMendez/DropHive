@@ -20,23 +20,32 @@ button {
     cursor: pointer;
     transition: transform 0.3s ease;
 }
+
 button:hover {
     transform: scale(1.1);
 }
 
 
-.modify { background: #d9d9d9; padding: 5px;}
-.delete { background: red; color: white; padding: 5px; }
+.modify {
+    background: #d9d9d9;
+    padding: 5px;
+}
+
+.delete {
+    background: red;
+    color: white;
+    padding: 5px;
+}
 
 
-.bloque{
+.bloque {
     background-color: #d9d9d9;
     border-radius: 10px;
     padding: 5px;
 }
 
-.contenedor{
-    background-color:#ededed;
+.contenedor {
+    background-color: #ededed;
     border-radius: 10px;
     padding: 10px;
 }
@@ -48,7 +57,7 @@ button:hover {
     grid-template-columns: 2fr 1fr;
     align-items: start;
     gap: 20px;
-    background-color:#ededed;
+    background-color: #ededed;
     border-radius: 10px;
     padding: 20px;
 }
@@ -107,9 +116,10 @@ button:hover {
     border-radius: 10px;
 }
 
-.table{
+.table {
     width: 100%;
 }
+
 .row {
     display: flex;
     justify-content: space-between;
@@ -117,12 +127,23 @@ button:hover {
     border-bottom: 1px solid #ddd;
 }
 
-.green { color: green; }
-.red { color: red; }
-.yellow { color: orange; }
+.green {
+    color: green;
+}
+
+.red {
+    color: red;
+}
+
+.yellow {
+    color: orange;
+}
 
 /* Similar Items */
-.similar-items { margin-top: 30px; }
+.similar-items {
+    margin-top: 30px;
+}
+
 .similar-items input {
     display: block;
     width: 100%;
@@ -133,7 +154,7 @@ button:hover {
 }
 
 textarea {
-  background-color: transparent;
-  font-family: monospace;
-  color: #000; /* o el color que vos quieras */
+    background-color: transparent;
+    font-family: monospace;
+    color: #000; /* o el color que vos quieras */
 }

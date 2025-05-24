@@ -1,41 +1,43 @@
 <main>
-  <div class="total-wrapper2">
-  <div class="total-wrapper">
-  <section class="employee-actions">
-    <h2>Employee actions</h2>
-    <div class="employee-data">
-      <div class="field">
-        <label>ID</label>
-        <p id="id">0001</p>
-      </div>
+    <div class="total-wrapper2">
+        <div class="total-wrapper">
+            <section class="employee-actions">
+                <h2>Employee actions</h2>
+                <div class="employee-data">
+                    <div class="field">
+                        <label>ID</label>
+                        <p id="id">0001</p>
+                    </div>
 
-      <div class="field">
-        <label>Email</label>
-        <p id="mail">email@ejemplo.com</p>
-      </div>
+                    <div class="field">
+                        <label>Email</label>
+                        <p id="mail">email@ejemplo.com</p>
+                    </div>
 
-      <div class="field">
-        <label>Role</label>
-        <p id="role">Admin/User</p>
-      </div>
+                    <div class="field">
+                        <label>Role</label>
+                        <p id="role">Admin/User</p>
+                    </div>
+                </div>
+                <div class="button-row">
+                    <div class="button-wrapper delete_button">
+                        <button class="delete-button" id="delete-btn">
+                            <img src="{{ url_for('static', filename='Images/archivo-bin.ico') }}" alt="Delete icon"
+                                 class="icon">
+                            Delete employee
+                        </button>
+                    </div>
+                    <div class="button-wrapper modify_button">
+                        <button class="modify-button" id="modify-btn">
+                            <img src="{{ url_for('static', filename='Images/escritura.ico') }}" alt="modify icon"
+                                 class="icon">
+                            Modify employee
+                        </button>
+                    </div>
+                </div>
+            </section>
+        </div>
     </div>
-    <div class="button-row">
-    <div class="button-wrapper delete_button">
-      <button class="delete-button" id="delete-btn">
-        <img src="{{ url_for('static', filename='Images/archivo-bin.ico') }}" alt="Delete icon" class="icon">
-        Delete employee
-      </button>
-    </div>
-    <div class="button-wrapper modify_button">
-      <button class="modify-button" id="modify-btn">
-        <img src="{{ url_for('static', filename='Images/escritura.ico') }}" alt="modify icon" class="icon">
-        Modify employee
-      </button>
-    </div>
-    </div>
-  </section>
-  </div>
-  </div>
 </main>
 
 

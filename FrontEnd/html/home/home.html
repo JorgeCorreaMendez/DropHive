@@ -7,9 +7,9 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <link rel="icon" href="/FrontEnd/Images/LogoSoloCaja.ico" type="image/x-icon">
-    <link rel="stylesheet" href="/FrontEnd/CSS/AddAndModifyCompany.css">
+    <link rel="stylesheet" href="/FrontEnd/CSS/addAndModifyCompany.css">
     <link rel="stylesheet" href="/FrontEnd/CSS/notifications.css">
-    <link rel="stylesheet" href="/FrontEnd/CSS/Read_Article.css">
+    <link rel="stylesheet" href="/FrontEnd/CSS/readArticle.css">
     <link rel="stylesheet" href="/FrontEnd/CSS/home/createProduct.css">
     <script type="module" src="/FrontEnd/JavaScript/home.js"></script>
     <script type="module" src="/FrontEnd/JavaScript/filtrado.js"></script>
@@ -20,101 +20,105 @@
     <script type="module" src="/FrontEnd/JavaScript/webComponents/modals/alert.js"></script>
     <script type="module" src="/FrontEnd/JavaScript/webComponents/modals/successful.js"></script>
     <!-- Select2 CSS -->
-    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet"/>
     <!-- jQuery + Select2 JS -->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 </head>
 <body class="bg-white" data-vista="productos">
-    {% include 'header.html' %}
-    <alert-message id="alert-error" type="error"></alert-message>
-    <successful-modal id="success-modal"></successful-modal>
-    <div class="flex bg-[#D9D9D9] flex-1 gap-[10px] items-start m-[20px] rounded-[50px]">
-        <aside class="w-1/6 p-4 m-[10px] mt-[25px] flex flex-col gap-[50px]">
-            <div class="bg-[#EDEDED] flex justify-center items-center bg-gray-100 rounded-[20px] p-5">
-                <button id="log-btn" class="mt-2 w-full bg-[#D9D9D9] text-black p-2 rounded flex justify-center items-center gap-[5px]">
-                  Log
-                </button>
-            </div>
-            <div class="bg-[#EDEDED] flex flex-col justify-center items-center rounded-[20px] p-5">
-                <h2 class="text-lg font-semibold">Filter</h2>
-                <label class="block mt-2 w-full" for="items-per-page">Show:
-                    <select id="items-per-page" class="mt-1 p-2 w-full bg-transparent border-0 border-b-2 border-gray-400 focus:outline-none focus:border-black rounded-none">
-                        <option value="5">5</option>
-                        <option value="10">10</option>
-                        <option value="20">20</option>
+{% include 'header.html' %}
+<alert-message id="alert-error" type="error"></alert-message>
+<successful-modal id="success-modal"></successful-modal>
+<div class="flex bg-[#D9D9D9] flex-1 gap-[10px] items-start m-[20px] rounded-[50px]">
+    <aside class="w-1/6 p-4 m-[10px] mt-[25px] flex flex-col gap-[50px]">
+        <div class="bg-[#EDEDED] flex justify-center items-center bg-gray-100 rounded-[20px] p-5">
+            <button id="log-btn"
+                    class="mt-2 w-full bg-[#D9D9D9] text-black p-2 rounded flex justify-center items-center gap-[5px]">
+                Log
+            </button>
+        </div>
+        <div class="bg-[#EDEDED] flex flex-col justify-center items-center rounded-[20px] p-5">
+            <h2 class="text-lg font-semibold">Filter</h2>
+            <label class="block mt-2 w-full" for="items-per-page">Show:
+                <select id="items-per-page"
+                        class="mt-1 p-2 w-full bg-transparent border-0 border-b-2 border-gray-400 focus:outline-none focus:border-black rounded-none">
+                    <option value="5">5</option>
+                    <option value="10">10</option>
+                    <option value="20">20</option>
+                </select>
+            </label>
+            <div id="filtro-productos">
+                <label class="block mt-5 w-full">Category:
+                    <select id="select-categoria"
+                            class="mt-1 p-2 w-full bg-transparent border-0 border-b-2 border-gray-400 focus:outline-none focus:border-black rounded-none text-xs">
+                        <option value="all">All</option>
                     </select>
                 </label>
-                <div id="filtro-productos">
-                    <label class="block mt-5 w-full">Category:
-                        <select id="select-categoria" class="mt-1 p-2 w-full bg-transparent border-0 border-b-2 border-gray-400 focus:outline-none focus:border-black rounded-none text-xs">
-                            <option value="all">All</option>
-                        </select>
-                    </label>
-                    <label class="block mt-5 w-full">Supplier:
-                        <select id="select-proveedor" class="mt-1 p-2 w-full bg-transparent border-0 border-b-2 border-gray-400 focus:outline-none focus:border-black rounded-none text-xs">
-                            <option value="all">All</option>
-                        </select>
-                    </label>
-                    <label class="block mt-5">Minimum Price
+                <label class="block mt-5 w-full">Supplier:
+                    <select id="select-proveedor"
+                            class="mt-1 p-2 w-full bg-transparent border-0 border-b-2 border-gray-400 focus:outline-none focus:border-black rounded-none text-xs">
+                        <option value="all">All</option>
+                    </select>
+                </label>
+                <label class="block mt-5">Minimum Price
                     <input
-                      type="text"
-                      placeholder="Write Here"
-                      class="mt-1 p-2 w-full bg-transparent border-0 border-b-2 border-gray-400 focus:outline-none focus:border-black rounded-none"
-                      id="min-price"
+                            type="text"
+                            placeholder="Write Here"
+                            class="mt-1 p-2 w-full bg-transparent border-0 border-b-2 border-gray-400 focus:outline-none focus:border-black rounded-none"
+                            id="min-price"
                     />
-                    </label>
+                </label>
 
-                    <label class="block mt-5">Maximum Price
+                <label class="block mt-5">Maximum Price
                     <input
-                      type="text"
-                      placeholder="Write Here"
-                      class="mt-1 p-2 w-full bg-transparent border-0 border-b-2 border-gray-400 focus:outline-none focus:border-black rounded-none"
-                      id="max-price"
+                            type="text"
+                            placeholder="Write Here"
+                            class="mt-1 p-2 w-full bg-transparent border-0 border-b-2 border-gray-400 focus:outline-none focus:border-black rounded-none"
+                            id="max-price"
                     />
-                    </label>
-                    <label class="block mt-5">Max Quantity Available
+                </label>
+                <label class="block mt-5">Max Quantity Available
                     <input
-                      type="text"
-                      placeholder="Write Here"
-                      class="mt-1 p-2 w-full bg-transparent border-0 border-b-2 border-gray-400 focus:outline-none focus:border-black rounded-none"
-                      id="max-quantity"
+                            type="text"
+                            placeholder="Write Here"
+                            class="mt-1 p-2 w-full bg-transparent border-0 border-b-2 border-gray-400 focus:outline-none focus:border-black rounded-none"
+                            id="max-quantity"
                     />
-                    </label>
-                </div>
+                </label>
             </div>
-        </aside>
-        <main class="w-2/3 p-4 bg-[#EDEDED] m-[10px] mt-[25px] rounded-[20px]">
-            <table class="w-full rounded border-separate border-spacing-y-[10px] border-spacing-x-[5px]">
-                <thead class="no-background thead-line">
-                    <tr id="cabecera-tabla"></tr>
-                </thead>
-                <tbody id="table-body"></tbody>
-            </table>
-            <div id="pagination" class="flex justify-center items-center space-x-2 mt-4">
-              <button id="prev-button" class="px-3 py-1 rounded bg-gray-300 hover:bg-gray-400" disabled>
+        </div>
+    </aside>
+    <main class="w-2/3 p-4 bg-[#EDEDED] m-[10px] mt-[25px] rounded-[20px]">
+        <table class="w-full rounded border-separate border-spacing-y-[10px] border-spacing-x-[5px]">
+            <thead class="no-background thead-line">
+            <tr id="cabecera-tabla"></tr>
+            </thead>
+            <tbody id="table-body"></tbody>
+        </table>
+        <div id="pagination" class="flex justify-center items-center space-x-2 mt-4">
+            <button id="prev-button" class="px-3 py-1 rounded bg-gray-300 hover:bg-gray-400" disabled>
                 ←
-              </button>
-              <span id="page-number" class="text-lg font-semibold">1</span>
-              <button id="next-button" class="px-3 py-1 rounded bg-gray-300 hover:bg-gray-400">
+            </button>
+            <span id="page-number" class="text-lg font-semibold">1</span>
+            <button id="next-button" class="px-3 py-1 rounded bg-gray-300 hover:bg-gray-400">
                 →
-              </button>
-            </div>
-        </main>
-        <aside class="w-1/6 p-4 m-[10px] mt-[25px] flex flex-col gap-[50px]">
-          <div class="bg-[#EDEDED] flex flex-col justify-center items-center bg-gray-100 rounded-[20px] p-5">
+            </button>
+        </div>
+    </main>
+    <aside class="w-1/6 p-4 m-[10px] mt-[25px] flex flex-col gap-[50px]">
+        <div class="bg-[#EDEDED] flex flex-col justify-center items-center bg-gray-100 rounded-[20px] p-5">
             <h2 class="text-lg font-semibold">Navigation</h2>
             <button id="add-item-btn" class="mt-2 w-full bg-[#8DC96A] text-black p-2 rounded">Add Item</button>
             <button id="company-btn" class="mt-2 w-full bg-[#D9D9D9] text-black p-2 rounded">Show All Company</button>
             <button id="category-btn" class="mt-2 w-full bg-[#D9D9D9] text-black p-2 rounded">Show All Category</button>
             <button id="item-btn" class="mt-2 w-full bg-[#D9D9D9] text-black p-2 rounded hidden">Show All Items</button>
-          </div>
-        </aside>
-    </div>
-    <div id="modal-container" class="fixed inset-0 z-50 hidden bg-black bg-opacity-50 flex items-center justify-center">
-        <div id="modal-content"
-             class="bg-white w-11/12 md:w-2/3 max-h-[90vh] overflow-y-auto rounded-xl p-6 relative transform scale-95 opacity-0 transition-all duration-5 00">
         </div>
+    </aside>
+</div>
+<div id="modal-container" class="fixed inset-0 z-50 hidden bg-black bg-opacity-50 flex items-center justify-center">
+    <div id="modal-content"
+         class="bg-white w-11/12 md:w-2/3 max-h-[90vh] overflow-y-auto rounded-xl p-6 relative transform scale-95 opacity-0 transition-all duration-5 00">
     </div>
+</div>
 </body>
 </html>

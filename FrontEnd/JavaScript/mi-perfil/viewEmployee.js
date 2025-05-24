@@ -13,40 +13,40 @@ export async function cargarDatosUsuario(data) {
 }
 
 function eliminarCuenta(userId) {
-  Swal.fire({
-    title: 'Are You Sure?',
-    text: "This Action Will Delete The Account Permanently.",
-    icon: 'warning',
-    showCancelButton: true,
-    confirmButtonColor: '#d33',
-    cancelButtonColor: '#3085d6',
-    confirmButtonText: 'Yes, Delete',
-    cancelButtonText: 'Cancel'
-  }).then((result) => {
-    if (result.isConfirmed) {
-      fetch(`/delete_account?id=${userId}`, { method: 'DELETE' })
-        .then(response => {
-          if (!response.ok) throw new Error("Error While Deleting");
-          return response.json();
-        })
-        .then(() => {
-          Swal.fire({
-            icon: 'success',
-            title: 'Account Deleted',
-            text: 'The Account Has Been Deleted Succesfully',
-            confirmButtonColor: '#3085d6'
-          }).then(() => {
-            window.location.reload();
-          });
-        })
-        .catch(() => {
-          Swal.fire({
-            icon: 'error',
-            title: 'Error',
-            text: 'An Error Ocurred While Deleting The Account.',
-            confirmButtonColor: '#d33'
-          });
-        });
-    }
-  });
+    Swal.fire({
+        title: 'Are You Sure?',
+        text: "This Action Will Delete The Account Permanently.",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#d33',
+        cancelButtonColor: '#3085d6',
+        confirmButtonText: 'Yes, Delete',
+        cancelButtonText: 'Cancel'
+    }).then((result) => {
+        if (result.isConfirmed) {
+            fetch(`/delete_account?id=${userId}`, {method: 'DELETE'})
+                .then(response => {
+                    if (!response.ok) throw new Error("Error While Deleting");
+                    return response.json();
+                })
+                .then(() => {
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Account Deleted',
+                        text: 'The Account Has Been Deleted Succesfully',
+                        confirmButtonColor: '#3085d6'
+                    }).then(() => {
+                        window.location.reload();
+                    });
+                })
+                .catch(() => {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Error',
+                        text: 'An Error Ocurred While Deleting The Account.',
+                        confirmButtonColor: '#d33'
+                    });
+                });
+        }
+    });
 }

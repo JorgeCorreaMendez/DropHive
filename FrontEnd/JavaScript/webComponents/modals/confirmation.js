@@ -57,80 +57,80 @@ const styles = `
 `;
 
 class ConfirmationModal extends HTMLElement {
-  constructor() {
-    super();
-    this.attachShadow({ mode: 'open' });
+    constructor() {
+        super();
+        this.attachShadow({mode: 'open'});
 
-    const wrapper = document.createElement('div');
-    wrapper.className = 'backdrop';
-    wrapper.classList.add('hidden');
-    this.wrapper = wrapper;
+        const wrapper = document.createElement('div');
+        wrapper.className = 'backdrop';
+        wrapper.classList.add('hidden');
+        this.wrapper = wrapper;
 
-    const style = document.createElement('style');
-    style.textContent = styles;
+        const style = document.createElement('style');
+        style.textContent = styles;
 
-    const modal = document.createElement('div');
-    modal.className = 'modal';
+        const modal = document.createElement('div');
+        modal.className = 'modal';
 
-    const title = document.createElement('h3');
-    this.titleEl = title;
+        const title = document.createElement('h3');
+        this.titleEl = title;
 
-    const buttons = document.createElement('div');
-    buttons.className = 'modal-buttons';
+        const buttons = document.createElement('div');
+        buttons.className = 'modal-buttons';
 
-    const cancelBtn = document.createElement('button');
-    cancelBtn.className = 'cancel';
-    cancelBtn.textContent = 'Cancel';
-    cancelBtn.onclick = () => {
-      if (typeof this.cancelCallback === 'function') {
-        this.cancelCallback();
-      }
-    };
+        const cancelBtn = document.createElement('button');
+        cancelBtn.className = 'cancel';
+        cancelBtn.textContent = 'Cancel';
+        cancelBtn.onclick = () => {
+            if (typeof this.cancelCallback === 'function') {
+                this.cancelCallback();
+            }
+        };
 
-    const confirmBtn = document.createElement('button');
-    confirmBtn.className = 'confirm';
-    confirmBtn.textContent = 'Confirm';
-    confirmBtn.onclick = () => {
-      if (typeof this.confirmCallback === 'function') {
-        this.confirmCallback();
-      }
-    };
+        const confirmBtn = document.createElement('button');
+        confirmBtn.className = 'confirm';
+        confirmBtn.textContent = 'Confirm';
+        confirmBtn.onclick = () => {
+            if (typeof this.confirmCallback === 'function') {
+                this.confirmCallback();
+            }
+        };
 
-    buttons.appendChild(cancelBtn);
-    buttons.appendChild(confirmBtn);
+        buttons.appendChild(cancelBtn);
+        buttons.appendChild(confirmBtn);
 
-    modal.appendChild(title);
-    modal.appendChild(buttons);
+        modal.appendChild(title);
+        modal.appendChild(buttons);
 
-    wrapper.appendChild(modal);
-    this.shadowRoot.append(style, wrapper);
-  }
+        wrapper.appendChild(modal);
+        this.shadowRoot.append(style, wrapper);
+    }
 
-  show(title = 'Are you sure?') {
-    this.wrapper.classList.remove('hidden');
-    return new Promise((resolve, reject) => {
-      this.titleEl.textContent = title;
+    show(title = 'Are you sure?') {
+        this.wrapper.classList.remove('hidden');
+        return new Promise((resolve, reject) => {
+            this.titleEl.textContent = title;
 
-      this.confirmCallback = () => {
-        resolve();
-        this.cleanup();
-      };
-      this.cancelCallback = () => {
-        reject();
-        this.cleanup();
-      };
+            this.confirmCallback = () => {
+                resolve();
+                this.cleanup();
+            };
+            this.cancelCallback = () => {
+                reject();
+                this.cleanup();
+            };
 
-      if (!document.body.contains(this)) {
-        document.body.appendChild(this);
-      }
-    });
-  }
+            if (!document.body.contains(this)) {
+                document.body.appendChild(this);
+            }
+        });
+    }
 
-  cleanup() {
-    this.confirmCallback = null;
-    this.cancelCallback = null;
-    this.wrapper.classList.add('hidden');
-  }
+    cleanup() {
+        this.confirmCallback = null;
+        this.cancelCallback = null;
+        this.wrapper.classList.add('hidden');
+    }
 }
 
 customElements.define('confirmation-modal', ConfirmationModal);

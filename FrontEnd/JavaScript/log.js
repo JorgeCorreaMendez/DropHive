@@ -1,6 +1,6 @@
 function renderLogs(logs) {
     const tbody = document.getElementById("log-table-body");
-    tbody.innerHTML = logs.map(({ date, time, user, action }) => `
+    tbody.innerHTML = logs.map(({date, time, user, action}) => `
         <tr>
             <td><div class="cell">${date}</div></td>
             <td><div class="cell">${time}</div></td>
@@ -44,7 +44,7 @@ function initializeLogInterface(data) {
         const match = line.match(/^(\d{4}-\d{2}-\d{2}) (\d{2}:\d{2}:\d{2}),\d+ - INFO - \[user: (.*?)] - (.*)$/);
         if (!match) return null;
         const [, date, time, user, action] = match;
-        return { date, time, user, action };
+        return {date, time, user, action};
     }).filter(entry => entry !== null);
 
     const userFilter = document.getElementById("filter-user");

@@ -21,7 +21,7 @@ async function cambiar_filtros(new_vista) {
 
     console.log(vistaActual)
 
-    if(vistaActual === "categorias") {
+    if (vistaActual === "categorias") {
         document.getElementById("filtro-productos").classList.add("hidden");
         document.getElementById("category-btn").classList.add("hidden");
         document.getElementById("item-btn").classList.remove("hidden");
@@ -32,11 +32,10 @@ async function cambiar_filtros(new_vista) {
         document.getElementById("category-btn").textContent = "Show All Items";
         document.getElementById("add-item-btn").textContent = "Add Category";
 
-        modificarBotonAdd("add-item-btn", "Add Category",cargarModalCrearCategoria);
+        modificarBotonAdd("add-item-btn", "Add Category", cargarModalCrearCategoria);
 
         await modificarCabeceraTablaCategoria();
-    }
-    else if (vistaActual === "productos") {
+    } else if (vistaActual === "productos") {
         document.getElementById("filtro-productos").classList.remove("hidden");
         document.getElementById("category-btn").classList.remove("hidden");
         document.getElementById("item-btn").classList.add("hidden");
@@ -69,16 +68,16 @@ async function cambiar_filtros(new_vista) {
 }
 
 function modificarBotonAdd(nombreBoton, textoNuevo, nuevaAccion) {
-  const addBtn = document.getElementById(nombreBoton);
-  if (!addBtn) return;
+    const addBtn = document.getElementById(nombreBoton);
+    if (!addBtn) return;
 
-  // Clonar el botón para quitar TODOS los eventListeners
-  const nuevoBtn = addBtn.cloneNode(true);
-  addBtn.parentNode.replaceChild(nuevoBtn, addBtn);
+    // Clonar el botón para quitar TODOS los eventListeners
+    const nuevoBtn = addBtn.cloneNode(true);
+    addBtn.parentNode.replaceChild(nuevoBtn, addBtn);
 
-  // Cambiar el texto del botón
-  nuevoBtn.textContent = textoNuevo;
+    // Cambiar el texto del botón
+    nuevoBtn.textContent = textoNuevo;
 
-  // Agregar nuevo eventListener
-  nuevoBtn.addEventListener("click", nuevaAccion);
+    // Agregar nuevo eventListener
+    nuevoBtn.addEventListener("click", nuevaAccion);
 }

@@ -45,10 +45,10 @@ export async function modificarCabeceraTablaCompany() {
     filaCabecera.innerHTML = '';
 
     cabeceras.forEach(texto => {
-      const th = document.createElement("th");
-      th.textContent = texto;
-      th.className = "p-2 rounded-[5px]"; // Tailwind classes
-      filaCabecera.appendChild(th);
+        const th = document.createElement("th");
+        th.textContent = texto;
+        th.className = "p-2 rounded-[5px]"; // Tailwind classes
+        filaCabecera.appendChild(th);
     });
 }
 
