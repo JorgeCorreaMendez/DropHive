@@ -1,4 +1,5 @@
 import {openModal} from "../modals/abrirYCerrarModal.js";
+import {addOrModifyCategory} from "../category/addAndModifyCategory.js";
 
 export async function addInformacionFilaCategoria(item) {
     const row = document.createElement('tr');
@@ -45,10 +46,10 @@ export async function modificarCabeceraTablaCategoria() {
     filaCabecera.innerHTML = '';
 
     cabeceras.forEach(texto => {
-      const th = document.createElement("th");
-      th.textContent = texto;
-      th.className = "p-2 rounded-[5px]"; // Tailwind classes
-      filaCabecera.appendChild(th);
+        const th = document.createElement("th");
+        th.textContent = texto;
+        th.className = "p-2 rounded-[5px]"; // Tailwind classes
+        filaCabecera.appendChild(th);
     });
 }
 
@@ -56,4 +57,12 @@ export async function cargarModalCrearCategoria() {
     const response = await fetch(`/addAndModifyCategory`);
     const html = await response.text();
     openModal(html);
+    document.getElementById("modal-container").addEventListener("click", async (e) => {
+        const saveBtn = e.target.closest("#save-btn1");
+        if (saveBtn) {
+            e.preventDefault();
+            await addOrModifyCategory();
+        }
+    });
+
 }

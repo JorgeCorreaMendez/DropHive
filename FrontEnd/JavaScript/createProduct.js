@@ -1,5 +1,4 @@
 import {openModal} from "./modals/abrirYCerrarModal.js";
-import {addOrModifyCategory} from "./category/addAndModifyCategory.js";
 
 const alertError = document.getElementById('alert-error');
 const successModal = document.getElementById('success-modal');
@@ -315,12 +314,3 @@ document.body.addEventListener("click", async (e) => {
         }
     }
 });
-
-document.getElementById("modal-container").addEventListener("click", async (e) => {
-    const saveBtn = e.target.closest("#save-btn1");
-    if (saveBtn) {
-        e.preventDefault();
-        await addOrModifyCategory();
-    }
-});
-
