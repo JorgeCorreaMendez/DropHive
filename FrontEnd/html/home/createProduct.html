@@ -63,11 +63,6 @@
             <select id="primary-company" name="primary-company" class="category-input border border-gray-300 rounded px-2 py-1" required>
               <option value="" disabled selected>Selecciona una compañia</option>
             </select>
-
-        <!-- DERECHA: Save Changes Button -->
-        <div class="top-right">
-          <button class="save-btn" id="save-changes-btn" type="button">Save Changes</button>
-        </div>
       </div>
     </main>
 
@@ -124,10 +119,15 @@
           </tbody>
         </table>
       </div>
-      <button type="button" id="add-size-b"
-              class="bg-amber-600 text-white px-4 py-2 rounded font-bold w-fit mt-4">
-        Add more sizes
-      </button>
+      <div class="flex justify-between mt-4 gap-4 flex-wrap">
+        <button type="button" id="add-size-b"
+                class="bg-amber-600 text-white px-4 py-2 rounded font-bold w-fit">
+          Add more sizes
+        </button>
+        <button class="save-btn" id="save-changes-btn" type="button">
+          Save Changes
+        </button>
+      </div>
     </main>
 
   </div>

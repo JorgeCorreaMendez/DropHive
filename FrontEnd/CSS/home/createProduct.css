@@ -154,7 +154,7 @@
 
 /* Save Changes Button */
 /* Save Changes Button con la misma animación que la categoría */
-.top-right .save-btn {
+.save-btn {
   background-color: #28a745;
   color: white;
   border: none;
@@ -164,7 +164,7 @@
   cursor: pointer;
   transition: background-color 0.3s, transform 0.2s;
 }
-.top-right .save-btn:hover {
+.save-btn:hover {
   background-color: #218838;
   transform: scale(1.05);
 }
@@ -235,8 +235,9 @@
   }
   .top-right {
     width: auto;
-    text-align: right;
     margin-top: 0;
+    margin-left: auto;
+    text-align: left;
   }
   .input-grey,
   .category-input {
