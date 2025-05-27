@@ -1,7 +1,7 @@
-import {localizarCategoria} from "../../home/productos.js";
-import {openModal} from "../abrirYCerrarModal.js";
-import {modificarArticulo} from "./modificarProducto.js";
-import {eliminarArticulo} from "./eliminarArticulo.js";
+import { localizarCategoria } from "../../home/productos.js";
+import { openModal } from "../abrirYCerrarModal.js";
+import { modificarArticulo } from "./modificarProducto.js";
+import { eliminarArticulo } from "./eliminarArticulo.js";
 
 export async function cargarDatosArticulo(datos_articulo) {
     const id = document.getElementById("id");
@@ -12,48 +12,60 @@ export async function cargarDatosArticulo(datos_articulo) {
     const price = document.getElementById("price");
     const descripcion = document.getElementById("descripcion");
     const tabla_tallas = document.getElementById("table-body-producto");
-    tabla_tallas.innerHTML = ''
     const tabla_productos_similares = document.getElementById("tabla-productos-similares");
-    tabla_productos_similares.innerHTML = ''
-
-    // Fetch similar products
-    const response_productos_similares = await fetch(`http://127.0.0.1:4000/similar_products?id=${datos_articulo.id}`)
-    const productos_similares = await response_productos_similares.json();
     const company = document.getElementById("company");
+    const companyWrapper = company?.closest("div"); // div contenedor con fondo amarillo
 
+    tabla_tallas.innerHTML = '';
+    tabla_productos_similares.innerHTML = '';
+
+    // Validación mínima
     if (!product_name || !img) {
-        console.alert("Some element was not found.");
+        console.error("Some element was not found.");
         return;
     }
 
+    // Carga de datos
     id.textContent = datos_articulo.id;
     product_name.textContent = datos_articulo.name;
     img.alt = `image of ${datos_articulo.name}`;
-    // img.src = datos_articulo.imagen;
+    // img.src = datos_articulo.imagen; // Descomenta si se usa la imagen del servidor
 
     main_category.textContent = await localizarCategoria(datos_articulo.category_id);
 
+    secondary_categories.innerHTML = '';
     datos_articulo.secondary_categories.forEach((category) => {
         const categoryElement = document.createElement('p');
         categoryElement.textContent = category.name;
         secondary_categories.appendChild(categoryElement);
-    })
+    });
 
     price.textContent = datos_articulo.price;
     descripcion.textContent = datos_articulo.description;
 
-    // Fill sizes table
+    // Mostrar compañía si existe
+    if (company && datos_articulo.company?.name) {
+    company.textContent = datos_articulo.company.name;
+    companyWrapper?.classList.remove("hidden");
+    } else {
+        companyWrapper?.classList.add("hidden");
+    }
+
+    // Tabla de tallas
     datos_articulo.size.forEach(size => {
         const fila = document.createElement('tr');
         fila.className = 'text-center';
         fila.innerHTML = `
-      <td>${size.name}</td>
-      <td>${size.quantity}</td>
-    `;
+            <td>${size.name}</td>
+            <td>${size.quantity}</td>
+        `;
         tabla_tallas.appendChild(fila);
-    })
+    });
 
-    // Fill similar products list
+    // Productos similares
+    const response_similares = await fetch(`http://127.0.0.1:4000/similar_products?id=${datos_articulo.id}`);
+    const productos_similares = await response_similares.json();
+
     productos_similares.forEach(producto => {
         const li = document.createElement('li');
         li.textContent = producto.name;
@@ -86,7 +98,7 @@ export async function cargarDatosArticulo(datos_articulo) {
                     showConfirmButton: false
                 });
             }
-        })
+        });
         tabla_productos_similares.appendChild(li);
-    })
+    });
 }
