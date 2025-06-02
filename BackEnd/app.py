@@ -36,6 +36,9 @@ register_blueprint()
 app.config['APPLICATION_ROOT'] = '/'
 app.json.ensure_ascii = False
 
+db_dir = "../DB"
+if not os.path.exists(db_dir):
+    os.makedirs(db_dir)
 init_user_db()
 mail = init_mail(app)
 
