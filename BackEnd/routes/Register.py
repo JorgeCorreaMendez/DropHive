@@ -76,7 +76,7 @@ def register():
 def check_company():
     name = request.args.get("name")
     if not name:
-        return jsonify({"error": "Falta el nombre de la empresa"}), 400
+        return jsonify({"error": "Company name is missing"}), 400
     if os.path.exists(os.path.abspath(os.path.join(os.path.dirname(__file__), "../../DB", f"{name}.db"))):
-        return jsonify({"mensaje": "la empresa existe"}), 200
-    return jsonify({"error": "comprobando la compañia"}), 404
+        return jsonify({"message": "The company exists"}), 200
+    return jsonify({"error": "checking the company"}), 404
