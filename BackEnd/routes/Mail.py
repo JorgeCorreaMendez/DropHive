@@ -18,17 +18,17 @@ def send_verification_code():
     try:
         mail = request.args.get('mail')
         verification_code = generate_numeric_code()
-        subject = "Código de Verificación - DropHive"
+        subject = "Verification Code - DropHive"
         sender = os.getenv("MAIL_USERNAME")
         recipients = [mail]
-        body = f"Tu código de verificación es: {verification_code}"
+        body = f"Your verification code is: {verification_code}"
         send_email(subject, sender, recipients, body)
         session["verification_code"] = verification_code
-        return jsonify({"message": "Código de verificación enviado correctamente."}), 200
+        return jsonify({"message": "Verification code sent successfully."}), 200
     except SMTPException:
         logger.error(f"Failed to send verification code")
         traceback.print_exc()
-        return jsonify({"error": "enviando el codigo de verificación"}), 500
+        return jsonify({"error": "sending the verification code"}), 500
 
 
 @email_bp.route("/send_password_to_new_user", methods=["GET"])
@@ -41,11 +41,11 @@ def send_password_to_new_user():
         recipients = [mail]
         body = f"You have been added to a project, your password is {password}."
         send_email(subject, sender, recipients, body)
-        return jsonify({"message": "El correo se ha enviado correctamente."}), 200
+        return jsonify({"message": "The email has been sent successfully."}), 200
     except SMTPException:
         logger.error(f"Failed to send new account password")
         traceback.print_exc()
-        return jsonify({"error": "enviando la contraseña a la nueva cuenta"}), 500
+        return jsonify({"error": "sending the password to the new account"}), 500
 
 
 def generate_numeric_code():
@@ -60,16 +60,15 @@ def check_mail():
         if user:
             return jsonify({"dbname": user.db_name}), 200
         else:
-            return jsonify({"error": "Correo no encontrado"}), 404
+            return jsonify({"error": "Email not found"}), 404
     except SMTPException:
         logger.error(f"Error occurred while checking email {mail}")
         traceback.print_exc()
-        return jsonify({"error": "comprobando el correo"}), 500
+        return jsonify({"error": "checking the email"}), 500@accounts_bp.route("/check_verification_code", methods=["POST"])
 
 
-@accounts_bp.route("/check_verification_code", methods=["POST"])
 def check_verification_code():
     if session["verification_code"] == request.get_json().get("code"):
-        return jsonify({"message": "Código correcto"}), 200
+        return jsonify({"message": "Correct code"}), 200
     else:
-        return jsonify({"error": "Código incorrecto"}), 400
+        return jsonify({"error": "Incorrect code"}), 400
