@@ -43,7 +43,7 @@ async function cambiar_filtros(new_vista) {
 
         await aplicarFiltros("productos");
 
-        document.getElementById("category-btn").textContent = "Show All Category";
+        document.getElementById("category-btn").textContent = "Show All Categories";
         document.getElementById("add-item-btn").textContent = "Add Item";
 
         modificarBotonAdd("add-item-btn", "Add Item", cargarModalCrearProducto);
@@ -57,7 +57,7 @@ async function cambiar_filtros(new_vista) {
 
         await aplicarFiltros("company");
 
-        document.getElementById("category-btn").textContent = "Show All Category";
+        document.getElementById("category-btn").textContent = "Show All Categories";
         document.getElementById("add-item-btn").textContent = "Add Item";
 
         modificarBotonAdd("add-item-btn", "Add company", cargarModalCrearCompany);
