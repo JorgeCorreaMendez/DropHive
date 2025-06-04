@@ -101,4 +101,5 @@ export async function cargarDatosArticulo(datos_articulo) {
         });
         tabla_productos_similares.appendChild(li);
     });
+    await modificarArticulo(datos_articulo);
 }

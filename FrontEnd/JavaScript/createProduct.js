@@ -153,6 +153,8 @@ export async function loadCompanies() {
                     select.append(opt);
                 }
             });
+        window.allCompanies = companies.filter(c => c.id && c.name);
+
         $(select).select2({
             placeholder: "Selecciona una empresa",
             allowClear: true,
