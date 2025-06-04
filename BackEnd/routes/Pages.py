@@ -55,11 +55,6 @@ def add_employee():
     return render_template("addEmployee.html")
 
 
-@pages_bp.route("/categoryPage")
-def category_page():
-    return render_template("categoryPage.html")
-
-
 @pages_bp.route("/readCategory")
 def read_category():
     return render_template("readCategory.html")
@@ -93,11 +88,6 @@ def read_article():
 @pages_bp.route("/readCompany")
 def read_company():
     return render_template("readCompany.html")
-
-
-@pages_bp.route("/supply")
-def supply():
-    return render_template("supply.html")
 
 
 @pages_bp.route("/viewEmployeeAction")
