@@ -130,7 +130,7 @@ export function modificarArticulo(datos_articulo) {
                     }
                     catSelect.value = datos_articulo.category_id;
                     if (typeof $(catSelect).trigger === "function") {
-                        $(catSelect).trigger('change'); // Por si usa Select2
+                        $(catSelect).trigger('change');
                     }
                     console.log("Categoría primaria asignada:", catSelect.value, catName);
                 } else {
@@ -140,41 +140,31 @@ export function modificarArticulo(datos_articulo) {
 
 // --- Prellenado de la compañia principal ---
                 const compSelect = modalForm.querySelector("#primary-company");
-                console.log("[DEBUG] compSelect encontrado:", compSelect);
 
                 if (!compSelect) {
                     console.error("[ERROR] No se encontró el select de compañía con id #primary-company");
                 } else {
-                    console.log("[DEBUG] Valor recibido en datos_articulo.company:", datos_articulo.company);
-                    console.log("[DEBUG] allCompanies:", window.allCompanies);
 
                     let compObj = (window.allCompanies && Array.isArray(window.allCompanies))
-                        ? window.allCompanies.find(c => String(c.id) === String(datos_articulo.company?.id))
+                        ? window.allCompanies.find(c => c.id === datos_articulo.company?.id)
                         : null;
-
-                    console.log("[DEBUG] Compañía encontrada en allCompanies:", compObj);
 
                     let compName = (compObj && compObj.name) ? compObj.name : "";
                     if (compName) {
                         const exists = [...compSelect.options].some(opt => opt.value == datos_articulo.company.id);
-                        console.log("[DEBUG] ¿La opción ya existe en el select?:", exists);
 
                         if (!exists) {
                             const option = document.createElement("option");
                             option.value = datos_articulo.company.id;
                             option.textContent = compName;
                             compSelect.appendChild(option);
-                            console.log("[DEBUG] Opción añadida al select:", option);
                         }
 
                         compSelect.value = datos_articulo.company.id;
-                        console.log("[DEBUG] Valor asignado al select:", compSelect.value);
 
                         if (typeof $(compSelect).trigger === "function") {
-                            $(compSelect).trigger('change'); // Por si usa Select2
-                            console.log("[DEBUG] Select2: Se llamó a trigger('change')");
+                            $(compSelect).trigger('change');
                         }
-                        console.log("✅ Compañía asignada:", compSelect.value, compName);
                     } else {
                         console.warn("⚠️ No se encontró nombre para la compañía (compName vacío).");
                     }

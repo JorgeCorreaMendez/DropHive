@@ -156,7 +156,7 @@ export async function loadCompanies() {
         window.allCompanies = companies.filter(c => c.id && c.name);
 
         $(select).select2({
-            placeholder: "Selecciona una empresa",
+            placeholder: "Select a company",
             allowClear: true,
             width: "100%"
         });
