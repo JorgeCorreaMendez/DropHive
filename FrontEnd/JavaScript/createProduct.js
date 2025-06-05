@@ -1,4 +1,5 @@
 import {openModal} from "./modals/abrirYCerrarModal.js";
+import {cargarModalCrearCategoria} from "./home/categorias.js";
 
 const alertError = document.getElementById('alert-error');
 const successModal = document.getElementById('success-modal');
@@ -153,8 +154,10 @@ export async function loadCompanies() {
                     select.append(opt);
                 }
             });
+        window.allCompanies = companies.filter(c => c.id && c.name);
+
         $(select).select2({
-            placeholder: "Selecciona una empresa",
+            placeholder: "Select a company",
             allowClear: true,
             width: "100%"
         });
@@ -297,17 +300,8 @@ document.body.addEventListener("click", async (e) => {
     const btn = e.target.closest("#add-category-btn");
     if (btn) {
         e.preventDefault();
-
         try {
-            const response = await fetch("/addAndModifyCategory");
-            if (!response.ok) {
-                throw new Error(`HTTP error! status: ${response.status}`);
-            }
-            const htmlText = await response.text();
-            const parser = new DOMParser();
-            const parsedDoc = parser.parseFromString(htmlText, "text/html");
-            const fragmento = parsedDoc.body.innerHTML;
-            openModal(fragmento);
+            await cargarModalCrearCategoria()
         } catch (error) {
             console.error("Error loading category content:", error);
         }
