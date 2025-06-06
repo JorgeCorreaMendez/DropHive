@@ -9,6 +9,15 @@ async function cargarModalCrearCuenta() {
     }, 50);
 }
 
+function generateNumericPassword(length = 8) {
+    let password = '';
+    for (let i = 0; i < length; i++) {
+        password += Math.floor(Math.random() * 10);
+    }
+    return password;
+}
+
+
 async function crearCuentaEmpleado() {
     const alertError = document.querySelector("alert-modal");
     const successfulModal = document.querySelector("successful-modal");
@@ -23,7 +32,8 @@ async function crearCuentaEmpleado() {
 
     const newUserData = {
         user_id: id,
-        mail: email
+        mail: email,
+        password: generateNumericPassword()
     };
 
     try {

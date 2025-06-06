@@ -64,9 +64,10 @@ def check_mail():
     except SMTPException:
         logger.error(f"Error occurred while checking email {mail}")
         traceback.print_exc()
-        return jsonify({"error": "checking the email"}), 500@accounts_bp.route("/check_verification_code", methods=["POST"])
+        return jsonify({"error": "checking the email"}), 500
 
 
+@email_bp.route("/check_verification_code", methods=["POST"])
 def check_verification_code():
     if session["verification_code"] == request.get_json().get("code"):
         return jsonify({"message": "Correct code"}), 200
