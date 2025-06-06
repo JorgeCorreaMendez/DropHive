@@ -97,14 +97,15 @@ def delete_account():
         with (get_db_session(session["db.name"]) as client_db,
               get_db_session("Users") as users_db):
             account = client_db.query(Account).filter_by(id=account_id).first()
-            user = users_db.query(User).filter_by(mail=account.mail).first()
+            mail = account.mail
+            user = users_db.query(User).filter_by(mail=mail).first()
             if not account:
                 return jsonify({"error": "Account not found"}), 404
             client_db.delete(account)
             users_db.delete(user)
             client_db.commit()
             users_db.commit()
-        logger.info(f"Account {account.email} deleted.")
+        logger.info(f"Account {mail} deleted.")
         return jsonify({"message": "Account successfully deleted"}), 200
     except SQLAlchemyError:
         try:
