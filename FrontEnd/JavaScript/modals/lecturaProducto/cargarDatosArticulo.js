@@ -36,6 +36,7 @@ export async function cargarDatosArticulo(datos_articulo) {
     secondary_categories.innerHTML = '';
     datos_articulo.secondary_categories.forEach((category) => {
         const categoryElement = document.createElement('p');
+        categoryElement.classList.add('text-sm', 'font-medium', 'text-green-800');
         categoryElement.textContent = category.name;
         secondary_categories.appendChild(categoryElement);
     });
